@@ -1,0 +1,66 @@
+# Dependency directory
+node_modules/
+
+# Build artifacts (adjust 'dist' and 'build' to match your project's output directory)
+dist
+build
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env
+.env.*
+!.env.example # Track a template file for environment variables
+
+# Testing coverage reports
+coverage/
+.nyc_output/
+
+# IDE and OS files
+.DS_Store # macOS
+.vscode/ # VS Code
+.idea/ # WebStorm/IntelliJ
+*.suo
+*.user
+*.cas
+*.sdf
+*.lock-wscript
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+**/previews
+**/riotData
+**/scripts/index.ts
+**/TODO.md
+
+
+# FIXME: 暫時略過前端檔案
+client
+admin

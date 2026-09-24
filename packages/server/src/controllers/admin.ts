@@ -1,0 +1,409 @@
+import express, { type RequestHandler } from "express";
+
+import { db } from "../db.ts";
+import { user as userTable } from "../models/auth-schema.ts";
+import { ApiError } from "../middlewares/errorHandler.ts";
+import {
+  count,
+  eq,
+  desc,
+  inArray,
+  ilike,
+  and,
+  not,
+  isNull,
+  sql,
+} from "drizzle-orm";
+import { alias } from "drizzle-orm/pg-core";
+import { head } from "../libs/lodash.ts";
+import {
+  reward as rewardTable,
+  schoolArea as schoolAreaTable,
+} from "../models/schema.ts";
+import path from "path";
+import { leaderboardService } from "../services/leaderboard.ts";
+import { riotService } from "../services/riot.ts";
+
+export const staticPath = path.join(import.meta.dirname, "../../../admin/dist");
+
+const URL = "/api/admin";
+const DEFAULT_LIMIT = 100 as const;
+const MAX_LIMIT = DEFAULT_LIMIT;
+
+export const requireAdmin: RequestHandler = async (req, _res, next) => {
+  if (!req.session) {
+    throw new ApiError(400, {
+      code: "UNAUTHORIZED",
+      message: "你的驗證已經過期。請重新登入以繼續",
+      path: req.path,
+    });
+  }
+
+  if (req.session.userId !== process.env.ADMIN_USER_ID) {
+    throw new ApiError(400, {
+      code: "UNAUTHORIZED",
+      message: "權限不足",
+      path: req.path,
+    });
+  }
+
+  next();
+};
+
+function parsePagination(query: any) {
+  const offset = Number(query.offset) || 0;
+  const limit = Math.min(Number(query.limit) || DEFAULT_LIMIT, MAX_LIMIT);
+
+  if (!Number.isInteger(offset) || offset < 0) {
+    throw new ApiError(400, {
+      code: "INVALID_OFFSET",
+      message: "offset 參數錯誤",
+    });
+  }
+
+  return { offset, limit };
+}
+
+function parseQueryField(query: any, field: string) {
+  if (field in query) {
+    return String(query[field]);
+  }
+
+  return "";
+}
+
+function parseUserSort(query: any) {
+  if (query.sort === "score") {
+    return [desc(userTable.score), desc(userTable.createdAt)];
+  }
+
+  return [desc(userTable.createdAt)];
+}
+
+const adminRouter = express.Router();
+
+adminRouter.use(URL, requireAdmin);
+
+adminRouter.get(`${URL}/users`, async (req, res) => {
+  const { offset, limit } = parsePagination(req.query);
+  const isCompleted = parseQueryField(req.query, "isCompleted") || "all";
+  const riotId = parseQueryField(req.query, "riotId") || "";
+  const inviterRiotId = parseQueryField(req.query, "inviterRiotId") || "";
+
+  const inviterTable = alias(userTable, "inviter");
+
+  const conditions = [];
+
+  if (isCompleted !== "all") {
+    conditions.push(eq(userTable.isCompleted, isCompleted === "true"));
+  }
+
+  if (isCompleted !== "all") {
+    conditions.push(eq(userTable.isCompleted, isCompleted === "true"));
+  }
+
+  if (riotId) {
+    conditions.push(ilike(userTable.riotId, `%${riotId}%`));
+  }
+
+  if (inviterRiotId) {
+    conditions.push(ilike(inviterTable.riotId, `%${inviterRiotId}%`));
+  }
+
+  const whereClause = conditions.length !== 0 ? and(...conditions) : undefined;
+  const orderByClause = parseUserSort(req.query);
+
+  const [users, total] = await Promise.all([
+    db
+      .select({
+        id: userTable.id,
+        name: userTable.name,
+        email: userTable.email,
+        emailVerified: userTable.emailVerified,
+        image: userTable.image,
+        createdAt: userTable.createdAt,
+        updatedAt: userTable.updatedAt,
+        school: userTable.school,
+        phone: userTable.phone,
+        score: userTable.score,
+        isLeader: userTable.isLeader,
+        teamId: userTable.teamId,
+        inviteCode: userTable.inviteCode,
+        riotId: userTable.riotId,
+        puuid: userTable.puuid,
+        tier: userTable.tier,
+        isUpdating: userTable.isUpdating,
+        isCompleted: userTable.isCompleted,
+        inviterId: userTable.inviterId,
+        isInviteCompleted: userTable.isInviteCompleted,
+        consentVersion: userTable.consentVersion,
+        termsAcceptedAt: userTable.termsAcceptedAt,
+        privacyAcceptedAt: userTable.privacyAcceptedAt,
+        ageConfirmedAt: userTable.ageConfirmedAt,
+        inviterRiotId: inviterTable.riotId,
+      })
+      .from(userTable)
+      .leftJoin(inviterTable, eq(userTable.inviterId, inviterTable.id))
+      .where(whereClause)
+      .orderBy(...orderByClause)
+      .offset(offset)
+      .limit(limit),
+    db
+      .select({ count: count() })
+      .from(userTable)
+      .leftJoin(inviterTable, eq(userTable.inviterId, inviterTable.id))
+      .where(whereClause)
+      .then(head),
+  ]);
+
+  return res.send({
+    data: users.map((user) => {
+      return {
+        ...user,
+        email: user.email.includes("@placeholder.com") ? null : user.email,
+      };
+    }),
+    total: total.count,
+  });
+});
+
+adminRouter.get(`${URL}/users/updating-count`, async (req, res) => {
+  const result = await db
+    .select({ count: count() })
+    .from(userTable)
+    .where(eq(userTable.isUpdating, true))
+    .then(head);
+
+  return res.send({ count: result.count });
+});
+
+adminRouter.post(`${URL}/users/:id`, async (req, res) => {
+  const id = req.params.id;
+  const body = req.body as unknown as {
+    email?: string;
+    school?: string;
+    phone?: string;
+  };
+
+  if (!body.email || !body.school || !body.phone || !id) {
+    throw new ApiError(400, {
+      code: "MISSING_REQUIRED_FIELDS",
+      message: "缺少必要資料",
+    });
+  }
+
+  const me = await db
+    .select()
+    .from(userTable)
+    .where(eq(userTable.id, id))
+    .then(head);
+
+  if (!me) {
+    throw new ApiError(404, {
+      code: "USER_NOT_FOUND",
+      message: "查無此使用者",
+    });
+  }
+
+  const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!EMAIL_REGEX.test(body.email)) {
+    throw new ApiError(400, {
+      code: "INVALID_EMAIL_FORMAT",
+      message: "電子信箱格式錯誤",
+    });
+  }
+
+  const PHONE_REGEX = /^\d{10}$/;
+  if (!PHONE_REGEX.test(body.phone)) {
+    throw new ApiError(400, {
+      code: "INVALID_PHONE_FORMAT",
+      message: "手機號碼格式錯誤",
+    });
+  }
+
+  const hasEmail = await db
+    .select({ id: userTable.id })
+    .from(userTable)
+    .where(and(not(eq(userTable.id, me.id)), eq(userTable.email, body.email)))
+    .limit(1)
+    .then(head);
+
+  if (hasEmail) {
+    throw new ApiError(409, {
+      code: "USER_ALREADY_EXISTS_USE_ANOTHER_EMAIL",
+      message: "此電子信箱已被註冊",
+    });
+  }
+
+  const hasPhone = await db
+    .select({ id: userTable.id })
+    .from(userTable)
+    .where(and(not(eq(userTable.id, me.id)), eq(userTable.phone, body.phone)))
+    .limit(1)
+    .then(head);
+
+  if (hasPhone) {
+    throw new ApiError(409, {
+      code: "USER_ALREADY_EXISTS_USE_ANOTHER_PHONE",
+      message: "此手機號碼已被註冊",
+    });
+  }
+
+  const hasSchool = await db
+    .select({ school: schoolAreaTable.school })
+    .from(schoolAreaTable)
+    .where(eq(schoolAreaTable.school, body.school))
+    .limit(1)
+    .then(head);
+
+  if (!hasSchool) {
+    throw new ApiError(422, {
+      code: "SCHOOL_NOT_FOUND",
+      message: "查無此學校",
+    });
+  }
+
+  await db
+    .update(userTable)
+    .set({ email: body.email, school: body.school, phone: body.phone })
+    .where(eq(userTable.id, me.id));
+
+  return res.send({ success: true });
+});
+
+adminRouter.get(`${URL}/statistics/score-count`, async (req, res) => {
+  const result = await db
+    .select({ score: userTable.score, count: count() })
+    .from(userTable)
+    .where(eq(userTable.isCompleted, true))
+    .groupBy(userTable.score);
+
+  return res.send(result);
+});
+
+adminRouter.get(`${URL}/statistics/user-source`, async (req, res) => {
+  const result = await db
+    .select({
+      createdAt: userTable.createdAt,
+      isCompleted: userTable.isCompleted,
+      inviterId: userTable.inviterId,
+    })
+    .from(userTable);
+
+  return res.send(result);
+});
+
+adminRouter.get(`${URL}/rewards`, async (req, res) => {
+  const { offset, limit } = parsePagination(req.query);
+  const rewardType = parseQueryField(req.query, "rewardType") || "all";
+  const claimerRiotId = parseQueryField(req.query, "claimerRiotId") || "";
+
+  const conditions = [];
+
+  if (rewardType !== "all") {
+    conditions.push(eq(rewardTable.type, rewardType));
+  }
+
+  if (claimerRiotId) {
+    conditions.push(eq(userTable.riotId, claimerRiotId));
+  }
+
+  const whereClause = conditions.length !== 0 ? and(...conditions) : undefined;
+
+  const [rewards, total] = await Promise.all([
+    db
+      .select({
+        id: rewardTable.id,
+        type: rewardTable.type,
+        claimerRiotId: userTable.riotId,
+      })
+      .from(rewardTable)
+      .innerJoin(userTable, eq(rewardTable.claimerId, userTable.id))
+      .where(whereClause)
+      .orderBy(desc(rewardTable.id))
+      .offset(offset)
+      .limit(limit),
+    db
+      .select({ count: count() })
+      .from(rewardTable)
+      .innerJoin(userTable, eq(rewardTable.claimerId, userTable.id))
+      .where(whereClause)
+      .then(head),
+  ]);
+
+  return res.send({
+    data: rewards,
+    total: total.count,
+  });
+});
+
+adminRouter.get(`${URL}/rewards/remaining`, async (_req, res) => {
+  const result = await db
+    .select({ type: rewardTable.type, count: count() })
+    .from(rewardTable)
+    .where(isNull(rewardTable.claimerId))
+    .groupBy(rewardTable.type);
+
+  return res.send(result);
+});
+
+adminRouter.get(`${URL}/db-size`, async (_req, res) => {
+  const result = await db.execute(sql`
+  SELECT
+    relname AS table_name,
+    pg_size_pretty(pg_total_relation_size(relid)) AS total_size,
+    pg_size_pretty(pg_relation_size(relid)) AS table_only,
+    pg_size_pretty(pg_total_relation_size(relid) - pg_relation_size(relid)) AS index_size
+  FROM
+    pg_catalog.pg_statio_user_tables;
+`);
+
+  const rows = result.rows.map((row) => {
+    return {
+      tableName: row.table_name as string,
+      totalSize: row.total_size as string,
+      tableOnly: row.table_only as string,
+      indexSize: row.index_size as string,
+    };
+  });
+
+  return res.send(rows);
+});
+
+adminRouter.post(`${URL}/update-leaderboard`, async (_req, res) => {
+  await leaderboardService.updateMaterialView();
+
+  return res.send({ success: true });
+});
+
+adminRouter.post(`${URL}/truncate-match-detail`, async (_req, res) => {
+  await riotService.truncateMatchDetail();
+
+  return res.send({ success: true });
+});
+
+adminRouter.use(
+  "/admin",
+  (req, res, next) => {
+    let message = "";
+
+    if (!req.session) {
+      message = "no session";
+    } else if (req.session.userId !== process.env.ADMIN_USER_ID) {
+      message = "not admin";
+    }
+
+    if (!req.session || req.session.userId !== process.env.ADMIN_USER_ID) {
+      return res
+        .status(404)
+        .send(
+          `<h1>404 Not Found</h1><div style="display:none;">${message}</div>`,
+        );
+    }
+
+    return next();
+  },
+  express.static(staticPath, { extensions: ["html"] }),
+);
+
+export default adminRouter;

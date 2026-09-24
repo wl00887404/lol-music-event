@@ -1,0 +1,20 @@
+{
+  "name": "valorant-campus-hero",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "postbuild": "node scripts/post-build.mjs"
+  },
+  "dependencies": {
+    "better-auth": "^1.5.4",
+    "typescript": "^5.9.3",
+    "axios": "^1.13.6"
+  }
+}

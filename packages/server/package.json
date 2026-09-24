@@ -1,0 +1,39 @@
+{
+  "name": "valorant-campus-hero-server",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "node ./src/server.ts",
+    "test": "vitest run",
+    "auth-update": "npx @better-auth/cli generate --output ./src/models/auth-schema.ts -y && npm run orm-update",
+    "orm-update": "drizzle-kit push",
+    "del-mv": "node ./scripts/dropAllMaterializedViews.ts"
+  },
+  "dependencies": {
+    "@types/cookie-parser": "^1.4.10",
+    "axios-retry": "^4.5.0",
+    "bottleneck": "^2.19.5",
+    "cookie-parser": "^1.4.7",
+    "date-fns": "^4.4.0",
+    "dotenv": "^17.3.1",
+    "drizzle-orm": "^0.45.1",
+    "express": "^5.2.1",
+    "ioredis": "^5.11.1",
+    "nanoid": "^3.3.12",
+    "node-cron": "^4.5.0",
+    "pg": "^8.20.0",
+    "rate-limiter-flexible": "^11.2.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node-cron": "^3.0.11",
+    "@types/pg": "^8.18.0",
+    "drizzle-kit": "^0.31.10",
+    "supertest": "^7.2.2",
+    "vitest": "^4.1.7"
+  }
+}
