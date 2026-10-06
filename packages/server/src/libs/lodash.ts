@@ -18,3 +18,7 @@ export function range(length: number) {
 export function head<T>(array: T[]) {
   return array[0];
 }
+
+export function sum(array: number[]): number {
+  return array.reduce((total, n) => total + n, 0);
+}

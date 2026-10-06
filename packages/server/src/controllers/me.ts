@@ -2,12 +2,12 @@ import express from "express";
 import { requireAuth } from "../auth.ts";
 import { db } from "../db.ts";
 import { user as userTable } from "../models/auth-schema.ts";
-import { playerMatchHistory as playerMatchHistoryTable } from "../models/schema.ts";
+// import { playerMatchHistory as playerMatchHistoryTable } from "../models/schema.ts";
 import { count, eq, isNotNull, sql, and, not } from "drizzle-orm";
-import { soloMissionService } from "../services/soloMission.ts";
+import { INVITEE_SCORE, soloMissionService } from "../services/soloMission.ts";
 import { riotService } from "../services/riot.ts";
 import { head } from "../libs/lodash.ts";
-import { leaderboardService } from "../services/leaderboard.ts";
+// import { leaderboardService } from "../services/leaderboard.ts";
 import { rewardService } from "../services/reward.ts";
 import { ApiError } from "../middlewares/errorHandler.ts";
 import { logService } from "../services/log.ts";
@@ -58,7 +58,7 @@ meRouter.post(`${URL}/complete-user-data`, async (req, res) => {
 
   const body = req.body as unknown as {
     email?: string;
-    school?: string;
+    team?: string;
     phone?: string;
     inviteCode?: string;
     isTermsAndPrivacyAccepted?: boolean;
@@ -68,7 +68,7 @@ meRouter.post(`${URL}/complete-user-data`, async (req, res) => {
 
   const consentVersion =
     typeof body.consentVersion === "string" ? body.consentVersion.trim() : "";
-  if (!body.email || !body.school || !body.phone) {
+  if (!body.email || !body.team || !body.phone) {
     throw new ApiError(400, {
       code: "MISSING_REQUIRED_FIELDS",
       message: "缺少必要資料",
@@ -161,10 +161,9 @@ meRouter.post(`${URL}/complete-user-data`, async (req, res) => {
       });
     }
 
-    // 被邀請成功，自己獲得一分
-    score++;
+    score += INVITEE_SCORE;
     logService.insert(
-      `${inviter.riotId} 邀請了 ${me.riotId} 自己獲得一分 ${score}`,
+      `${inviter.riotId} 邀請了 ${me.riotId} 自己獲得受邀分數 ${score}`,
     );
   }
 
@@ -175,7 +174,6 @@ meRouter.post(`${URL}/complete-user-data`, async (req, res) => {
     .update(userTable)
     .set({
       email: body.email,
-      school: body.school,
       phone: body.phone,
       score,
       isCompleted: true,

@@ -19,11 +19,9 @@ export const user = pgTable("user", {
     .defaultNow()
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull(),
-  school: text("school"),
   phone: text("phone"),
   score: integer("score").default(0),
-  isLeader: boolean("is_leader").default(false),
-  teamId: text("team_id"),
+  team: text("team"),
   inviteCode: text("invite_code"),
   riotId: text("riot_id"),
   puuid: text("puuid"),

@@ -68,7 +68,7 @@ export const auth = betterAuth({
     additionalFields: {
       phone: { type: "string", returned: false },
       score: { type: "number", defaultValue: 0 },
-      team: { type: "string" }, // TODO: 哪個陣營
+      team: { type: "string" }, // TODO: 陣營
       inviteCode: { type: "string" },
       riotId: { type: "string" },
       puuid: { type: "string" },
