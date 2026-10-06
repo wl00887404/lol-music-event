@@ -8,7 +8,10 @@ import {
 } from "../models/schema.ts";
 import { head } from "../libs/lodash.ts";
 import { logService } from "./log.ts";
-import { assertNoNulls, NonNullableFields } from "../libs/assertNoNulls.ts";
+import {
+  assertNoNulls,
+  type NonNullableFields,
+} from "../libs/assertNoNulls.ts";
 import { ApiError } from "../middlewares/errorHandler.ts";
 
 export const INVITER_SCORE = 5;
@@ -93,16 +96,18 @@ const spellCasts = (score: number, value: number): SoloMission => {
 const spell123CastsAndWin = (score: number, value: number): SoloMission => {
   return {
     evaluate: (matchHistory) => {
-      return (
-        matchHistory.win &&
+      const result =
         matchHistory.spell1Casts +
-          matchHistory.spell2Casts +
-          matchHistory.spell3Casts >=
-          value
-      );
+        matchHistory.spell2Casts +
+        matchHistory.spell3Casts;
+
+      return matchHistory.win && result >= value;
     },
     toJson: () => {
-      return { name: `單場大混戰使用 ${value} 次技能`, score };
+      return {
+        name: `單場大混戰使用 ${value} 次非大絕技能並贏得勝利`,
+        score,
+      };
     },
   };
 };
@@ -113,7 +118,7 @@ const spell4CastsAndWin = (score: number, value: number): SoloMission => {
       return matchHistory.win && matchHistory.spell4Casts >= value;
     },
     toJson: () => {
-      return { name: `單場大混戰施放 ${value} 次大絕技能並贏得勝利`, score };
+      return { name: `單場大混戰使用 ${value} 次大絕技能並贏得勝利`, score };
     },
   };
 };
@@ -121,7 +126,7 @@ const spell4CastsAndWin = (score: number, value: number): SoloMission => {
 const gameDuration = (score: number, value: number): SoloMission => {
   return {
     evaluate: (_matchHistory, match) => {
-      return match.gameDuration <= value;
+      return match.gameDuration <= value * 60;
     },
     toJson: () => {
       return { name: `單場大混戰在 ${value} 分鐘內獲得勝利`, score };
@@ -248,7 +253,13 @@ const killParticipation = (score: number, value: number): SoloMission => {
 const doubleKills = (score: number, value: number): SoloMission => {
   return {
     evaluate: (matchHistory) => {
-      return matchHistory.doubleKills >= value;
+      const result =
+        matchHistory.doubleKills +
+        matchHistory.tripleKills +
+        matchHistory.quadraKills +
+        matchHistory.pentaKills;
+
+      return result >= value;
     },
     toJson: () => {
       return { name: `單場大混戰獲得 ${value} 次雙殺`, score };
@@ -259,7 +270,12 @@ const doubleKills = (score: number, value: number): SoloMission => {
 const tripleKills = (score: number, value: number): SoloMission => {
   return {
     evaluate: (matchHistory) => {
-      return matchHistory.tripleKills >= value;
+      const result =
+        matchHistory.tripleKills +
+        matchHistory.quadraKills +
+        matchHistory.pentaKills;
+
+      return result >= value;
     },
     toJson: () => {
       return { name: `單場大混戰獲得 ${value} 次三連殺`, score };
@@ -285,7 +301,7 @@ export const soloMissions = [
     damageDealtToChampions(2, 20000), // 單場大混戰對英雄造成傷害達到 20000
     kills(2, 5), //單場大混戰獲得擊殺 5 次
     spellCasts(2, 80), // 單場大混戰使用 80 次技能
-    gameDuration(2, 20 * 60_1000), // 單場大混戰在 20 分鐘內獲得勝利
+    gameDuration(2, 20), // 單場大混戰在 20 分鐘內獲得勝利
     damageDealtToChampions(2, 30000), // 單場大混戰對英雄造成傷害達到 30000
     totalMinionsKilled(2, 30), // 單場大混戰中獲得擊殺士兵 30 次
     totalKills(2, 50), // 單場雙方總擊殺數超過 50 的情況下獲得勝利
@@ -307,9 +323,9 @@ export const soloMissions = [
     damageDealtToChampions(5, 40000), // 單場大混戰中對英雄造成傷害達到 40000
     assists(5, 30), // 單場大混戰中獲得助攻 30 次
     deathsAndWin(5, 8), // 單場大混戰死亡次數少於或等於 8 次並勝利
-    kills(5, 15), // 單場大混戰中獲得擊殺 15 次
-    spell123CastsAndWin(5, 150), // 單場大混戰施放 150 次非大絕技能並贏得勝利
-    spell4CastsAndWin(5, 10), // 單場施放 10 次大絕技能並贏得勝利
+    kills(5, 15), // 單場大混戰獲得擊殺 15 次
+    spell123CastsAndWin(5, 150), // 單場大混戰使用 150 次非大絕技能並贏得勝利
+    spell4CastsAndWin(5, 10), // 單場使用 10 次大絕技能並贏得勝利
     snowballsHit(5, 10), // 單場使用雪球擊中對手超過 10 次
     physicalDamageDealtToChampions(5, 30000), // 單場大混戰對英雄造成物理傷害達到 30000
     winStreak(5, 2), // 獲得 2 場大混戰連續勝利
@@ -402,7 +418,8 @@ export const soloMissionService = {
           // 失敗了就繼續比下一場
         }
       } catch (err) {
-        console.error("");
+        // 應該是不可能有這個錯誤
+        console.error(err, result.match.id);
         throw new ApiError(500, {
           code: "DATABASE_OBJECT_ERROR",
           message: "資料庫物件異常，請稍後再試",

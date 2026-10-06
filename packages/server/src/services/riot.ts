@@ -23,6 +23,10 @@ import riotGet from "../libs/riotGet.ts";
 import axios from "axios";
 import { RSO_USER_INFO_URL } from "../const.ts";
 import { type Puuid, type MatchDetail } from "./types.ts";
+import { add } from "date-fns";
+
+// FIXME: 預設日期要修改
+const { START_DATE = "2026-09-01T00:00:00+08:00" } = process.env;
 
 export type fetchUserInfoData = {
   sub: string;
@@ -95,7 +99,8 @@ async function fetchMatchList(puuid: Puuid, startTime?: Date) {
       searchParams.append("queue", "2400");
       searchParams.append("count", COUNT.toString());
       if (startTime) {
-        searchParams.append("startTime", String(startTime.getTime() / 1000));
+        const startTimeString = String(Math.floor(startTime.getTime() / 1000));
+        searchParams.append("startTime", startTimeString);
       }
       searchParams.append("start", result.length.toString());
 
@@ -154,7 +159,7 @@ async function getMatchDetail(matchId: string) {
 }
 
 async function getUserProfile(puuid: Puuid): Promise<string | null> {
-  const result = await db
+  const latestMatch = await db
     .select({ matchId: playerMatchHistoryTable.matchId })
     .from(playerMatchHistoryTable)
     .innerJoin(matchTable, eq(playerMatchHistoryTable.matchId, matchTable.id))
@@ -163,7 +168,7 @@ async function getUserProfile(puuid: Puuid): Promise<string | null> {
     .limit(1)
     .then(head);
 
-  const matchDetail = await getMatchDetail(result.matchId);
+  const matchDetail = await getMatchDetail(latestMatch.matchId);
   const player = matchDetail.info.participants.find(
     (player) => player.puuid === puuid,
   );
@@ -177,32 +182,39 @@ async function getUserProfile(puuid: Puuid): Promise<string | null> {
   return player.profileIcon.toString();
 }
 
-async function syncRiotId(user: InferSelectModel<typeof userTable>) {
-  if (!user.puuid) {
-    return console.error("user 沒有 puuid", user.id);
-  }
-
-  const { gameName, tagLine } = await fetchMeByPuuid(user.puuid);
-  const nextRiotId = gameName + "#" + tagLine;
-  if (user.riotId === nextRiotId) return;
-
-  await db
-    .update(userTable)
-    .set({ riotId: nextRiotId })
-    .where(eq(userTable.id, user.id));
-
-  console.log(user.riotId, " => ", nextRiotId);
-}
-
-export const lockTimestampMap = new Map<string, number>();
-
 async function syncPlayerMatchHistory(
   user: InferSelectModel<typeof userTable>,
 ) {
   if (!user.puuid) return console.error("user 沒有 puuid", user.id);
-
   const { puuid } = user;
-  const history = await fetchMatchList(puuid, user.updatedAt);
+
+  const latestMatch = await db
+    .select({
+      gameStartTime: matchTable.gameStartTime,
+      gameDuration: matchTable.gameDuration,
+    })
+    .from(playerMatchHistoryTable)
+    .innerJoin(matchTable, eq(playerMatchHistoryTable.matchId, matchTable.id))
+    .where(
+      and(
+        eq(playerMatchHistoryTable.puuid, puuid),
+        isNotNull(matchTable.gameStartTime),
+        isNotNull(matchTable.gameDuration),
+      ),
+    )
+    .orderBy(desc(matchTable.gameStartTime))
+    .limit(1)
+    .then(head);
+
+  const getLatestGameEndTime = () => {
+    if (!latestMatch) return new Date(START_DATE);
+
+    const gameStartTime = latestMatch?.gameStartTime!;
+    const gameDuration = latestMatch?.gameDuration!;
+    return add(gameStartTime, { seconds: gameDuration + 2 });
+  };
+
+  const history = await fetchMatchList(puuid, getLatestGameEndTime());
 
   if (history.length === 0) return;
 
@@ -351,6 +363,8 @@ async function syncPlayerMatchHistory(
   }
 }
 
+export const lockTimestampMap = new Map<string, number>();
+
 async function syncUserData(user: InferSelectModel<typeof userTable>) {
   if (!user.puuid) return console.error("user 沒有 puuid", user.id);
 
@@ -381,6 +395,22 @@ async function syncUserData(user: InferSelectModel<typeof userTable>) {
   lockTimestampMap.delete(user.id);
 }
 
+async function syncRiotId(user: InferSelectModel<typeof userTable>) {
+  if (!user.puuid) {
+    return console.error("user 沒有 puuid", user.id);
+  }
+
+  const { gameName, tagLine } = await fetchMeByPuuid(user.puuid);
+  const nextRiotId = gameName + "#" + tagLine;
+  if (user.riotId === nextRiotId) return;
+
+  await db
+    .update(userTable)
+    .set({ riotId: nextRiotId })
+    .where(eq(userTable.id, user.id));
+
+  console.log(user.riotId, " => ", nextRiotId);
+}
 async function resyncUser(userId: string) {
   const user = await db
     .select()
