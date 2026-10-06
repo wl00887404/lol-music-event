@@ -1,0 +1,152 @@
+.doc {
+  color: #f3f3f3;
+  line-height: 1.65;
+}
+
+.doc h1 {
+  font-size: 1.5em;
+  margin-block-start: 0.67em;
+  margin-block-end: 0.67em;
+  text-align: center;
+  letter-spacing: 0.02em;
+  opacity: 0.95;
+}
+
+.doc h2 {
+  font-size: 1.1em;
+  font-weight: 900;
+  margin-block-start: 1.5em;
+  margin-block-end: 0.6em;
+  padding-left: 0.75em;
+  border-left: 3px solid #ffa836;
+  letter-spacing: 0.01em;
+  scroll-margin-top: var(--scroll-margin-top);
+}
+
+.doc p {
+  margin-block-start: 0.75em;
+  margin-block-end: 0.75em;
+}
+
+.doc ol {
+  list-style-type: decimal;
+  margin-block-start: 0.75em;
+  margin-block-end: 0.75em;
+  padding-inline-start: 1.25rem;
+}
+
+.doc ul {
+  list-style-type: disc;
+  margin-block-start: 0.75em;
+  margin-block-end: 0.75em;
+  padding-inline-start: 1.25rem;
+}
+
+.doc li {
+  display: list-item;
+  unicode-bidi: isolate;
+  list-style-position: outside;
+  margin-block: 0.35em;
+}
+
+.doc ol.chinese {
+  padding-inline-start: 3rem;
+}
+.doc ol.chinese > li:nth-child(1) {
+  list-style-type: "（一）";
+}
+.doc ol.chinese > li:nth-child(2) {
+  list-style-type: "（二）";
+}
+.doc ol.chinese > li:nth-child(3) {
+  list-style-type: "（三）";
+}
+.doc ol.chinese > li:nth-child(4) {
+  list-style-type: "（四）";
+}
+.doc ol.chinese > li:nth-child(5) {
+  list-style-type: "（五）";
+}
+.doc ol.chinese > li:nth-child(6) {
+  list-style-type: "（六）";
+}
+.doc ol.chinese > li:nth-child(7) {
+  list-style-type: "（七）";
+}
+.doc ol.chinese > li:nth-child(8) {
+  list-style-type: "（八）";
+}
+.doc ol.chinese > li:nth-child(9) {
+  list-style-type: "（九）";
+}
+.doc ol.chinese > li:nth-child(10) {
+  list-style-type: "（十）";
+}
+
+.doc h3 {
+  font-size: 1em;
+  margin-block-start: 1.25em;
+  margin-block-end: 0.5em;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #f3f3f3;
+  opacity: 0.9;
+}
+
+.doc h3::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  background-color: #ffa836;
+  border-radius: 1px;
+  flex-shrink: 0;
+}
+
+.doc img {
+  width: 100%;
+  max-width: 668px;
+  height: auto;
+  display: block;
+  margin-block: 1.5em;
+  border-radius: 5px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+.doc a {
+  color: #63acff;
+  text-decoration: underline;
+}
+
+@media (width >= 48rem) {
+  .doc {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .doc h1 {
+    font-size: 2em;
+  }
+
+  .doc h2 {
+    font-size: 1.4em;
+    margin-block-start: 2em;
+  }
+
+  .doc ol,
+  .doc ul {
+    padding-inline-start: 1.75rem;
+  }
+
+  .doc h3 {
+    font-size: 1.1em;
+    margin-block-start: 1.75em;
+  }
+
+  .doc img {
+    margin-block: 2em;
+    border-radius: 10px;
+  }
+}
