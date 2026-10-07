@@ -6,8 +6,8 @@ type ItemProps = {
   score: number;
 };
 
-const CARD_WIDTH = 1615;
-const CARD_HEIGHT = 163;
+const WIDTH = 1615;
+const HEIGHT = 163;
 const SVG_CLASS_NAME = "overflow-hidden max-w-full" as const;
 
 function Item(props: ItemProps) {
@@ -17,7 +17,7 @@ function Item(props: ItemProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox={`0 0 ${CARD_WIDTH} ${CARD_HEIGHT}`}
+      viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
       className={SVG_CLASS_NAME}
     >
       <defs>
@@ -32,16 +32,16 @@ function Item(props: ItemProps) {
         href={`/icons/${team}-leaderboard-bg-3.png`}
         x="0"
         y="0"
-        width={CARD_WIDTH}
-        height={CARD_HEIGHT}
+        width={WIDTH}
+        height={HEIGHT}
         preserveAspectRatio="xMidYMid slice"
       />
       <image
         href={`/icons/${team}-leaderboard-bg-2.png`}
         x="0"
         y="0"
-        width={CARD_WIDTH}
-        height={CARD_HEIGHT}
+        width={WIDTH}
+        height={HEIGHT}
         preserveAspectRatio="xMidYMid slice"
         style={{ mixBlendMode: "color-dodge" }}
       />
@@ -49,8 +49,8 @@ function Item(props: ItemProps) {
         href={`/icons/${team}-leaderboard-bg-1.png`}
         x="0"
         y="0"
-        width={CARD_WIDTH}
-        height={CARD_HEIGHT}
+        width={WIDTH}
+        height={HEIGHT}
         preserveAspectRatio="xMidYMid slice"
       />
       <text
