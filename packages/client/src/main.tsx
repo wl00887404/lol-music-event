@@ -10,13 +10,11 @@ import Me from "./pages/Me";
 import Doc from "./pages/Doc";
 
 import Header from "./components/Header";
-import Preview from "./components/Preview";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import Dialogs from "./components/dialogs";
 import HonorRoll from "./pages/HonorRoll";
 import { TooltipProvider } from "./components/ui/tooltip";
-import SnsPosterTest from "./pages/SnsPosterTest";
 import Guidelines from "./pages/Guidelines";
 
 const queryClient = new QueryClient({
@@ -34,11 +32,9 @@ createRoot(document.getElementById("root")!).render(
         <Toaster />
         <QueryClientProvider client={queryClient}>
           <Header />
-          <Preview />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/me" element={<Me />} />
-            <Route path="/sns-poster-test" element={<SnsPosterTest />} />
             <Route path="/honor-roll" element={<HonorRoll />} />
             <Route path="/guidelines" element={<Guidelines />} />
             <Route

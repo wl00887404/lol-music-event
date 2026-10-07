@@ -6,6 +6,11 @@
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
 
+@font-face {
+  font-family: "BeaufortforLOL";
+  src: url("/fonts/BeaufortforLOL-Bold.ttf") format("truetype");
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
