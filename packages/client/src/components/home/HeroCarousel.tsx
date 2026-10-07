@@ -12,21 +12,19 @@ function HeroCarousel() {
   // FIXME: 還沒有手機版圖片
   const imgClassName = "w-full block aspect-[1920/800] md:aspect-[1920/1080]";
   const [api, setApi] = useState<CarouselApi>();
-  const [current, setCurrent] = useState(0);
-  const [count, setCount] = useState(0);
+  // const [current, setCurrent] = useState(0);
+  // const [count, setCount] = useState(0);
 
-  useEffect(() => {
-    if (!api) {
-      return;
-    }
+  // useEffect(() => {
+  //   if (!api) return;
 
-    setCount(api.scrollSnapList().length);
-    setCurrent(api.selectedScrollSnap() + 1);
+  //   setCount(api.scrollSnapList().length);
+  //   setCurrent(api.selectedScrollSnap() + 1);
 
-    api.on("select", () => {
-      setCurrent(api.selectedScrollSnap() + 1);
-    });
-  }, [api]);
+  //   api.on("select", () => {
+  //     setCurrent(api.selectedScrollSnap() + 1);
+  //   });
+  // }, [api]);
 
   return (
     <div className="s">
@@ -80,7 +78,7 @@ function HeroCarousel() {
           </CarouselItem>
         </CarouselContent>
       </BaseCarousel>
-      <div className="w-full flex justify-center gap-[12px] py-[12px]">
+      {/* <div className="w-full flex justify-center gap-[12px] py-[12px]">
         {Array(count)
           .fill(null)
           .map((_, index) => {
@@ -96,7 +94,7 @@ function HeroCarousel() {
               />
             );
           })}
-      </div>
+      </div> */}
     </div>
   );
 }

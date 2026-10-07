@@ -22,7 +22,7 @@ import { head, sum } from "../libs/lodash.ts";
 import riotGet from "../libs/riotGet.ts";
 import axios from "axios";
 import { RSO_USER_INFO_URL } from "../const.ts";
-import { type Puuid, type MatchDetail } from "./types.ts";
+import { type Puuid, type MatchDetail } from "../types.ts";
 import { add } from "date-fns";
 
 // FIXME: 預設日期要修改

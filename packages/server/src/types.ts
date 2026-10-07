@@ -4,7 +4,7 @@ export type MetaData = {
   participants: string[];
 };
 
-export type Team = {
+export type MatchTeam = {
   bans: string[];
   objectives: {
     atakhan: {
@@ -412,7 +412,7 @@ export type Info = {
   platformId: string;
   queueId: number; // 模式應該用這個，2400 應該是隨機單中：大混戰
   tournamentCode: string;
-  teams: Team[];
+  teams: MatchTeam[];
   participants: Participant[];
 };
 
@@ -422,3 +422,9 @@ export type MatchDetail = {
 };
 
 export type Puuid = string;
+
+export enum Team {
+  kda = "kda",
+  heartSteel = "heart-steel",
+  trueDamage = "true-damage",
+}

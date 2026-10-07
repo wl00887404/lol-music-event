@@ -11,6 +11,7 @@ import { head } from "../libs/lodash.ts";
 import { rewardService } from "../services/reward.ts";
 import { ApiError } from "../middlewares/errorHandler.ts";
 import { logService } from "../services/log.ts";
+import { Team } from "../types.ts";
 
 const URL = "/api/me";
 
@@ -75,12 +76,14 @@ meRouter.post(`${URL}/complete-user-data`, async (req, res) => {
       body,
     });
   }
+
   if (!body.isOver15) {
     throw new ApiError(430, {
       code: "TOO_YOUNG",
       message: "請確認您已年滿 15 歲",
     });
   }
+
   if (!body.isTermsAndPrivacyAccepted) {
     throw new ApiError(430, {
       code: "CONSENT_REQUIRED",
@@ -103,6 +106,18 @@ meRouter.post(`${URL}/complete-user-data`, async (req, res) => {
       code: "INVALID_PHONE_FORMAT",
       message: "手機號碼格式錯誤",
       phone: body.phone,
+    });
+  }
+
+  if (
+    body.team !== Team.kda &&
+    body.team !== Team.heartSteel &&
+    body.team !== Team.trueDamage
+  ) {
+    throw new ApiError(422, {
+      code: "TEAM_NOT_FOUND",
+      message: "查無此樂團",
+      team: body.team,
     });
   }
 
