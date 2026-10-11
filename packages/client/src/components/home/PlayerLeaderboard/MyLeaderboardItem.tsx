@@ -8,7 +8,7 @@ const SVG_CLASS_NAME = "overflow-hidden max-w-full" as const;
 function MyLeaderboardItem() {
   const rank = 325;
   const riotId = "06年拒絕職業邀約原因是不打自訂#QAQTT";
-  const profile = 6923;
+  const image = 6923;
   const score = 99999;
   const letterSpace = 2;
   const title = "我就是 True Damage";
@@ -52,7 +52,7 @@ function MyLeaderboardItem() {
         {rank}
       </text>
       <image
-        href={`https://ddragon.leagueoflegends.com/cdn/16.19.1/img/profileicon/${profile}.png`}
+        href={`https://ddragon.leagueoflegends.com/cdn/16.19.1/img/profileicon/${image}.png`}
         x="190"
         y="37"
         width="63"
@@ -70,7 +70,7 @@ function MyLeaderboardItem() {
       >
         {riotId}
       </text>
-      <Title x={1009} y={41} title={title} />
+      {title && <Title x={1009} y={41} title={title} />}
       <text
         x={1558 + letterSpace}
         y="82"

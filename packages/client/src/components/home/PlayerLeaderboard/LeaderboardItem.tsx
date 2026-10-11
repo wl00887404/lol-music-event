@@ -1,18 +1,34 @@
 import formatNumber from "@/libs/formatNumber";
 import Title from "./Title";
+import type { PlayerLeaderBoardItem } from ".";
 
 const WIDTH = 1598;
 const HEIGHT = 108;
 const SVG_CLASS_NAME = "overflow-hidden max-w-full" as const;
 
-function LeaderboardItem() {
-  const rank = 1;
-  const riotId = "06年拒絕職業邀約原因是不打自訂#QAQTT";
-  const profile = 6923;
-  const score = 99999;
-  const letterSpace = 2;
-  const title = "我就是 True Damage";
+type Props = {
+  item: PlayerLeaderBoardItem;
+};
 
+function LeaderboardItem(props: Props) {
+  const { rank, riotId, image, score, title } = props.item;
+  const letterSpace = 2;
+
+  const getBackgroundHref = () => {
+    if (rank === 1) {
+      return "/icons/player-leaderboard-first-bg.png";
+    }
+
+    if (rank === 2) {
+      return "/icons/player-leaderboard-second-bg.png";
+    }
+
+    if (rank === 3) {
+      return "/icons/player-leaderboard-third-bg.png";
+    }
+
+    return "/icons/player-leaderboard-fourth-bg.png";
+  };
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -24,9 +40,8 @@ function LeaderboardItem() {
           <circle cx="225.5" cy="53.5" r="31.5" fill="black" />
         </clipPath>
       </defs>
-
       <image
-        href={`/icons/player-leaderboard-first-bg-2.png`}
+        href={getBackgroundHref()}
         x="0"
         y="0"
         width={WIDTH}
@@ -34,7 +49,7 @@ function LeaderboardItem() {
         preserveAspectRatio="xMidYMid slice"
       />
       <image
-        href={`/icons/player-leaderboard-first-bg-1.png`}
+        href={`/icons/player-leaderboard-bg.png`}
         x="0"
         y="0"
         width={WIDTH}
@@ -53,7 +68,7 @@ function LeaderboardItem() {
         {rank}
       </text>
       <image
-        href={`https://ddragon.leagueoflegends.com/cdn/16.19.1/img/profileicon/${profile}.png`}
+        href={`https://ddragon.leagueoflegends.com/cdn/16.19.1/img/profileicon/${image}.png`}
         x="194"
         y="22"
         width="63"
@@ -71,8 +86,7 @@ function LeaderboardItem() {
       >
         {riotId}
       </text>
-      <Title x={1012} y={26} title={title} />
-
+      {title && <Title x={1012} y={26} title={title} />}
       <text
         x={1561 + letterSpace}
         y="66"

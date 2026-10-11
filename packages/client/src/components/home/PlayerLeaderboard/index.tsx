@@ -5,6 +5,100 @@ import TeamFilter from "./TeamFilter";
 import SearchBar from "./SearchBar";
 import MyLeaderboardItem from "./MyLeaderboardItem";
 import LeaderboardItem from "./LeaderboardItem";
+import Pagination from "@/components/Pagination";
+
+export type PlayerLeaderBoardItem = {
+  id: string;
+  rank: number;
+  riotId: string;
+  score: number;
+  title: string;
+  image: number;
+};
+
+// riotId: "一二三四五六七八九十一二三四五六#一二三四五",
+const mockItems: PlayerLeaderBoardItem[] = [
+  {
+    id: "mock-id-0",
+    rank: 1,
+    riotId: "一生摯愛金采源#TW2",
+    image: 6923,
+    score: 99999,
+    title: "我就是 True Damage",
+  },
+  {
+    id: "mock-id-1",
+    rank: 2,
+    riotId: "饅饅來#5824",
+    image: 4574,
+    score: 88888,
+    title: "我就是 True Damage",
+  },
+  {
+    id: "mock-id-2",
+    rank: 3,
+    riotId: "情緒發言大可不必#3788",
+    image: 7088,
+    score: 77777,
+    title: "我就是 True Damage",
+  },
+  {
+    id: "mock-id-3",
+    rank: 4,
+    riotId: "最可愛#Qest",
+    image: 1630,
+    score: 66666,
+    title: "我就是 True Damage",
+  },
+  {
+    id: "mock-id-4",
+    rank: 5,
+    riotId: "飄逸小江#tw2",
+    image: 7091,
+    score: 55555,
+    title: "我就是 True Damage",
+  },
+  {
+    id: "mock-id-5",
+    rank: 6,
+    riotId: "就剩一滴血#9453",
+    image: 5455,
+    score: 44444,
+    title: "我就是 True Damage",
+  },
+  {
+    id: "mock-id-6",
+    rank: 7,
+    riotId: "阿掐卡#tw2",
+    image: 1391,
+    score: 33333,
+    title: "我就是 True Damage",
+  },
+  {
+    id: "mock-id-7",
+    rank: 8,
+    riotId: "源Yuan#0618",
+    image: 1425,
+    score: 22222,
+    title: "我就是 True Damage",
+  },
+  {
+    id: "mock-id-8",
+    rank: 9,
+    riotId: "告密剋星勒頸魔#1017",
+    image: 3790,
+    score: 11111,
+    title: "我就是 True Damage",
+  },
+  {
+    id: "mock-id-9",
+    rank: 10,
+    riotId: "宏0jghhir耶#tw2",
+    image: 6913,
+    score: 0,
+    title: "我就是 True Damage",
+  },
+];
 
 function PlayerLeaderboard() {
   const [currentTab, setCurrentTab] = useState<Tab>("all");
@@ -53,8 +147,16 @@ function PlayerLeaderboard() {
             <img src="/icons/player-leaderboard-divider.png" />
           </div>
           <div className="mt-[50px] flex flex-col gap-[33px]">
-            {/* TODO: 排行榜 */}
-            <LeaderboardItem />
+            {mockItems.map((item) => {
+              return <LeaderboardItem key={item.id} item={item} />;
+            })}
+          </div>
+          <div className="mt-[82px] mb-[121px]">
+            <Pagination
+              currentPage={currentPage}
+              setCurrentPage={onPageChange}
+              maxPage={99}
+            />
           </div>
         </div>
       </div>
