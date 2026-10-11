@@ -20,14 +20,14 @@ function Footer() {
             帳戶連接到英雄聯盟遊戲軟體，即表示您同意台灣大哥大股份有限公司的「使用者合約」和「隱私權政策」。
           </div>
         </div>
-        <div className="flex items-center flex-col md:flex-row gap-[24px] md:gap-[70px] text-[#F3F3F3] font-[700] text[13px] !leading-[1.2]">
+        <div className="flex items-center flex-col md:flex-row gap-[24px] md:gap-[70px] text-[#fff9e5] font-[700] text[13px] !leading-[1.2]">
           <Link to="/terms-of-service">服務條款</Link>
           <Link to="/privacy-policy">隱私條款</Link>
           <Link to="/personal-data-protection">個資告知事項</Link>
         </div>
         <div className="flex gap-[12px] py-[8px] px-[12px] bg-[#292929] rounded-[8px]">
           <img src="/icons/r15.jpg" className="w-[55px] h-[55px]" />
-          <div className="text-[#F3F3F3] font-[600] text-[13px] leading-[1.5]">
+          <div className="text-[#fff9e5] font-[600] text-[13px] leading-[1.5]">
             請注意遊戲時間，避免沉迷。
             <br />
             本遊戲為免費使用，內另有提供購買虛擬遊戲幣、物品等付費服務。

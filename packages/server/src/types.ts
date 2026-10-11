@@ -423,8 +423,8 @@ export type MatchDetail = {
 
 export type Puuid = string;
 
-export enum Team {
-  kda = "kda",
-  heartSteel = "heart-steel",
-  trueDamage = "true-damage",
-}
+export const Team = {
+  kda: "kda",
+  heartSteel: "heart-steel",
+  trueDamage: "true-damage",
+} as const;

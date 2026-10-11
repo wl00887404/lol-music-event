@@ -151,7 +151,7 @@ function PlayerLeaderboard() {
               return <LeaderboardItem key={item.id} item={item} />;
             })}
           </div>
-          <div className="mt-[82px] mb-[121px]">
+          <div className="mt-[82px]">
             <Pagination
               currentPage={currentPage}
               setCurrentPage={onPageChange}

@@ -57,7 +57,7 @@ function MyLeaderboardItem() {
         y="37"
         width="63"
         preserveAspectRatio="xMidYMid slice"
-        clip-path="url(#my-leaderboard-profile)"
+        clipPath="url(#my-leaderboard-profile)"
       />
       <text
         x="282"

@@ -143,6 +143,13 @@ body {
   scroll-behavior: smooth;
   --header-height: 48px;
   --scroll-margin-top: calc(var(--header-height) + 24px);
+  --dialog-height: 779px;
+  --dialog-py: 42px;
+  --dialog-title-height: 60px;
+  --dialog-content-height: calc(
+    var(--dialog-height) - var(--dialog-title-height) - var(--dialog-py) -
+      var(--dialog-py)
+  );
 }
 
 @media (width >= 48rem) {

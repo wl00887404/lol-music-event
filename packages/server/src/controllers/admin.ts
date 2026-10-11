@@ -3,23 +3,10 @@ import express, { type RequestHandler } from "express";
 import { db } from "../db.ts";
 import { user as userTable } from "../models/auth-schema.ts";
 import { ApiError } from "../middlewares/errorHandler.ts";
-import {
-  count,
-  eq,
-  desc,
-  inArray,
-  ilike,
-  and,
-  not,
-  isNull,
-  sql,
-} from "drizzle-orm";
+import { count, eq, desc, ilike, and, not, isNull, sql } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
 import { head } from "../libs/lodash.ts";
-import {
-  reward as rewardTable,
-  schoolArea as schoolAreaTable,
-} from "../models/schema.ts";
+import { reward as rewardTable } from "../models/schema.ts";
 import path from "path";
 import { leaderboardService } from "../services/leaderboard.ts";
 import { riotService } from "../services/riot.ts";
@@ -123,11 +110,8 @@ adminRouter.get(`${URL}/users`, async (req, res) => {
         image: userTable.image,
         createdAt: userTable.createdAt,
         updatedAt: userTable.updatedAt,
-        school: userTable.school,
         phone: userTable.phone,
         score: userTable.score,
-        isLeader: userTable.isLeader,
-        teamId: userTable.teamId,
         inviteCode: userTable.inviteCode,
         riotId: userTable.riotId,
         puuid: userTable.puuid,
@@ -181,11 +165,10 @@ adminRouter.post(`${URL}/users/:id`, async (req, res) => {
   const id = req.params.id;
   const body = req.body as unknown as {
     email?: string;
-    school?: string;
     phone?: string;
   };
 
-  if (!body.email || !body.school || !body.phone || !id) {
+  if (!body.email || !body.phone || !id) {
     throw new ApiError(400, {
       code: "MISSING_REQUIRED_FIELDS",
       message: "缺少必要資料",
@@ -249,23 +232,9 @@ adminRouter.post(`${URL}/users/:id`, async (req, res) => {
     });
   }
 
-  const hasSchool = await db
-    .select({ school: schoolAreaTable.school })
-    .from(schoolAreaTable)
-    .where(eq(schoolAreaTable.school, body.school))
-    .limit(1)
-    .then(head);
-
-  if (!hasSchool) {
-    throw new ApiError(422, {
-      code: "SCHOOL_NOT_FOUND",
-      message: "查無此學校",
-    });
-  }
-
   await db
     .update(userTable)
-    .set({ email: body.email, school: body.school, phone: body.phone })
+    .set({ email: body.email, phone: body.phone })
     .where(eq(userTable.id, me.id));
 
   return res.send({ success: true });

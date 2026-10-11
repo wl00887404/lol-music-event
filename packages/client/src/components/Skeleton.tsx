@@ -53,10 +53,10 @@ function Skeleton(props: Props) {
 
   return (
     <BaseSkeleton
-      className={cn([
+      className={cn(
         "inline-block whitespace-nowrap text-[transparent] rounded-[10px] md:rounded-[15px]",
         className,
-      ])}
+      )}
       style={{ background: `rgba(${r}, ${g}, ${b}, 0.5)` }}
       as="span"
     >

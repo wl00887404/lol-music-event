@@ -85,7 +85,7 @@ function HeroCarousel() {
             return (
               <div
                 key={index}
-                className="w-[8px] h-[8px] rounded-full bg-[#f3f3f3f3]"
+                className="w-[8px] h-[8px] rounded-full bg-[#fff9e5f3]"
                 style={{
                   opacity: index + 1 === current ? 1 : 0.5,
                   transform: index + 1 == current ? "scale(1.2)" : "scale(1)",

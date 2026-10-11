@@ -73,7 +73,7 @@ function LeaderboardItem(props: Props) {
         y="22"
         width="63"
         preserveAspectRatio="xMidYMid slice"
-        clip-path="url(#player-leaderboard-profile)"
+        clipPath="url(#player-leaderboard-profile)"
       />
       <text
         x="285"

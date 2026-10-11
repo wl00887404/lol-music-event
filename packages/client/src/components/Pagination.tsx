@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
-import { Button } from "./ui/button";
 import { cn } from "@/libs/utils";
 import { useEffect, useRef } from "react";
+import BaseButton from "./BaseButton";
 
 type SiblingPageButtonProp = {
   type: "prev" | "next";
@@ -14,11 +14,8 @@ function SiblingPageButton(props: SiblingPageButtonProp) {
   const className = "w-[66px] block";
 
   return (
-    <Button
-      className={cn([
-        "bg-[transparent] !h-auto !p-0 border-none",
-        "disabled:grayscale",
-      ])}
+    <BaseButton
+      className="disabled:grayscale"
       disabled={disabled}
       onClick={onClick}
     >
@@ -27,7 +24,7 @@ function SiblingPageButton(props: SiblingPageButtonProp) {
       ) : (
         <img src="/icons/chevron-right.png" className={className} />
       )}
-    </Button>
+    </BaseButton>
   );
 }
 
@@ -37,7 +34,7 @@ type DotsProps = {
 
 function DotsProps(props: DotsProps) {
   const { className } = props;
-  return <img className={cn(["w-[66px]", className])} src="/icons/dots.png" />;
+  return <img className={cn("w-[66px]", className)} src="/icons/dots.png" />;
 }
 
 type PageProps = {
@@ -51,18 +48,17 @@ function Page(props: PageProps) {
   const { page, currentPage, className, setCurrentPage } = props;
 
   return (
-    <Button
-      className={cn([
+    <BaseButton
+      className={cn(
         "text-[50px] font-[BeaufortforLOL]",
-        "border-none bg-[transparent] !p-0 border-none",
         "w-[66px] h-[66px] leading-[66px]",
         currentPage === page ? "text-[#f0ca70]" : "text-[#fff9e5]",
         className,
-      ])}
+      )}
       onClick={() => setCurrentPage(page)}
     >
       {page}
-    </Button>
+    </BaseButton>
   );
 }
 
@@ -172,13 +168,13 @@ function Pagination(props: Props) {
         inputMode="numeric"
         min={1}
         max={maxPage}
-        className={cn([
+        className={cn(
           "border-none px-[16px] md:px-[32px] py-[8px] md:py-[20px] font-[900] !text-[20px] !leading-[1.2]",
           "bg-[#ffffff] w-[96px] md:w-[128px] text-center h-auto text-[#111111] rounded-[10px] md:rounded-[15px]",
           "md:hidden",
-        ])}
+        )}
       />
-      <div className="flex items-center text-[#f3f3f3] md:hidden font-[900] text-[20px] !leading-[1.2]">
+      <div className="flex items-center text-[#fff9e5] md:hidden font-[900] text-[20px] !leading-[1.2]">
         / {maxPage}
       </div>
       <SiblingPageButton

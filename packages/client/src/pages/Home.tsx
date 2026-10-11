@@ -10,7 +10,7 @@ function Home() {
       <div className="mt-[106px]">
         <TeamLeaderboard />
       </div>
-      <div className="mt-[119px]">
+      <div className="mt-[119px] mb-[121px]">
         <PlayerLeaderboard />
       </div>
     </div>

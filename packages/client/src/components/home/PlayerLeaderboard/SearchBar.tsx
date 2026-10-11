@@ -19,11 +19,11 @@ function SearchBar(props: Props) {
         value={keyword}
         onChange={(e) => onSearch(e.target.value)}
         placeholder="搜尋 Riot ID"
-        className={cn([
+        className={cn(
           "text-[#0f1923] placeholder:text-[rgba(15,25,35,0.45)]",
           "h-auto font-[700]",
           "!px-[28px] !text-[32px] !leading-[80px]",
-        ])}
+        )}
       />
       <InputGroupAddon align="inline-end" className="pr-[16px]">
         <img src="/icons/search.png" className="w-[49px] h-[49px]" />

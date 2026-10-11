@@ -11,12 +11,13 @@ import { Link } from "react-router";
 import { authClient } from "@/libs/auth-client";
 import { useDialogStore } from "./dialogs/dialogStore";
 import { cn } from "@/libs/utils";
+import BaseButton from "./BaseButton";
 
 type MobileMenuProps = {
   signOut: () => void;
 };
 
-function Diveder() {
+function Divider() {
   return (
     <img
       className="w-[9px] h-[9px] mt-[19px]"
@@ -78,13 +79,22 @@ function MobileMenu(props: MobileMenuProps) {
         </DrawerTrigger>
         <DrawerContent
           className={"!w-full !border-0 !rounded-none !max-w-none bg-[#111111]"}
-          style={{ top: "var(--header-height)", height: "calc(100vh - var(--header-height))" }}
+          style={{
+            top: "var(--header-height)",
+            height: "calc(100vh - var(--header-height))",
+          }}
         >
           <DrawerTitle className="hidden">Mobile 選單</DrawerTitle>
           <DrawerDescription className="hidden">就是一個選單</DrawerDescription>
-          <div className="text-[#f3f3f3] p-[24px] text-[14px] font-[500] !leading-[1.2] flex flex-col gap-[24px]">
+          <div className="text-[#fff9e5] p-[24px] text-[14px] font-[500] !leading-[1.2] flex flex-col gap-[24px]">
             <Link to="/" onClick={() => setOpen(false)}>
               活動首頁
+            </Link>
+            <Link to="/" onClick={() => setOpen(false)}>
+              歌曲測驗
+            </Link>
+            <Link to="/" onClick={() => setOpen(false)}>
+              每日抽獎
             </Link>
             <Link to="/honor-roll" onClick={() => setOpen(false)}>
               榮耀圖鑑
@@ -115,33 +125,33 @@ function Header() {
   };
 
   const renderButton = () => {
-    const buttonClassName = cn([
-      "ml-[8px] !p-0 w-[143px] h-[44px] border-none",
-      "bg-[transparent] bg-[url('/icons/header-button.png')] bg-cover ",
+    const buttonClassName = cn(
+      "ml-[8px] w-[143px] h-[44px] ",
+      "bg-[url('/icons/header-button.png')] bg-cover ",
       "text-[#030718] font-[700] text-[20px] leading-[1]",
       "flex justify-center items-center",
-    ]);
+    );
     if (isPending) {
-      return <Button className={buttonClassName} loading={isPending} />;
+      return <BaseButton className={buttonClassName} loading={isPending} />;
     }
 
     if (!session) {
       return (
-        <Button
+        <BaseButton
           className={buttonClassName}
           onClick={() => {
             setRsoOpen(true);
           }}
         >
           登入 / 註冊
-        </Button>
+        </BaseButton>
       );
     }
 
     return (
-      <Button className={buttonClassName} onClick={signOut}>
+      <BaseButton className={buttonClassName} onClick={signOut}>
         登出
-      </Button>
+      </BaseButton>
     );
   };
 
@@ -152,17 +162,17 @@ function Header() {
   return (
     <>
       {/* Placeholder */}
-      <div className={cn([shardClassName, "static"])} />
+      <div className={cn(shardClassName, "static")} />
       {/* Multiply 背景層 */}
       <div
-        className={cn([shardClassName, "z-49 bg-[#364d98] mix-blend-multiply"])}
+        className={cn(shardClassName, "z-49 bg-[#364d98] mix-blend-multiply")}
       />
       <div
-        className={cn([
+        className={cn(
           shardClassName,
           "z-50 max-w-[1920px] mx-auto px-[18px]",
           "flex justify-between items-center md:items-start",
-        ])}
+        )}
       >
         <Link to="/">
           <img
@@ -177,22 +187,28 @@ function Header() {
         {/* desktop */}
         <div className="hidden md:flex gap-[23px] mt-[12px]">
           <Link to="/" className={linkClassName}>
-            <div>活動首頁</div>
+            活動首頁
           </Link>
-          <Diveder />
+          <Divider />
+          <Link to="/" className={linkClassName}>
+            歌曲測驗
+          </Link>
+          <Divider />
+          <Link to="/" className={linkClassName}>
+            每日抽獎
+          </Link>
+          <Divider />
           <Link to="/honor-roll" className={linkClassName}>
-            <div>榮耀圖鑑</div>
+            榮耀圖鑑
           </Link>
-          <Diveder />
+          <Divider />
           <Link to="/guidelines" className={linkClassName}>
             活動辦法
           </Link>
           {session?.user && (
             <>
-              <Diveder />
-              <Link to="/me">
-                <div>個人中心</div>
-              </Link>
+              <Divider />
+              <Link to="/me">個人中心</Link>
             </>
           )}
           {renderButton()}

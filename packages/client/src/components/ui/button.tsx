@@ -45,7 +45,7 @@ type LoadingProps = {
   loadingColor?: string;
 };
 function Loading(props: LoadingProps) {
-  const { loadingColor = "#f3f3f3" } = props;
+  const { loadingColor = "#fff9e5" } = props;
 
   return (
     <div
