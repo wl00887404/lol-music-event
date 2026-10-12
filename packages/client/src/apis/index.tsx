@@ -217,7 +217,7 @@ export const requestSync = async () => {
 type CompleteUserDataPayload = {
   email: string;
   phone: string;
-  school: string;
+  team: string;
   inviteCode?: string;
   isTermsAndPrivacyAccepted: boolean;
   isOver15: boolean;
