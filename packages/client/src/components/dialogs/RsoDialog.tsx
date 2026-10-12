@@ -22,7 +22,7 @@ function RsoDialog() {
       title={
         <img
           src="/icons/rso-login-dialog-title.png"
-          className="w-[287px] h-[57px]"
+          className="w-[287px] h-[57px] block"
         />
       }
       description="登入 / 註冊表單"

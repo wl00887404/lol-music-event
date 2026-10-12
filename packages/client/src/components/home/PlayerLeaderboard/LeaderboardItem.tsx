@@ -4,7 +4,7 @@ import type { PlayerLeaderBoardItem } from ".";
 
 const WIDTH = 1598;
 const HEIGHT = 108;
-const SVG_CLASS_NAME = "overflow-hidden max-w-full" as const;
+const SVG_CLASS_NAME = "overflow-hidden max-w-full w-full" as const;
 
 type Props = {
   item: PlayerLeaderBoardItem;
@@ -29,6 +29,7 @@ function LeaderboardItem(props: Props) {
 
     return "/icons/player-leaderboard-fourth-bg.png";
   };
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -72,6 +73,7 @@ function LeaderboardItem(props: Props) {
         x="194"
         y="22"
         width="63"
+        height="63"
         preserveAspectRatio="xMidYMid slice"
         clipPath="url(#player-leaderboard-profile)"
       />

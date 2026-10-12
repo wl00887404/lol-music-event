@@ -190,6 +190,7 @@ meRouter.post(`${URL}/complete-user-data`, async (req, res) => {
     .set({
       email: body.email,
       phone: body.phone,
+      team: body.team,
       score,
       isCompleted: true,
       inviterId: inviter?.id,
@@ -387,9 +388,10 @@ meRouter.get(`${URL}/check-updating`, async (req, res) => {
 // });
 
 meRouter.get(`${URL}/rewards`, async (req, res) => {
-  const rewards = await rewardService.toJson(req.session!.userId);
+  // const rewards = await rewardService.toJson(req.session!.userId);
 
-  return res.send(rewards);
+  // return res.send(rewards);
+  return res.send({});
 });
 
 meRouter.get(`${URL}/invitees`, async (req, res) => {

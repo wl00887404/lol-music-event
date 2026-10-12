@@ -27,7 +27,7 @@ function HeroCarousel() {
   // }, [api]);
 
   return (
-    <div className="s">
+    <div>
       <BaseCarousel
         className="w-full"
         plugins={[Autoplay({ delay: 5000 })]}

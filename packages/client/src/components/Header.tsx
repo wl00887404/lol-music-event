@@ -126,7 +126,7 @@ function Header() {
 
   const renderButton = () => {
     const buttonClassName = cn(
-      "ml-[8px] w-[143px] h-[44px] ",
+      "ml-[8px] w-[143px] h-[44px]",
       "bg-[url('/icons/header-button.png')] bg-cover",
       "text-[#030718] font-[700] text-[20px] leading-[1]",
       "flex justify-center items-center",
@@ -167,51 +167,51 @@ function Header() {
       <div
         className={cn(shardClassName, "z-49 bg-[#364d98] mix-blend-multiply")}
       />
-      <div
-        className={cn(
-          shardClassName,
-          "z-50 max-w-[1920px] mx-auto px-[18px]",
-          "flex justify-between items-center md:items-start",
-        )}
-      >
-        <Link to="/">
-          <img
-            src="/logos/lol-logo.png"
-            className="w-[24px] md:w-[45px] md:mt-[7px]"
-          />
-        </Link>
-        {/* mobile */}
-        <div className="flex md:hidden">
-          <MobileMenu signOut={signOut} />
-        </div>
-        {/* desktop */}
-        <div className="hidden md:flex gap-[23px] mt-[12px]">
-          <Link to="/" className={linkClassName}>
-            活動首頁
-          </Link>
-          <Divider />
-          <Link to="/" className={linkClassName}>
-            歌曲測驗
-          </Link>
-          <Divider />
-          <Link to="/" className={linkClassName}>
-            每日抽獎
-          </Link>
-          <Divider />
-          <Link to="/honor-roll" className={linkClassName}>
-            榮耀圖鑑
-          </Link>
-          <Divider />
-          <Link to="/guidelines" className={linkClassName}>
-            活動辦法
-          </Link>
-          {session?.user && (
-            <>
-              <Divider />
-              <Link to="/me">個人中心</Link>
-            </>
+      <div className={cn(shardClassName, "z-50 ")}>
+        <div
+          className={cn(
+            "max-w-[1920px] mx-auto px-[18px]",
+            "flex justify-between items-center md:items-start",
           )}
-          {renderButton()}
+        >
+          <Link to="/" className="md:mt-[7px]">
+            <img src="/logos/lol-logo.png" className="w-[24px] md:w-[45px]" />
+          </Link>
+          {/* mobile */}
+          <div className="flex md:hidden">
+            <MobileMenu signOut={signOut} />
+          </div>
+          {/* desktop */}
+          <div className="hidden md:flex gap-[23px] mt-[12px]">
+            <Link to="/" className={linkClassName}>
+              活動首頁
+            </Link>
+            <Divider />
+            <Link to="/" className={linkClassName}>
+              歌曲測驗
+            </Link>
+            <Divider />
+            <Link to="/" className={linkClassName}>
+              每日抽獎
+            </Link>
+            <Divider />
+            <Link to="/honor-roll" className={linkClassName}>
+              榮耀圖鑑
+            </Link>
+            <Divider />
+            <Link to="/guidelines" className={linkClassName}>
+              活動辦法
+            </Link>
+            {session?.user && (
+              <>
+                <Divider />
+                <Link to="/me" className={linkClassName}>
+                  個人中心
+                </Link>
+              </>
+            )}
+            {renderButton()}
+          </div>
         </div>
       </div>
     </>

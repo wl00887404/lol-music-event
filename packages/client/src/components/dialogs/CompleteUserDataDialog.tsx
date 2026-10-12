@@ -11,7 +11,7 @@ import toast from "../toast";
 import ConfirmDialog from "./shared/ConfirmDialog";
 import OkButton from "./shared/OkButton";
 import { FieldName, Input, ErrorMessage, Select } from "./FormItem";
-import type { Team } from "@/types";
+import { Team } from "@/types";
 
 type CancelDialogProps = {
   open: boolean;
@@ -52,13 +52,14 @@ function CompleteUserDataDialog() {
   ].includes(location.pathname);
 
   const devCookie = getCookieValue("dev");
-  const forceClosed = devCookie === "1";
+  // const forceClosed = devCookie === "1";
+  const forceClosed = false;
   const open = !forceClosed && !disabled && session?.user.isCompleted === false;
 
-  const teamOptions: { value: Team; label: string }[] = [
-    { value: "kda", label: "K/DA" },
-    { value: "true-damage", label: "True Damage" },
-    { value: "heart-steel", label: "HEARTSTEEL" },
+  const teamOptions = [
+    { value: "kda", label: Team.kda },
+    { value: "true-damage", label: Team.trueDamage },
+    { value: "heart-steel", label: Team.heartSteel },
   ];
 
   const initialValues = {
@@ -201,7 +202,7 @@ function CompleteUserDataDialog() {
         title={
           <img
             src="/icons/complete-user-data-dialog-title.png"
-            className="w-[227px] h-[54px]"
+            className="w-[227px] h-[54px] block"
           />
         }
         description="完成註冊表單"

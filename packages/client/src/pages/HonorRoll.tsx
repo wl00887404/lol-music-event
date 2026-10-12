@@ -1,0 +1,184 @@
+import HeroCarousel from "@/components/home/HeroCarousel";
+import { cn } from "@/libs/utils";
+
+const WIDTH = 521;
+const HEIGHT = 389;
+const SVG_CLASS_NAME = "overflow-hidden max-w-full" as const;
+
+type HonorRollItem = {
+  id: string;
+  riotId: string;
+  title: string;
+  image: number;
+};
+
+const mockItems: HonorRollItem[] = [
+  {
+    id: "mock-id-0",
+    riotId: "一生摯愛金采源#TW2",
+    image: 6923,
+    title: "我就是 True Damage",
+  },
+  {
+    id: "mock-id-1",
+    riotId: "饅饅來#5824",
+    image: 4574,
+    title: "我就是 True Damage",
+  },
+  {
+    id: "mock-id-2",
+    riotId: "情緒發言大可不必#3788",
+    image: 7088,
+    title: "我就是 True Damage",
+  },
+  {
+    id: "mock-id-3",
+    riotId: "最可愛#Qest",
+    image: 1630,
+    title: "我就是 True Damage",
+  },
+  {
+    id: "mock-id-4",
+    riotId: "飄逸小江#tw2",
+    image: 7091,
+    title: "我就是 True Damage",
+  },
+  {
+    id: "mock-id-5",
+    riotId: "就剩一滴血#9453",
+    image: 5455,
+    title: "我就是 True Damage",
+  },
+  {
+    id: "mock-id-6",
+    riotId: "阿掐卡#tw2",
+    image: 1391,
+    title: "我就是 True Damage",
+  },
+  {
+    id: "mock-id-7",
+    riotId: "源Yuan#0618",
+    image: 1425,
+    title: "我就是 True Damage",
+  },
+  {
+    id: "mock-id-8",
+    riotId: "告密剋星勒頸魔#1017",
+    image: 3790,
+    title: "我就是 True Damage",
+  },
+  {
+    id: "mock-id-9",
+    riotId: "宏0jghhir耶#tw2",
+    image: 6913,
+    title: "我就是 True Damage",
+  },
+];
+type Props = {
+  item: HonorRollItem;
+};
+
+function LeaderboardItem(props: Props) {
+  const { riotId, image, title } = props.item;
+  const RIOT_ID_LETTER_SPACE = 1.5;
+  const TITLE_LETTER_SPACE = 2;
+
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
+      className={SVG_CLASS_NAME}
+      width={WIDTH}
+    >
+      <defs>
+        <clipPath id="honor-roll-profile">
+          <circle cx="260" cy="133" r="60" fill="black" />
+        </clipPath>
+      </defs>
+      <image
+        href={`/icons/honor-roll-item-bg-3.png`}
+        x="0"
+        y="0"
+        width={WIDTH}
+        height={HEIGHT}
+        preserveAspectRatio="xMidYMid slice"
+      />
+      <image
+        href={`/icons/honor-roll-item-bg-2.png`}
+        x="0"
+        y="0"
+        width={WIDTH}
+        height={HEIGHT}
+        preserveAspectRatio="xMidYMid slice"
+        style={{ mixBlendMode: "color-dodge" }}
+      />
+      <image
+        href={`/icons/honor-roll-item-bg-1.png`}
+        x="0"
+        y="0"
+        width={WIDTH}
+        height={HEIGHT}
+        preserveAspectRatio="xMidYMid slice"
+      />
+      <image
+        href={`https://ddragon.leagueoflegends.com/cdn/16.19.1/img/profileicon/${image}.png`}
+        x="200"
+        y="73"
+        width="120"
+        height="120"
+        preserveAspectRatio="xMidYMid slice"
+        clipPath="url(#honor-roll-profile)"
+      />
+      <text
+        x={260.5 - RIOT_ID_LETTER_SPACE}
+        y={263}
+        fontFamily="BeaufortforLOL, Noto Sans TC, sans-serif"
+        textAnchor="middle"
+        fontSize="51"
+        fontWeight="700"
+        fill="#fff9e5"
+        letterSpacing={RIOT_ID_LETTER_SPACE}
+      >
+        {riotId}
+      </text>
+      <text
+        x={260.5 - TITLE_LETTER_SPACE}
+        y={352.5}
+        fontFamily="BeaufortforLOL, Noto Sans TC, sans-serif"
+        textAnchor="middle"
+        fontSize="26.5"
+        fontWeight="700"
+        fill="#0b1527"
+        letterSpacing={TITLE_LETTER_SPACE}
+      >
+        {title}
+      </text>
+    </svg>
+  );
+}
+
+function HonorRoll() {
+  return (
+    <div className="relative">
+      <HeroCarousel />
+      <div className="flex flex-col items-center mt-[121px] mb-[121px]">
+        <img
+          src="/icons/honor-roll-title.png"
+          className="w-[270px] h-[64px] block"
+        />
+        <div
+          className={cn(
+            "mt-[114px] px-[18px] grid",
+            "grid-cols-[repeat(2,1fr)] md:grid-cols-[repeat(3,1fr)] gap-[18px] md:gap-[60px_100px]",
+          )}
+        >
+          {mockItems.map((item) => {
+            return <LeaderboardItem key={item.id} item={item} />;
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default HonorRoll;

@@ -104,7 +104,7 @@ function Doc(props: Props) {
           />
         </picture>
       </div>
-      <div className="px-[32px] md:px-[20px] relative z-1 md:max-w-[1440px] mx-auto">
+      <div className="px-[32px] md:px-[20px] relative z-1 md:max-w-[1440px] mx-auto mb-[121px]">
         <Card className="doc">{content}</Card>
       </div>
     </div>

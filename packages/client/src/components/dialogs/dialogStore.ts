@@ -6,6 +6,6 @@ interface DialogStore {
 }
 
 export const useDialogStore = create<DialogStore>((set) => ({
-  rsoOpen: true,
+  rsoOpen: false,
   setRsoOpen: (open) => set({ rsoOpen: open }),
 }));

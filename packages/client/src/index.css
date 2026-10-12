@@ -155,9 +155,6 @@ body {
 @media (width >= 48rem) {
   html,
   body {
-    background-image: url("/backgrounds/bg.jpg");
-    background-position: top center;
-    background-repeat: repeat-y;
     --header-height: 70px;
   }
 

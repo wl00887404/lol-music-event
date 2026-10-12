@@ -3,7 +3,7 @@ import Title from "./Title";
 
 const WIDTH = 1592;
 const HEIGHT = 139;
-const SVG_CLASS_NAME = "overflow-hidden max-w-full" as const;
+const SVG_CLASS_NAME = "overflow-hidden max-w-full w-full" as const;
 
 function MyLeaderboardItem() {
   const rank = 325;
@@ -56,6 +56,7 @@ function MyLeaderboardItem() {
         x="190"
         y="37"
         width="63"
+        height="63"
         preserveAspectRatio="xMidYMid slice"
         clipPath="url(#my-leaderboard-profile)"
       />

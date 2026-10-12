@@ -16,7 +16,6 @@ export type PlayerLeaderBoardItem = {
   image: number;
 };
 
-// riotId: "一二三四五六七八九十一二三四五六#一二三四五",
 const mockItems: PlayerLeaderBoardItem[] = [
   {
     id: "mock-id-0",
@@ -133,7 +132,7 @@ function PlayerLeaderboard() {
       <div className="flex justify-center">
         <img
           src="/icons/player-leaderboard-title.png"
-          className="w-[227px] h-[55px]"
+          className="w-[227px] h-[55px] block"
         />
       </div>
       <div className="mt-[52px] max-w-[1229px] mx-auto">

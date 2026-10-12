@@ -8,7 +8,7 @@ type ItemProps = {
 
 const WIDTH = 1615;
 const HEIGHT = 163;
-const SVG_CLASS_NAME = "overflow-hidden max-w-full" as const;
+const SVG_CLASS_NAME = "overflow-hidden max-w-full w-full" as const;
 
 function Item(props: ItemProps) {
   const { team, score } = props;
@@ -72,7 +72,7 @@ function TeamLeaderboard() {
   return (
     <div className="max-w-[1651px] px-[18px] mx-auto">
       <div className="flex justify-center">
-        <img src="/icons/team-leaderboard-title.png" className="w-[226px] h-[56px]" />
+        <img src="/icons/team-leaderboard-title.png" className="w-[226px] h-[56px] block" />
       </div>
       <div className="mt-[47px]">
         <Item team="kda" score={333333} />
