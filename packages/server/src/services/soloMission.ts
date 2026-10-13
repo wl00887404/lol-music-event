@@ -500,39 +500,37 @@ export const soloMissionService = {
       .where(eq(userTable.id, inviterId));
   },
   skip: async (me: InferSelectModel<typeof userTable>) => {
-    // const state = await db
-    //   .select()
-    //   .from(soloMissionTable)
-    //   .where(eq(soloMissionTable.userId, me.id))
-    //   .limit(1)
-    //   .then(head);
-    // if (!state) {
-    //   return console.error(me.riotId, "沒有 solo 任務紀錄");
-    // }
-    // if (state.skipChance === 0) {
-    //   console.error(me.riotId, "跳過機會已耗盡");
-    //   throw new Error("跳過機會已耗盡");
-    // }
-    // let { index, phrase } = state;
-    // let args = state.args as any[];
-    // logService.insert(
-    //   `${me.riotId} 使用跳過機會`,
-    //   `mission: ${soloMissions[index][phrase].toJson(args[phrase]).name}`,
-    // );
-    // phrase++;
-    // if (phrase === soloMissions[index].length) {
-    //   // 這個任務完成了，重新領任務
-    //   index = (index + 1) % soloMissions.length;
-    //   phrase = 0;
-    //   args = soloMissions[index].map((mission) => mission.assign());
-    // }
-    // await db
-    //   .update(soloMissionTable)
-    //   .set({ index, phrase, args, skipChance: state.skipChance - 1 })
-    //   .where(eq(soloMissionTable.userId, me.id));
-    // return true;
+    const state = await db
+      .select()
+      .from(soloMissionTable)
+      .where(eq(soloMissionTable.userId, me.id))
+      .limit(1)
+      .then(head);
+    if (!state) {
+      return console.error(me.riotId, "沒有 solo 任務紀錄");
+    }
+    if (state.skipChance === 0) {
+      console.error(me.riotId, "跳過機會已耗盡");
+      throw new Error("跳過機會已耗盡");
+    }
+    let { index, phrase } = state;
+    logService.insert(
+      `${me.riotId} 使用跳過機會`,
+      `mission: ${soloMissions[index][phrase].toJson().name}`,
+    );
+    phrase++;
+    if (phrase === soloMissions[index].length) {
+      // 這個任務完成了，重新領任務
+      index = (index + 1) % soloMissions.length;
+      phrase = 0;
+    }
+    await db
+      .update(soloMissionTable)
+      .set({ index, phrase, skipChance: state.skipChance - 1 })
+      .where(eq(soloMissionTable.userId, me.id));
+    return true;
   },
   resetSkipChance: async (count = 1) => {
-    // await db.update(soloMissionTable).set({ skipChance: count });
+    await db.update(soloMissionTable).set({ skipChance: count });
   },
 };

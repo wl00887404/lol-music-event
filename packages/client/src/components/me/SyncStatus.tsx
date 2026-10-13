@@ -22,7 +22,7 @@ function format(dateString: string): string {
 
 type GetTheme = () => {
   textColor: string;
-  buttonTextColor: string;
+  buttonColor: string;
 };
 
 function SyncStatus() {
@@ -35,13 +35,13 @@ function SyncStatus() {
 
   const getTheme: GetTheme = () => {
     if (team === Team.heartSteel) {
-      return { textColor: "#262b1b", buttonTextColor: "#f6efe1" };
+      return { textColor: "#262b1b", buttonColor: "#f6efe1" };
     }
 
-    return { textColor: "#f5ebe4", buttonTextColor: "#0b1527" };
+    return { textColor: "#f5ebe4", buttonColor: "#0b1527" };
   };
 
-  const { textColor, buttonTextColor } = getTheme();
+  const { textColor, buttonColor } = getTheme();
 
   return (
     <div className="flex justify-end">
@@ -54,16 +54,16 @@ function SyncStatus() {
         <BaseButton
           className={cn(
             "w-[156px] h-[53px]",
-            "text-[28px] leading-[1] font-[500] text-align-center",
+            "text-[28px] leading-[1] font-[500]",
             "disabled:opacity-45",
           )}
           disabled={isSyncing}
           loading={isSyncing}
-          loadingColor={buttonTextColor}
+          loadingColor={buttonColor}
           onClick={() => sync(refetch)}
           style={{
             backgroundImage: `url('/icons/${team}/sync-button.png')`,
-            color: buttonTextColor,
+            color: buttonColor,
           }}
         >
           同步

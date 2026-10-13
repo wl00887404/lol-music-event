@@ -1,5 +1,6 @@
 import { Button } from "../../ui/button";
 import type { Tab } from "./types";
+
 const WIDTH = 1193;
 const HEIGHT = 82;
 const SVG_CLASS_NAME = "overflow-hidden max-w-full w-full" as const;

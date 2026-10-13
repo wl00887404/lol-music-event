@@ -3,15 +3,15 @@ import {
   Carousel as BaseCarousel,
   CarouselContent,
   CarouselItem,
-  type CarouselApi,
+  // type CarouselApi,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 
 function HeroCarousel() {
   // FIXME: 還沒有手機版圖片
   const imgClassName = "w-full block aspect-[1920/800] md:aspect-[1920/1080]";
-  const [api, setApi] = useState<CarouselApi>();
+  // const [api, setApi] = useState<CarouselApi>();
   // const [current, setCurrent] = useState(0);
   // const [count, setCount] = useState(0);
 
@@ -31,7 +31,7 @@ function HeroCarousel() {
       <BaseCarousel
         className="w-full"
         plugins={[Autoplay({ delay: 5000 })]}
-        setApi={setApi}
+        // setApi={setApi}
       >
         <CarouselContent>
           <CarouselItem>
