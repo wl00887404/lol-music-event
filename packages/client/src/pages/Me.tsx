@@ -1,15 +1,15 @@
-import MyProfile from "@/components/me/MyProfile";
-import SoloMissions from "@/components/me/legacy/SoloMissions";
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
 
 import { authClient } from "@/libs/auth-client";
-import { useEffect } from "react";
 import { useSyncStore } from "@/components/me/syncStore";
-import Rewards from "@/components/me/Rewards";
-import SyncStatus from "@/components/me/SyncStatus";
-import MyInviteCode from "@/components/me/MyInviteCode";
-import { useNavigate } from "react-router";
+
+import SoloMissions from "@/components/me/SoloMissions";
 import { useDialogStore } from "@/components/dialogs/dialogStore";
+
+import SyncStatus from "@/components/me/SyncStatus";
 import toast from "@/components/toast";
+
 import HeroImage from "@/components/home/HeroImage";
 
 function useSync() {
@@ -39,27 +39,21 @@ function useCheckLogin() {
 }
 
 function Me() {
-  // useSync();
-  // useCheckLogin();
+  useSync();
+  useCheckLogin();
 
   return (
     <div>
       <HeroImage />
-      <div className="max-w-[1628px] px-[18px] mx-auto">
-        <div className="mt-[102px]">
-          <SoloMissions />
-        </div>
-        <div className="mt-[24px]">
+      <div className="mt-[88px]">
+        <SoloMissions />
+      </div>
+      {/* 18 + 1591 + 18 */}
+      <div className="max-w-[1627px] px-[18px] mx-auto">
+        <div className="mt-[10px]">
           <SyncStatus />
         </div>
-
-        <div className="grid md:grid-cols-[486px_1fr] gap-[10px] md:gap-[36px] mt-[10px] md:mt-[36px]">
-          <div className="flex flex-col gap-[10px] md:gap-[36px] md:row-start-1 md:col-start-1">
-            {/* <MyProfile /> */}
-            {/* <Rewards /> */}
-            {/* <MyInviteCode /> */}
-          </div>
-        </div>
+        <div className="mt-[105px]"></div>
       </div>
     </div>
   );

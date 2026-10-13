@@ -16,7 +16,6 @@ function OkButton(props: Props) {
         "w-[241px] h-[70px]",
         "bg-[url('/icons/dialog-button.png')] bg-cover",
         "text-[#0b1527] font-[700] text-[30px] leading-[1]",
-        "flex justify-center items-center",
       )}
     >
       {children}

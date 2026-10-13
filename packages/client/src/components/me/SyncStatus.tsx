@@ -20,6 +20,11 @@ function format(dateString: string): string {
   return `${YYYY}/${MM}/${DD} ${hh}:${mm}:${ss}`;
 }
 
+type GetTheme = () => {
+  textColor: string;
+  buttonTextColor: string;
+};
+
 function SyncStatus() {
   const { refetch } = authClient.useSession();
   const { isSyncing, sync } = useSyncStore();
@@ -28,27 +33,27 @@ function SyncStatus() {
   const team = useTeam();
   const syncedAt = data?.syncedAt || undefined;
 
-  const getButtonTextColor = () => {
+  const getTheme: GetTheme = () => {
     if (team === Team.heartSteel) {
-      return "#f6efe1";
+      return { textColor: "#262b1b", buttonTextColor: "#f6efe1" };
     }
 
-    return "#0b1527";
+    return { textColor: "#f5ebe4", buttonTextColor: "#0b1527" };
   };
 
-  const buttonTextColor = getButtonTextColor();
+  const { textColor, buttonTextColor } = getTheme();
 
   return (
     <div className="flex justify-end">
       <div className="flex items-center gap-[14px]">
         {syncedAt && (
-          <div className="text-[28px] leading-[1] text-[#f5ebe4]">
+          <div className="text-[28px] leading-[1]" style={{ color: textColor }}>
             上次同步時間：{format(syncedAt)}
           </div>
         )}
         <BaseButton
           className={cn(
-            "w-[144px] h-[51px]",
+            "w-[156px] h-[53px]",
             "text-[28px] leading-[1] font-[500] text-align-center",
             "disabled:opacity-45",
           )}

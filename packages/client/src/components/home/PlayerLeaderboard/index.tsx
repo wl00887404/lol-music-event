@@ -135,6 +135,8 @@ function PlayerLeaderboard() {
           className="w-[227px] h-[55px] block"
         />
       </div>
+
+      {/* 18 + 1193 + 18 */}
       <div className="mt-[52px] max-w-[1229px] mx-auto">
         <TeamFilter currentTab={currentTab} onChange={onTabChange} />
       </div>

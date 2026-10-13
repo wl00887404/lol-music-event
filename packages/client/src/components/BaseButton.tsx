@@ -1,3 +1,5 @@
+import { cn } from "@/libs/utils";
+
 type LoadingProps = {
   loadingColor?: string;
 };
@@ -6,7 +8,7 @@ function Loading(props: LoadingProps) {
 
   return (
     <div
-      className="ml-[0.1em] inline-block rounded-[50%] w-[0.8em] h-[0.8em] animate-spin border-[2px]"
+      className="ml-[0.2em] inline-block rounded-[50%] w-[0.8em] h-[0.8em] animate-spin border-[2px]"
       style={{
         borderColor: loadingColor,
         borderTopColor: "transparent",
@@ -24,10 +26,14 @@ type Props = React.ComponentProps<"button"> & {
  */
 
 function BaseButton(props: Props) {
-  const { children, loading, loadingColor, ...otherProps } = props;
+  const { className, children, loading, loadingColor, ...otherProps } = props;
 
   return (
-    <button type="button" {...otherProps}>
+    <button
+      type="button"
+      {...otherProps}
+      className={cn("flex items-center justify-center", className)}
+    >
       {children}
       {loading && <Loading loadingColor={loadingColor} />}
     </button>

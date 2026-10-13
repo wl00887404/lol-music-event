@@ -70,6 +70,7 @@ function Item(props: ItemProps) {
 
 function TeamLeaderboard() {
   return (
+    // 18 + 1615 + 18
     <div className="max-w-[1651px] px-[18px] mx-auto">
       <div className="flex justify-center">
         <img

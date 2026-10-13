@@ -34,6 +34,7 @@ function Dialog(props: Props) {
         showCloseButton={false}
         className={cn(
           "bg-[transparent] !border-none !shadow-[none] !rounded-[0] !px-[18px]",
+          // 18 + 1280 + 18
           "!max-w-[406px] md:!max-w-[1316px]",
         )}
         style={{} as React.CSSProperties}

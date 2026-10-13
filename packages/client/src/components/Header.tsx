@@ -93,9 +93,11 @@ function MobileMenu(props: MobileMenuProps) {
             <Link to="/" onClick={() => setOpen(false)}>
               歌曲測驗
             </Link>
-            <Link to="/" onClick={() => setOpen(false)}>
-              每日抽獎
-            </Link>
+            {session?.user && (
+              <Link to="/" onClick={() => setOpen(false)}>
+                每日抽獎
+              </Link>
+            )}
             <Link to="/honor-roll" onClick={() => setOpen(false)}>
               榮耀圖鑑
             </Link>
@@ -129,10 +131,15 @@ function Header() {
       "ml-[8px] w-[143px] h-[44px]",
       "bg-[url('/icons/header-button.png')] bg-cover",
       "text-[#030718] font-[700] text-[20px] leading-[1]",
-      "flex justify-center items-center",
     );
     if (isPending) {
-      return <BaseButton className={buttonClassName} loading={isPending} />;
+      return (
+        <BaseButton
+          className={buttonClassName}
+          loading={isPending}
+          loadingColor="#030718"
+        />
+      );
     }
 
     if (!session) {
@@ -190,10 +197,14 @@ function Header() {
             <Link to="/" className={linkClassName}>
               歌曲測驗
             </Link>
-            <Divider />
-            <Link to="/" className={linkClassName}>
-              每日抽獎
-            </Link>
+            {session?.user && (
+              <>
+                <Divider />
+                <Link to="/" className={linkClassName}>
+                  每日抽獎
+                </Link>
+              </>
+            )}
             <Divider />
             <Link to="/honor-roll" className={linkClassName}>
               榮耀圖鑑
