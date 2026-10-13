@@ -1,6 +1,5 @@
-import MyStats from "@/components/me/MyStats";
 import MyProfile from "@/components/me/MyProfile";
-import SoloMissions from "@/components/me/SoloMissions";
+import SoloMissions from "@/components/me/legacy/SoloMissions";
 
 import { authClient } from "@/libs/auth-client";
 import { useEffect } from "react";
@@ -46,16 +45,20 @@ function Me() {
   return (
     <div>
       <HeroImage />
-      <SyncStatus />
-      <SoloMissions />
-      <div className="grid md:grid-cols-[486px_1fr] gap-[10px] md:gap-[36px] mt-[10px] md:mt-[36px]">
-        <div className="flex flex-col gap-[10px] md:gap-[36px] md:row-start-1 md:col-start-1">
-          {/* <MyProfile /> */}
-          {/* <Rewards /> */}
-          {/* <MyInviteCode /> */}
+      <div className="max-w-[1628px] px-[18px] mx-auto">
+        <div className="mt-[102px]">
+          <SoloMissions />
         </div>
-        <div className="flex flex-col md:row-start-1 md:col-start-2">
-          {/* <MyStats /> */}
+        <div className="mt-[24px]">
+          <SyncStatus />
+        </div>
+
+        <div className="grid md:grid-cols-[486px_1fr] gap-[10px] md:gap-[36px] mt-[10px] md:mt-[36px]">
+          <div className="flex flex-col gap-[10px] md:gap-[36px] md:row-start-1 md:col-start-1">
+            {/* <MyProfile /> */}
+            {/* <Rewards /> */}
+            {/* <MyInviteCode /> */}
+          </div>
         </div>
       </div>
     </div>

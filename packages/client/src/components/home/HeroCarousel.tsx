@@ -38,28 +38,28 @@ function HeroCarousel() {
             <picture>
               <source
                 media="(min-width: 48rem)"
-                srcSet="/banners/main-hero.png"
+                srcSet="/banners/main-cta.png"
               />
-              <img srcSet="/banners/main-hero.png" className={imgClassName} />
+              <img srcSet="/banners/main-cta.png" className={imgClassName} />
             </picture>
           </CarouselItem>
           <CarouselItem>
             <picture>
               <source
                 media="(min-width: 48rem)"
-                srcSet="/banners/kda-hero.jpg"
+                srcSet="/banners/kda-cta.png"
               />
-              <img srcSet="/banners/kda-hero.jpg" className={imgClassName} />
+              <img srcSet="/banners/kda-cta.png" className={imgClassName} />
             </picture>
           </CarouselItem>
           <CarouselItem>
             <picture>
               <source
                 media="(min-width: 48rem)"
-                srcSet="/banners/heart-steel-hero.jpg"
+                srcSet="/banners/heart-steel-cta.png"
               />
               <img
-                srcSet="/banners/heart-steel-hero.jpg"
+                srcSet="/banners/heart-steel-cta.png"
                 className={imgClassName}
               />
             </picture>
@@ -68,10 +68,10 @@ function HeroCarousel() {
             <picture>
               <source
                 media="(min-width: 48rem)"
-                srcSet="/banners/true-damage-hero.jpg"
+                srcSet="/banners/true-damage-cta.png"
               />
               <img
-                srcSet="/banners/true-damage-hero.jpg"
+                srcSet="/banners/true-damage-cta.png"
                 className={imgClassName}
               />
             </picture>

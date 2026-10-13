@@ -1,4 +1,4 @@
-import Card from "@/components/me/Card";
+import Card from "@/components/me/legacy/Card";
 import Skeleton from "@/components/Skeleton";
 import getPlaceholderString from "@/libs/getPlaceholderString";
 import { useQuery } from "@tanstack/react-query";

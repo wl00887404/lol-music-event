@@ -1,7 +1,7 @@
 import Tabs, { type TabsProps } from "@/components/legacy/Tabs";
 
 import { useEffect, useState } from "react";
-import Card from "@/components/me/Card";
+import Card from "@/components/me/legacy/Card";
 import BackToTopButton from "@/components/BackToTopButton";
 
 function Guidelines() {

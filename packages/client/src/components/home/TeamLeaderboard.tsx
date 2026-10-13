@@ -1,5 +1,5 @@
 import formatNumber from "@/libs/formatNumber";
-import type { Team } from "@/types";
+import { type Team } from "@/types";
 
 type ItemProps = {
   team: Team;
@@ -72,7 +72,10 @@ function TeamLeaderboard() {
   return (
     <div className="max-w-[1651px] px-[18px] mx-auto">
       <div className="flex justify-center">
-        <img src="/icons/team-leaderboard-title.png" className="w-[226px] h-[56px] block" />
+        <img
+          src="/icons/team-leaderboard-title.png"
+          className="w-[226px] h-[56px] block"
+        />
       </div>
       <div className="mt-[47px]">
         <Item team="kda" score={333333} />

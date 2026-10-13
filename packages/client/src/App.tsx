@@ -1,5 +1,4 @@
 import { Routes, Route, useLocation } from "react-router";
-import { authClient } from "@/libs/auth-client";
 
 import Home from "./pages/Home";
 import Me from "./pages/Me";
@@ -11,15 +10,14 @@ import ScrollToTop from "./components/ScrollToTop";
 import Dialogs from "./components/dialogs";
 import HonorRoll from "./pages/HonorRoll";
 import Guidelines from "./pages/Guidelines";
+import useTeam from "./hooks/useTeam";
 
 function App() {
   const location = useLocation();
-  const { data: session } = authClient.useSession();
+  const team = useTeam();
 
   const getBackgroundImage = () => {
-    if (location.pathname === "/me" && session) {
-      const { team } = session.user;
-
+    if (location.pathname === "/me" && team) {
       return `url('/backgrounds/${team}.jpg')`;
     }
 

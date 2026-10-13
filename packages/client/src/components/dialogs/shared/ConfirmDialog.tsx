@@ -63,9 +63,9 @@ function ConfirmDialog(props: Props) {
           </Button>
           <Button
             className={cn(
-              "bg-[#f0ca70] text-[#FFFFFF] !h-auto border-none rounded-[5px]",
+              "bg-[#f0ca70] text-[#030718] !h-auto border-none rounded-[5px]",
               "px-[17px] py-[8px]",
-              "text-[13px] leading-[1.2] font-[500]  tracking-[10%]",
+              "text-[13px] leading-[1.2] font-[700]  tracking-[10%]",
             )}
             onClick={onConfirm}
             loading={confirmButtonLoading}
