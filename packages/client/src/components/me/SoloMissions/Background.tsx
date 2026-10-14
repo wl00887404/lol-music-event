@@ -3,7 +3,8 @@ import { cn } from "@/libs/utils";
 import { Team } from "@/types";
 
 function Background() {
-  const backgroundClassName = "block w-full h-[553px] object-cover";
+  // 1631 * 546
+  const backgroundClassName = "block w-full h-[546px] object-cover";
   const team = useTeam();
 
   if (team === Team.heartSteel) {

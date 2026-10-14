@@ -52,7 +52,7 @@ function SoloMissions() {
   const { titleColor1, titleColor2, buttonColor, helpColor } = getTheme();
 
   return (
-    <div className="relative max-w-[1625px] mx-auto">
+    <div className="relative max-w-[1631px] mx-auto">
       <Background />
       <div className="absolute top-0 left-0 w-full">
         <div className="flex">

@@ -14,12 +14,24 @@ import { useEffect, useState } from "react";
 
 type ItemProps = {
   item: SoloMission;
+  index: number;
   missionColor: string;
   scoreColor: string;
+  finishedMissionColor: string;
+  inProgressMissionColor: string;
+  lockedMissionColor: string;
 };
 
 function Item(props: ItemProps) {
-  const { item, missionColor, scoreColor } = props;
+  const {
+    item,
+    index,
+    missionColor,
+    scoreColor,
+    finishedMissionColor,
+    inProgressMissionColor,
+    lockedMissionColor,
+  } = props;
   const team = useTeam();
 
   const imgClassName = cn(
@@ -27,10 +39,40 @@ function Item(props: ItemProps) {
     "absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]",
     "pointer-events-none",
   );
+  const lineClassName =
+    "absolute top-[0] w-[50%] h-full bg-repeat-x bg-[length:auto_100%]";
 
+  const getLabelTheme = () => {
+    if (item.status === "finished") {
+      return {
+        leftLineFileName: "mission-finished-line.png",
+        rightLineFileName: "mission-finished-line.png",
+        labelFileName: "mission-label-finished.png",
+        labelColor: finishedMissionColor,
+      };
+    }
+    if (item.status === "inProgress") {
+      return {
+        leftLineFileName: "mission-finished-line.png",
+        rightLineFileName: "mission-locked-line.png",
+        labelFileName: "mission-label-in-progress.png",
+        labelColor: inProgressMissionColor,
+      };
+    }
+
+    return {
+      leftLineFileName: "mission-locked-line.png",
+      rightLineFileName: "mission-locked-line.png",
+      labelFileName: "mission-label-locked.png",
+      labelColor: lockedMissionColor,
+    };
+  };
+
+  const { leftLineFileName, rightLineFileName, labelFileName, labelColor } =
+    getLabelTheme();
   return (
-    <div className="flex flex-col items-center">
-      <div className="relative w-full h-[245px] max-w-[321px]">
+    <div>
+      <div className="relative w-full h-[245px] max-w-[321px] mx-auto">
         <img
           src={`/icons/${team}/mission-item-bg.png`}
           className={imgClassName}
@@ -60,6 +102,35 @@ function Item(props: ItemProps) {
             style={{ opacity: 0.45, mixBlendMode: "multiply" }}
           />
         )}
+      </div>
+      <div className="relative mt-[-20px] flex justify-center -mx-2">
+        <div
+          className={lineClassName}
+          style={{
+            left: 0,
+            backgroundImage: `url("/icons/${team}/${leftLineFileName}")`,
+          }}
+        />
+        <div
+          className={lineClassName}
+          style={{
+            right: 0,
+            backgroundImage: `url("/icons/${team}/${rightLineFileName}")`,
+          }}
+        />
+        <div
+          className={cn(
+            "w-[80px] h-[70px] bg-cover relative",
+            "font-[BeaufortforLOL] text-[28px] leading-[1]",
+            "flex justify-center items-center",
+          )}
+          style={{
+            backgroundImage: `url("/icons/${team}/${labelFileName}")`,
+            color: labelColor,
+          }}
+        >
+          {index + 1}
+        </div>
       </div>
     </div>
   );
@@ -97,6 +168,9 @@ function SiblingButton(props: SiblingButtonProps) {
 type GetTheme = () => {
   missionColor: string;
   scoreColor: string;
+  finishedMissionColor: string;
+  inProgressMissionColor: string;
+  lockedMissionColor: string;
 };
 
 type MissionListProps = {
@@ -129,14 +203,32 @@ function MissionList(props: MissionListProps) {
 
   const getTheme: GetTheme = () => {
     if (team == Team.heartSteel) {
-      return { missionColor: "#262b1b", scoreColor: "#262b1b" };
+      return {
+        missionColor: "#262b1b",
+        scoreColor: "#262b1b",
+        finishedMissionColor: "#262b1b",
+        inProgressMissionColor: "#262b1b",
+        lockedMissionColor: "#f6efe1",
+      };
     }
 
     if (team == Team.trueDamage) {
-      return { missionColor: "#f5ebe4", scoreColor: "#1c1c1e" };
+      return {
+        missionColor: "#f5ebe4",
+        scoreColor: "#1c1c1e",
+        finishedMissionColor: "#1c1c1e",
+        inProgressMissionColor: "#1c1c1e",
+        lockedMissionColor: "#ffffff",
+      };
     }
 
-    return { missionColor: "#f5ebe4", scoreColor: "#0b1527" };
+    return {
+      missionColor: "#f5ebe4",
+      scoreColor: "#0b1527",
+      finishedMissionColor: "#f5ebe4",
+      inProgressMissionColor: "#f5ebe4",
+      lockedMissionColor: "#0b1527",
+    };
   };
 
   const onPrev = () => {
@@ -147,7 +239,13 @@ function MissionList(props: MissionListProps) {
     if (api) api.scrollNext();
   };
 
-  const { missionColor, scoreColor } = getTheme();
+  const {
+    missionColor,
+    scoreColor,
+    finishedMissionColor,
+    inProgressMissionColor,
+    lockedMissionColor,
+  } = getTheme();
 
   if (!items) return null;
 
@@ -159,9 +257,13 @@ function MissionList(props: MissionListProps) {
             return (
               <CarouselItem key={index} className="basis-1/3">
                 <Item
+                  index={index}
                   item={item}
                   missionColor={missionColor}
                   scoreColor={scoreColor}
+                  finishedMissionColor={finishedMissionColor}
+                  inProgressMissionColor={inProgressMissionColor}
+                  lockedMissionColor={lockedMissionColor}
                 />
               </CarouselItem>
             );
