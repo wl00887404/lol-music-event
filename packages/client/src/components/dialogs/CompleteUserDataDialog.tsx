@@ -57,9 +57,9 @@ function CompleteUserDataDialog() {
   const open = !forceClosed && !disabled && session?.user.isCompleted === false;
 
   const teamOptions = [
-    { value: "kda", label: Team.kda },
-    { value: "true-damage", label: Team.trueDamage },
-    { value: "heart-steel", label: Team.heartSteel },
+    { value: Team.kda, label: "K/DA" },
+    { value: Team.heartSteel, label: "心鋼之聲 HEARTSTEEL" },
+    { value: Team.trueDamage, label: "True Damage" },
   ];
 
   const initialValues = {

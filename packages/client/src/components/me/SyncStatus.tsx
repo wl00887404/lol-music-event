@@ -53,7 +53,7 @@ function SyncStatus() {
         )}
 
         {/**
-         * y = 1859
+         * y = 1859, 1945
          * x = 1604, 1760
          */}
         <BaseButton

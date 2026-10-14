@@ -73,6 +73,7 @@ function SoloMissions() {
           </div>
           {/* 右側 */}
           <div className="grow flex flex-col items-end mr-[36px]">
+            {/* FIXME: 這個按鈕的位置好像是不準的 */}
             <SkipButton
               skipChange={skipChange}
               refetch={refetch}
