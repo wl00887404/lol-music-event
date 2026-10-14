@@ -22,6 +22,15 @@ type ItemProps = {
   lockedMissionColor: string;
 };
 
+/**
+ * mission label 是 80 * 70
+ * 擷取自
+ *    y = 399, 469
+ *   x1 = 293.50, 373.50
+ *   x2 = 761, 841
+ *   x3 =1227, 1307
+ */
+
 function Item(props: ItemProps) {
   const {
     item,
