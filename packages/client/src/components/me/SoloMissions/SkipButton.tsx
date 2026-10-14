@@ -36,7 +36,7 @@ function SkipButton(props: SkipButtonProps) {
     <>
       <BaseButton
         className={cn(
-          "mt-[38px] w-[237px] h-[67px] bg-cover",
+          "mt-[42px] w-[237px] h-[67px] bg-cover",
           "font-[700] text-[23px] leading-[1]",
           "disabled:opacity-45",
         )}

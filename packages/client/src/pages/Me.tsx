@@ -45,14 +45,11 @@ function Me() {
   return (
     <div>
       <HeroImage />
-      <div className="mt-[88px]">
+      <div className="mt-[89px] max-w-[1632px] mx-auto">
+        {/* y = 1239 ~ 1799 */}
         <SoloMissions />
-      </div>
-      {/* 18 + 1591 + 18 */}
-      <div className="max-w-[1627px] px-[18px] mx-auto">
-        <div className="mt-[10px]">
-          <SyncStatus />
-        </div>
+        {/* y = 1799 ~ 1859 */}
+        <SyncStatus />
         <div className="mt-[105px]"></div>
       </div>
     </div>

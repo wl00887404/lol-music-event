@@ -52,14 +52,14 @@ function SoloMissions() {
   const { titleColor1, titleColor2, buttonColor, helpColor } = getTheme();
 
   return (
-    <div className="relative max-w-[1631px] mx-auto">
+    <div className="relative">
       <Background />
       <div className="absolute top-0 left-0 w-full">
         <div className="flex">
           {/* 左側 */}
           <div>
             <div
-              className="text-[65px] font-[700] leading-[1] mt-[34px] ml-[53px]"
+              className="text-[65px] font-[700] leading-[1] mt-[38px] ml-[53px]"
               style={{ color: titleColor1 }}
             >
               循環任務

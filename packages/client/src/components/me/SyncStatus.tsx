@@ -51,9 +51,14 @@ function SyncStatus() {
             上次同步時間：{format(syncedAt)}
           </div>
         )}
+
+        {/**
+         * y = 1859
+         * x = 1604, 1760
+         */}
         <BaseButton
           className={cn(
-            "w-[156px] h-[53px]",
+            "w-[156px] h-[60px] mr-[16px]",
             "text-[28px] leading-[1] font-[500]",
             "disabled:opacity-45",
           )}
