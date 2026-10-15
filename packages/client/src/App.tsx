@@ -11,6 +11,7 @@ import Dialogs from "./components/dialogs";
 import HonorRoll from "./pages/HonorRoll";
 import Guidelines from "./pages/Guidelines";
 import useTeam from "./hooks/useTeam";
+import SnsPosterTest from "./pages/SnsPosterTest";
 
 function App() {
   const location = useLocation();
@@ -47,6 +48,7 @@ function App() {
           path="/terms-of-service"
           element={<Doc url="/docs/terms-of-service.html" />}
         />
+        <Route path="/sns-poster-test" element={<SnsPosterTest />} />
       </Routes>
       <Footer />
       <Dialogs />

@@ -11,6 +11,7 @@ import SyncStatus from "@/components/me/SyncStatus";
 import toast from "@/components/toast";
 
 import HeroImage from "@/components/home/HeroImage";
+import Profile from "@/components/me/Profile";
 
 function useSync() {
   const { data: session, isPending, refetch } = authClient.useSession();
@@ -50,7 +51,10 @@ function Me() {
         <SoloMissions />
         {/* y = 1799 ~ 1859 */}
         <SyncStatus />
-        <div className="mt-[105px]"></div>
+        {/* y = 1945 ~ 2796 */}
+        <div>
+          <Profile />
+        </div>
       </div>
     </div>
   );

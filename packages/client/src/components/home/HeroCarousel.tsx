@@ -36,28 +36,28 @@ function HeroCarousel() {
         <CarouselContent>
           <CarouselItem>
             <picture>
-              <source
+              {/* <source
                 media="(min-width: 48rem)"
                 srcSet="/banners/main-cta.png"
-              />
+              /> */}
               <img srcSet="/banners/main-cta.png" className={imgClassName} />
             </picture>
           </CarouselItem>
           <CarouselItem>
             <picture>
-              <source
+              {/* <source
                 media="(min-width: 48rem)"
                 srcSet="/banners/kda-cta.png"
-              />
+              /> */}
               <img srcSet="/banners/kda-cta.png" className={imgClassName} />
             </picture>
           </CarouselItem>
           <CarouselItem>
             <picture>
-              <source
+              {/* <source
                 media="(min-width: 48rem)"
                 srcSet="/banners/heart-steel-cta.png"
-              />
+              /> */}
               <img
                 srcSet="/banners/heart-steel-cta.png"
                 className={imgClassName}
@@ -66,10 +66,10 @@ function HeroCarousel() {
           </CarouselItem>
           <CarouselItem>
             <picture>
-              <source
+              {/* <source
                 media="(min-width: 48rem)"
                 srcSet="/banners/true-damage-cta.png"
-              />
+              /> */}
               <img
                 srcSet="/banners/true-damage-cta.png"
                 className={imgClassName}

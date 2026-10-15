@@ -1,4 +1,5 @@
 import toast from "@/components/toast";
+import type { Team } from "@/types";
 import axios from "axios";
 
 const CSRF_COOKIE_NAME = "csrf_token" as const;
@@ -70,128 +71,6 @@ const unknownError: ApiError = {
   },
 };
 
-export type GetSchoolsData = {
-  north: { highSchool: string[]; college: string[] };
-  central: { highSchool: string[]; college: string[] };
-  south: { highSchool: string[]; college: string[] };
-  other: { highSchool: string[]; college: string[] };
-};
-
-export const getSchools = async () => {
-  const response = await instance.get<GetSchoolsData>("/api/schools");
-
-  const { data } = response;
-
-  return data;
-};
-
-type CreateTeamPayload = {
-  name: string;
-};
-
-export const createTeam = async (payload: CreateTeamPayload) => {
-  try {
-    const response = await instance.post<CommonMutationData>(
-      "/api/teams",
-      payload,
-    );
-
-    const { data } = response;
-    return data;
-  } catch (err) {
-    if (axios.isAxiosError<ErrorResponse>(err)) {
-      return { error: err.response?.data } as ApiError;
-    }
-  }
-
-  return unknownError;
-};
-
-export type TeamMission = {
-  name: string;
-  description: string;
-  status: "finished" | "inProgress" | "locked";
-};
-
-type getTeamByInviteCodeData = {
-  name: string;
-  score: number;
-  school: string;
-  leader: string | null;
-  memberCount: number | null;
-};
-
-export const getTeamByInviteCode = async (inviteCode: string) => {
-  const url = `/api/teams/${inviteCode}`;
-
-  try {
-    const response = await instance.get<getTeamByInviteCodeData>(url);
-    const { data } = response;
-
-    return data;
-  } catch (err) {
-    if (axios.isAxiosError<ErrorResponse>(err)) {
-      return { error: err.response?.data } as ApiError;
-    }
-  }
-
-  return unknownError;
-};
-
-type GetMyTeamData = {
-  name: string;
-  inviteCode: string;
-  school: string;
-  missions: TeamMission[];
-  members: { riotId: string; score: number; isLeader: boolean }[];
-};
-
-export const getTeam = async () => {
-  const url = "/api/teams";
-
-  try {
-    const response = await instance.get<GetMyTeamData>(url);
-
-    const getOrder = (mission: TeamMission) => {
-      if (mission.status === "inProgress") return 0;
-      if (mission.status === "finished") return 1;
-
-      return 2;
-    };
-
-    const { data } = response;
-    const sortedMissions = data.missions.sort((m1, m2) => {
-      return getOrder(m1) - getOrder(m2);
-    });
-
-    return { ...data, missions: sortedMissions };
-  } catch (err) {
-    if (axios.isAxiosError<ErrorResponse>(err)) {
-      return { error: err.response?.data } as ApiError;
-    }
-  }
-
-  return unknownError;
-};
-
-export const joinTeam = async (inviteCode: string) => {
-  try {
-    const response = await instance.post<CommonMutationData>(
-      "/api/teams/join",
-      { inviteCode },
-    );
-
-    const { data } = response;
-    return data;
-  } catch (err) {
-    if (axios.isAxiosError<ErrorResponse>(err)) {
-      return { error: err.response?.data } as ApiError;
-    }
-  }
-
-  return unknownError;
-};
-
 type GetSoloMissionsData = {
   missions: SoloMission[];
   skipChance: number;
@@ -244,6 +123,7 @@ export const completeUserData = async (payload: CompleteUserDataPayload) => {
 type CheckUpdatingData = {
   isUpdating: boolean;
 };
+
 export const checkUpdating = async () => {
   const response = await instance.get<CheckUpdatingData>(
     "/api/me/check-updating",
@@ -258,11 +138,7 @@ export type GetMyStatsData = {
   playerCount: number;
   totalCount: number;
   wonCount: number;
-  characters: {
-    id: string;
-    totalCount: number;
-    wonCount: number;
-  }[];
+  averageKda: number;
 };
 
 export const getMyStats = async () => {
@@ -274,8 +150,7 @@ export const getMyStats = async () => {
 
 export type CommonLeaderboardPayload = {
   offset: number;
-  schoolArea: "all" | "north" | "central" | "south" | "other";
-  schoolType: "all" | "highSchool" | "college";
+  team?: "all" | Team;
   limit?: number;
   school: string;
 };
@@ -287,12 +162,10 @@ export type PlayerLeaderboardPayLoad = CommonLeaderboardPayload & {
 export type PlayerLeaderboardItem = {
   id: string;
   riotId: string;
-  school: string;
   score: number;
   tier: number;
   image: string | null;
   totalRank: number;
-  schoolRank: number;
   titles: string[];
 };
 
@@ -308,9 +181,7 @@ export const getPlayerLeaderboard = async (
   qs.append("offset", `${payload.offset || 0}`);
   qs.append("limit", `${payload.limit || 12}`);
   qs.append("keyword", payload.keyword || "");
-  qs.append("school", payload.school || "");
-  qs.append("schoolArea", payload.schoolArea || "all");
-  qs.append("schoolType", payload.schoolType || "all");
+  qs.append("team", payload.team || "all");
 
   const response = await instance.get<GetPlayerLeaderboard>(
     `/api/leaderboard/player?${qs}`,
@@ -318,79 +189,6 @@ export const getPlayerLeaderboard = async (
 
   const { data } = response;
   return data;
-};
-
-export type TeamLeaderboardPayLoad = CommonLeaderboardPayload & {
-  keyword: string;
-  school: string;
-};
-
-export type TeamLeaderboardItem = {
-  id: string;
-  name: string;
-  school: string;
-  score: number;
-  totalRank: number;
-  schoolRank: number;
-  title: string | null;
-};
-
-type GetTeamLeaderboard = {
-  data: TeamLeaderboardItem[];
-  total: number;
-};
-
-export const getTeamLeaderboard = async (payload: TeamLeaderboardPayLoad) => {
-  const qs = new URLSearchParams();
-  qs.append("offset", `${payload.offset || 0}`);
-  qs.append("limit", `${payload.limit || 12}`);
-  qs.append("keyword", payload.keyword || "");
-  qs.append("school", payload.school || "");
-  qs.append("schoolArea", payload.schoolArea || "all");
-  qs.append("schoolType", payload.schoolType || "all");
-
-  const response = await instance.get<GetTeamLeaderboard>(
-    `/api/leaderboard/team?${qs}`,
-  );
-
-  const { data } = response;
-  return data;
-};
-
-export type SchoolLeaderboardItem = {
-  school: string;
-  score: number;
-  totalRank: number;
-};
-
-type GetSchoolLeaderboard = {
-  data: SchoolLeaderboardItem[];
-  total: number;
-};
-
-export const getSchoolLeaderboard = async (
-  payload: CommonLeaderboardPayload,
-) => {
-  const qs = new URLSearchParams();
-  qs.append("offset", `${payload.offset || 0}`);
-  qs.append("limit", `${payload.limit || 12}`);
-  qs.append("school", payload.school || "");
-  qs.append("schoolArea", payload.schoolArea || "all");
-  qs.append("schoolType", payload.schoolType || "all");
-
-  const response = await instance.get<GetSchoolLeaderboard>(
-    `/api/leaderboard/school?${qs}`,
-  );
-
-  const { data } = response;
-  return data;
-};
-
-type GetHonorRollPayload = {
-  offset: number;
-  limit: number;
-  keyword: string;
-  type: string;
 };
 
 export type HonorRollItem = {
@@ -406,15 +204,9 @@ type GetHonorRollData = {
   total: number;
 };
 
-export const getHonorRoll = async (payload: GetHonorRollPayload) => {
-  const { type } = payload;
-  const qs = new URLSearchParams();
-  qs.append("offset", `${payload.offset || 0}`);
-  qs.append("limit", `${payload.limit || 12}`);
-  qs.append("keyword", payload.keyword || "");
-
+export const getHonorRoll = async () => {
   const response = await instance.get<GetHonorRollData>(
-    `/api/leaderboard/honor-roll/${type}?${qs}`,
+    `/api/leaderboard/honor-roll`,
   );
 
   const { data } = response;
@@ -440,8 +232,6 @@ export const skipSoloMission = async () => {
 
 type GetMyLeaderboardData = {
   player: PlayerLeaderboardItem | null;
-  team: TeamLeaderboardItem | null;
-  school: SchoolLeaderboardItem | null;
 };
 
 export const getMyLeaderboard = async () => {

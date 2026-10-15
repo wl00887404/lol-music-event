@@ -411,6 +411,7 @@ async function syncRiotId(user: InferSelectModel<typeof userTable>) {
 
   console.log(user.riotId, " => ", nextRiotId);
 }
+
 async function resyncUser(userId: string) {
   const user = await db
     .select()

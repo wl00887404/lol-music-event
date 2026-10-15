@@ -8,17 +8,17 @@ function HeroImage() {
 
     return (
       <picture>
-        <source
+        {/* <source
           media="(min-width: 48rem)"
           srcSet={`/banners/${team}-banner.png`}
-        />
+        /> */}
         <img src={`/banners/${team}-banner.png`} className="w-full " />
       </picture>
     );
   };
 
   return (
-    <div className="aspect-[1920/1080] md:aspect-[1920/1080]">
+    <div className="aspect-[1920/1080]">
       {getPicture()}
     </div>
   );
