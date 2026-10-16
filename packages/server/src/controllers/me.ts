@@ -2,19 +2,17 @@ import express from "express";
 import { requireAuth } from "../auth.ts";
 import { db } from "../db.ts";
 import { user as userTable } from "../models/auth-schema.ts";
-// import { playerMatchHistory as playerMatchHistoryTable } from "../models/schema.ts";
-import { count, eq, isNotNull, sql, and, not } from "drizzle-orm";
+import { playerMatchHistory as playerMatchHistoryTable } from "../models/schema.ts";
+import { count, eq, isNotNull, sql, and, not, sum } from "drizzle-orm";
 import { INVITEE_SCORE, soloMissionService } from "../services/soloMission.ts";
 import { riotService } from "../services/riot.ts";
-import { head } from "../libs/lodash.ts";
+import { head, round } from "../libs/lodash.ts";
 import { leaderboardService } from "../services/leaderboard.ts";
 import { rewardService } from "../services/reward.ts";
 import { ApiError } from "../middlewares/errorHandler.ts";
 import { logService } from "../services/log.ts";
-import { Team } from "../types.ts";
+import { type PlayerLeaderboardItem, Team } from "../types.ts";
 import { playerLeaderboardView } from "../models/materialized-view.ts";
-
-// FIXME: 需要翻新
 
 const URL = "/api/me";
 
@@ -223,66 +221,76 @@ meRouter.get(`${URL}/check-updating`, async (req, res) => {
   return res.send({ isUpdating: me.isUpdating });
 });
 
-// meRouter.get(`${URL}/stats`, async (req, res) => {
-//   const me = req.user!;
+type StatsData = {
+  totalRank: number;
+  playerCount: number;
+  totalCount: number;
+  wonCount: number;
+  averageKda: number;
+};
 
-//   const [stats] = await db
-//     .select({
-//       totalCount: count(),
-//       wonCount: sql<number>`count(*) filter (where ${playerMatchHistoryTable.isWon} = true)`,
-//     })
-//     .from(playerMatchHistoryTable)
-//     .where(eq(playerMatchHistoryTable.puuid, me.puuid!));
+meRouter.get(`${URL}/stats`, async (req, res) => {
+  const me = req.user!;
 
-//   const characters = await db
-//     .select({
-//       id: playerMatchHistoryTable.characterId,
-//       totalCount: count(),
-//       wonCount: sql<number>`count(*) filter (where ${playerMatchHistoryTable.isWon} = true)`,
-//     })
-//     .from(playerMatchHistoryTable)
-//     .where(
-//       and(
-//         eq(playerMatchHistoryTable.puuid, me.puuid!),
-//         isNotNull(playerMatchHistoryTable.characterId),
-//       ),
-//     )
-//     .groupBy(playerMatchHistoryTable.characterId)
-//     .orderBy(sql`count(*) desc`)
-//     .limit(3);
+  const myStatPromise = db
+    .select({
+      totalCount: count(),
+      wonCount:
+        sql<number>`count(*) filter (where ${playerMatchHistoryTable.win} = true)`.mapWith(
+          Number,
+        ),
+      sumKills: sum(playerMatchHistoryTable.kills).mapWith(Number),
+      sumAssists: sum(playerMatchHistoryTable.assists).mapWith(Number),
+      sumDeaths: sum(playerMatchHistoryTable.deaths).mapWith(Number),
+    })
+    .from(playerMatchHistoryTable)
+    .where(
+      and(
+        eq(playerMatchHistoryTable.puuid, me.puuid!),
+        eq(playerMatchHistoryTable.gameEndedInEarlySurrender, false),
+      ),
+    )
+    .then(head);
 
-//   const playerStat = await db
-//     .select({
-//       count: count(playerLeaderboardView),
-//     })
-//     .from(playerLeaderboardView)
-//     .then(head);
+  const playerStatPromise = db
+    .select({
+      count: count(playerLeaderboardView),
+    })
+    .from(playerLeaderboardView)
+    .then(head);
 
-//   const rankStat = await db
-//     .select({
-//       totalRank: playerLeaderboardView.totalRank,
-//     })
-//     .from(playerLeaderboardView)
-//     .where(eq(playerLeaderboardView.userId, me.id))
-//     .then(head);
+  const rankStatPromise = db
+    .select({
+      totalRank: playerLeaderboardView.totalRank,
+    })
+    .from(playerLeaderboardView)
+    .where(eq(playerLeaderboardView.userId, me.id))
+    .then(head);
 
-//   return res.send({
-//     totalRank: Number(rankStat?.totalRank || 0),
-//     playerCount: playerStat.count,
-//     totalCount: stats.totalCount,
-//     wonCount: Number(stats.wonCount),
-//     characters: characters.map((c) => {
-//       return {
-//         id: c.id,
-//         totalCount: c.totalCount,
-//         wonCount: Number(c.wonCount),
-//       };
-//     }),
-//   });
-// });
+  const [myStat, playerStat, rankStat] = await Promise.all([
+    myStatPromise,
+    playerStatPromise,
+    rankStatPromise,
+  ]);
+
+  const sumKills = myStat?.sumKills || 0;
+  const sumAssists = myStat?.sumAssists || 0;
+  const sumDeaths = myStat?.sumDeaths || 1;
+  const averageKda = round((sumKills + sumAssists) / sumDeaths, 2);
+
+  const result: StatsData = {
+    totalRank: rankStat?.totalRank || 0,
+    playerCount: playerStat.count || 0,
+    totalCount: myStat?.totalCount || 0,
+    wonCount: myStat?.wonCount || 0,
+    averageKda,
+  };
+
+  return res.send(result);
+});
 
 meRouter.get(`${URL}/leaderboard`, async (req, res) => {
-  const playerLeaderboard = await db
+  const data = await db
     .select({
       id: playerLeaderboardView.userId,
       riotId: playerLeaderboardView.riotId,
@@ -301,13 +309,17 @@ meRouter.get(`${URL}/leaderboard`, async (req, res) => {
     .then(head);
 
   const getPlayer = async () => {
-    if (!playerLeaderboard) return null;
+    if (!data) return null;
 
-    return {
-      ...playerLeaderboard,
-
+    const player: PlayerLeaderboardItem = {
+      ...data,
+      riotId: data.riotId!,
+      score: data.score || 0,
+      image: data.image || "29",
       titles: leaderboardService.getPlayerTitles(req.session!.userId),
     };
+
+    return player;
   };
 
   return res.send({ player: await getPlayer() });

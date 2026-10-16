@@ -1,7 +1,7 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { getMyStats } from "@/apis";
 import { useSyncStore } from "@/components/me/syncStore";
-import floor from "@/libs/floor";
+// import floor from "@/libs/floor";
 import { authClient } from "@/libs/auth-client";
 
 const getScorePr = (totalRank = 0, playerCount = 0) => {
@@ -10,11 +10,11 @@ const getScorePr = (totalRank = 0, playerCount = 0) => {
   return Math.ceil(((playerCount - totalRank) / playerCount) * 100);
 };
 
-const getWinRate = (wonCount = 0, totalCount = 0) => {
-  if (totalCount === 0) return 0;
+// const getWinRate = (wonCount = 0, totalCount = 0) => {
+//   if (totalCount === 0) return 0;
 
-  return floor((wonCount / totalCount) * 100, 1);
-};
+//   return floor((wonCount / totalCount) * 100, 1);
+// };
 
 const useMyStats = () => {
   const { data: session } = authClient.useSession();

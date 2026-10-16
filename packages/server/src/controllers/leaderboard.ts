@@ -1,41 +1,17 @@
 import express from "express";
 import { db } from "../db.ts";
-import {
-  or,
-  ilike,
-  inArray,
-  asc,
-  and,
-  count,
-  isNotNull,
-  eq,
-} from "drizzle-orm";
+import { ilike, asc, and, count, isNotNull, eq } from "drizzle-orm";
 import { head } from "../libs/lodash.ts";
 import { leaderboardService } from "../services/leaderboard.ts";
 import { ApiError } from "../middlewares/errorHandler.ts";
 import { playerLeaderboardView } from "../models/materialized-view.ts";
+import type { PlayerLeaderboardItem, HonorRollItem } from "../types.ts";
 
 const URL = "/api/leaderboard";
 const leaderboardRouter = express.Router();
 
 const MAX_LIMIT = 12 as const;
 const DEFAULT_LIMIT = 12 as const;
-
-type HonorRollItem = {
-  id: string;
-  riotId: string;
-  name: string;
-  image: string;
-};
-
-type PlayerLeaderboardItem = {
-  id: string;
-  riotId: string;
-  score: number;
-  image: string;
-  totalRank: number;
-  titles: string[];
-};
 
 function maskRiotId(riotId: string | null) {
   if (!riotId) return "";

@@ -22,3 +22,8 @@ export function head<T>(array: T[]) {
 export function sum(array: number[]): number {
   return array.reduce((total, n) => total + n, 0);
 }
+
+export function round(num: number, precision = 0) {
+  const pow10 = Math.pow(10, precision);
+  return Math.round(num * pow10) / pow10;
+}

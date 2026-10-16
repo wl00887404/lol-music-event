@@ -430,3 +430,19 @@ export const Team = {
 } as const;
 
 export type Team = (typeof Team)[keyof typeof Team];
+
+export type HonorRollItem = {
+  id: string;
+  riotId: string;
+  name: string;
+  image: string;
+};
+
+export type PlayerLeaderboardItem = {
+  id: string;
+  riotId: string;
+  score: number;
+  image: string;
+  totalRank: number;
+  titles: string[];
+};
