@@ -63,16 +63,26 @@ function Background() {
 
   if (team === Team.trueDamage) {
     return (
-      <picture>
-        {/* <source
+      <>
+        <picture>
+          {/* <source media="(min-width: 48rem)" srcSet="/icons/popup-bg-desktop.jpg" /> */}
+          <img
+            src={`/icons/true-damage/id-bg-2.png`}
+            className={backgroundClassName}
+          />
+        </picture>
+        <picture>
+          {/* <source
           media="(min-width: 48rem)"
           srcSet="/icons/popup-bg-desktop.jpg"
         /> */}
-        <img
-          src={`/icons/true-damage/id-bg.png`}
-          className={backgroundClassName}
-        />
-      </picture>
+          <img
+            src={`/icons/true-damage/id-bg-1.png`}
+            className={cn(backgroundClassName, "absolute top-0 left-0")}
+            style={{ mixBlendMode: "soft-light" }}
+          />
+        </picture>
+      </>
     );
   }
 
@@ -101,11 +111,11 @@ function Profile() {
   const [open, setOpen] = useState(false);
   const { data: session } = authClient.useSession();
   const team = useTeam();
-  // const { data: myLeaderboard } = useMyLeaderboard();
+  const { data: myLeaderboard } = useMyLeaderboard();
 
   const image = session?.user.image;
   const riotId = session?.user.riotId;
-  const title = "台北順起來";
+  const title = myLeaderboard?.player?.titles[0] || "";
 
   const getTheme = () => {
     if (team === Team.heartSteel) {

@@ -2,7 +2,6 @@ import { SpacedText } from "@/components/SpacedText";
 
 const WIDTH = 342;
 const HEIGHT = 56;
-const LETTER_SPACE = 1;
 
 type Props = {
   title: string;
@@ -31,7 +30,7 @@ function Title(props: Props) {
         fontSize="24"
         fontWeight="700"
         fill="#0b1527"
-        letterSpacing={LETTER_SPACE}
+        letterSpacing={1}
       >
         {title}
       </SpacedText>
