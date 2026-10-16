@@ -190,7 +190,7 @@ export const getPlayerLeaderboard = async (
   return data;
 };
 
-type HonorRollItem = {
+export type HonorRollItem = {
   id: string;
   riotId: string;
   name: string;
@@ -200,7 +200,7 @@ type HonorRollItem = {
 type GetHonorRollData = HonorRollItem[];
 
 export const getHonorRoll = async () => {
-  const response = await instance.get<GetHonorRollData[]>(
+  const response = await instance.get<GetHonorRollData>(
     `/api/leaderboard/honor-roll`,
   );
 

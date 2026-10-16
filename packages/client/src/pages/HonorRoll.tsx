@@ -1,87 +1,24 @@
+import { getHonorRoll, type HonorRollItem } from "@/apis";
 import HeroCarousel from "@/components/home/HeroCarousel";
+import { authClient } from "@/libs/auth-client";
+import getPlaceholderString from "@/libs/getPlaceholderString";
 import { cn } from "@/libs/utils";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
 const WIDTH = 521;
 const HEIGHT = 389;
 const SVG_CLASS_NAME = "overflow-hidden max-w-full" as const;
 
-type HonorRollItem = {
-  id: string;
-  riotId: string;
-  title: string;
-  image: number;
-};
-
-const mockItems: HonorRollItem[] = [
-  {
-    id: "mock-id-0",
-    riotId: "一生摯愛金采源#TW2",
-    image: 6923,
-    title: "我就是 True Damage",
-  },
-  {
-    id: "mock-id-1",
-    riotId: "饅饅來#5824",
-    image: 4574,
-    title: "我就是 True Damage",
-  },
-  {
-    id: "mock-id-2",
-    riotId: "情緒發言大可不必#3788",
-    image: 7088,
-    title: "我就是 True Damage",
-  },
-  {
-    id: "mock-id-3",
-    riotId: "最可愛#Qest",
-    image: 1630,
-    title: "我就是 True Damage",
-  },
-  {
-    id: "mock-id-4",
-    riotId: "飄逸小江#tw2",
-    image: 7091,
-    title: "我就是 True Damage",
-  },
-  {
-    id: "mock-id-5",
-    riotId: "就剩一滴血#9453",
-    image: 5455,
-    title: "我就是 True Damage",
-  },
-  {
-    id: "mock-id-6",
-    riotId: "阿掐卡#tw2",
-    image: 1391,
-    title: "我就是 True Damage",
-  },
-  {
-    id: "mock-id-7",
-    riotId: "源Yuan#0618",
-    image: 1425,
-    title: "我就是 True Damage",
-  },
-  {
-    id: "mock-id-8",
-    riotId: "告密剋星勒頸魔#1017",
-    image: 3790,
-    title: "我就是 True Damage",
-  },
-  {
-    id: "mock-id-9",
-    riotId: "宏0jghhir耶#tw2",
-    image: 6913,
-    title: "我就是 True Damage",
-  },
-];
 type Props = {
   item: HonorRollItem;
+  loading?: boolean;
 };
 
 function LeaderboardItem(props: Props) {
-  const { riotId, image, title } = props.item;
-  const RIOT_ID_LETTER_SPACE = 1.5;
-  const TITLE_LETTER_SPACE = 2;
+  const { loading } = props;
+  const { riotId, image, name } = props.item;
+  const riotIdLetterSpace = 1.5;
+  const titleLetterSpace = 2;
 
   return (
     <svg
@@ -120,46 +57,74 @@ function LeaderboardItem(props: Props) {
         height={HEIGHT}
         preserveAspectRatio="xMidYMid slice"
       />
-      <image
-        href={`https://ddragon.leagueoflegends.com/cdn/16.19.1/img/profileicon/${image}.png`}
-        x="200"
-        y="73"
-        width="120"
-        height="120"
-        preserveAspectRatio="xMidYMid slice"
-        clipPath="url(#honor-roll-profile)"
-      />
+      {loading ? null : (
+        <image
+          href={`https://ddragon.leagueoflegends.com/cdn/16.19.1/img/profileicon/${image}.png`}
+          x="200"
+          y="73"
+          width="120"
+          height="120"
+          preserveAspectRatio="xMidYMid slice"
+          clipPath="url(#honor-roll-profile)"
+        />
+      )}
       <text
-        x={260.5 - RIOT_ID_LETTER_SPACE}
+        x={260.5 - riotIdLetterSpace}
         y={263}
         fontFamily="BeaufortforLOL, Noto Sans TC, sans-serif"
         textAnchor="middle"
         fontSize="51"
         fontWeight="700"
         fill="#fff9e5"
-        letterSpacing={RIOT_ID_LETTER_SPACE}
+        letterSpacing={riotIdLetterSpace}
       >
         {riotId}
       </text>
       <text
-        x={260.5 - TITLE_LETTER_SPACE}
+        x={260.5 - titleLetterSpace}
         y={352.5}
         fontFamily="BeaufortforLOL, Noto Sans TC, sans-serif"
         textAnchor="middle"
         fontSize="26.5"
         fontWeight="700"
         fill="#0b1527"
-        letterSpacing={TITLE_LETTER_SPACE}
+        letterSpacing={titleLetterSpace}
       >
-        {title}
+        {name}
       </text>
     </svg>
   );
 }
 
+const mockItems: HonorRollItem[] = Array(12)
+  .fill(0)
+  .map((_, index) => {
+    return {
+      id: `mock-honor-roll-${index}`,
+      riotId: getPlaceholderString(11),
+      name: getPlaceholderString(6),
+      image: "29",
+    };
+  });
+
 function HonorRoll() {
+  const { data: session } = authClient.useSession();
+  const { data, isFetching } = useQuery({
+    queryKey: [
+      "honorRoll",
+      // 沒登入拿不到完整的 riotId 與 image
+      Boolean(session?.user),
+    ],
+    queryFn: async () => {
+      return getHonorRoll();
+    },
+    placeholderData: keepPreviousData,
+  });
+
+  const items = data || mockItems;
+
   return (
-    <div className="relative">
+    <div className="relative px-[18px]">
       <HeroCarousel />
       <div className="flex flex-col items-center mt-[121px] mb-[121px]">
         <img
@@ -172,8 +137,10 @@ function HonorRoll() {
             "grid-cols-[repeat(2,1fr)] md:grid-cols-[repeat(3,1fr)] gap-[18px] md:gap-[60px_100px]",
           )}
         >
-          {mockItems.map((item) => {
-            return <LeaderboardItem key={item.id} item={item} />;
+          {items.map((item) => {
+            return (
+              <LeaderboardItem key={item.id} item={item} loading={isFetching} />
+            );
           })}
         </div>
       </div>
