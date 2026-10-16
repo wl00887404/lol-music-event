@@ -7,11 +7,14 @@ import { count, eq, isNotNull, sql, and, not } from "drizzle-orm";
 import { INVITEE_SCORE, soloMissionService } from "../services/soloMission.ts";
 import { riotService } from "../services/riot.ts";
 import { head } from "../libs/lodash.ts";
-// import { leaderboardService } from "../services/leaderboard.ts";
+import { leaderboardService } from "../services/leaderboard.ts";
 import { rewardService } from "../services/reward.ts";
 import { ApiError } from "../middlewares/errorHandler.ts";
 import { logService } from "../services/log.ts";
 import { Team } from "../types.ts";
+import { playerLeaderboardView } from "../models/materialized-view.ts";
+
+// FIXME: 需要翻新
 
 const URL = "/api/me";
 
@@ -278,114 +281,37 @@ meRouter.get(`${URL}/check-updating`, async (req, res) => {
 //   });
 // });
 
-// meRouter.get(`${URL}/leaderboard`, async (req, res) => {
-//   const playerLeaderboard = await db
-//     .select({
-//       id: playerLeaderboardView.userId,
-//       riotId: playerLeaderboardView.riotId,
-//       school: playerLeaderboardView.school,
-//       score: playerLeaderboardView.score,
-//       tier: playerLeaderboardView.tier,
-//       image: playerLeaderboardView.image,
-//       totalRank: playerLeaderboardView.totalRank,
-//       schoolRank: playerLeaderboardView.schoolRank,
-//     })
-//     .from(userTable)
-//     .innerJoin(
-//       playerLeaderboardView,
-//       eq(userTable.id, playerLeaderboardView.userId),
-//     )
-//     .where(eq(userTable.id, req.session!.userId))
-//     .limit(1)
-//     .then(head);
+meRouter.get(`${URL}/leaderboard`, async (req, res) => {
+  const playerLeaderboard = await db
+    .select({
+      id: playerLeaderboardView.userId,
+      riotId: playerLeaderboardView.riotId,
+      score: playerLeaderboardView.score,
+      image: playerLeaderboardView.image,
+      totalRank: playerLeaderboardView.totalRank,
+      schoolRank: playerLeaderboardView.teamRank,
+    })
+    .from(userTable)
+    .innerJoin(
+      playerLeaderboardView,
+      eq(userTable.id, playerLeaderboardView.userId),
+    )
+    .where(eq(userTable.id, req.session!.userId))
+    .limit(1)
+    .then(head);
 
-//   const teamLeaderboard = await db
-//     .select({
-//       id: teamLeaderboardView.teamId,
-//       name: teamLeaderboardView.teamName,
-//       school: teamLeaderboardView.school,
-//       score: teamLeaderboardView.totalScore,
-//       totalRank: teamLeaderboardView.totalRank,
-//       schoolRank: teamLeaderboardView.schoolRank,
-//     })
-//     .from(userTable)
-//     .innerJoin(
-//       teamLeaderboardView,
-//       eq(userTable.teamId, teamLeaderboardView.teamId),
-//     )
-//     .where(eq(userTable.id, req.session!.userId))
-//     .limit(1)
-//     .then(head);
+  const getPlayer = async () => {
+    if (!playerLeaderboard) return null;
 
-//   const schoolLeaderboard = await db
-//     .select({
-//       school: schoolLeaderboardView.school,
-//       score: schoolLeaderboardView.totalScore,
-//       totalRank: schoolLeaderboardView.schoolRank,
-//     })
-//     .from(userTable)
-//     .innerJoin(
-//       schoolLeaderboardView,
-//       eq(userTable.school, schoolLeaderboardView.school),
-//     )
-//     .where(eq(userTable.id, req.session!.userId))
-//     .limit(1)
-//     .then(head);
+    return {
+      ...playerLeaderboard,
 
-//   const getPlayer = async () => {
-//     if (!playerLeaderboard) return null;
+      titles: leaderboardService.getPlayerTitles(req.session!.userId),
+    };
+  };
 
-//     const playerSchoolRank = Number(playerLeaderboard.schoolRank);
-//     const agentLeaderboards = await db
-//       .select()
-//       .from(agentLeaderboardView)
-//       .where(eq(agentLeaderboardView.riotId, playerLeaderboard.riotId!));
-
-//     return {
-//       ...playerLeaderboard,
-//       totalRank: Number(playerLeaderboard.totalRank),
-//       schoolRank: playerSchoolRank,
-//       titles: leaderboardService.getPlayerTitles(
-//         playerLeaderboard.school!,
-//         playerSchoolRank,
-//         playerLeaderboard.riotId!,
-//         agentLeaderboards,
-//       ),
-//     };
-//   };
-
-//   const getTeam = () => {
-//     if (!teamLeaderboard) return null;
-
-//     const teamSchoolRank = Number(teamLeaderboard.schoolRank);
-//     return {
-//       ...teamLeaderboard,
-//       score: Number(teamLeaderboard.score),
-//       totalRank: Number(teamLeaderboard.totalRank),
-//       schoolRank: teamSchoolRank,
-//       title: leaderboardService.getTeamTitle(
-//         teamLeaderboard.school,
-//         teamSchoolRank,
-//       ),
-//     };
-//   };
-
-//   const getSchool = () => {
-//     if (!schoolLeaderboard) return null;
-
-//     return {
-//       ...schoolLeaderboard,
-//       score: Number(schoolLeaderboard.score),
-//       totalRank: Number(schoolLeaderboard.totalRank),
-//     };
-//   };
-
-//   return res.send({
-//     player: await getPlayer(),
-//     team: getTeam(),
-//     school: getSchool(),
-//   });
-// });
+  return res.send({ player: await getPlayer() });
+});
 
 meRouter.get(`${URL}/rewards`, async (req, res) => {
   // const rewards = await rewardService.toJson(req.session!.userId);

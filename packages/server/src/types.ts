@@ -428,3 +428,5 @@ export const Team = {
   heartSteel: "heart-steel",
   trueDamage: "true-damage",
 } as const;
+
+export type Team = (typeof Team)[keyof typeof Team];

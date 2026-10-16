@@ -47,6 +47,8 @@ app.listen(port, async () => {
   console.log("staticPath", staticPath);
   console.log("adminStaticPath", adminStaticPath);
 
+  await leaderboardService.initTitles();
+
   // 正式機更新再 reset 就好
   if (process.env.NODE_ENV !== "development") {
     await leaderboardService.updateMaterialView();

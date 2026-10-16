@@ -3,115 +3,75 @@ import useDebounce from "@/hooks/useDebounce";
 import type { Tab } from "./types";
 import TeamFilter from "./TeamFilter";
 import SearchBar from "./SearchBar";
-import MyLeaderboardItem from "./MyLeaderboardItem";
 import LeaderboardItem from "./LeaderboardItem";
 import Pagination from "@/components/Pagination";
+import { HOME_PAGE_SIZE } from "@/const";
+import { getPlayerLeaderboard, type PlayerLeaderboardItem } from "@/apis";
+import { authClient } from "@/libs/auth-client";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import getPlaceholderString from "@/libs/getPlaceholderString";
+import useRestoreScroll from "@/hooks/useRestoreScroll";
+import MyLeaderboard from "./MyLeaderboard";
+import Empty from "../Empty";
 
-export type PlayerLeaderBoardItem = {
-  id: string;
-  rank: number;
-  riotId: string;
-  score: number;
-  title: string;
-  image: number;
-};
-
-const mockItems: PlayerLeaderBoardItem[] = [
-  {
-    id: "mock-id-0",
-    rank: 1,
-    riotId: "一生摯愛金采源#TW2",
-    image: 6923,
-    score: 99999,
-    title: "我就是 True Damage",
-  },
-  {
-    id: "mock-id-1",
-    rank: 2,
-    riotId: "饅饅來#5824",
-    image: 4574,
-    score: 88888,
-    title: "我就是 True Damage",
-  },
-  {
-    id: "mock-id-2",
-    rank: 3,
-    riotId: "情緒發言大可不必#3788",
-    image: 7088,
-    score: 77777,
-    title: "我就是 True Damage",
-  },
-  {
-    id: "mock-id-3",
-    rank: 4,
-    riotId: "最可愛#Qest",
-    image: 1630,
-    score: 66666,
-    title: "我就是 True Damage",
-  },
-  {
-    id: "mock-id-4",
-    rank: 5,
-    riotId: "飄逸小江#tw2",
-    image: 7091,
-    score: 55555,
-    title: "我就是 True Damage",
-  },
-  {
-    id: "mock-id-5",
-    rank: 6,
-    riotId: "就剩一滴血#9453",
-    image: 5455,
-    score: 44444,
-    title: "我就是 True Damage",
-  },
-  {
-    id: "mock-id-6",
-    rank: 7,
-    riotId: "阿掐卡#tw2",
-    image: 1391,
-    score: 33333,
-    title: "我就是 True Damage",
-  },
-  {
-    id: "mock-id-7",
-    rank: 8,
-    riotId: "源Yuan#0618",
-    image: 1425,
-    score: 22222,
-    title: "我就是 True Damage",
-  },
-  {
-    id: "mock-id-8",
-    rank: 9,
-    riotId: "告密剋星勒頸魔#1017",
-    image: 3790,
-    score: 11111,
-    title: "我就是 True Damage",
-  },
-  {
-    id: "mock-id-9",
-    rank: 10,
-    riotId: "宏0jghhir耶#tw2",
-    image: 6913,
-    score: 0,
-    title: "我就是 True Damage",
-  },
-];
+const mockItems: PlayerLeaderboardItem[] = Array(HOME_PAGE_SIZE)
+  .fill(0)
+  .map((_, index) => {
+    return {
+      id: `mock-player-${index}`,
+      riotId: getPlaceholderString(9),
+      titles: [],
+      score: 0,
+      image: "29",
+      totalRank: 0,
+    };
+  });
 
 function PlayerLeaderboard() {
   const [currentTab, setCurrentTab] = useState<Tab>("all");
   const [keyword, setKeyword] = useState("");
   const [debouncedKeyword, setImmediateKeyword] = useDebounce(keyword, 670);
   const [currentPage, setCurrentPage] = useState(1);
+  const { scrollRef, restoreScroll } = useRestoreScroll();
+
+  const { data: session } = authClient.useSession();
+  const { data, isFetching } = useQuery({
+    queryKey: [
+      "playerLeaderboard",
+      debouncedKeyword,
+      currentTab,
+      currentPage,
+      HOME_PAGE_SIZE,
+      // 沒登入拿不到完整的 riotId 與 image
+      Boolean(session?.user),
+    ],
+    queryFn: async () => {
+      return getPlayerLeaderboard({
+        keyword,
+        team: currentTab,
+        offset: (currentPage - 1) * HOME_PAGE_SIZE,
+        limit: HOME_PAGE_SIZE,
+      });
+    },
+    placeholderData: keepPreviousData,
+  });
+
+  const getItems = () => {
+    if (isFetching) return mockItems;
+    if (!data?.data) return mockItems;
+
+    return data.data;
+  };
+
+  const items = getItems();
+  const maxPage = Math.ceil((data?.total || 1) / HOME_PAGE_SIZE);
 
   const onPageChange = useCallback(
     (nextPage: number) => {
       setCurrentPage(nextPage);
-      // restoreScroll();
+      restoreScroll();
     },
-    [setCurrentPage],
-    // [setCurrentPage, restoreScroll],
+    [setCurrentPage, restoreScroll],
   );
 
   const onSearch = (nextKeyword: string) => {
@@ -129,6 +89,7 @@ function PlayerLeaderboard() {
 
   return (
     <div className=" px-[18px] mx-auto">
+      <div ref={scrollRef} className="scroll-mt-[var(--scroll-margin-top)]" />
       <div className="flex justify-center">
         <img
           src="/icons/player-leaderboard-title.png"
@@ -143,20 +104,24 @@ function PlayerLeaderboard() {
       <div className="mt-[52px] max-w-[1628px] mx-auto">
         <SearchBar keyword={keyword} onSearch={onSearch} />
         <div className="mt-[48px]">
-          <MyLeaderboardItem />
-          <div className="mt-[46px]">
-            <img src="/icons/player-leaderboard-divider.png" />
-          </div>
+          <MyLeaderboard />
           <div className="mt-[50px] flex flex-col gap-[33px]">
-            {mockItems.map((item) => {
-              return <LeaderboardItem key={item.id} item={item} />;
+            {items.length === 0 && <Empty />}
+            {items.map((item) => {
+              return (
+                <LeaderboardItem
+                  key={item.id}
+                  item={item}
+                  loading={isFetching}
+                />
+              );
             })}
           </div>
           <div className="mt-[82px]">
             <Pagination
               currentPage={currentPage}
               setCurrentPage={onPageChange}
-              maxPage={99}
+              maxPage={maxPage}
             />
           </div>
         </div>

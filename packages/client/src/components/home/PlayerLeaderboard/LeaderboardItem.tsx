@@ -1,29 +1,32 @@
 import formatNumber from "@/libs/formatNumber";
 import Title from "./Title";
-import type { PlayerLeaderBoardItem } from ".";
+import type { PlayerLeaderboardItem } from "@/apis";
 
 const WIDTH = 1598;
 const HEIGHT = 108;
 const SVG_CLASS_NAME = "overflow-hidden max-w-full w-full" as const;
 
 type Props = {
-  item: PlayerLeaderBoardItem;
+  item: PlayerLeaderboardItem;
+  loading?: boolean;
 };
 
 function LeaderboardItem(props: Props) {
-  const { rank, riotId, image, score, title } = props.item;
+  const { loading } = props;
+  const { totalRank, riotId, image, score, titles } = props.item;
   const letterSpace = 2;
+  const title = titles[0];
 
   const getBackgroundHref = () => {
-    if (rank === 1) {
+    if (totalRank === 1) {
       return "/icons/player-leaderboard-first-bg.png";
     }
 
-    if (rank === 2) {
+    if (totalRank === 2) {
       return "/icons/player-leaderboard-second-bg.png";
     }
 
-    if (rank === 3) {
+    if (totalRank === 3) {
       return "/icons/player-leaderboard-third-bg.png";
     }
 
@@ -66,17 +69,19 @@ function LeaderboardItem(props: Props) {
         fontFamily="BeaufortforLOL, sans-serif"
         letterSpacing="2"
       >
-        {rank}
+        {loading ? "" : totalRank}
       </text>
-      <image
-        href={`https://ddragon.leagueoflegends.com/cdn/16.19.1/img/profileicon/${image}.png`}
-        x="194"
-        y="22"
-        width="63"
-        height="63"
-        preserveAspectRatio="xMidYMid slice"
-        clipPath="url(#player-leaderboard-profile)"
-      />
+      {loading ? null : (
+        <image
+          href={`https://ddragon.leagueoflegends.com/cdn/16.19.1/img/profileicon/${image}.png`}
+          x="194"
+          y="22"
+          width="63"
+          height="63"
+          preserveAspectRatio="xMidYMid slice"
+          clipPath="url(#player-leaderboard-profile)"
+        />
+      )}
       <text
         x="285"
         y="65"
@@ -98,7 +103,7 @@ function LeaderboardItem(props: Props) {
         fontFamily="BeaufortforLOL, sans-serif"
         letterSpacing={letterSpace}
       >
-        {formatNumber(score)}
+        {loading ? "" : formatNumber(score)}
       </text>
     </svg>
   );

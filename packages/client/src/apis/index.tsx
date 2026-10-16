@@ -133,6 +133,7 @@ export const checkUpdating = async () => {
   return data;
 };
 
+// FIXME: 要確認
 export type GetMyStatsData = {
   totalRank: number;
   playerCount: number;
@@ -149,10 +150,9 @@ export const getMyStats = async () => {
 };
 
 export type CommonLeaderboardPayload = {
-  offset: number;
   team?: "all" | Team;
+  offset: number;
   limit?: number;
-  school: string;
 };
 
 export type PlayerLeaderboardPayLoad = CommonLeaderboardPayload & {
@@ -163,8 +163,7 @@ export type PlayerLeaderboardItem = {
   id: string;
   riotId: string;
   score: number;
-  tier: number;
-  image: string | null;
+  image: string;
   totalRank: number;
   titles: string[];
 };
@@ -191,21 +190,17 @@ export const getPlayerLeaderboard = async (
   return data;
 };
 
-export type HonorRollItem = {
+type HonorRollItem = {
   id: string;
+  riotId: string;
   name: string;
-  title: string;
-  image: string | null;
-  school: string;
+  image: string;
 };
 
-type GetHonorRollData = {
-  data: HonorRollItem[];
-  total: number;
-};
+type GetHonorRollData = HonorRollItem[];
 
 export const getHonorRoll = async () => {
-  const response = await instance.get<GetHonorRollData>(
+  const response = await instance.get<GetHonorRollData[]>(
     `/api/leaderboard/honor-roll`,
   );
 
@@ -230,6 +225,7 @@ export const skipSoloMission = async () => {
   return unknownError;
 };
 
+// FIXME: 要確認
 type GetMyLeaderboardData = {
   player: PlayerLeaderboardItem | null;
 };
@@ -242,6 +238,7 @@ export const getMyLeaderboard = async () => {
   return data;
 };
 
+// FIXME: 要確認
 export type Reward = {
   code: string | null;
   description: string;

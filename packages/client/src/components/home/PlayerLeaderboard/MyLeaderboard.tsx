@@ -1,17 +1,30 @@
 import formatNumber from "@/libs/formatNumber";
 import Title from "./Title";
+import useMyLeaderboard from "@/hooks/useMyLeaderboard";
+import getPlaceholderString from "@/libs/getPlaceholderString";
+import type { PlayerLeaderboardItem } from "@/apis";
 
 const WIDTH = 1592;
 const HEIGHT = 139;
 const SVG_CLASS_NAME = "overflow-hidden max-w-full w-full" as const;
 
-function MyLeaderboardItem() {
-  const rank = 325;
-  const riotId = "06年拒絕職業邀約原因是不打自訂#QAQTT";
-  const image = 6923;
-  const score = 99999;
+const mockItem: PlayerLeaderboardItem = {
+  id: `mock-player-0`,
+  riotId: getPlaceholderString(9),
+  titles: [],
+  score: 0,
+  image: "29",
+  totalRank: 0,
+};
+
+type Props = { item: PlayerLeaderboardItem; loading?: boolean };
+
+function MyLeaderboardItem(props: Props) {
   const letterSpace = 2;
-  const title = "我就是 True Damage";
+  const { loading } = props;
+  const { totalRank, riotId, image, score, titles } = props.item;
+
+  const title = titles[0];
 
   return (
     <svg
@@ -49,7 +62,7 @@ function MyLeaderboardItem() {
         fontFamily="BeaufortforLOL, sans-serif"
         letterSpacing="2"
       >
-        {rank}
+        {loading ? "" : totalRank}
       </text>
       <image
         href={`https://ddragon.leagueoflegends.com/cdn/16.19.1/img/profileicon/${image}.png`}
@@ -81,10 +94,27 @@ function MyLeaderboardItem() {
         fontFamily="BeaufortforLOL, sans-serif"
         letterSpacing={letterSpace}
       >
-        {formatNumber(score)}
+        {loading ? "" : formatNumber(score)}
       </text>
     </svg>
   );
 }
 
-export default MyLeaderboardItem;
+function MyLeaderboard() {
+  const myLeaderboard = useMyLeaderboard();
+
+  if (!myLeaderboard.enabled) return null;
+
+  const item = myLeaderboard.isPending ? mockItem : myLeaderboard.data?.player;
+  if (!item) return null;
+
+  return (
+    <>
+      <MyLeaderboardItem item={item} loading={myLeaderboard.isPending} />
+      <div className="mt-[46px]">
+        <img src="/icons/player-leaderboard-divider.png" />
+      </div>
+    </>
+  );
+}
+export default MyLeaderboard;

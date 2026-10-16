@@ -57,6 +57,7 @@ export const auth = betterAuth({
               email: `${shortPuuid}@placeholder.com`,
               inviteCode: nanoid(8),
               emailVerified: false,
+              image: "29",
             };
           },
         },
