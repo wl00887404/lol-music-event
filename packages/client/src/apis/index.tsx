@@ -190,6 +190,21 @@ export const getPlayerLeaderboard = async (
   return data;
 };
 
+type GetTeamLeaderboard = {
+  [Team.kda]: number;
+  [Team.heartSteel]: number;
+  [Team.trueDamage]: number;
+};
+
+export const getTeamLeaderboard = async () => {
+  const response = await instance.get<GetTeamLeaderboard>(
+    `/api/leaderboard/team`,
+  );
+
+  const { data } = response;
+  return data;
+};
+
 export type HonorRollItem = {
   id: string;
   riotId: string;

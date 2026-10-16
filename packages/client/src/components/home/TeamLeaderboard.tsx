@@ -1,9 +1,12 @@
+import { getTeamLeaderboard } from "@/apis";
 import formatNumber from "@/libs/formatNumber";
-import { type Team } from "@/types";
+import { Team } from "@/types";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
 type ItemProps = {
   team: Team;
   score: number;
+  loading?: boolean;
 };
 
 const WIDTH = 1615;
@@ -11,7 +14,7 @@ const HEIGHT = 163;
 const SVG_CLASS_NAME = "overflow-hidden max-w-full w-full" as const;
 
 function Item(props: ItemProps) {
-  const { team, score } = props;
+  const { team, score, loading } = props;
   const letterSpace = 4;
 
   return (
@@ -62,13 +65,21 @@ function Item(props: ItemProps) {
         letterSpacing={letterSpace}
         fill="url(#g)"
       >
-        {formatNumber(score)}
+        {loading ? "" : formatNumber(score)}
       </text>
     </svg>
   );
 }
 
 function TeamLeaderboard() {
+  const { data, isFetching } = useQuery({
+    queryKey: ["teamLeaderboard"],
+    queryFn: async () => {
+      return getTeamLeaderboard();
+    },
+    placeholderData: keepPreviousData,
+  });
+
   return (
     // 18 + 1615 + 18
     <div className="max-w-[1651px] px-[18px] mx-auto">
@@ -79,13 +90,21 @@ function TeamLeaderboard() {
         />
       </div>
       <div className="mt-[47px]">
-        <Item team="kda" score={333333} />
+        <Item team="kda" score={data?.[Team.kda] || 0} loading={isFetching} />
       </div>
       <div className="mt-[71px]">
-        <Item team="heart-steel" score={333333} />
+        <Item
+          team="heart-steel"
+          score={data?.[Team.heartSteel] || 0}
+          loading={isFetching}
+        />
       </div>
       <div className="mt-[71px]">
-        <Item team="true-damage" score={333333} />
+        <Item
+          team="true-damage"
+          score={data?.[Team.trueDamage] || 0}
+          loading={isFetching}
+        />
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import { db } from "../db.ts";
 import { user } from "../models/auth-schema.ts";
-import { playerLeaderboardView } from "../models/materialized-view.ts";
+import { playerLeaderboardView, teamLeaderboardView } from "../models/materialized-view.ts";
 import {
   and,
   count,
@@ -397,7 +397,7 @@ const initTitles = async () => {
 };
 
 const updateMaterialView = async (concurrently?: boolean) => {
-  const mvs = [playerLeaderboardView];
+  const mvs = [playerLeaderboardView, teamLeaderboardView];
   for (const mv of mvs) {
     if (!concurrently) {
       await db.refreshMaterializedView(mv);
