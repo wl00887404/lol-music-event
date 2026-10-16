@@ -1,3 +1,5 @@
+import { SpacedText } from "@/components/SpacedText";
+
 const WIDTH = 342;
 const HEIGHT = 56;
 const LETTER_SPACE = 1;
@@ -21,8 +23,8 @@ function Title(props: Props) {
         height={HEIGHT}
         preserveAspectRatio="xMidYMid slice"
       />
-      <text
-        x={x + WIDTH / 2 - LETTER_SPACE}
+      <SpacedText
+        x={x + WIDTH / 2}
         y={y + HEIGHT / 2 + 9}
         fontFamily="BeaufortforLOL, Noto Sans TC, sans-serif"
         textAnchor="middle"
@@ -32,7 +34,7 @@ function Title(props: Props) {
         letterSpacing={LETTER_SPACE}
       >
         {title}
-      </text>
+      </SpacedText>
     </g>
   );
 }

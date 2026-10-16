@@ -47,7 +47,7 @@ function SnsPosterDialog(props: Props) {
           riotId={session?.user.riotId || ""}
           team={team || ""}
           totalCount={myStats.totalCount}
-          wonCount={myStats.wonCount}
+          winCount={myStats.winCount}
           scorePr={myStats.scorePr}
           averageKda={myStats.averageKda}
         />

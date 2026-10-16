@@ -2,6 +2,7 @@ import { getTeamLeaderboard } from "@/apis";
 import formatNumber from "@/libs/formatNumber";
 import { Team } from "@/types";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { SpacedText } from "../SpacedText";
 
 type ItemProps = {
   team: Team;
@@ -15,7 +16,6 @@ const SVG_CLASS_NAME = "overflow-hidden max-w-full w-full" as const;
 
 function Item(props: ItemProps) {
   const { team, score, loading } = props;
-  const letterSpace = 4;
 
   return (
     <svg
@@ -56,17 +56,17 @@ function Item(props: ItemProps) {
         height={HEIGHT}
         preserveAspectRatio="xMidYMid slice"
       />
-      <text
-        x={1556 + letterSpace}
+      <SpacedText
+        x={1556}
         y="114"
         textAnchor="end"
         fontFamily="BeaufortforLOL, sans-serif"
         fontSize="90"
-        letterSpacing={letterSpace}
+        letterSpacing={4}
         fill="url(#g)"
       >
         {loading ? "" : formatNumber(score)}
-      </text>
+      </SpacedText>
     </svg>
   );
 }

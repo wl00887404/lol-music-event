@@ -138,7 +138,7 @@ export type GetMyStatsData = {
   totalRank: number;
   playerCount: number;
   totalCount: number;
-  wonCount: number;
+  winCount: number;
   averageKda: number;
 };
 

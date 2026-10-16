@@ -10,10 +10,10 @@ const getScorePr = (totalRank = 0, playerCount = 0) => {
   return Math.ceil(((playerCount - totalRank) / playerCount) * 100);
 };
 
-// const getWinRate = (wonCount = 0, totalCount = 0) => {
+// const getWinRate = (winCount = 0, totalCount = 0) => {
 //   if (totalCount === 0) return 0;
 
-//   return floor((wonCount / totalCount) * 100, 1);
+//   return floor((winCount / totalCount) * 100, 1);
 // };
 
 const useMyStats = () => {
@@ -30,13 +30,13 @@ const useMyStats = () => {
 
   const scorePr = getScorePr(data?.totalRank, data?.playerCount);
   const totalCount = data?.totalCount || 0;
-  const wonCount = data?.wonCount || 0;
+  const winCount = data?.winCount || 0;
   const averageKda = data?.averageKda || 0;
 
   return {
     scorePr,
     averageKda,
-    wonCount,
+    winCount,
     totalCount,
   };
 };

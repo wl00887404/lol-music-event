@@ -225,7 +225,7 @@ type StatsData = {
   totalRank: number;
   playerCount: number;
   totalCount: number;
-  wonCount: number;
+  winCount: number;
   averageKda: number;
 };
 
@@ -235,7 +235,7 @@ meRouter.get(`${URL}/stats`, async (req, res) => {
   const myStatPromise = db
     .select({
       totalCount: count(),
-      wonCount:
+      winCount:
         sql<number>`count(*) filter (where ${playerMatchHistoryTable.win} = true)`.mapWith(
           Number,
         ),
@@ -282,7 +282,7 @@ meRouter.get(`${URL}/stats`, async (req, res) => {
     totalRank: rankStat?.totalRank || 0,
     playerCount: playerStat.count || 0,
     totalCount: myStat?.totalCount || 0,
-    wonCount: myStat?.wonCount || 0,
+    winCount: myStat?.winCount || 0,
     averageKda,
   };
 

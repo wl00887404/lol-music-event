@@ -3,6 +3,7 @@ import Title from "./Title";
 import useMyLeaderboard from "@/hooks/useMyLeaderboard";
 import getPlaceholderString from "@/libs/getPlaceholderString";
 import type { PlayerLeaderboardItem } from "@/apis";
+import { SpacedText } from "@/components/SpacedText";
 
 const WIDTH = 1592;
 const HEIGHT = 139;
@@ -20,7 +21,6 @@ const mockItem: PlayerLeaderboardItem = {
 type Props = { item: PlayerLeaderboardItem; loading?: boolean };
 
 function MyLeaderboardItem(props: Props) {
-  const letterSpace = 2;
   const { loading } = props;
   const { totalRank, riotId, image, score, titles } = props.item;
 
@@ -85,17 +85,17 @@ function MyLeaderboardItem(props: Props) {
         {riotId}
       </text>
       {title && <Title x={1009} y={41} title={title} />}
-      <text
-        x={1558 + letterSpace}
+      <SpacedText
+        x={1558}
         y="82"
         fontSize="45"
         fill="#fff9e5"
         textAnchor="end"
         fontFamily="BeaufortforLOL, sans-serif"
-        letterSpacing={letterSpace}
+        letterSpacing={2}
       >
         {loading ? "" : formatNumber(score)}
-      </text>
+      </SpacedText>
     </svg>
   );
 }

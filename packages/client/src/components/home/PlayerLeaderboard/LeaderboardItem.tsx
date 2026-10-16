@@ -1,6 +1,7 @@
 import formatNumber from "@/libs/formatNumber";
 import Title from "./Title";
 import type { PlayerLeaderboardItem } from "@/apis";
+import { SpacedText } from "@/components/SpacedText";
 
 const WIDTH = 1598;
 const HEIGHT = 108;
@@ -14,7 +15,6 @@ type Props = {
 function LeaderboardItem(props: Props) {
   const { loading } = props;
   const { totalRank, riotId, image, score, titles } = props.item;
-  const letterSpace = 2;
   const title = titles[0];
 
   const getBackgroundHref = () => {
@@ -94,17 +94,17 @@ function LeaderboardItem(props: Props) {
         {riotId}
       </text>
       {title && <Title x={1012} y={26} title={title} />}
-      <text
-        x={1561 + letterSpace}
+      <SpacedText
+        x={1561}
         y="66"
         fontSize="45"
         fill="#fff9e5"
         textAnchor="end"
         fontFamily="BeaufortforLOL, sans-serif"
-        letterSpacing={letterSpace}
+        letterSpacing={2}
       >
         {loading ? "" : formatNumber(score)}
-      </text>
+      </SpacedText>
     </svg>
   );
 }

@@ -1,5 +1,6 @@
 import { getHonorRoll, type HonorRollItem } from "@/apis";
 import HeroCarousel from "@/components/home/HeroCarousel";
+import { SpacedText } from "@/components/SpacedText";
 import { authClient } from "@/libs/auth-client";
 import getPlaceholderString from "@/libs/getPlaceholderString";
 import { cn } from "@/libs/utils";
@@ -17,8 +18,6 @@ type Props = {
 function LeaderboardItem(props: Props) {
   const { loading } = props;
   const { riotId, image, name } = props.item;
-  const riotIdLetterSpace = 1.5;
-  const titleLetterSpace = 2;
 
   return (
     <svg
@@ -68,30 +67,30 @@ function LeaderboardItem(props: Props) {
           clipPath="url(#honor-roll-profile)"
         />
       )}
-      <text
-        x={260.5 - riotIdLetterSpace}
+      <SpacedText
+        x={260.5}
         y={263}
         fontFamily="BeaufortforLOL, Noto Sans TC, sans-serif"
         textAnchor="middle"
         fontSize="51"
         fontWeight="700"
         fill="#fff9e5"
-        letterSpacing={riotIdLetterSpace}
+        letterSpacing={1.5}
       >
         {riotId}
-      </text>
-      <text
-        x={260.5 - titleLetterSpace}
+      </SpacedText>
+      <SpacedText
+        x={260.5}
         y={352.5}
         fontFamily="BeaufortforLOL, Noto Sans TC, sans-serif"
         textAnchor="middle"
         fontSize="26.5"
         fontWeight="700"
         fill="#0b1527"
-        letterSpacing={titleLetterSpace}
+        letterSpacing={2}
       >
         {name}
-      </text>
+      </SpacedText>
     </svg>
   );
 }

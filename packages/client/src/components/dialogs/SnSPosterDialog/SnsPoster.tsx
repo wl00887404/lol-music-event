@@ -5,19 +5,17 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/libs/utils";
 import Skeleton from "@/components/Skeleton";
 import formatNumber from "@/libs/formatNumber";
-
-declare module "react" {
-  interface HTMLAttributes<T> {
-    xmlns?: string;
-    nothing?: T;
-  }
-}
+import { Team } from "@/types";
+import { SpacedText } from "@/components/SpacedText";
 
 type DownloadButtonProps = {
   onClick: () => void;
   disabled: boolean;
   loading: boolean;
 };
+
+const WIDTH = 607;
+const HEIGHT = 1080;
 
 function DownloadButton(props: DownloadButtonProps) {
   return (
@@ -42,17 +40,221 @@ type Props = {
   riotId: string;
   team: string;
   totalCount: number;
-  wonCount: number;
+  winCount: number;
   scorePr: number;
   averageKda: number;
+  hideButton?: boolean;
 };
 
+function KdaText(props: Props) {
+  const { riotId, scorePr, averageKda, totalCount, winCount } = props;
+  const x1 = 170;
+  const x2 = 437;
+  const y1 = 784;
+  const y2 = 962;
+
+  const numberProps = {
+    fontFamily: "BeaufortforLOL, sans-serif",
+    textAnchor: "middle",
+    fontSize: "70",
+    letterSpacing: 0.6,
+    fill: "#f5ebe4",
+    stroke: "rgba(255, 0, 97, 0.69)",
+    strokeWidth: 1,
+    className: "kda-num",
+  } as const;
+
+  const glowColor = "rgba(255, 0, 97, 0.4)";
+
+  const cssText = css`
+    .kda-num {
+      filter: drop-shadow(0 0 4px ${glowColor})
+        drop-shadow(0 0 12px ${glowColor}) drop-shadow(0 0 24px ${glowColor});
+    }
+  `;
+
+  return (
+    <>
+      <defs>
+        <style>{cssText}</style>
+      </defs>
+      <SpacedText
+        x={303.5}
+        y={589}
+        fontFamily="BeaufortforLOL, My Noto Sans TC, sans-serif"
+        textAnchor="middle"
+        fontSize="35"
+        fontWeight="700"
+        letterSpacing={1.75}
+        fill="#f5ebe4"
+      >
+        {riotId}
+      </SpacedText>
+      <SpacedText {...numberProps} x={x1} y={y1}>
+        {formatNumber(totalCount)}
+      </SpacedText>
+      <SpacedText {...numberProps} x={x2} y={y1}>
+        {formatNumber(winCount)}
+      </SpacedText>
+      <SpacedText {...numberProps} x={x1} y={y2}>
+        {formatNumber(averageKda)}
+      </SpacedText>
+      <SpacedText {...numberProps} x={x2} y={y2}>
+        {scorePr}%
+      </SpacedText>
+      <SpacedText {...numberProps} x={x1} y={y1}>
+        {formatNumber(totalCount)}
+      </SpacedText>
+      <SpacedText {...numberProps} x={x2} y={y1}>
+        {formatNumber(winCount)}
+      </SpacedText>
+      <SpacedText {...numberProps} x={x1} y={y2}>
+        {formatNumber(averageKda)}
+      </SpacedText>
+      <SpacedText {...numberProps} x={x2} y={y2}>
+        {scorePr}%
+      </SpacedText>
+    </>
+  );
+}
+
+function HeartSteelText(props: Props) {
+  const { riotId, scorePr, averageKda, totalCount, winCount } = props;
+  const x1 = 170;
+  const x2 = 437;
+  const y1 = 784;
+  const y2 = 962;
+
+  const numberProps = {
+    fontFamily: "BeaufortforLOL, sans-serif",
+    textAnchor: "middle",
+    fontSize: "70",
+    letterSpacing: 0.6,
+    fill: "#f6efe1",
+  } as const;
+
+  const shadowProps = {
+    fill: "#262b1b",
+    stroke: "#262b1b",
+    strokeWidth: 5,
+  };
+
+  const strokeProps = {
+    stroke: "#262b1b",
+    strokeWidth: 5,
+  };
+
+  const rad = (122 * Math.PI) / 180;
+  const d = 4;
+  const dx = Math.cos(rad) * d * -1;
+  const dy = Math.sin(rad) * d;
+
+  return (
+    <>
+      <SpacedText
+        x={303.5}
+        y={589}
+        fontFamily="BeaufortforLOL, My Noto Sans TC, sans-serif"
+        textAnchor="middle"
+        fontSize="35"
+        fontWeight="700"
+        letterSpacing={1.75}
+        fill="#262b1b"
+      >
+        {riotId}
+      </SpacedText>
+
+      <SpacedText {...numberProps} {...shadowProps} x={x1 + dx} y={y1 + dy}>
+        {formatNumber(totalCount)}
+      </SpacedText>
+      <SpacedText {...numberProps} {...shadowProps} x={x2 + dx} y={y1 + dy}>
+        {formatNumber(winCount)}
+      </SpacedText>
+      <SpacedText {...numberProps} {...shadowProps} x={x1 + dx} y={y2 + dy}>
+        {formatNumber(averageKda)}
+      </SpacedText>
+      <SpacedText {...numberProps} {...shadowProps} x={x2 + dx} y={y2 + dy}>
+        {scorePr}%
+      </SpacedText>
+      <SpacedText {...numberProps} {...strokeProps} x={x1} y={y1}>
+        {formatNumber(totalCount)}
+      </SpacedText>
+      <SpacedText {...numberProps} {...strokeProps} x={x2} y={y1}>
+        {formatNumber(winCount)}
+      </SpacedText>
+      <SpacedText {...numberProps} {...strokeProps} x={x1} y={y2}>
+        {formatNumber(averageKda)}
+      </SpacedText>
+      <SpacedText {...numberProps} {...strokeProps} x={x2} y={y2}>
+        {scorePr}%
+      </SpacedText>
+      <SpacedText {...numberProps} x={x1} y={y1}>
+        {formatNumber(totalCount)}
+      </SpacedText>
+      <SpacedText {...numberProps} x={x2} y={y1}>
+        {formatNumber(winCount)}
+      </SpacedText>
+      <SpacedText {...numberProps} x={x1} y={y2}>
+        {formatNumber(averageKda)}
+      </SpacedText>
+      <SpacedText {...numberProps} x={x2} y={y2}>
+        {scorePr}%
+      </SpacedText>
+    </>
+  );
+}
+
+function TrueDamageText(props: Props) {
+  const { riotId, scorePr, averageKda, totalCount, winCount } = props;
+  const x1 = 170;
+  const x2 = 437;
+  const y1 = 782;
+  const y2 = 960;
+
+  const numberProps = {
+    fontFamily: "BeaufortforLOL, sans-serif",
+    textAnchor: "middle",
+    fontSize: "68",
+    letterSpacing: 0.6,
+    fill: "#1c1c1e",
+  } as const;
+
+  return (
+    <>
+      <SpacedText
+        x={303.5}
+        y={566}
+        fontFamily="BeaufortforLOL, My Noto Sans TC, sans-serif"
+        textAnchor="middle"
+        fontSize="35"
+        fontWeight="700"
+        letterSpacing={1}
+        fill="#1c1c1e"
+      >
+        {riotId}
+      </SpacedText>
+      <SpacedText {...numberProps} x={x1} y={y1}>
+        {formatNumber(totalCount)}
+      </SpacedText>
+      <SpacedText {...numberProps} x={x2} y={y1}>
+        {formatNumber(winCount)}
+      </SpacedText>
+      <SpacedText {...numberProps} x={x1} y={y2}>
+        {formatNumber(averageKda)}
+      </SpacedText>
+      <SpacedText {...numberProps} x={x2} y={y2}>
+        {scorePr}%
+      </SpacedText>
+    </>
+  );
+}
+
 function SnsPoster(props: Props) {
-  const { riotId, totalCount, wonCount, scorePr, averageKda, team } = props;
+  const { team, hideButton } = props;
   const { svgRef, download, svgOnLoad, isLoaded, isCapturing } = useSvgDownload(
     "lolmusic.jpg",
-    607,
-    1080,
+    WIDTH,
+    HEIGHT,
   );
 
   const assets = useLoadAssets(
@@ -66,7 +268,10 @@ function SnsPoster(props: Props) {
 
     if (!assets) {
       return (
-        <div className={cn(svgClassName, "aspect-[607/1080] bg-[#132531]")}>
+        <div
+          className={cn(svgClassName, "bg-[#132531]")}
+          style={{ aspectRatio: `${WIDTH}/${HEIGHT}` }}
+        >
           <Skeleton enabled className="w-full h-full !rounded-[0]" />
         </div>
       );
@@ -74,7 +279,7 @@ function SnsPoster(props: Props) {
 
     const cssText = css`
       @font-face {
-        font-family: "NotoSansTC";
+        font-family: "My Noto Sans TC";
         src: url("${assets.fontBase64}") format("truetype");
       }
     `;
@@ -83,7 +288,7 @@ function SnsPoster(props: Props) {
       <svg
         ref={svgRef}
         xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 607 1080"
+        viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
         className={svgClassName}
         onLoad={svgOnLoad}
       >
@@ -98,14 +303,9 @@ function SnsPoster(props: Props) {
           height="1080"
           preserveAspectRatio="xMidYMid slice"
         />
-        <image
-          href={`/posters/${team}/demo.png`}
-          x="0"
-          y="0"
-          width="607"
-          height="1080"
-          preserveAspectRatio="xMidYMid slice"
-        />
+        {team === Team.kda && <KdaText {...props} />}
+        {team === Team.heartSteel && <HeartSteelText {...props} />}
+        {team === Team.trueDamage && <TrueDamageText {...props} />}
       </svg>
     );
   };
@@ -113,11 +313,13 @@ function SnsPoster(props: Props) {
   return (
     <>
       {renderSvg()}
-      <DownloadButton
-        onClick={download}
-        disabled={!isLoaded}
-        loading={isCapturing}
-      />
+      {!hideButton && (
+        <DownloadButton
+          onClick={download}
+          disabled={!isLoaded}
+          loading={isCapturing}
+        />
+      )}
     </>
   );
 }
