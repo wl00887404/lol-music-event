@@ -1,3 +1,4 @@
+import RwdImg from "@/components/RwdImg";
 import useTeam from "@/hooks/useTeam";
 import { cn } from "@/libs/utils";
 import { Team } from "@/types";
@@ -9,54 +10,33 @@ function Background() {
 
   if (team === Team.heartSteel) {
     return (
-      <picture>
-        {/* <source
-          media="(min-width: 48rem)"
-          srcSet="/icons/popup-bg-desktop.jpg"
-        /> */}
-        <img
-          src={`/icons/heart-steel/mission-bg.png`}
-          className={backgroundClassName}
-        />
-      </picture>
+      <RwdImg
+        src={`/icons/heart-steel/mission-bg.png`}
+        className={backgroundClassName}
+      />
     );
   }
 
   if (team === Team.trueDamage) {
     return (
-      <picture>
-        {/* <source
-          media="(min-width: 48rem)"
-          srcSet="/icons/popup-bg-desktop.jpg"
-        /> */}
-        <img
-          src={`/icons/true-damage/mission-bg.png`}
-          className={backgroundClassName}
-        />
-      </picture>
+      <RwdImg
+        src={`/icons/true-damage/mission-bg.png`}
+        className={backgroundClassName}
+      />
     );
   }
 
   return (
     <>
-      <picture>
-        {/* <source media="(min-width: 48rem)" srcSet="/icons/popup-bg-desktop.jpg" /> */}
-        <img
-          src={`/icons/kda/mission-bg-2.png`}
-          className={backgroundClassName}
-        />
-      </picture>
-      <picture>
-        {/* <source
-          media="(min-width: 48rem)"
-          srcSet="/icons/popup-bg-desktop.jpg"
-        /> */}
-        <img
-          src={`/icons/kda/mission-bg-1.png`}
-          className={cn(backgroundClassName, "absolute top-0 left-0")}
-          style={{ mixBlendMode: "color-dodge" }}
-        />
-      </picture>
+      <RwdImg
+        src={`/icons/kda/mission-bg-2.png`}
+        className={backgroundClassName}
+      />
+      <RwdImg
+        src={`/icons/kda/mission-bg-1.png`}
+        className={cn(backgroundClassName, "absolute top-0 left-0")}
+        style={{ mixBlendMode: "color-dodge" }}
+      />
     </>
   );
 }

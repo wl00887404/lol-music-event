@@ -1,4 +1,5 @@
 import useTeam from "@/hooks/useTeam";
+import RwdImg from "@/components/RwdImg";
 
 function HeroImage() {
   const team = useTeam();
@@ -6,22 +7,10 @@ function HeroImage() {
   const getPicture = () => {
     if (!team) return null;
 
-    return (
-      <picture>
-        {/* <source
-          media="(min-width: 48rem)"
-          srcSet={`/banners/${team}-banner.png`}
-        /> */}
-        <img src={`/banners/${team}-banner.png`} className="w-full " />
-      </picture>
-    );
+    return <RwdImg src={`/banners/${team}-banner.png`} className="w-full" />;
   };
 
-  return (
-    <div className="aspect-[1920/1080]">
-      {getPicture()}
-    </div>
-  );
+  return <div className="aspect-[1920/1080]">{getPicture()}</div>;
 }
 
 export default HeroImage;

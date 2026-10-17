@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/dialog";
 import { cn } from "@/libs/utils";
 import BaseButton from "@/components/BaseButton";
+import RwdImg from "@/components/RwdImg";
 
 type Props = ComponentPropsWithoutRef<typeof BaseDialog> & {
   title: ReactNode;
@@ -40,25 +41,15 @@ function Dialog(props: Props) {
         style={{} as React.CSSProperties}
       >
         <div className="relative">
-          <picture>
-            {/* <source
-              media="(min-width: 48rem)"
-              srcSet="/icons/popup-bg-desktop.jpg"
-            /> */}
-            <img src="/icons/dialog-bg-2.png" className={backgroundClassName} />
-          </picture>
-          <picture>
-            {/* <source
-              media="(min-width: 48rem)"
-              srcSet="/icons/popup-bg-desktop.jpg"
-            /> */}
-            <img
-              src="/icons/dialog-bg-1.png"
-              className={cn(backgroundClassName, "absolute top-0 left-0")}
-              style={{ mixBlendMode: "color-dodge" }}
-            />
-          </picture>
-
+          <RwdImg
+            src="/icons/dialog-bg-2.png"
+            className={backgroundClassName}
+          />
+          <RwdImg
+            src="/icons/dialog-bg-1.png"
+            className={cn(backgroundClassName, "absolute top-0 left-0")}
+            style={{ mixBlendMode: "color-dodge" }}
+          />
           <div className="absolute top-0 left-0 w-full h-full">
             <DialogTitle
               className={cn(

@@ -1,4 +1,5 @@
 import Card from "@/components/me/legacy/Card";
+import RwdImg from "@/components/RwdImg";
 import Skeleton from "@/components/Skeleton";
 import getPlaceholderString from "@/libs/getPlaceholderString";
 import { useQuery } from "@tanstack/react-query";
@@ -93,16 +94,11 @@ function Doc(props: Props) {
   return (
     <div>
       <div className="aspect-[390/138] md:aspect-[1920/342.33] relative">
-        <picture>
-          <source
-            media="(min-width: 48rem)"
-            srcSet="/banners/me-desktop-banner.png"
-          />
-          <img
-            src="/banners/me-mobile-banner.png"
-            className="absolute top-0 left-0 w-full"
-          />
-        </picture>
+        <RwdImg
+          mdSrc="/banners/me-desktop-banner.png"
+          src="/banners/me-mobile-banner.png"
+          className="absolute top-0 left-0 w-full"
+        />
       </div>
       <div className="px-[32px] md:px-[20px] relative z-1 md:max-w-[1440px] mx-auto mb-[121px]">
         <Card className="doc">{content}</Card>

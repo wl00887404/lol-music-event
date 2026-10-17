@@ -7,6 +7,7 @@ import useTeam from "@/hooks/useTeam";
 import useMyLeaderboard from "@/hooks/useMyLeaderboard";
 import { Team } from "@/types";
 import BaseButton from "../BaseButton";
+import RwdImg from "@/components/RwdImg";
 
 type TitleProps = {
   children: ReactNode;
@@ -17,16 +18,10 @@ function Title(props: TitleProps) {
   const team = useTeam();
   return (
     <div className="relative w-full">
-      <picture>
-        {/* <source
-            media="(min-width: 48rem)"
-            srcSet="/banners/me-desktop-banner.png"
-          /> */}
-        <img
-          src={`/icons/${team}/id-title-bg.png`}
-          className="w-full h-[101px] object-cover"
-        />
-      </picture>
+      <RwdImg
+        src={`/icons/${team}/id-title-bg.png`}
+        className="w-full h-[101px] object-cover"
+      />
       <div
         className={cn(
           "absolute top-[0] left-[0] w-full h-full",
@@ -48,55 +43,37 @@ function Background() {
 
   if (team === Team.heartSteel) {
     return (
-      <picture>
-        {/* <source media="(min-width: 48rem)" srcSet="/icons/popup-bg-desktop.jpg" /> */}
-        <img
-          src={`/icons/heart-steel/id-bg.png`}
-          className={backgroundClassName}
-        />
-      </picture>
+      <RwdImg
+        src={`/icons/heart-steel/id-bg.png`}
+        className={backgroundClassName}
+      />
     );
   }
 
   if (team === Team.trueDamage) {
     return (
       <>
-        <picture>
-          {/* <source media="(min-width: 48rem)" srcSet="/icons/popup-bg-desktop.jpg" /> */}
-          <img
-            src={`/icons/true-damage/id-bg-2.png`}
-            className={backgroundClassName}
-          />
-        </picture>
-        <picture>
-          {/* <source media="(min-width: 48rem)" srcSet="/icons/popup-bg-desktop.jpg" /> */}
-          <img
-            src={`/icons/true-damage/id-bg-1.png`}
-            className={cn(backgroundClassName, "absolute top-0 left-0")}
-            style={{ mixBlendMode: "soft-light" }}
-          />
-        </picture>
+        <RwdImg
+          src={`/icons/true-damage/id-bg-2.png`}
+          className={backgroundClassName}
+        />
+        <RwdImg
+          src={`/icons/true-damage/id-bg-1.png`}
+          className={cn(backgroundClassName, "absolute top-0 left-0")}
+          style={{ mixBlendMode: "soft-light" }}
+        />
       </>
     );
   }
 
   return (
     <>
-      <picture>
-        {/* <source media="(min-width: 48rem)" srcSet="/icons/popup-bg-desktop.jpg" /> */}
-        <img src={`/icons/kda/id-bg-2.png`} className={backgroundClassName} />
-      </picture>
-      <picture>
-        {/* <source
-          media="(min-width: 48rem)"
-          srcSet="/icons/popup-bg-desktop.jpg"
-        /> */}
-        <img
-          src={`/icons/kda/id-bg-1.png`}
-          className={cn(backgroundClassName, "absolute top-0 left-0")}
-          style={{ mixBlendMode: "color-dodge" }}
-        />
-      </picture>
+      <RwdImg src={`/icons/kda/id-bg-2.png`} className={backgroundClassName} />
+      <RwdImg
+        src={`/icons/kda/id-bg-1.png`}
+        className={cn(backgroundClassName, "absolute top-0 left-0")}
+        style={{ mixBlendMode: "color-dodge" }}
+      />
     </>
   );
 }

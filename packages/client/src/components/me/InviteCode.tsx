@@ -7,6 +7,7 @@ import { getMyInvitee } from "@/apis";
 import { useQuery } from "@tanstack/react-query";
 import copy from "copy-to-clipboard";
 import toast from "@/components/toast";
+import RwdImg from "@/components/RwdImg";
 
 function Background() {
   const backgroundClassName = "block w-full h-[373px] object-cover";
@@ -14,75 +15,48 @@ function Background() {
 
   if (team === Team.heartSteel) {
     return (
-      <picture>
-        {/* <source media="(min-width: 48rem)" srcSet="/icons/popup-bg-desktop.jpg" /> */}
-        <img
-          src={`/icons/heart-steel/invite-bg.png`}
-          className={backgroundClassName}
-        />
-      </picture>
+      <RwdImg
+        src={`/icons/heart-steel/invite-bg.png`}
+        className={backgroundClassName}
+      />
     );
   }
 
   if (team === Team.trueDamage) {
     return (
       <>
-        <picture>
-          {/* <source media="(min-width: 48rem)" srcSet="/icons/popup-bg-desktop.jpg" /> */}
-          <img
-            src={`/icons/true-damage/invite-bg-3.png`}
-            className={backgroundClassName}
-          />
-        </picture>
-        <picture>
-          {/* <source media="(min-width: 48rem)" srcSet="/icons/popup-bg-desktop.jpg" /> */}
-          <img
-            src={`/icons/true-damage/invite-bg-2.png`}
-            className={cn(backgroundClassName, "absolute top-0 left-0")}
-            style={{ mixBlendMode: "soft-light" }}
-          />
-        </picture>
-        <picture>
-          {/* <source media="(min-width: 48rem)" srcSet="/icons/popup-bg-desktop.jpg" /> */}
-          <img
-            src={`/icons/true-damage/invite-bg-1.png`}
-            className={cn(backgroundClassName, "absolute top-0 left-0")}
-          />
-        </picture>
+        <RwdImg
+          src={`/icons/true-damage/invite-bg-3.png`}
+          className={backgroundClassName}
+        />
+        <RwdImg
+          src={`/icons/true-damage/invite-bg-2.png`}
+          className={cn(backgroundClassName, "absolute top-0 left-0")}
+          style={{ mixBlendMode: "soft-light" }}
+        />
+        <RwdImg
+          src={`/icons/true-damage/invite-bg-1.png`}
+          className={cn(backgroundClassName, "absolute top-0 left-0")}
+        />
       </>
     );
   }
 
   return (
     <>
-      <picture>
-        {/* <source media="(min-width: 48rem)" srcSet="/icons/popup-bg-desktop.jpg" /> */}
-        <img
-          src={`/icons/kda/invite-bg-3.png`}
-          className={backgroundClassName}
-        />
-      </picture>
-      <picture>
-        {/* <source
-          media="(min-width: 48rem)"
-          srcSet="/icons/popup-bg-desktop.jpg"
-        /> */}
-        <img
-          src={`/icons/kda/invite-bg-2.png`}
-          className={cn(backgroundClassName, "absolute top-0 left-0")}
-          style={{ mixBlendMode: "color-dodge" }}
-        />
-      </picture>
-      <picture>
-        {/* <source
-          media="(min-width: 48rem)"
-          srcSet="/icons/popup-bg-desktop.jpg"
-        /> */}
-        <img
-          src={`/icons/kda/invite-bg-1.png`}
-          className={cn(backgroundClassName, "absolute top-0 left-0")}
-        />
-      </picture>
+      <RwdImg
+        src={`/icons/kda/invite-bg-3.png`}
+        className={backgroundClassName}
+      />
+      <RwdImg
+        src={`/icons/kda/invite-bg-2.png`}
+        className={cn(backgroundClassName, "absolute top-0 left-0")}
+        style={{ mixBlendMode: "color-dodge" }}
+      />
+      <RwdImg
+        src={`/icons/kda/invite-bg-1.png`}
+        className={cn(backgroundClassName, "absolute top-0 left-0")}
+      />
     </>
   );
 }

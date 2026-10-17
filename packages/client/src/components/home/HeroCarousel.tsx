@@ -6,6 +6,7 @@ import {
   // type CarouselApi,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
+import RwdImg from "@/components/RwdImg";
 // import { useEffect, useState } from "react";
 
 function HeroCarousel() {
@@ -35,46 +36,22 @@ function HeroCarousel() {
       >
         <CarouselContent>
           <CarouselItem>
-            <picture>
-              {/* <source
-                media="(min-width: 48rem)"
-                srcSet="/banners/main-cta.png"
-              /> */}
-              <img srcSet="/banners/main-cta.png" className={imgClassName} />
-            </picture>
+            <RwdImg src="/banners/main-cta.png" className={imgClassName} />
           </CarouselItem>
           <CarouselItem>
-            <picture>
-              {/* <source
-                media="(min-width: 48rem)"
-                srcSet="/banners/kda-cta.png"
-              /> */}
-              <img srcSet="/banners/kda-cta.png" className={imgClassName} />
-            </picture>
+            <RwdImg src="/banners/kda-cta.png" className={imgClassName} />
           </CarouselItem>
           <CarouselItem>
-            <picture>
-              {/* <source
-                media="(min-width: 48rem)"
-                srcSet="/banners/heart-steel-cta.png"
-              /> */}
-              <img
-                srcSet="/banners/heart-steel-cta.png"
-                className={imgClassName}
-              />
-            </picture>
+            <RwdImg
+              src="/banners/heart-steel-cta.png"
+              className={imgClassName}
+            />
           </CarouselItem>
           <CarouselItem>
-            <picture>
-              {/* <source
-                media="(min-width: 48rem)"
-                srcSet="/banners/true-damage-cta.png"
-              /> */}
-              <img
-                srcSet="/banners/true-damage-cta.png"
-                className={imgClassName}
-              />
-            </picture>
+            <RwdImg
+              src="/banners/true-damage-cta.png"
+              className={imgClassName}
+            />
           </CarouselItem>
         </CarouselContent>
       </BaseCarousel>
