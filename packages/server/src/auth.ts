@@ -44,14 +44,16 @@ export const auth = betterAuth({
           scopes: ["openid"],
           prompt: "login",
           getUserInfo: async (tokens) => {
-            const { puuid, gameName, tagLine } = await riotService.fetchMe(
+            const { gameName, tagLine } = await riotService.fetchMe(
               tokens.accessToken!,
             );
-
+            const riotId = `${gameName}#${tagLine}`;
+            const { puuid } = await riotService.fetchMeByRiotId(riotId);
             const shortPuuid = puuid.slice(0, 12);
+            
             return {
               id: puuid,
-              riotId: `${gameName}#${tagLine}`,
+              riotId,
               puuid,
               name: shortPuuid,
               email: `${shortPuuid}@placeholder.com`,

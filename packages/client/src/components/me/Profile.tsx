@@ -140,7 +140,11 @@ function Profile() {
         >
           {riotId}
         </div>
-        {title && <Title color={titleColor}>{title}</Title>}
+        {title ? (
+          <Title color={titleColor}>{title}</Title>
+        ) : (
+          <div className="h-[20px]" />
+        )}
         <div className="mt-[2px]">
           <BaseButton
             className={cn(

@@ -88,7 +88,7 @@ async function fetchMeByPuuid(puuid: string) {
 async function fetchMatchList(puuid: Puuid, startTime?: Date) {
   if (!puuid) throw new Error("puuid 錯誤");
 
-  const COUNT = 3 as const;
+  const COUNT = 100 as const;
   const result: string[] = [];
 
   try {
@@ -103,7 +103,6 @@ async function fetchMatchList(puuid: Puuid, startTime?: Date) {
         searchParams.append("startTime", startTimeString);
       }
       searchParams.append("start", result.length.toString());
-
       const url = `${baseUrl}/lol/match-all-modes/v1/matches/by-puuid/${puuid}/ids?${searchParams}`;
 
       const { data } = await riotGet<string[]>(url);
