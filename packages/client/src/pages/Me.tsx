@@ -15,6 +15,7 @@ import Profile from "@/components/me/Profile";
 import ScorePr from "@/components/me/ScorePr";
 import InviteCode from "@/components/me/InviteCode";
 import Stats from "@/components/me/Stats";
+import Prizes from "@/components/me/Prizes";
 
 function useSync() {
   const { data: session, isPending, refetch } = authClient.useSession();
@@ -64,6 +65,9 @@ function Me() {
         </div>
         <div className="mt-[20px]">
           <Stats />
+        </div>
+        <div className="mt-[74px] mb-[86px]">
+          <Prizes />
         </div>
       </div>
     </div>

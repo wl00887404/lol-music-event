@@ -1,12 +1,12 @@
 import Card from "@/components/me/legacy/Card";
 import { authClient } from "@/libs/auth-client";
 import { cn } from "@/libs/utils";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import useRewards from "@/hooks/useRewards";
 import type { Reward } from "@/apis";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../../ui/tooltip";
 import { useState } from "react";
-import ClaimDialog from "../dialogs/ClaimDialog";
+import ClaimDialog from "../../dialogs/ClaimDialog";
 
 type ItemProps = {
   reward: Reward;
