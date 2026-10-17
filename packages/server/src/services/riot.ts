@@ -168,6 +168,8 @@ async function getUserProfile(puuid: Puuid): Promise<string | null> {
     .limit(1)
     .then(head);
 
+  if (!latestMatch) return "29";
+
   const matchDetail = await getMatchDetail(latestMatch.matchId);
   const player = matchDetail.info.participants.find(
     (player) => player.puuid === puuid,
