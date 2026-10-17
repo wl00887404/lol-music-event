@@ -90,6 +90,7 @@ function InviteCode() {
   };
 
   const { color } = getTheme();
+
   const onCopy = () => {
     copy(code);
     toast.success("複製成功");

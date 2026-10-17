@@ -14,6 +14,7 @@ import HeroImage from "@/components/home/HeroImage";
 import Profile from "@/components/me/Profile";
 import ScorePr from "@/components/me/ScorePr";
 import InviteCode from "@/components/me/InviteCode";
+import Stats from "@/components/me/Stats";
 
 function useSync() {
   const { data: session, isPending, refetch } = authClient.useSession();
@@ -60,6 +61,9 @@ function Me() {
             <InviteCode />
           </div>
           <ScorePr />
+        </div>
+        <div className="mt-[20px]">
+          <Stats />
         </div>
       </div>
     </div>
