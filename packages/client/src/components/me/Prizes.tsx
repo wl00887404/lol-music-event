@@ -6,7 +6,7 @@ import { Team } from "@/types";
 import RwdImg from "@/components/RwdImg";
 
 function Background() {
-  const backgroundClassName = "block w-full h-[840px] object-cover";
+  const backgroundClassName = "block w-full h-[52.5em] object-cover";
   const team = useTeam();
 
   if (team === Team.heartSteel) {
@@ -81,15 +81,21 @@ function Prizes() {
   };
 
   const { titleColor } = getTheme();
-  const point = session?.user.score === undefined ? "-" : 0;
+  const point = session?.user.score === undefined ? "-" : session.user.score;
+
   return (
-    <div className="relative max-w-[1632px]">
+    <div className="relative max-w-[102em]">
       <Background />
-      <div className="absolute top-0 left-0 w-full h-full px-[18px]">
-        <div className="ml-[37px] mt-[51px]" style={{ color: titleColor }}>
-          <div className="text-[66px] font-[700] leading-[1]">獎勵兌換</div>
-          <div className="text-[24px] font-[700] leading-[1] mt-[8px]">
-            目前持有點數：{point} 點
+      <div className="absolute top-0 left-0 w-full h-full px-[1.125em]">
+        <div
+          className="ml-[2.3125em] mt-[3.1875em]"
+          style={{ color: titleColor }}
+        >
+          <div className="text-[4.125em] font-[700]">獎勵兌換</div>
+          <div className="mt-[0.5em]">
+            <span className="text-[1.5em] font-[700]">
+              目前持有點數：{point} 點
+            </span>
           </div>
         </div>
       </div>

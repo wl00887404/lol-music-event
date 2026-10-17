@@ -24,8 +24,8 @@ function DownloadButton(props: DownloadButtonProps) {
       className={cn(
         "bg-[#f0ca70] border-none text-[#030718]",
         "flex !h-auto items-center",
-        "px-[24px] md:px-[41px] py-[16px] md:py-[20px] text-[16px] md:text-[20px] rounded-[10px] md:rounded-[15px]",
-        "font-[900] tracking-[10%] !leading-[1.2]",
+        "px-[1.5em] md:px-[2.5625em] py-[1em] md:py-[1.25em]  rounded-[10px] md:rounded-[15px]",
+        "text-[16px] md:text-[20px] font-[900] tracking-[10%] !leading-[1.2]",
         "disabled:opacity-45",
       )}
       onClick={props.onClick}

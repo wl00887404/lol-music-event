@@ -10,7 +10,7 @@ import toast from "@/components/toast";
 import RwdImg from "@/components/RwdImg";
 
 function Background() {
-  const backgroundClassName = "block w-full h-[373px] object-cover";
+  const backgroundClassName = "block w-full h-[23.3125em] object-cover";
   const team = useTeam();
 
   if (team === Team.heartSteel) {
@@ -97,27 +97,31 @@ function InviteCode() {
   };
 
   return (
-    <div className="relative max-w-[693px]">
+    <div className="relative max-w-[43.3125em]">
       <Background />
       <div
-        className="absolute top-[0] left-[0] w-full h-full pt-[160px]"
+        className="absolute top-[0] left-[0] w-full h-full pt-[10em]"
         style={{ color }}
       >
         <div className="flex justify-center items-center">
-          <div className="w-[315px] text-[50px] leading-[52px] font-[BeaufortforLOL]">
-            {code}
+          <div className="w-[19.6875em]">
+            <span className="text-[3.125em] leading-[1.04] font-[BeaufortforLOL]">
+              {code}
+            </span>
           </div>
           <BaseButton
-            className="w-[52px] h-[52px]"
+            className="w-[3.25em] h-[3.25em] bg-[cover]"
             style={{ backgroundImage: `url("/icons/${team}/copy.png")` }}
             onClick={onCopy}
           />
         </div>
-        <div className="mt-[30px] text-center text-[20px] font-[500] leading-[1.2]">
-          每名受邀者第一次完成任務邀請者即可獲得 +5 分積分
-          <br />
-          目前邀請人數：
-          {data !== undefined ? data.length : "-"}
+        <div className="mt-[1.875em]">
+          <div className="text-center text-[1.25em] font-[500] leading-[1.2]">
+            每名受邀者第一次完成任務邀請者即可獲得 +5 分積分
+            <br />
+            目前邀請人數：
+            {data !== undefined ? data.length : "-"}
+          </div>
         </div>
       </div>
     </div>

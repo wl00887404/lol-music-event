@@ -20,25 +20,25 @@ function Title(props: TitleProps) {
     <div className="relative w-full">
       <RwdImg
         src={`/icons/${team}/id-title-bg.png`}
-        className="w-full h-[101px] object-cover"
+        className="w-full h-[6.3125em] object-cover"
       />
       <div
         className={cn(
           "absolute top-[0] left-[0] w-full h-full",
           "flex justify-center items-center",
-          "font-[900] font-[family-name:BeaufortforLOL,Noto_Sans_TC]",
-          "text-[29px] leading-[1]",
         )}
         style={{ color: props.color }}
       >
-        {props.children}
+        <span className="font-[900] font-[family-name:BeaufortforLOL,Noto_Sans_TC] text-[1.8125em]">
+          {props.children}
+        </span>
       </div>
     </div>
   );
 }
 
 function Background() {
-  const backgroundClassName = "block w-full h-[445px] object-cover";
+  const backgroundClassName = "block w-full h-[27.8125em] object-cover";
   const team = useTeam();
 
   if (team === Team.heartSteel) {
@@ -115,49 +115,46 @@ function Profile() {
   const { riotIdColor, titleColor, buttonColor } = getTheme();
 
   return (
-    <div className="relative max-w-[681px]">
+    <div className="relative max-w-[42.5625em]">
       <Background />
       <div
         className={cn(
           "absolute top-0 left-0 w-full h-full",
           "flex flex-col items-center",
-          "pt-[45px] px-[18px]",
+          "pt-[2.8125em] px-[1.125em]",
         )}
       >
         {image && (
           <img
             src={`https://ddragon.leagueoflegends.com/cdn/16.19.1/img/profileicon/${image}.png`}
-            className="rounded-[50%] w-[143px] h-[143px]"
+            className="rounded-[50%] w-[8.9375em] h-[8.9375em]"
           />
         )}
-        <div
-          className={cn(
-            "mt-[21px]",
-            "font-[900] font-[family-name:BeaufortforLOL,Noto_Sans_TC]",
-            "text-[45px] leading-[1] tracking-[1px] whitespace-nowrap ",
-          )}
-          style={{ color: riotIdColor }}
-        >
-          {riotId}
+        <div className="mt-[1.3125em]" style={{ color: riotIdColor }}>
+          <span
+            className={cn(
+              "font-[900] font-[family-name:BeaufortforLOL,Noto_Sans_TC]",
+              "text-[2.8125em] tracking-[0.0625em] whitespace-nowrap ",
+            )}
+          >
+            {riotId}
+          </span>
         </div>
         {title ? (
           <Title color={titleColor}>{title}</Title>
         ) : (
-          <div className="h-[20px]" />
+          <div className="h-[1.25em]" />
         )}
-        <div className="mt-[2px]">
+        <div className="mt-[0.125em]">
           <BaseButton
-            className={cn(
-              "mt-[2px] w-[245px] h-[67px] bg-cover",
-              "font-[700] text-[23px] leading-[1]",
-            )}
+            className="w-[15.3125em] h-[4.1875em] bg-cover"
             style={{
               backgroundImage: `url("/icons/${team}/share-button.png")`,
               color: buttonColor,
             }}
             onClick={() => setOpen(true)}
           >
-            分享榮譽戰報
+            <span className="font-[700] text-[1.4375em]">分享榮譽戰報</span>
           </BaseButton>
         </div>
       </div>

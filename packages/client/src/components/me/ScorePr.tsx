@@ -5,7 +5,7 @@ import useMyStats from "@/hooks/useMyStats";
 import RwdImg from "@/components/RwdImg";
 
 function Background() {
-  const backgroundClassName = "block w-full h-[851px] object-cover";
+  const backgroundClassName = "block w-full h-[53.1875em] object-cover";
   const team = useTeam();
 
   if (team === Team.heartSteel) {
@@ -53,11 +53,13 @@ function Background() {
   );
 }
 
+const TEXT_WIDTH = 450;
+
 function Text() {
   const team = useTeam();
   const { scorePr } = useMyStats();
-  const width = 450;
-  const x = width / 2;
+  const height = 225;
+  const x = TEXT_WIDTH / 2;
   const y = 180;
 
   const getTheme = () => {
@@ -123,7 +125,10 @@ function Text() {
   };
 
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width={width} height={225}>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox={`0 0 ${TEXT_WIDTH} ${height}`}
+    >
       {renderHeartSteelTextEffect()}
       <text {...baseProps} x={x} y={y}>
         {content}
@@ -134,15 +139,12 @@ function Text() {
 
 function ScorePr() {
   return (
-    <div className="relative max-w-[939px]">
+    <div className="relative max-w-[58.6875em]">
       <Background />
-      <div
-        className={cn(
-          "absolute top-[525px] left-0 w-full",
-          "flex justify-center px-[18px]",
-        )}
-      >
-        <Text />
+      <div className="absolute top-[32.8125em] left-0 w-full">
+        <div className="mx-auto" style={{ width: `${TEXT_WIDTH / 16}em` }}>
+          <Text />
+        </div>
       </div>
     </div>
   );

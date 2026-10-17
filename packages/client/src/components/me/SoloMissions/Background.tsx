@@ -5,7 +5,7 @@ import { Team } from "@/types";
 
 function Background() {
   // 1632 * 560
-  const backgroundClassName = "block w-full h-[560px] object-cover";
+  const backgroundClassName = "block w-full h-[35em] object-cover";
   const team = useTeam();
 
   if (team === Team.heartSteel) {

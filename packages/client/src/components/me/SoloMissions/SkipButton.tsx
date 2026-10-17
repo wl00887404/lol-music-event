@@ -36,8 +36,7 @@ function SkipButton(props: SkipButtonProps) {
     <>
       <BaseButton
         className={cn(
-          "mt-[42px] w-[237px] h-[67px] bg-cover",
-          "font-[700] text-[23px] leading-[1]",
+          "mt-[2.625em] w-[14.8125em] h-[4.1875em] bg-cover",
           "disabled:opacity-45",
         )}
         style={{
@@ -48,7 +47,7 @@ function SkipButton(props: SkipButtonProps) {
         disabled={skipChange === 0 || !currentMission}
         onClick={() => setConfirmDialogOpen(true)}
       >
-        跳過當前任務
+        <span className="font-[700] text-[1.4375em]">跳過當前任務</span>
       </BaseButton>
       <ConfirmDialog
         title="跳過當前任務"

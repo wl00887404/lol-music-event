@@ -45,9 +45,9 @@ function SyncStatus() {
 
   return (
     <div className="flex justify-end">
-      <div className="flex items-center gap-[14px] mr-[16px]">
+      <div className="flex items-center gap-[0.875em] mr-[1em]">
         {syncedAt && (
-          <div className="text-[28px] leading-[1]" style={{ color: textColor }}>
+          <div className="text-[1.75em]" style={{ color: textColor }}>
             上次同步時間：{format(syncedAt)}
           </div>
         )}
@@ -58,8 +58,7 @@ function SyncStatus() {
          */}
         <BaseButton
           className={cn(
-            "w-[156px] h-[60px]",
-            "text-[28px] leading-[1] font-[500]",
+            "w-[9.75em] h-[3.75em] bg-cover",
             "disabled:opacity-45",
           )}
           disabled={isSyncing}
@@ -71,7 +70,7 @@ function SyncStatus() {
             color: buttonColor,
           }}
         >
-          同步
+          <span className="text-[1.75em] font-[500]">同步</span>
         </BaseButton>
       </div>
     </div>

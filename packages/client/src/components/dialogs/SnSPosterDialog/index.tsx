@@ -25,8 +25,8 @@ function SnsPosterDialog(props: Props) {
       <DialogContent
         showCloseButton={false}
         className={cn(
-          "bg-[transparent] !border-none !shadow-[none] !rounded-[0] !px-[20px]",
-          " flex flex-col items-center max-h-[100vh] gap-0",
+          "bg-[transparent] !border-none !shadow-[none] !rounded-[0] !px-[1.25em]",
+          "flex flex-col items-center max-h-[100vh] gap-0",
         )}
       >
         <div className="self-end">
@@ -36,7 +36,7 @@ function SnsPosterDialog(props: Props) {
               if (onOpenChange) onOpenChange(false);
             }}
           >
-            <img src="/icons/close.svg" className="w-[40px] md:w-[50px]" />
+            <img src="/icons/close.svg" className="w-[2.5em] md:w-[3.125em]" />
           </Button>
         </div>
         <DialogTitle className="hidden">分享榮譽戰報</DialogTitle>

@@ -5,6 +5,7 @@ import Background from "./Background";
 import SkipButton from "./SkipButton";
 import MissionList from "./MissionList";
 
+
 type GetTheme = () => {
   titleColor1: string;
   titleColor2: string;
@@ -59,20 +60,22 @@ function SoloMissions() {
           {/* 左側 */}
           <div>
             <div
-              className="text-[65px] font-[700] leading-[1] mt-[38px] ml-[53px]"
+              className="mt-[2.375em] ml-[3.3125em]"
               style={{ color: titleColor1 }}
             >
-              循環任務
+              <span className="text-[4.0625em] font-[700]">循環任務</span>
             </div>
             <div
-              className="text-[25px] font-[700] leading-[1] mt-[8px] ml-[55px]"
+              className="mt-[0.5em] ml-[3.4375em]"
               style={{ color: titleColor2 }}
             >
-              完成任務解鎖更高階獎勵
+              <span className="text-[1.5625em] font-[700]">
+                完成任務解鎖更高階獎勵
+              </span>
             </div>
           </div>
           {/* 右側 */}
-          <div className="grow flex flex-col items-end mr-[36px]">
+          <div className="grow flex flex-col items-end mr-[2.25em]">
             {/* FIXME: 這個按鈕的位置好像是不準的 */}
             <SkipButton
               skipChange={skipChange}
@@ -81,11 +84,13 @@ function SoloMissions() {
               buttonColor={buttonColor}
             />
             <div
-              className="mt-[6px] text-[19px] font-[400] leading-[1] mr-[20px]"
+              className="mt-[0.375em] mr-[1.25em]"
               style={{ color: helpColor }}
             >
-              <span>跳過剩餘次數：{skipChange}</span>
-              <span>（每週一 08:00 重置）</span>
+              <div className="text-[1.1875em] font-[400]">
+                <span>跳過剩餘次數：{skipChange}</span>
+                <span>（每週一 08:00 重置）</span>
+              </div>
             </div>
           </div>
         </div>

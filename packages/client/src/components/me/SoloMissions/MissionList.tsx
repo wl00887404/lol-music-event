@@ -44,7 +44,7 @@ function Item(props: ItemProps) {
   const team = useTeam();
 
   const imgClassName = cn(
-    "w-[468px] h-[245px] max-w-[none]",
+    "w-[29.25em] h-[15.3125em] max-w-[none]",
     "absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]",
     "pointer-events-none",
   );
@@ -81,7 +81,7 @@ function Item(props: ItemProps) {
     getLabelTheme();
   return (
     <div>
-      <div className="relative w-full h-[245px] max-w-[321px] mx-auto">
+      <div className="relative w-full h-[15.3125em] max-w-[20.0625em] mx-auto">
         <img
           src={`/icons/${team}/mission-item-bg.png`}
           className={imgClassName}
@@ -89,20 +89,19 @@ function Item(props: ItemProps) {
         <div
           className={cn(
             "relative h-full flex justify-center items-center text-center",
-            "font-[700] text-[24px]",
+            "font-[700] text-[1.5em]",
           )}
           style={{ color: missionColor }}
         >
           {item.name}
         </div>
         <div
-          className={cn(
-            "absolute top-[26px] left-[333px]",
-            "font-[BeaufortforLOL] text-[30px] leading-[1]",
-          )}
+          className={cn("absolute top-[1.625em] left-[20.8125em]")}
           style={{ color: scoreColor }}
         >
-          +{item.score}
+          <span className="font-[BeaufortforLOL] text-[1.875em]">
+            +{item.score}
+          </span>
         </div>
         {item.status === "finished" && (
           <img
@@ -112,7 +111,7 @@ function Item(props: ItemProps) {
           />
         )}
       </div>
-      <div className="relative mt-[-20px] flex justify-center -mx-2">
+      <div className="relative mt-[-1.25em] flex justify-center -mx-2">
         <div
           className={lineClassName}
           style={{
@@ -129,8 +128,7 @@ function Item(props: ItemProps) {
         />
         <div
           className={cn(
-            "w-[80px] h-[70px] bg-cover relative",
-            "font-[BeaufortforLOL] text-[28px] leading-[1]",
+            "w-[5em] h-[4.375em] bg-cover relative",
             "flex justify-center items-center",
           )}
           style={{
@@ -138,7 +136,9 @@ function Item(props: ItemProps) {
             color: labelColor,
           }}
         >
-          {index + 1}
+          <span className="font-[BeaufortforLOL] text-[1.75em]">
+            {index + 1}
+          </span>
         </div>
       </div>
     </div>
@@ -154,23 +154,24 @@ type SiblingButtonProps = {
 function SiblingButton(props: SiblingButtonProps) {
   const { dir, onClick, disabled } = props;
   const team = useTeam();
-  const padding = "28px";
+  const padding = "1.75em";
 
   const fileName = dir === "prev" ? "chevron-left.png" : "chevron-right.png";
-  const style = dir === "prev" ? { left: padding } : { right: padding };
+  const leftOrRight = dir === "prev" ? { left: padding } : { right: padding };
 
   return (
     <BaseButton
-      className="disabled:hidden"
       onClick={onClick}
       disabled={disabled}
-    >
-      <img
-        src={`/icons/${team}/${fileName}`}
-        className="w-[68px] h-[94px] absolute top-[76px]"
-        style={style}
-      />
-    </BaseButton>
+      className={cn(
+        "w-[4.25em] h-[5.875em] absolute top-[4.75em] bg-cover",
+        "disabled:hidden",
+      )}
+      style={{
+        backgroundImage: `url("/icons/${team}/${fileName}")`,
+        ...leftOrRight,
+      }}
+    />
   );
 }
 
@@ -259,7 +260,7 @@ function MissionList(props: MissionListProps) {
   if (!items) return null;
 
   return (
-    <div className="relative mt-[43px] px-[68px]">
+    <div className="relative mt-[2.6875em] px-[4.25em]">
       <Carousel opts={{ align: "start" }} setApi={setApi}>
         <CarouselContent>
           {items.map((item, index) => {

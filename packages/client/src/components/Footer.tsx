@@ -27,7 +27,7 @@ function Footer() {
         </div>
         <div className="flex gap-[12px] py-[8px] px-[12px] bg-[#292929] rounded-[8px]">
           <img src="/icons/r15.jpg" className="w-[55px] h-[55px]" />
-          <div className="text-[#fff9e5] font-[600] text-[13px] leading-[1.5]">
+          <div className="text-[#fff9e5] font-[600] text-[13px] !leading-[1.5]">
             請注意遊戲時間，避免沉迷。
             <br />
             本遊戲為免費使用，內另有提供購買虛擬遊戲幣、物品等付費服務。

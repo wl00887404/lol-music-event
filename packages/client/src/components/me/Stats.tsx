@@ -50,6 +50,7 @@ function TrueDamageBackground() {
 function Stats() {
   const team = useTeam();
   const stats = useMyStats();
+  
   const getTheme = () => {
     if (team === Team.heartSteel) {
       return {

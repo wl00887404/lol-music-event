@@ -130,8 +130,9 @@ function Header() {
     const buttonClassName = cn(
       "ml-[8px] w-[143px] h-[44px]",
       "bg-[url('/icons/header-button.png')] bg-cover",
-      "text-[#030718] font-[700] text-[20px] leading-[1]",
+      "text-[#030718] font-[700] text-[20px]",
     );
+
     if (isPending) {
       return (
         <BaseButton

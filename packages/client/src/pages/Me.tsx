@@ -48,9 +48,9 @@ function Me() {
   useCheckLogin();
 
   return (
-    <div>
+    <div className="xl:text-[12px] 2xl:text-[16px]">
       <HeroImage />
-      <div className="mt-[89px] max-w-[1632px] mx-auto">
+      <div className="mt-[5.5625em] max-w-[102em] mx-auto">
         {/* y = 1239 ~ 1799 */}
         <SoloMissions />
         {/* y = 1799 ~ 1859 */}
@@ -63,10 +63,10 @@ function Me() {
           </div>
           <ScorePr />
         </div>
-        <div className="mt-[20px]">
+        <div className="mt-[1.25em]">
           <Stats />
         </div>
-        <div className="mt-[74px] mb-[86px]">
+        <div className="mt-[4.625em] mb-[5.375em]">
           <Prizes />
         </div>
       </div>
