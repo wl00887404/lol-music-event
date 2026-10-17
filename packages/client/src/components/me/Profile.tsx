@@ -49,10 +49,7 @@ function Background() {
   if (team === Team.heartSteel) {
     return (
       <picture>
-        {/* <source
-          media="(min-width: 48rem)"
-          srcSet="/icons/popup-bg-desktop.jpg"
-        /> */}
+        {/* <source media="(min-width: 48rem)" srcSet="/icons/popup-bg-desktop.jpg" /> */}
         <img
           src={`/icons/heart-steel/id-bg.png`}
           className={backgroundClassName}
@@ -72,10 +69,7 @@ function Background() {
           />
         </picture>
         <picture>
-          {/* <source
-          media="(min-width: 48rem)"
-          srcSet="/icons/popup-bg-desktop.jpg"
-        /> */}
+          {/* <source media="(min-width: 48rem)" srcSet="/icons/popup-bg-desktop.jpg" /> */}
           <img
             src={`/icons/true-damage/id-bg-1.png`}
             className={cn(backgroundClassName, "absolute top-0 left-0")}

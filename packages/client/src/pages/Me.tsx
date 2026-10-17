@@ -12,6 +12,7 @@ import toast from "@/components/toast";
 
 import HeroImage from "@/components/home/HeroImage";
 import Profile from "@/components/me/Profile";
+import ScorePr from "@/components/me/ScorePr";
 
 function useSync() {
   const { data: session, isPending, refetch } = authClient.useSession();
@@ -52,8 +53,11 @@ function Me() {
         {/* y = 1799 ~ 1859 */}
         <SyncStatus />
         {/* y = 1945 ~ 2796 */}
-        <div>
-          <Profile />
+        <div className="flex justify-between">
+          <div className="flex flex-col justify-between">
+            <Profile />
+          </div>
+          <ScorePr />
         </div>
       </div>
     </div>

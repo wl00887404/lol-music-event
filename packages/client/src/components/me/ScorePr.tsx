@@ -1,0 +1,177 @@
+import { cn } from "@/libs/utils";
+import useTeam from "@/hooks/useTeam";
+import { Team } from "@/types";
+import useMyStats from "@/hooks/useMyStats";
+
+function Background() {
+  const backgroundClassName = "block w-full h-[851px] object-cover";
+  const team = useTeam();
+
+  if (team === Team.heartSteel) {
+    return (
+      <picture>
+        {/* <source media="(min-width: 48rem)" srcSet="/icons/popup-bg-desktop.jpg" /> */}
+        <img
+          src={`/icons/heart-steel/pr-bg.png`}
+          className={backgroundClassName}
+        />
+      </picture>
+    );
+  }
+
+  if (team === Team.trueDamage) {
+    return (
+      <>
+        <picture>
+          {/* <source media="(min-width: 48rem)" srcSet="/icons/popup-bg-desktop.jpg" /> */}
+          <img
+            src={`/icons/true-damage/pr-bg-3.png`}
+            className={backgroundClassName}
+          />
+        </picture>
+        <picture>
+          {/* <source media="(min-width: 48rem)" srcSet="/icons/popup-bg-desktop.jpg" /> */}
+          <img
+            src={`/icons/true-damage/pr-bg-2.png`}
+            className={cn(backgroundClassName, "absolute top-0 left-0")}
+            style={{ mixBlendMode: "soft-light" }}
+          />
+        </picture>
+        <picture>
+          {/* <source media="(min-width: 48rem)" srcSet="/icons/popup-bg-desktop.jpg" /> */}
+          <img
+            src={`/icons/true-damage/pr-bg-1.png`}
+            className={cn(backgroundClassName, "absolute top-0 left-0")}
+          />
+        </picture>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <picture>
+        {/* <source media="(min-width: 48rem)" srcSet="/icons/popup-bg-desktop.jpg" /> */}
+        <img src={`/icons/kda/pr-bg-3.png`} className={backgroundClassName} />
+      </picture>
+      <picture>
+        {/* <source
+          media="(min-width: 48rem)"
+          srcSet="/icons/popup-bg-desktop.jpg"
+        /> */}
+        <img
+          src={`/icons/kda/pr-bg-2.png`}
+          className={cn(backgroundClassName, "absolute top-0 left-0")}
+          style={{ mixBlendMode: "color-dodge" }}
+        />
+      </picture>
+      <picture>
+        {/* <source
+          media="(min-width: 48rem)"
+          srcSet="/icons/popup-bg-desktop.jpg"
+        /> */}
+        <img
+          src={`/icons/kda/pr-bg-1.png`}
+          className={cn(backgroundClassName, "absolute top-0 left-0")}
+        />
+      </picture>
+    </>
+  );
+}
+
+function Text() {
+  const team = useTeam();
+  const { scorePr } = useMyStats();
+  const width = 450;
+  const x = width / 2;
+  const y = 180;
+
+  const getTheme = () => {
+    if (team === Team.heartSteel) {
+      return {
+        textColor: "#ffffff",
+      };
+    }
+
+    if (team === Team.trueDamage) {
+      return {
+        textColor: "#ffffff",
+      };
+    }
+
+    return {
+      textColor: "#fff9e5",
+    };
+  };
+
+  const content = scorePr + "%";
+
+  const { textColor } = getTheme();
+
+  const baseProps = {
+    textAnchor: "middle",
+    fill: textColor,
+    fontSize: 178,
+    fontFamily: "BeaufortforLOL, sans-serif",
+  } as const;
+
+  const renderHeartSteelTextEffect = () => {
+    if (team !== Team.heartSteel) return null;
+
+    const rad = (110 * Math.PI) / 180;
+    const d = 4;
+    const dx = Math.cos(rad) * d * -1;
+    const dy = Math.sin(rad) * d;
+
+    const shadowProps = {
+      ...baseProps,
+      fill: "#262b1b",
+      stroke: "#262b1b",
+      strokeWidth: 10,
+    };
+
+    const strokeProps = {
+      ...baseProps,
+      stroke: "#262b1b",
+      strokeWidth: 10,
+    };
+
+    return (
+      <>
+        <text {...shadowProps} x={x + dx} y={y + dy}>
+          {content}
+        </text>
+        <text {...strokeProps} x={x} y={y}>
+          {content}
+        </text>
+      </>
+    );
+  };
+
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width={width} height={225}>
+      {renderHeartSteelTextEffect()}
+      <text {...baseProps} x={x} y={y}>
+        {content}
+      </text>
+    </svg>
+  );
+}
+
+function ScorePr() {
+  return (
+    <div className="relative max-w-[939px]">
+      <Background />
+      <div
+        className={cn(
+          "absolute top-[525px] left-0 w-full",
+          "flex justify-center px-[18px]",
+        )}
+      >
+        <Text />
+      </div>
+    </div>
+  );
+}
+
+export default ScorePr;

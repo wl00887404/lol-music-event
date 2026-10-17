@@ -7,6 +7,7 @@ import Skeleton from "@/components/Skeleton";
 import formatNumber from "@/libs/formatNumber";
 import { Team } from "@/types";
 import { SpacedText } from "@/components/SpacedText";
+import type { ReactNode } from "react";
 
 type DownloadButtonProps = {
   onClick: () => void;
@@ -102,17 +103,52 @@ function KdaText(props: Props) {
       <SpacedText {...numberProps} x={x2} y={y2}>
         {scorePr}%
       </SpacedText>
-      <SpacedText {...numberProps} x={x1} y={y1}>
-        {formatNumber(totalCount)}
+    </>
+  );
+}
+
+function HeartSteelNumber(props: {
+  x: number;
+  y: number;
+  children: ReactNode;
+}) {
+  const { x, y, children } = props;
+  const rad = (122 * Math.PI) / 180;
+  const d = 4;
+  const dx = Math.cos(rad) * d * -1;
+  const dy = Math.sin(rad) * d;
+
+  const baseProps = {
+    fontFamily: "BeaufortforLOL, sans-serif",
+    textAnchor: "middle",
+    fontSize: "70",
+    letterSpacing: 0.6,
+    fill: "#f6efe1",
+  } as const;
+
+  const shadowProps = {
+    ...baseProps,
+    fill: "#262b1b",
+    stroke: "#262b1b",
+    strokeWidth: 5,
+  };
+
+  const strokeProps = {
+    ...baseProps,
+    stroke: "#262b1b",
+    strokeWidth: 5,
+  };
+
+  return (
+    <>
+      <SpacedText {...shadowProps} x={x + dx} y={y + dy}>
+        {children}
       </SpacedText>
-      <SpacedText {...numberProps} x={x2} y={y1}>
-        {formatNumber(winCount)}
+      <SpacedText {...strokeProps} x={x} y={y}>
+        {children}
       </SpacedText>
-      <SpacedText {...numberProps} x={x1} y={y2}>
-        {formatNumber(averageKda)}
-      </SpacedText>
-      <SpacedText {...numberProps} x={x2} y={y2}>
-        {scorePr}%
+      <SpacedText {...baseProps} x={x} y={y}>
+        {children}
       </SpacedText>
     </>
   );
@@ -124,30 +160,6 @@ function HeartSteelText(props: Props) {
   const x2 = 437;
   const y1 = 784;
   const y2 = 962;
-
-  const numberProps = {
-    fontFamily: "BeaufortforLOL, sans-serif",
-    textAnchor: "middle",
-    fontSize: "70",
-    letterSpacing: 0.6,
-    fill: "#f6efe1",
-  } as const;
-
-  const shadowProps = {
-    fill: "#262b1b",
-    stroke: "#262b1b",
-    strokeWidth: 5,
-  };
-
-  const strokeProps = {
-    stroke: "#262b1b",
-    strokeWidth: 5,
-  };
-
-  const rad = (122 * Math.PI) / 180;
-  const d = 4;
-  const dx = Math.cos(rad) * d * -1;
-  const dy = Math.sin(rad) * d;
 
   return (
     <>
@@ -163,43 +175,18 @@ function HeartSteelText(props: Props) {
       >
         {riotId}
       </SpacedText>
-
-      <SpacedText {...numberProps} {...shadowProps} x={x1 + dx} y={y1 + dy}>
+      <HeartSteelNumber x={x1} y={y1}>
         {formatNumber(totalCount)}
-      </SpacedText>
-      <SpacedText {...numberProps} {...shadowProps} x={x2 + dx} y={y1 + dy}>
+      </HeartSteelNumber>
+      <HeartSteelNumber x={x2} y={y1}>
         {formatNumber(winCount)}
-      </SpacedText>
-      <SpacedText {...numberProps} {...shadowProps} x={x1 + dx} y={y2 + dy}>
+      </HeartSteelNumber>
+      <HeartSteelNumber x={x1} y={y2}>
         {formatNumber(averageKda)}
-      </SpacedText>
-      <SpacedText {...numberProps} {...shadowProps} x={x2 + dx} y={y2 + dy}>
+      </HeartSteelNumber>
+      <HeartSteelNumber x={x2} y={y2}>
         {scorePr}%
-      </SpacedText>
-      <SpacedText {...numberProps} {...strokeProps} x={x1} y={y1}>
-        {formatNumber(totalCount)}
-      </SpacedText>
-      <SpacedText {...numberProps} {...strokeProps} x={x2} y={y1}>
-        {formatNumber(winCount)}
-      </SpacedText>
-      <SpacedText {...numberProps} {...strokeProps} x={x1} y={y2}>
-        {formatNumber(averageKda)}
-      </SpacedText>
-      <SpacedText {...numberProps} {...strokeProps} x={x2} y={y2}>
-        {scorePr}%
-      </SpacedText>
-      <SpacedText {...numberProps} x={x1} y={y1}>
-        {formatNumber(totalCount)}
-      </SpacedText>
-      <SpacedText {...numberProps} x={x2} y={y1}>
-        {formatNumber(winCount)}
-      </SpacedText>
-      <SpacedText {...numberProps} x={x1} y={y2}>
-        {formatNumber(averageKda)}
-      </SpacedText>
-      <SpacedText {...numberProps} x={x2} y={y2}>
-        {scorePr}%
-      </SpacedText>
+      </HeartSteelNumber>
     </>
   );
 }
