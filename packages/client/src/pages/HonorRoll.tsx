@@ -133,7 +133,7 @@ function HonorRoll() {
         <div
           className={cn(
             "mt-[7.125em] px-[1.125em] grid",
-            "grid-cols-[repeat(2,1fr)] md:grid-cols-[repeat(3,1fr)] gap-[1.125em] md:gap-[3.75em_100/16em]",
+            "grid-cols-[repeat(2,1fr)] md:grid-cols-[repeat(3,1fr)] gap-[1.125em] md:gap-[3.75em_6.25em]",
           )}
         >
           {items.map((item) => {

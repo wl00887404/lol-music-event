@@ -97,12 +97,10 @@ function PlayerLeaderboard() {
           className="w-[14.1875em] h-[3.4375em] block"
         />
       </div>
-
       {/* 1193 */}
       <div className="mt-[3.25em] max-w-[74.5625em] mx-auto">
         <TeamFilter currentTab={currentTab} onChange={onTabChange} />
       </div>
-
       {/* 1592 */}
       <div className="mt-[3.25rem] max-w-[99.5em] mx-auto">
         <SearchBar keyword={keyword} onSearch={onSearch} />
@@ -110,7 +108,6 @@ function PlayerLeaderboard() {
           <MyLeaderboard />
         </div>
       </div>
-
       {/* 1598 */}
       <div
         className={cn(
