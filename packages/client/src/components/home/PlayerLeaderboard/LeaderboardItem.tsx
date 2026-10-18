@@ -1,5 +1,5 @@
 import formatNumber from "@/libs/formatNumber";
-import Title from "./TItle";
+import Title from "./tempTitle";
 import type { PlayerLeaderboardItem } from "@/apis";
 import { SpacedText } from "@/components/SpacedText";
 

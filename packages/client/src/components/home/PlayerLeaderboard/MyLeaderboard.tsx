@@ -1,5 +1,5 @@
 import formatNumber from "@/libs/formatNumber";
-import Title from "./TItle";
+import Title from "./tempTitle";
 import useMyLeaderboard from "@/hooks/useMyLeaderboard";
 import getPlaceholderString from "@/libs/getPlaceholderString";
 import type { PlayerLeaderboardItem } from "@/apis";
