@@ -18,12 +18,7 @@ type MobileMenuProps = {
 };
 
 function Divider() {
-  return (
-    <img
-      className="w-[9px] h-[9px] mt-[19px]"
-      src="/icons/header-divider.png"
-    />
-  );
+  return <img className="w-[9px] h-[9px]" src="/icons/header-divider.png" />;
 }
 
 function MobileMenu(props: MobileMenuProps) {
@@ -34,7 +29,7 @@ function MobileMenu(props: MobileMenuProps) {
 
   const renderButton = () => {
     const buttonClassName =
-      "bg-[#232323] p-[12px] rounded-[10px] w-full h-auto border-none text-[14px] font-[500] !leading-[1.2] border-none";
+      "bg-[#232323] p-[12px] rounded-[10px] w-full h-auto border-none text-[14px] font-[500] !leading-[1.2]";
 
     if (isPending) {
       return <Button className={buttonClassName} loading={isPending} />;
@@ -71,11 +66,10 @@ function MobileMenu(props: MobileMenuProps) {
         }}
       >
         <DrawerTrigger>
-          {open ? (
-            <img src="/icons/close.svg" className="w-[24px]" />
-          ) : (
-            <img src="/icons/menu.svg" className="w-[24px]" />
-          )}
+          <img
+            src={open ? "/icons/close.svg" : "/icons/menu.svg"}
+            className="w-[24px]"
+          />
         </DrawerTrigger>
         <DrawerContent
           className={"!w-full !border-0 !rounded-none !max-w-none bg-[#111111]"}
@@ -128,10 +122,11 @@ function Header() {
 
   const renderButton = () => {
     const buttonClassName = cn(
-      "ml-[8px] w-[143px] h-[44px]",
+      "w-[8.9375em] h-[2.75em]",
       "bg-[url('/icons/header-button.png')] bg-cover",
-      "text-[#030718] font-[700] text-[20px]",
     );
+
+    const textClassName = "text-[#030718] font-[700] text-[1.25em]";
 
     if (isPending) {
       return (
@@ -151,21 +146,20 @@ function Header() {
             setRsoOpen(true);
           }}
         >
-          登入 / 註冊
+          <span className={textClassName}>登入 / 註冊</span>
         </BaseButton>
       );
     }
 
     return (
       <BaseButton className={buttonClassName} onClick={signOut}>
-        登出
+        <span className={textClassName}>登出</span>
       </BaseButton>
     );
   };
 
   const shardClassName = "fixed top-0 h-[var(--header-height)] w-full";
-  const linkClassName =
-    "text-[23px] font-[700] leading-[1] text-[#f0ca70] mt-[12px]";
+  const linkClassName = "text-[1.4375em] font-[700] text-[#f0ca70]";
 
   return (
     <>
@@ -175,22 +169,25 @@ function Header() {
       <div
         className={cn(shardClassName, "z-49 bg-[#364d98] mix-blend-multiply")}
       />
-      <div className={cn(shardClassName, "z-50 ")}>
+      <div className={cn(shardClassName, "z-50")}>
         <div
           className={cn(
-            "max-w-[1920px] mx-auto px-[18px]",
-            "flex justify-between items-center md:items-start",
+            "max-w-[1920px] mx-auto px-[1.125em] h-full",
+            "flex justify-between items-center",
           )}
         >
-          <Link to="/" className="md:mt-[7px]">
-            <img src="/logos/lol-logo.png" className="w-[24px] md:w-[45px]" />
+          <Link to="/">
+            <img
+              src="/logos/lol-logo.png"
+              className="w-[24px] md:w-[2.8125em]"
+            />
           </Link>
           {/* mobile */}
           <div className="flex md:hidden">
             <MobileMenu signOut={signOut} />
           </div>
           {/* desktop */}
-          <div className="hidden md:flex gap-[23px] mt-[12px]">
+          <div className="hidden md:flex items-center gap-[1.4375em]">
             <Link to="/" className={linkClassName}>
               活動首頁
             </Link>

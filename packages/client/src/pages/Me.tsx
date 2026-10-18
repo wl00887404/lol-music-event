@@ -48,7 +48,7 @@ function Me() {
   useCheckLogin();
 
   return (
-    <div className="xl:text-[12px] 2xl:text-[16px]">
+    <div>
       <HeroImage />
       <div className="mt-[5.5625em] max-w-[102em] mx-auto">
         {/* y = 1239 ~ 1799 */}

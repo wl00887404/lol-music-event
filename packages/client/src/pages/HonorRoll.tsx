@@ -123,17 +123,17 @@ function HonorRoll() {
   const items = data || mockItems;
 
   return (
-    <div className="relative px-[18px]">
+    <div className="relative px-[1.125em]">
       <HeroCarousel />
-      <div className="flex flex-col items-center mt-[121px] mb-[121px]">
+      <div className="flex flex-col items-center mt-[7.5625em] mb-[7.5625em]">
         <img
           src="/icons/honor-roll-title.png"
-          className="w-[270px] h-[64px] block"
+          className="w-[16.875em] h-[4em] block"
         />
         <div
           className={cn(
-            "mt-[114px] px-[18px] grid",
-            "grid-cols-[repeat(2,1fr)] md:grid-cols-[repeat(3,1fr)] gap-[18px] md:gap-[60px_100px]",
+            "mt-[7.125em] px-[1.125em] grid",
+            "grid-cols-[repeat(2,1fr)] md:grid-cols-[repeat(3,1fr)] gap-[1.125em] md:gap-[3.75em_100/16em]",
           )}
         >
           {items.map((item) => {

@@ -13,6 +13,7 @@ import getPlaceholderString from "@/libs/getPlaceholderString";
 import useRestoreScroll from "@/hooks/useRestoreScroll";
 import MyLeaderboard from "./MyLeaderboard";
 import Empty from "../Empty";
+import { cn } from "@/libs/utils";
 
 const mockItems: PlayerLeaderboardItem[] = Array(HOME_PAGE_SIZE)
   .fill(0)
@@ -88,43 +89,48 @@ function PlayerLeaderboard() {
   };
 
   return (
-    <div className=" px-[18px] mx-auto">
+    <div className="px-[1.125em]">
       <div ref={scrollRef} className="scroll-mt-[var(--scroll-margin-top)]" />
       <div className="flex justify-center">
         <img
           src="/icons/player-leaderboard-title.png"
-          className="w-[227px] h-[55px] block"
+          className="w-[14.1875em] h-[3.4375em] block"
         />
       </div>
 
-      {/* 18 + 1193 + 18 */}
-      <div className="mt-[52px] max-w-[1229px] mx-auto">
+      {/* 1193 */}
+      <div className="mt-[3.25em] max-w-[74.5625em] mx-auto">
         <TeamFilter currentTab={currentTab} onChange={onTabChange} />
       </div>
-      <div className="mt-[52px] max-w-[1628px] mx-auto">
+
+      {/* 1592 */}
+      <div className="mt-[3.25rem] max-w-[99.5em] mx-auto">
         <SearchBar keyword={keyword} onSearch={onSearch} />
-        <div className="mt-[48px]">
+        <div className="mt-[3em]">
           <MyLeaderboard />
-          <div className="mt-[50px] flex flex-col gap-[33px]">
-            {items.length === 0 && <Empty />}
-            {items.map((item) => {
-              return (
-                <LeaderboardItem
-                  key={item.id}
-                  item={item}
-                  loading={isFetching}
-                />
-              );
-            })}
-          </div>
-          <div className="mt-[82px]">
-            <Pagination
-              currentPage={currentPage}
-              setCurrentPage={onPageChange}
-              maxPage={maxPage}
-            />
-          </div>
         </div>
+      </div>
+
+      {/* 1598 */}
+      <div
+        className={cn(
+          "mt-[3.125em] max-w-[99.875em] mx-auto",
+          "flex flex-col gap-[2.0625em]",
+        )}
+      >
+        {items.length === 0 && <Empty />}
+        {items.map((item) => {
+          return (
+            <LeaderboardItem key={item.id} item={item} loading={isFetching} />
+          );
+        })}
+      </div>
+      <div className="mt-[5.125em]">
+        <Pagination
+          currentPage={currentPage}
+          setCurrentPage={onPageChange}
+          maxPage={maxPage}
+        />
       </div>
     </div>
   );

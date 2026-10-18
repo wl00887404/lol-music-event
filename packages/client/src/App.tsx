@@ -12,6 +12,7 @@ import HonorRoll from "./pages/HonorRoll";
 import Guidelines from "./pages/Guidelines";
 import useTeam from "./hooks/useTeam";
 import SnsPosterTest from "./pages/SnsPosterTest";
+import { cn } from "./libs/utils";
 
 function App() {
   const location = useLocation();
@@ -27,7 +28,10 @@ function App() {
 
   return (
     <div
-      className="bg-top bg-repeat-y bg-[length:100%]"
+      className={cn(
+        "bg-top bg-repeat-y bg-[length:100%]",
+        "xl:text-[12px] 2xl:text-[16px]",
+      )}
       style={{ backgroundImage: getBackgroundImage() }}
     >
       <Header />

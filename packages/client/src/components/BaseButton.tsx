@@ -8,7 +8,7 @@ function Loading(props: LoadingProps) {
 
   return (
     <div
-      className="ml-[0.2em] inline-block rounded-[50%] w-[0.8em] h-[0.8em] animate-spin border-[2px]"
+      className="ml-[0.2em] inline-block rounded-[50%] w-[0.8em] h-[0.8em] animate-spin border-[0.125em]"
       style={{
         borderColor: loadingColor,
         borderTopColor: "transparent",

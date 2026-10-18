@@ -111,7 +111,7 @@ function MyLeaderboard() {
   return (
     <>
       <MyLeaderboardItem item={item} loading={myLeaderboard.isPending} />
-      <div className="mt-[46px]">
+      <div className="mt-[2.875em]">
         <img src="/icons/player-leaderboard-divider.png" />
       </div>
     </>

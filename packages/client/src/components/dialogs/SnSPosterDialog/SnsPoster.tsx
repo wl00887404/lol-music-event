@@ -24,7 +24,7 @@ function DownloadButton(props: DownloadButtonProps) {
       className={cn(
         "bg-[#f0ca70] border-none text-[#030718]",
         "flex !h-auto items-center",
-        "px-[1.5em] md:px-[2.5625em] py-[1em] md:py-[1.25em]  rounded-[10px] md:rounded-[15px]",
+        "px-[1.5em] md:px-[2.5625em] py-[1em] md:py-[1.25em] rounded-[10px] md:rounded-[15px]",
         "text-[16px] md:text-[20px] font-[900] tracking-[10%] !leading-[1.2]",
         "disabled:opacity-45",
       )}

@@ -11,7 +11,6 @@ type SiblingPageButtonProp = {
 
 function SiblingPageButton(props: SiblingPageButtonProp) {
   const { type, onClick, disabled } = props;
-  const className = "w-[66px] block";
 
   return (
     <BaseButton
@@ -19,11 +18,14 @@ function SiblingPageButton(props: SiblingPageButtonProp) {
       disabled={disabled}
       onClick={onClick}
     >
-      {type === "prev" ? (
-        <img src="/icons/chevron-left.png" className={className} />
-      ) : (
-        <img src="/icons/chevron-right.png" className={className} />
-      )}
+      <img
+        src={
+          type === "prev"
+            ? "/icons/chevron-left.png"
+            : "/icons/chevron-right.png"
+        }
+        className="w-[4.125em] block"
+      />
     </BaseButton>
   );
 }
@@ -34,7 +36,7 @@ type DotsProps = {
 
 function DotsProps(props: DotsProps) {
   const { className } = props;
-  return <img className={cn("w-[66px]", className)} src="/icons/dots.png" />;
+  return <img className={cn("w-[4.125em]", className)} src="/icons/dots.png" />;
 }
 
 type PageProps = {
@@ -50,14 +52,13 @@ function Page(props: PageProps) {
   return (
     <BaseButton
       className={cn(
-        "text-[50px] font-[BeaufortforLOL]",
-        "w-[66px] h-[66px] leading-[66px]",
+        "w-[4.125em] h-[4.125em]",
         currentPage === page ? "text-[#f0ca70]" : "text-[#fff9e5]",
         className,
       )}
       onClick={() => setCurrentPage(page)}
     >
-      {page}
+      <span className="text-[3.125em] font-[BeaufortforLOL]">{page}</span>
     </BaseButton>
   );
 }
@@ -134,13 +135,12 @@ function Pagination(props: Props) {
   };
 
   return (
-    <div className="mx-auto flex justify-center gap-[24px] md:gap-[48px]">
+    <div className="mx-auto flex justify-center gap-[1.5em] md:gap-[3em]">
       <SiblingPageButton
         type="prev"
         onClick={() => setCurrentPage(currentPage - 1)}
         disabled={currentPage <= 1}
       />
-
       {desktopPages.map((page, index) => {
         const key = `desktop-${index}`;
         const className = "hidden md:grid";
@@ -159,7 +159,6 @@ function Pagination(props: Props) {
           );
         }
       })}
-
       <Input
         ref={inputRef}
         name="jump"
@@ -169,8 +168,12 @@ function Pagination(props: Props) {
         min={1}
         max={maxPage}
         className={cn(
-          "border-none px-[16px] md:px-[32px] py-[8px] md:py-[20px] font-[900] !text-[20px] !leading-[1.2]",
-          "bg-[#ffffff] w-[96px] md:w-[128px] text-center h-auto text-[#111111] rounded-[10px] md:rounded-[15px]",
+          // FIXME: 還沒有把單位換成 me
+          // 不確定有沒有必要
+          "font-[900] !text-[20px] !leading-[1.2]",
+          "border-none px-[1em] md:px-[2em] py-[0.5em] md:py-[1.25em]",
+          "bg-[#ffffff] w-[96px] md:w-[128px] text-center h-auto text-[#111111]",
+          "rounded-[10px] md:rounded-[15px]",
           "md:hidden",
         )}
       />

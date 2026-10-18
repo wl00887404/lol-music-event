@@ -7,10 +7,10 @@ function Home() {
   return (
     <div className="relative">
       <HeroCarousel />
-      <div className="mt-[106px]">
+      <div className="mt-[6.625em]">
         <TeamLeaderboard />
       </div>
-      <div className="mt-[119px] mb-[121px]">
+      <div className="mt-[7.4375em] mb-[7.5625em]">
         <PlayerLeaderboard />
       </div>
     </div>

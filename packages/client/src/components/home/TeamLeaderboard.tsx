@@ -82,24 +82,24 @@ function TeamLeaderboard() {
 
   return (
     // 18 + 1615 + 18
-    <div className="max-w-[1651px] px-[18px] mx-auto">
+    <div className="max-w-[103.1875em] px-[1.125em] mx-auto">
       <div className="flex justify-center">
         <img
           src="/icons/team-leaderboard-title.png"
-          className="w-[226px] h-[56px] block"
+          className="w-[14.125em] h-[3.5em] block"
         />
       </div>
-      <div className="mt-[47px]">
+      <div className="mt-[2.9375em]">
         <Item team="kda" score={data?.[Team.kda] || 0} loading={isFetching} />
       </div>
-      <div className="mt-[71px]">
+      <div className="mt-[4.4375em]">
         <Item
           team="heart-steel"
           score={data?.[Team.heartSteel] || 0}
           loading={isFetching}
         />
       </div>
-      <div className="mt-[71px]">
+      <div className="mt-[4.4375em]">
         <Item
           team="true-damage"
           score={data?.[Team.trueDamage] || 0}

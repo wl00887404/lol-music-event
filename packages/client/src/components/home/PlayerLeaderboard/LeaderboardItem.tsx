@@ -5,12 +5,12 @@ import { SpacedText } from "@/components/SpacedText";
 
 const WIDTH = 1598;
 const HEIGHT = 108;
-const SVG_CLASS_NAME = "overflow-hidden max-w-full w-full" as const;
 
 type Props = {
   item: PlayerLeaderboardItem;
   loading?: boolean;
 };
+
 
 function LeaderboardItem(props: Props) {
   const { loading } = props;
@@ -37,7 +37,7 @@ function LeaderboardItem(props: Props) {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
-      className={SVG_CLASS_NAME}
+      className="overflow-hidden max-w-full w-full"
     >
       <defs>
         <clipPath id="player-leaderboard-profile">
