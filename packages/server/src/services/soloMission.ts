@@ -436,7 +436,9 @@ export const soloMissionService = {
       }
     }
 
-    await logService.insert(`${riotId} 積分從 ${score} 加分到 ${nextScore}`);
+    if (score != nextScore) {
+      await logService.insert(`${riotId} 積分從 ${score} 加分到 ${nextScore}`);
+    }
 
     const lastMatch = results[results.length - 1];
     await db

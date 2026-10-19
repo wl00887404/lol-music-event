@@ -50,7 +50,7 @@ const useDots = () => {
 };
 
 function HeroCarousel() {
-  const imgClassName = "w-full block aspect-[780/1386] md:aspect-[1920/1080]";
+  const imgClassName = "w-full block aspect-[780/1386] md:aspect-[1920/800]";
 
   return (
     <div>
