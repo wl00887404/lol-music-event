@@ -5,6 +5,7 @@ import useMyStats from "@/hooks/useMyStats";
 import RwdImg from "@/components/RwdImg";
 
 function Background() {
+  // 851
   const backgroundClassName = "block w-full h-[53.1875em] object-cover";
   const team = useTeam();
 

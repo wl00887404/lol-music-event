@@ -31,10 +31,7 @@ function App() {
 
   return (
     <div
-      className={cn(
-        "bg-top bg-repeat-y bg-[length:100%]",
-        "xl:text-[12px] 2xl:text-[16px]",
-      )}
+      className={cn("bg-top bg-repeat-y bg-[length:100%]", "md:text-[12px]")}
       style={{ backgroundImage: getBackgroundImage() }}
     >
       <Header />

@@ -12,10 +12,7 @@ import { authClient } from "@/libs/auth-client";
 import { useDialogStore } from "./dialogs/dialogStore";
 import { cn } from "@/libs/utils";
 import BaseButton from "./BaseButton";
-import { useViewport } from "./viewportStore";
-
 type MobileMenuProps = {
-  sharedStyle: { fontSize: string };
   signOut: () => void;
 };
 
@@ -23,8 +20,10 @@ function Divider() {
   return <img className="w-[9px] h-[9px]" src="/icons/header-divider.png" />;
 }
 
+const HEADER_FONT_SIZE_CLASS_NAME = "text-[24px] md:text-[12px] xl:[16px]";
+
 function MobileMenu(props: MobileMenuProps) {
-  const { signOut, sharedStyle } = props;
+  const { signOut } = props;
   const { setRsoOpen } = useDialogStore();
   const [open, setOpen] = useState(false);
   const { data: session, isPending } = authClient.useSession();
@@ -70,14 +69,15 @@ function MobileMenu(props: MobileMenuProps) {
         <DrawerTrigger>
           <img
             src={open ? "/icons/close.svg" : "/icons/menu.png"}
-            className="w-[1.3125em]"
-            style={sharedStyle}
+            className={cn(HEADER_FONT_SIZE_CLASS_NAME, "w-[1.3125em]")}
           />
         </DrawerTrigger>
         <DrawerContent
-          className={"!w-full !border-0 !rounded-none !max-w-none bg-[#111111]"}
+          className={cn(
+            HEADER_FONT_SIZE_CLASS_NAME,
+            "!w-full !border-0 !rounded-none !max-w-none bg-[#111111]",
+          )}
           style={{
-            ...sharedStyle,
             top: "var(--header-height)",
             height: "calc(100vh - var(--header-height))",
           }}
@@ -118,8 +118,6 @@ function MobileMenu(props: MobileMenuProps) {
 function Header() {
   const { setRsoOpen } = useDialogStore();
   const { data: session, isPending } = authClient.useSession();
-
-  const viewport = useViewport();
 
   const signOut = async () => {
     await authClient.signOut();
@@ -164,21 +162,22 @@ function Header() {
     );
   };
 
-  const sharedClassName = "fixed top-0 left-0 h-[var(--header-height)] w-full";
-  const sharedStyle = { fontSize: viewport === "mobile" ? "24px" : "inherit" }; // 覆寫設計圖設定
+  const sharedClassName = cn(
+    "fixed top-0 left-0 h-[var(--header-height)] w-full",
+    HEADER_FONT_SIZE_CLASS_NAME,
+  );
 
   const linkClassName = "text-[1.4375em] font-[700] text-[#f0ca70]";
 
   return (
     <>
       {/* Placeholder */}
-      <div className={cn(sharedClassName, "static")} style={sharedStyle} />
+      <div className={cn(sharedClassName, "static")} />
       {/* Multiply 背景層 */}
       <div
         className={cn(sharedClassName, "z-49 bg-[#364d98] mix-blend-multiply")}
-        style={sharedStyle}
       />
-      <div className={cn(sharedClassName, "z-50")} style={sharedStyle}>
+      <div className={cn(sharedClassName, "z-50")}>
         <div
           className={cn(
             "max-w-[1920px] mx-auto h-full",
@@ -194,7 +193,7 @@ function Header() {
           </Link>
           {/* mobile */}
           <div className="flex md:hidden">
-            <MobileMenu signOut={signOut} sharedStyle={sharedStyle} />
+            <MobileMenu signOut={signOut} />
           </div>
           {/* desktop */}
           <div className="hidden md:flex items-center gap-[1.4375em]">

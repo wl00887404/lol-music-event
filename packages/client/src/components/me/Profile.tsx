@@ -39,7 +39,9 @@ function Title(props: TitleProps) {
 }
 
 function Background() {
+  // 455
   const backgroundClassName = "block w-full h-[27.8125em] object-cover";
+
   const team = useTeam();
 
   if (team === Team.heartSteel) {
