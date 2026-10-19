@@ -2,6 +2,7 @@ import formatNumber from "@/libs/formatNumber";
 import Title from "./Title";
 import type { PlayerLeaderboardItem } from "@/apis";
 import { SpacedText } from "@/components/SpacedText";
+import getProfileUrl from "@/libs/getProfileUrl";
 
 const WIDTH = 1598;
 const HEIGHT = 108;
@@ -10,7 +11,6 @@ type Props = {
   item: PlayerLeaderboardItem;
   loading?: boolean;
 };
-
 
 function LeaderboardItem(props: Props) {
   const { loading } = props;
@@ -73,7 +73,7 @@ function LeaderboardItem(props: Props) {
       </text>
       {loading ? null : (
         <image
-          href={`https://ddragon.leagueoflegends.com/cdn/16.19.1/img/profileicon/${image}.png`}
+          href={getProfileUrl(image)}
           x="194"
           y="22"
           width="63"

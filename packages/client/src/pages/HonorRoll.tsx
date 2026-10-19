@@ -3,6 +3,7 @@ import HeroCarousel from "@/components/home/HeroCarousel";
 import { SpacedText } from "@/components/SpacedText";
 import { authClient } from "@/libs/auth-client";
 import getPlaceholderString from "@/libs/getPlaceholderString";
+import getProfileUrl from "@/libs/getProfileUrl";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
 const WIDTH = 521;
@@ -55,7 +56,7 @@ function LeaderboardItem(props: Props) {
       />
       {loading ? null : (
         <image
-          href={`https://ddragon.leagueoflegends.com/cdn/16.19.1/img/profileicon/${image}.png`}
+          href={getProfileUrl(image)}
           x="200"
           y="73"
           width="120"

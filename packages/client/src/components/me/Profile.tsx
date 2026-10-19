@@ -8,6 +8,7 @@ import useMyLeaderboard from "@/hooks/useMyLeaderboard";
 import { Team } from "@/types";
 import BaseButton from "../BaseButton";
 import RwdImg from "@/components/RwdImg";
+import getProfileUrl from "@/libs/getProfileUrl";
 
 type TitleProps = {
   children: ReactNode;
@@ -126,7 +127,7 @@ function Profile() {
       >
         {image && (
           <img
-            src={`https://ddragon.leagueoflegends.com/cdn/16.19.1/img/profileicon/${image}.png`}
+            src={getProfileUrl(image)}
             className="rounded-[50%] w-[8.9375em] h-[8.9375em]"
           />
         )}

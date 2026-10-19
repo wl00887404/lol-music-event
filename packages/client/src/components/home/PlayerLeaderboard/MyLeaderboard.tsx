@@ -4,6 +4,7 @@ import useMyLeaderboard from "@/hooks/useMyLeaderboard";
 import getPlaceholderString from "@/libs/getPlaceholderString";
 import type { PlayerLeaderboardItem } from "@/apis";
 import { SpacedText } from "@/components/SpacedText";
+import getProfileUrl from "@/libs/getProfileUrl";
 
 const WIDTH = 1592;
 const HEIGHT = 139;
@@ -65,7 +66,7 @@ function MyLeaderboardItem(props: Props) {
         {loading ? "" : totalRank}
       </text>
       <image
-        href={`https://ddragon.leagueoflegends.com/cdn/16.19.1/img/profileicon/${image}.png`}
+        href={getProfileUrl(image)}
         x="190"
         y="37"
         width="63"
