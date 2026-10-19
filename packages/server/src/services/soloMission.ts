@@ -88,7 +88,7 @@ const spellCasts = (score: number, value: number): SoloMission => {
       );
     },
     toJson: () => {
-      return { name: `單場大混戰使用 ${value} 次技能`, score };
+      return { name: `單場大混戰施放 ${value} 次技能`, score };
     },
   };
 };
@@ -105,7 +105,7 @@ const spell123CastsAndWin = (score: number, value: number): SoloMission => {
     },
     toJson: () => {
       return {
-        name: `單場大混戰使用 ${value} 次非大絕技能並贏得勝利`,
+        name: `單場大混戰施放 ${value} 次非大絕技能並贏得勝利`,
         score,
       };
     },
@@ -118,15 +118,15 @@ const spell4CastsAndWin = (score: number, value: number): SoloMission => {
       return matchHistory.win && matchHistory.spell4Casts >= value;
     },
     toJson: () => {
-      return { name: `單場大混戰使用 ${value} 次大絕技能並贏得勝利`, score };
+      return { name: `單場大混戰施放 ${value} 次大絕技能並贏得勝利`, score };
     },
   };
 };
 
 const gameDuration = (score: number, value: number): SoloMission => {
   return {
-    evaluate: (_matchHistory, match) => {
-      return match.gameDuration <= value * 60;
+    evaluate: (matchHistory, match) => {
+      return matchHistory.win && match.gameDuration <= value * 60;
     },
     toJson: () => {
       return { name: `單場大混戰在 ${value} 分鐘內獲得勝利`, score };
@@ -147,11 +147,14 @@ const totalMinionsKilled = (score: number, value: number): SoloMission => {
 
 const totalKills = (score: number, value: number): SoloMission => {
   return {
-    evaluate: (_matchHistory, match) => {
-      return match.totalKills >= value;
+    evaluate: (matchHistory, match) => {
+      return matchHistory.win && match.totalKills >= value;
     },
     toJson: () => {
-      return { name: `單場雙方總擊殺數超過 ${value} 的情況下獲得勝利`, score };
+      return {
+        name: `單場大混戰雙方總擊殺數超過 ${value} 的情況下獲得勝利`,
+        score,
+      };
     },
   };
 };
@@ -162,7 +165,7 @@ const snowballsHit = (score: number, value: number): SoloMission => {
       return matchHistory.snowballsHit >= value;
     },
     toJson: () => {
-      return { name: `單場使用雪球擊中對手超過 ${value} 次`, score };
+      return { name: `單場大混戰使用雪球擊中對手超過 ${value} 次`, score };
     },
   };
 };
@@ -173,7 +176,7 @@ const skillshotsHit = (score: number, value: number): SoloMission => {
       return matchHistory.skillshotsHit >= value;
     },
     toJson: () => {
-      return { name: `單場大混戰使用指向技能命中 ${value} 次`, score };
+      return { name: `單場大混戰使用指向技能命中敵方英雄 ${value} 次`, score };
     },
   };
 };
@@ -245,7 +248,7 @@ const killParticipation = (score: number, value: number): SoloMission => {
       return matchHistory.killParticipation * 100 >= value;
     },
     toJson: () => {
-      return { name: `單場參團率超過 ${value}%`, score };
+      return { name: `單場大混戰參團率超過 ${value}%`, score };
     },
   };
 };
@@ -354,7 +357,7 @@ export const soloMissionService = {
     }
 
     let isInviteCompleted = me.isInviteCompleted;
-    let { index, phrase, updatedAt } = state;
+    let { index, phase, updatedAt } = state;
     let nextScore = score || 0;
 
     const results = await db
@@ -381,16 +384,29 @@ export const soloMissionService = {
         if (matchHistory.win) {
           nextScore += 2;
         } else {
-          nextScore + 1;
+          nextScore += 1;
         }
 
-        const isSuccess = soloMissions[index][phrase].evaluate(
+        const isSuccess = soloMissions[index][phase].evaluate(
           matchHistory,
           match,
         );
         if (isSuccess) {
+          const { name: missionName, score: missionScore } =
+            soloMissions[index][phase].toJson();
+
+          await logService.insert(
+            `${me.riotId} 完成任務`,
+            `matchId: ${match.id}`,
+            `mission: ${missionName}`,
+          );
+
           if (!isInviteCompleted && me.inviterId) {
-            logService.insert(`${riotId} 首次完成任務，幫推薦者加分`, match.id);
+            await logService.insert(
+              `${riotId} 首次完成任務，幫推薦者加分`,
+              match.id,
+            );
+
             isInviteCompleted = true;
             await soloMissionService.processInvite(
               me.inviterId,
@@ -399,20 +415,13 @@ export const soloMissionService = {
             );
           }
 
-          const { name: missionName, score: missionScore } =
-            soloMissions[index][phrase].toJson();
-          logService.insert(
-            `${me.riotId} 完成任務`,
-            `matchId: ${match.id}`,
-            `mission: ${missionName}`,
-          );
           nextScore += missionScore;
           // 成功了就下一個階段
-          phrase++;
-          if (phrase === soloMissions[index].length) {
+          phase++;
+          if (phase === soloMissions[index].length) {
             // 這個任務完成了，重新領任務
             index = (index + 1) % soloMissions.length;
-            phrase = 0;
+            phase = 0;
           }
         } else {
           // 失敗了就繼續比下一場
@@ -427,7 +436,7 @@ export const soloMissionService = {
       }
     }
 
-    logService.insert(`${riotId} 積分從 ${score} 加分到 ${nextScore}`);
+    await logService.insert(`${riotId} 積分從 ${score} 加分到 ${nextScore}`);
 
     const lastMatch = results[results.length - 1];
     await db
@@ -438,7 +447,7 @@ export const soloMissionService = {
       .update(soloMissionTable)
       .set({
         index,
-        phrase,
+        phase,
         updatedAt: lastMatch?.match.gameStartTime || state.updatedAt,
         syncedAt: new Date(),
       })
@@ -451,18 +460,19 @@ export const soloMissionService = {
       .where(eq(soloMissionTable.userId, me.id))
       .limit(1)
       .then(head);
-    if (!state) return [];
-    const { index, phrase, skipChance, syncedAt } = state;
+    if (!state) return null;
+
+    const { index, phase, skipChance, syncedAt } = state;
 
     return {
-      missions: soloMissions[index].map((currentPhrase, phraseIndex) => {
+      missions: soloMissions[index].map((currentPhase, phaseIndex) => {
         const getStatus = () => {
-          if (phrase === phraseIndex) return "inProgress";
-          if (phrase > phraseIndex) return "finished";
+          if (phase === phaseIndex) return "inProgress";
+          if (phase > phaseIndex) return "finished";
           return "notFinished";
         };
         return {
-          ...currentPhrase.toJson(),
+          ...currentPhase.toJson(),
           status: getStatus(),
         };
       }),
@@ -491,9 +501,10 @@ export const soloMissionService = {
     const score = inviter.score || 0;
     const nextScore = score + INVITER_SCORE;
 
-    logService.insert(
+    await logService.insert(
       `${inviter.riotId} 藉由 ${inviteeRiotId} 推薦任務加分，從 ${score} 加分到 ${nextScore}`,
     );
+
     await db
       .update(userTable)
       .set({ score: nextScore })
@@ -513,20 +524,20 @@ export const soloMissionService = {
       console.error(me.riotId, "跳過機會已耗盡");
       throw new Error("跳過機會已耗盡");
     }
-    let { index, phrase } = state;
-    logService.insert(
+    let { index, phase } = state;
+    await logService.insert(
       `${me.riotId} 使用跳過機會`,
-      `mission: ${soloMissions[index][phrase].toJson().name}`,
+      `mission: ${soloMissions[index][phase].toJson().name}`,
     );
-    phrase++;
-    if (phrase === soloMissions[index].length) {
+    phase++;
+    if (phase === soloMissions[index].length) {
       // 這個任務完成了，重新領任務
       index = (index + 1) % soloMissions.length;
-      phrase = 0;
+      phase = 0;
     }
     await db
       .update(soloMissionTable)
-      .set({ index, phrase, skipChance: state.skipChance - 1 })
+      .set({ index, phase, skipChance: state.skipChance - 1 })
       .where(eq(soloMissionTable.userId, me.id));
     return true;
   },

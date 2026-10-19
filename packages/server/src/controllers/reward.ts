@@ -80,7 +80,10 @@ rewardRouter.post(`${URL}/claim`, async (req, res) => {
       });
     }
 
-    logService.insert(`${me.riotId} 領取獎勵成功`, rewardService.getName(type));
+    await logService.insert(
+      `${me.riotId} 領取獎勵成功`,
+      rewardService.getName(type),
+    );
     return res.send({ success: true });
   } catch (err: any) {
     // 極端 race condition 下（例如同時兩個 request 都通過了 NOT EXISTS 檢查後才 commit），

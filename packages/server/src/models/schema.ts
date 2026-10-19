@@ -75,7 +75,7 @@ export const matchDetail = pgTable("match_detail", {
 export const soloMission = pgTable("solo_mission", {
   userId: text("user_id").notNull().primaryKey(),
   index: integer("index").notNull().default(0),
-  phrase: integer("phrase").notNull().default(0),
+  phase: integer("phase").notNull().default(0),
   updatedAt: timestamp("updated_at").notNull().defaultNow(), // 上次解任務時間戳
   syncedAt: timestamp("synced_at").notNull().defaultNow(), // 上次要求同步時間戳
   skipChance: integer("skip_chance").notNull().default(1),

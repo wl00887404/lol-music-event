@@ -178,8 +178,8 @@ meRouter.post(`${URL}/complete-user-data`, async (req, res) => {
     }
 
     score += INVITEE_SCORE;
-    logService.insert(
-      `${inviter.riotId} 邀請了 ${me.riotId} 自己獲得受邀分數 ${score}`,
+    await logService.insert(
+      `${inviter.riotId} 邀請了 ${me.riotId}，${me.riotId} 獲得受邀分數 ${score}`,
     );
   }
 
