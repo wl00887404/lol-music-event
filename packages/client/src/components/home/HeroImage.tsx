@@ -7,10 +7,18 @@ function HeroImage() {
   const getPicture = () => {
     if (!team) return null;
 
-    return <RwdImg src={`/banners/${team}-banner.png`} className="w-full" />;
+    return (
+      <RwdImg
+        src={`/banners/m-${team}-banner.png`}
+        mdSrc={`/banners/${team}-banner.png`}
+        className="w-full"
+      />
+    );
   };
 
-  return <div className="aspect-[1920/1080]">{getPicture()}</div>;
+  return (
+    <div className="aspect-[780/1386] md:aspect-[1920/800]">{getPicture()}</div>
+  );
 }
 
 export default HeroImage;

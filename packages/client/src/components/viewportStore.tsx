@@ -24,3 +24,8 @@ mediaQuery.addEventListener("change", () => {
     viewport: mediaQuery.matches ? Viewport.desktop : Viewport.mobile,
   });
 });
+
+export const useViewport = () => {
+  const { viewport } = useViewportStore();
+  return viewport;
+};

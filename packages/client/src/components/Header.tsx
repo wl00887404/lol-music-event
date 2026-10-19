@@ -12,8 +12,10 @@ import { authClient } from "@/libs/auth-client";
 import { useDialogStore } from "./dialogs/dialogStore";
 import { cn } from "@/libs/utils";
 import BaseButton from "./BaseButton";
+import { useViewport } from "./viewportStore";
 
 type MobileMenuProps = {
+  sharedStyle: { fontSize: string };
   signOut: () => void;
 };
 
@@ -22,7 +24,7 @@ function Divider() {
 }
 
 function MobileMenu(props: MobileMenuProps) {
-  const { signOut } = props;
+  const { signOut, sharedStyle } = props;
   const { setRsoOpen } = useDialogStore();
   const [open, setOpen] = useState(false);
   const { data: session, isPending } = authClient.useSession();
@@ -67,13 +69,15 @@ function MobileMenu(props: MobileMenuProps) {
       >
         <DrawerTrigger>
           <img
-            src={open ? "/icons/close.svg" : "/icons/menu.svg"}
-            className="w-[24px]"
+            src={open ? "/icons/close.svg" : "/icons/menu.png"}
+            className="w-[1.3125em]"
+            style={sharedStyle}
           />
         </DrawerTrigger>
         <DrawerContent
           className={"!w-full !border-0 !rounded-none !max-w-none bg-[#111111]"}
           style={{
+            ...sharedStyle,
             top: "var(--header-height)",
             height: "calc(100vh - var(--header-height))",
           }}
@@ -114,6 +118,8 @@ function MobileMenu(props: MobileMenuProps) {
 function Header() {
   const { setRsoOpen } = useDialogStore();
   const { data: session, isPending } = authClient.useSession();
+
+  const viewport = useViewport();
 
   const signOut = async () => {
     await authClient.signOut();
@@ -158,33 +164,37 @@ function Header() {
     );
   };
 
-  const shardClassName = "fixed top-0 h-[var(--header-height)] w-full";
+  const sharedClassName = "fixed top-0 left-0 h-[var(--header-height)] w-full";
+  const sharedStyle = { fontSize: viewport === "mobile" ? "24px" : "inherit" }; // 覆寫設計圖設定
+
   const linkClassName = "text-[1.4375em] font-[700] text-[#f0ca70]";
 
   return (
     <>
       {/* Placeholder */}
-      <div className={cn(shardClassName, "static")} />
+      <div className={cn(sharedClassName, "static")} style={sharedStyle} />
       {/* Multiply 背景層 */}
       <div
-        className={cn(shardClassName, "z-49 bg-[#364d98] mix-blend-multiply")}
+        className={cn(sharedClassName, "z-49 bg-[#364d98] mix-blend-multiply")}
+        style={sharedStyle}
       />
-      <div className={cn(shardClassName, "z-50")}>
+      <div className={cn(sharedClassName, "z-50")} style={sharedStyle}>
         <div
           className={cn(
-            "max-w-[1920px] mx-auto px-[1.125em] h-full",
+            "max-w-[1920px] mx-auto h-full",
+            "px-[0.53125em] md:px-[1.125em]",
             "flex justify-between items-center",
           )}
         >
           <Link to="/">
             <img
               src="/logos/lol-logo.png"
-              className="w-[24px] md:w-[2.8125em]"
+              className="w-[1.375em] md:w-[2.8125em]"
             />
           </Link>
           {/* mobile */}
           <div className="flex md:hidden">
-            <MobileMenu signOut={signOut} />
+            <MobileMenu signOut={signOut} sharedStyle={sharedStyle} />
           </div>
           {/* desktop */}
           <div className="hidden md:flex items-center gap-[1.4375em]">

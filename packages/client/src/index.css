@@ -142,8 +142,8 @@ body {
   background-color: #0b1527;
   scroll-behavior: smooth;
   line-height: 1;
-  --header-height: 3em;
-  --scroll-margin-top: calc(var(--header-height) 1.5em);
+  --header-height: 2.1875em;
+  --scroll-margin-top: calc(var(--header-height) + 1.5em);
   --dialog-height: 779px;
   --dialog-py: 42px;
   --dialog-title-height: 60px;

@@ -1,4 +1,3 @@
-// import { type CommonLeaderboardPayload } from "@/apis";
 import HeroCarousel from "@/components/home/HeroCarousel";
 import TeamLeaderboard from "@/components/home/TeamLeaderboard";
 import PlayerLeaderboard from "@/components/home/PlayerLeaderboard";
