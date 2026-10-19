@@ -13,17 +13,20 @@ import Guidelines from "./pages/Guidelines";
 import useTeam from "./hooks/useTeam";
 import SnsPosterTest from "./pages/SnsPosterTest";
 import { cn } from "./libs/utils";
+import { useViewport } from "./components/viewportStore";
 
 function App() {
   const location = useLocation();
   const team = useTeam();
+  const viewport = useViewport();
+  const prefix = viewport === "mobile" ? "m-" : "";
 
   const getBackgroundImage = () => {
     if (location.pathname === "/me" && team) {
-      return `url('/backgrounds/${team}.jpg')`;
+      return `url('/backgrounds/${prefix}${team}.png')`;
     }
 
-    return "url('/backgrounds/bg.jpg')";
+    return `url('/backgrounds/${prefix}main.png')`;
   };
 
   return (
