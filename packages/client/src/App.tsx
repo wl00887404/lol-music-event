@@ -13,7 +13,6 @@ import Guidelines from "./pages/Guidelines";
 import useTeam from "./hooks/useTeam";
 import SnsPosterTest from "./pages/SnsPosterTest";
 import { cn } from "./libs/utils";
-import "@/components/viewportStore";
 
 function App() {
   const location = useLocation();

@@ -14,12 +14,13 @@ interface ViewportStore {
 
 const mediaQuery = window.matchMedia("(min-width: 48rem)");
 
-export const useDialogStore = create<ViewportStore>((set) => ({
+export const useViewportStore = create<ViewportStore>((set) => ({
   viewport: mediaQuery.matches ? Viewport.desktop : Viewport.mobile,
   setViewport: (nextViewport) => set({ viewport: nextViewport }),
 }));
 
-mediaQuery.addEventListener("type", () => {
-  const { setViewport } = useDialogStore();
-  setViewport(mediaQuery.matches ? Viewport.desktop : Viewport.mobile);
+mediaQuery.addEventListener("change", () => {
+  useViewportStore.setState({
+    viewport: mediaQuery.matches ? Viewport.desktop : Viewport.mobile,
+  });
 });
