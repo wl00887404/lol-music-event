@@ -113,7 +113,7 @@ function Pagination(props: Props) {
   const desktopPages = getDesktopPages(currentPage, maxPage);
 
   // 放大元件用的
-  const fontClassName = "text-[24px] md:text-[12px]";
+  const fontClassName = "text-[20px] md:text-[12px]";
 
   useEffect(() => {
     if (!inputRef.current) return;
