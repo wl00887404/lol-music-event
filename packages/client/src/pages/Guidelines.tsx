@@ -3,7 +3,7 @@ import Tabs, { type TabsProps } from "@/components/legacy/Tabs";
 import { useEffect, useState } from "react";
 import Card from "@/components/me/legacy/Card";
 import BackToTopButton from "@/components/BackToTopButton";
-import RwdImg from "@/components/RwdImg";
+import { cn } from "@/libs/utils";
 
 function Guidelines() {
   const tabs1: TabsProps["tabs"] = [
@@ -154,14 +154,12 @@ function Guidelines() {
 
   return (
     <div>
-      <div className="aspect-[390/138] md:aspect-[1920/342.33] relative">
-        <RwdImg
-          mdSrc="/banners/me-desktop-banner.png"
-          src="/banners/me-mobile-banner.png"
-          className="absolute top-0 left-0 w-full"
-        />
-      </div>
-      <div className="px-[32px] md:px-[20px] relative z-1 md:max-w-[1440px] mx-auto mb-[121px]">
+      <div
+        className={cn(
+          "pt-[32px] md:pt-[20px] px-[32px] md:px-[20px]",
+          "relative z-1 md:max-w-[1440px] mx-auto mb-[121px]",
+        )}
+      >
         <Card className="w-full text-[#fff9e5] doc">
           <div className="w-full md:w-auto flex flex-col gap-[24px] md:items-center">
             <Tabs tabs={tabs1} value={currentTab} onChange={onTabChange} />

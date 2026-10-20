@@ -12,6 +12,10 @@ import { authClient } from "@/libs/auth-client";
 import { useDialogStore } from "./dialogs/dialogStore";
 import { cn } from "@/libs/utils";
 import BaseButton from "./BaseButton";
+
+// FIXME: 等連結提供
+const KKBOX_LINK = "";
+
 type MobileMenuProps = {
   signOut: () => void;
 };
@@ -89,9 +93,11 @@ function MobileMenu(props: MobileMenuProps) {
             <Link to="/" onClick={() => setOpen(false)}>
               活動首頁
             </Link>
-            <Link to="/" onClick={() => setOpen(false)}>
-              歌曲測驗
-            </Link>
+            {KKBOX_LINK && (
+              <Link to={KKBOX_LINK} onClick={() => setOpen(false)}>
+                歌曲測驗
+              </Link>
+            )}
             {session?.user && (
               <Link to="/" onClick={() => setOpen(false)}>
                 每日抽獎
@@ -201,10 +207,14 @@ function Header() {
             <Link to="/" className={linkClassName}>
               活動首頁
             </Link>
-            <Divider />
-            <Link to="/" className={linkClassName}>
-              歌曲測驗
-            </Link>
+            {KKBOX_LINK && (
+              <>
+                <Divider />
+                <Link to={KKBOX_LINK} className={linkClassName}>
+                  歌曲測驗
+                </Link>
+              </>
+            )}
             {session?.user && (
               <>
                 <Divider />
