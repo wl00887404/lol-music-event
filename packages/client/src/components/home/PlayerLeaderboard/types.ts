@@ -1,3 +1,8 @@
-import { type Team } from "@/types";
+import { Team } from "@/types";
 
-export type Tab = "all" | Team;
+export const Tab = {
+  all: "all",
+  ...Team,
+} as const;
+
+export type Tab = (typeof Tab)[keyof typeof Tab];

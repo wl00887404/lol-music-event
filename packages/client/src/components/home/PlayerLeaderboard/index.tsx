@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import useDebounce from "@/hooks/useDebounce";
-import type { Tab } from "./types";
+import { type Tab as TabType, Tab } from "./types";
 import TeamFilter from "./TeamFilter";
 import SearchBar from "./SearchBar";
 import LeaderboardItem from "./LeaderboardItem";
@@ -29,7 +29,7 @@ const mockItems: PlayerLeaderboardItem[] = Array(HOME_PAGE_SIZE)
   });
 
 function PlayerLeaderboard() {
-  const [currentTab, setCurrentTab] = useState<Tab>("all");
+  const [currentTab, setCurrentTab] = useState<TabType>(Tab.all);
   const [keyword, setKeyword] = useState("");
   const [debouncedKeyword, setImmediateKeyword] = useDebounce(keyword, 670);
   const [currentPage, setCurrentPage] = useState(1);
@@ -81,7 +81,7 @@ function PlayerLeaderboard() {
     onPageChange(1);
   };
 
-  const onTabChange = (nextTab: Tab) => {
+  const onTabChange = (nextTab: TabType) => {
     setKeyword("");
     setImmediateKeyword("");
     onPageChange(1);
@@ -94,11 +94,11 @@ function PlayerLeaderboard() {
         <div ref={scrollRef} className="scroll-mt-[var(--scroll-margin-top)]" />
         <img
           src="/icons/player-leaderboard-title.png"
-          className="w-[14.1875em] h-[3.4375em] block"
+          className="aspect-ratio-[227/56] h-[1.75em] md:h-[3.5em] block"
         />
       </div>
-      {/* 1193 */}
-      <div className="mt-[3.25em] max-w-[74.5625em] mx-auto">
+      {/* 672 1193 */}
+      <div className="mt-[3.25em] max-w-[42em] md:max-w-[74.5625em] mx-auto">
         <TeamFilter currentTab={currentTab} onChange={onTabChange} />
       </div>
       {/* 1592 */}

@@ -124,7 +124,6 @@ function HonorRoll() {
   return (
     <div className="relative px-[1.125em]">
       <HeroCarousel />
-
       <div className="flex flex-col items-center">
         <div
           id={SCROLL_TO_HERE_ID}

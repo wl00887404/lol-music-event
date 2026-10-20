@@ -118,30 +118,32 @@ function TeamLeaderboard() {
   });
 
   return (
-    // 18 + 1615 + 18
-    <div className="max-w-[103.1875em] px-[1.125em] mx-auto">
-      <div className="flex justify-center">
-        <img
-          src="/icons/team-leaderboard-title.png"
-          className="aspect-ratio-[226/56] h-[1.75em] md:h-[3.5em] block"
-        />
-      </div>
-      <div className="mt-[2.53125em] md:mt-[2.9375em]">
-        <Item team="kda" score={data?.[Team.kda] || 0} loading={isFetching} />
-      </div>
-      <div className="mt-[0.6875em] md:mt-[4.4375em]">
-        <Item
-          team="heart-steel"
-          score={data?.[Team.heartSteel] || 0}
-          loading={isFetching}
-        />
-      </div>
-      <div className="mt-[0.6875em] md:mt-[4.4375em]">
-        <Item
-          team="true-damage"
-          score={data?.[Team.trueDamage] || 0}
-          loading={isFetching}
-        />
+    <div className="px-[1.125em]">
+      {/* 672 1615 */}
+      <div className="max-w-[42em] md:max-w-[100.9375em] mx-auto">
+        <div className="flex justify-center">
+          <img
+            src="/icons/team-leaderboard-title.png"
+            className="aspect-ratio-[226/56] h-[1.75em] md:h-[3.5em] block"
+          />
+        </div>
+        <div className="mt-[2.53125em] md:mt-[2.9375em]">
+          <Item team="kda" score={data?.[Team.kda] || 0} loading={isFetching} />
+        </div>
+        <div className="mt-[0.6875em] md:mt-[4.4375em]">
+          <Item
+            team="heart-steel"
+            score={data?.[Team.heartSteel] || 0}
+            loading={isFetching}
+          />
+        </div>
+        <div className="mt-[0.6875em] md:mt-[4.4375em]">
+          <Item
+            team="true-damage"
+            score={data?.[Team.trueDamage] || 0}
+            loading={isFetching}
+          />
+        </div>
       </div>
     </div>
   );
