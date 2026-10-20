@@ -5,6 +5,7 @@ import { authClient } from "@/libs/auth-client";
 import getPlaceholderString from "@/libs/getPlaceholderString";
 import getProfileUrl from "@/libs/getProfileUrl";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { SCROLL_TO_HERE_ID } from "@/components/ScrollToTop";
 
 const WIDTH = 521;
 const HEIGHT = 389;
@@ -123,13 +124,16 @@ function HonorRoll() {
   return (
     <div className="relative px-[1.125em]">
       <HeroCarousel />
+      <div
+        id={SCROLL_TO_HERE_ID}
+        className="scroll-mt-[var(--scroll-margin-top)]"
+      />
       <div className="flex flex-col items-center mt-[7.5625em]">
         <img
           src="/icons/honor-roll-title.png"
           className="w-[16.875em] h-[4em] block"
         />
       </div>
-
       {/* PSD 是 1735 */}
       {/* 但我覺得用 home 的 1598 好像比較好 */}
       <div className="mt-[7.125em] mb-[7.5625em] max-w-[99.875em] mx-auto">

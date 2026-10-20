@@ -10,6 +10,7 @@ import toast from "@/components/toast";
 import RwdImg from "@/components/RwdImg";
 
 function Background() {
+  // 373
   const backgroundClassName = "block w-full h-[23.3125em] object-cover";
   const team = useTeam();
 

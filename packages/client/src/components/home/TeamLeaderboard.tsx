@@ -86,7 +86,7 @@ function TeamLeaderboard() {
       <div className="flex justify-center">
         <img
           src="/icons/team-leaderboard-title.png"
-          className="w-[14.125em] h-[3.5em] block"
+          className="aspect-ratio-[226/56] h-[1.78125em] md:h-[3.5em] block"
         />
       </div>
       <div className="mt-[2.9375em]">
