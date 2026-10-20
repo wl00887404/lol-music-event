@@ -169,7 +169,7 @@ function Pagination(props: Props) {
             );
           }
         })}
-        <div className="ml-[2.0625em] mr-[1.03125em]">
+        <div className="ml-[2.0625em] mr-[1.03125em] md:hidden">
           <Input
             ref={inputRef}
             name="jump"
@@ -184,7 +184,6 @@ function Pagination(props: Props) {
               // text: 17px, leading: 24, width: 56
               "!text-[1.0625em] !leading-[1.4117647058823529412em] w-[3.2941176470588235294em]",
               "border-none rounded-none bg-[url('/icons/m-pagination-input-bg.png')] bg-cover",
-              "md:hidden",
             )}
           />
         </div>
