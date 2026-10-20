@@ -69,7 +69,7 @@ function LeaderboardItem(props: Props) {
       <SpacedText
         x={260.5}
         y={263}
-        fontFamily="BeaufortforLOL, Noto Sans TC, sans-serif"
+        fontFamily="BeaufortforLOL, Noto Sans TC"
         textAnchor="middle"
         fontSize="51"
         fontWeight="700"
@@ -81,7 +81,7 @@ function LeaderboardItem(props: Props) {
       <SpacedText
         x={260.5}
         y={352.5}
-        fontFamily="BeaufortforLOL, Noto Sans TC, sans-serif"
+        fontFamily="BeaufortforLOL, Noto Sans TC"
         textAnchor="middle"
         fontSize="26.5"
         fontWeight="700"

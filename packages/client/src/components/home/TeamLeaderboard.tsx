@@ -50,7 +50,7 @@ function Item(props: ItemProps) {
           x={644}
           y="74"
           textAnchor="end"
-          fontFamily="BeaufortforLOL, sans-serif"
+          fontFamily="BeaufortforLOL"
           fontSize="55"
           letterSpacing={3}
           fill="url(#g)"
@@ -97,7 +97,7 @@ function Item(props: ItemProps) {
         x={1556}
         y="114"
         textAnchor="end"
-        fontFamily="BeaufortforLOL, sans-serif"
+        fontFamily="BeaufortforLOL"
         fontSize="90"
         letterSpacing={4}
         fill="url(#g)"

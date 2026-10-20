@@ -5,9 +5,12 @@ import getPlaceholderString from "@/libs/getPlaceholderString";
 import type { PlayerLeaderboardItem } from "@/apis";
 import { SpacedText } from "@/components/SpacedText";
 import getProfileUrl from "@/libs/getProfileUrl";
+import { useViewport } from "@/components/viewportStore";
 
-const WIDTH = 1592;
-const HEIGHT = 139;
+const DESKTOP_WIDTH = 1592;
+const DESKTOP_HEIGHT = 139;
+const MOBILE_WIDTH = 672;
+const MOBILE_HEIGHT = 160;
 const SVG_CLASS_NAME = "overflow-hidden max-w-full w-full" as const;
 
 const mockItem: PlayerLeaderboardItem = {
@@ -24,13 +27,65 @@ type Props = { item: PlayerLeaderboardItem; loading?: boolean };
 function MyLeaderboardItem(props: Props) {
   const { loading } = props;
   const { totalRank, riotId, image, score, titles } = props.item;
-
   const title = titles[0];
+  const viewport = useViewport();
+
+  if (viewport === "mobile") {
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox={`0 0 ${MOBILE_WIDTH} ${MOBILE_HEIGHT}`}
+        className={SVG_CLASS_NAME}
+      >
+        <image
+          href={`/icons/m-my-leaderboard-bg.png`}
+          x="0"
+          y="0"
+          width={MOBILE_WIDTH}
+          height={MOBILE_HEIGHT}
+          preserveAspectRatio="xMidYMid slice"
+        />
+        <text
+          x="18"
+          y="38"
+          fontSize="35"
+          fill="#fff9e5"
+          fontFamily="BeaufortforLOL"
+          letterSpacing="2"
+        >
+          {loading ? "" : totalRank}
+        </text>
+        <SpacedText
+          x={656}
+          y="45"
+          fontSize="45"
+          fill="#fff9e5"
+          textAnchor="end"
+          fontFamily="BeaufortforLOL"
+          letterSpacing={2}
+        >
+          {loading ? "" : formatNumber(score)}
+        </SpacedText>
+        <text
+          x="18"
+          y="138"
+          fontSize="30"
+          fill="#fff9e5"
+          fontFamily="Noto Sans TC"
+          fontWeight="700"
+          letterSpacing="1.6"
+        >
+          {riotId}
+        </text>
+        {title && <Title x={18} y={57} title={title} />}
+      </svg>
+    );
+  }
 
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
+      viewBox={`0 0 ${DESKTOP_WIDTH} ${DESKTOP_HEIGHT}`}
       className={SVG_CLASS_NAME}
     >
       <defs>
@@ -42,16 +97,16 @@ function MyLeaderboardItem(props: Props) {
         href={`/icons/my-leaderboard-bg-2.png`}
         x="0"
         y="0"
-        width={WIDTH}
-        height={HEIGHT}
+        width={DESKTOP_WIDTH}
+        height={DESKTOP_HEIGHT}
         preserveAspectRatio="xMidYMid slice"
       />
       <image
         href={`/icons/my-leaderboard-bg-1.png`}
         x="0"
         y="0"
-        width={WIDTH}
-        height={HEIGHT}
+        width={DESKTOP_WIDTH}
+        height={DESKTOP_HEIGHT}
         preserveAspectRatio="xMidYMid slice"
         style={{ mixBlendMode: "color-dodge" }}
       />
@@ -60,7 +115,7 @@ function MyLeaderboardItem(props: Props) {
         y="85"
         fontSize="45"
         fill="#fff9e5"
-        fontFamily="BeaufortforLOL, sans-serif"
+        fontFamily="BeaufortforLOL"
         letterSpacing="2"
       >
         {loading ? "" : totalRank}
@@ -79,7 +134,7 @@ function MyLeaderboardItem(props: Props) {
         y="82"
         fontSize="33"
         fill="#fff9e5"
-        fontFamily="Noto Sans TC, sans-serif"
+        fontFamily="Noto Sans TC"
         fontWeight="700"
         letterSpacing="1.6"
       >
@@ -92,7 +147,7 @@ function MyLeaderboardItem(props: Props) {
         fontSize="45"
         fill="#fff9e5"
         textAnchor="end"
-        fontFamily="BeaufortforLOL, sans-serif"
+        fontFamily="BeaufortforLOL"
         letterSpacing={2}
       >
         {loading ? "" : formatNumber(score)}
@@ -112,8 +167,11 @@ function MyLeaderboard() {
   return (
     <>
       <MyLeaderboardItem item={item} loading={myLeaderboard.isPending} />
-      <div className="mt-[2.875em]">
-        <img src="/icons/player-leaderboard-divider.png" />
+      <div className="mt-[0.9375em] md:mt-[2.875em]">
+        <img
+          src="/icons/player-leaderboard-divider.png"
+          className="h-[4px] object-cover"
+        />
       </div>
     </>
   );

@@ -89,7 +89,7 @@ function Text() {
     textAnchor: "middle",
     fill: textColor,
     fontSize: 178,
-    fontFamily: "BeaufortforLOL, sans-serif",
+    fontFamily: "BeaufortforLOL",
   } as const;
 
   const renderHeartSteelTextEffect = () => {

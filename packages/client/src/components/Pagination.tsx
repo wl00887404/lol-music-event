@@ -24,7 +24,8 @@ function SiblingPageButton(props: SiblingPageButtonProp) {
             ? "/icons/chevron-left.png"
             : "/icons/chevron-right.png"
         }
-        className="w-[4.125em] block"
+        // 26 66
+        className="aspect-ratio-[1/1] w-[1.625em] md:w-[4.125em]"
       />
     </BaseButton>
   );
@@ -34,7 +35,7 @@ type DotsProps = {
   className?: string;
 };
 
-function DotsProps(props: DotsProps) {
+function Dots(props: DotsProps) {
   const { className } = props;
   return <img className={cn("w-[4.125em]", className)} src="/icons/dots.png" />;
 }
@@ -111,6 +112,9 @@ function Pagination(props: Props) {
   const timeoutRef = useRef<number>(0);
   const desktopPages = getDesktopPages(currentPage, maxPage);
 
+  // 放大元件用的
+  const fontClassName = "text-[24px] md:text-[12px]";
+
   useEffect(() => {
     if (!inputRef.current) return;
     if (inputRef.current === document.activeElement) return;
@@ -135,56 +139,67 @@ function Pagination(props: Props) {
   };
 
   return (
-    <div className="mx-auto flex justify-center gap-[1.5em] md:gap-[3em]">
-      <SiblingPageButton
-        type="prev"
-        onClick={() => setCurrentPage(currentPage - 1)}
-        disabled={currentPage <= 1}
-      />
-      {desktopPages.map((page, index) => {
-        const key = `desktop-${index}`;
-        const className = "hidden md:grid";
-
-        if (page === ".") {
-          return <DotsProps key={key} className={className} />;
-        } else {
-          return (
-            <Page
-              key={key}
-              page={page}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              className={className}
-            />
-          );
-        }
-      })}
-      <Input
-        ref={inputRef}
-        name="jump"
-        defaultValue={currentPage.toString()}
-        onChange={onChange}
-        inputMode="numeric"
-        min={1}
-        max={maxPage}
+    <div className={fontClassName}>
+      <div
         className={cn(
-          // FIXME: 還沒有把單位換成 me
-          // 不確定有沒有必要
-          "font-[900] !text-[20px] !leading-[1.2]",
-          "border-none px-[1em] md:px-[2em] py-[0.5em] md:py-[1.25em]",
-          "bg-[#ffffff] w-[96px] md:w-[128px] text-center h-auto text-[#111111]",
-          "rounded-[10px] md:rounded-[15px]",
-          "md:hidden",
+          "mx-auto flex justify-center items-center",
+          "gap-[0em] md:gap-[3em]",
         )}
-      />
-      <div className="flex items-center text-[#fff9e5] md:hidden font-[900] text-[20px] !leading-[1.2]">
-        / {maxPage}
+      >
+        <SiblingPageButton
+          type="prev"
+          onClick={() => setCurrentPage(currentPage - 1)}
+          disabled={currentPage <= 1}
+        />
+        {desktopPages.map((page, index) => {
+          const key = `desktop-${index}`;
+          const className = "hidden md:grid";
+
+          if (page === ".") {
+            return <Dots key={key} className={className} />;
+          } else {
+            return (
+              <Page
+                key={key}
+                page={page}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                className={className}
+              />
+            );
+          }
+        })}
+        <div className="ml-[2.0625em] mr-[1.03125em]">
+          <Input
+            ref={inputRef}
+            name="jump"
+            defaultValue={currentPage.toString()}
+            onChange={onChange}
+            inputMode="numeric"
+            min={1}
+            max={maxPage}
+            className={cn(
+              "text-[#0b1527] text-center font-[family-name:BeaufortforLOL]",
+              "h-auto p-0",
+              // text: 17px, leading: 24, width: 56
+              "!text-[1.0625em] !leading-[1.4117647058823529412em] w-[3.2941176470588235294em]",
+              "border-none rounded-none bg-[url('/icons/m-pagination-input-bg.png')] bg-cover",
+              "md:hidden",
+            )}
+          />
+        </div>
+        <div className="text-[#fff9e5] font-[900] text-[1.0625em] md:hidden mr-[1.03125em]">
+          /
+        </div>
+        <div className="text-[#fff9e5] font-[900] text-[1.0625em] md:hidden mr-[2.0625em]">
+          {maxPage}
+        </div>
+        <SiblingPageButton
+          type="next"
+          onClick={() => setCurrentPage(currentPage + 1)}
+          disabled={currentPage >= maxPage}
+        />
       </div>
-      <SiblingPageButton
-        type="next"
-        onClick={() => setCurrentPage(currentPage + 1)}
-        disabled={currentPage >= maxPage}
-      />
     </div>
   );
 }

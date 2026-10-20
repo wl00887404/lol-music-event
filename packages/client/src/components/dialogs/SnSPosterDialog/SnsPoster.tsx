@@ -55,7 +55,7 @@ function KdaText(props: Props) {
   const y2 = 962;
 
   const numberProps = {
-    fontFamily: "BeaufortforLOL, sans-serif",
+    fontFamily: "BeaufortforLOL",
     textAnchor: "middle",
     fontSize: "70",
     letterSpacing: 0.6,
@@ -82,7 +82,7 @@ function KdaText(props: Props) {
       <SpacedText
         x={303.5}
         y={589}
-        fontFamily="BeaufortforLOL, My Noto Sans TC, sans-serif"
+        fontFamily="BeaufortforLOL, My Noto Sans TC"
         textAnchor="middle"
         fontSize="35"
         fontWeight="700"
@@ -119,7 +119,7 @@ function HeartSteelNumber(props: {
   const dy = Math.sin(rad) * d;
 
   const baseProps = {
-    fontFamily: "BeaufortforLOL, sans-serif",
+    fontFamily: "BeaufortforLOL",
     textAnchor: "middle",
     fontSize: "70",
     letterSpacing: 0.6,
@@ -166,7 +166,7 @@ function HeartSteelText(props: Props) {
       <SpacedText
         x={303.5}
         y={589}
-        fontFamily="BeaufortforLOL, My Noto Sans TC, sans-serif"
+        fontFamily="BeaufortforLOL, My Noto Sans TC"
         textAnchor="middle"
         fontSize="35"
         fontWeight="700"
@@ -199,7 +199,7 @@ function TrueDamageText(props: Props) {
   const y2 = 960;
 
   const numberProps = {
-    fontFamily: "BeaufortforLOL, sans-serif",
+    fontFamily: "BeaufortforLOL",
     textAnchor: "middle",
     fontSize: "68",
     letterSpacing: 0.6,
@@ -211,7 +211,7 @@ function TrueDamageText(props: Props) {
       <SpacedText
         x={303.5}
         y={566}
-        fontFamily="BeaufortforLOL, My Noto Sans TC, sans-serif"
+        fontFamily="BeaufortforLOL, My Noto Sans TC"
         textAnchor="middle"
         fontSize="35"
         fontWeight="700"

@@ -9,7 +9,7 @@ function Home() {
       <div className="mt-[2.53125em] md:mt-[6.625em]">
         <TeamLeaderboard />
       </div>
-      <div className="mt-[7.4375em] mb-[7.5625em]">
+      <div className="mt-[2.53125em] md:mt-[7.4375em] mb-[2.9375em] md:mb-[7.5625em]">
         <PlayerLeaderboard />
       </div>
     </div>

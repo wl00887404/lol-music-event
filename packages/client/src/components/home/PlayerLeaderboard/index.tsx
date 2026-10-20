@@ -98,21 +98,21 @@ function PlayerLeaderboard() {
         />
       </div>
       {/* 672 1193 */}
-      <div className="mt-[3.25em] max-w-[42em] md:max-w-[74.5625em] mx-auto">
+      <div className="mt-[2.53125em] md:mt-[3.25em] max-w-[42em] md:max-w-[74.5625em] mx-auto">
         <TeamFilter currentTab={currentTab} onChange={onTabChange} />
       </div>
-      {/* 1592 */}
-      <div className="mt-[3.25rem] max-w-[99.5em] mx-auto">
+      {/* 672 1592 */}
+      <div className="mt-[2.53125em] md:mt-[3.25rem] max-w-[42em] md:max-w-[99.5em] mx-auto">
         <SearchBar keyword={keyword} onSearch={onSearch} />
-        <div className="mt-[3em]">
+        <div className="mt-[2.53125em] md:mt-[3em]">
           <MyLeaderboard />
         </div>
       </div>
-      {/* 1598 */}
+      {/* 672 1598 */}
       <div
         className={cn(
-          "mt-[3.125em] max-w-[99.875em] mx-auto",
-          "flex flex-col gap-[2.0625em]",
+          "mt-[0.9375em] md:mt-[3.125em] max-w-[42em] md:max-w-[99.875em] mx-auto",
+          "flex flex-col gap-[0.78125em] md:gap-[2.0625em]",
         )}
       >
         {items.length === 0 && <Empty />}
@@ -122,7 +122,7 @@ function PlayerLeaderboard() {
           );
         })}
       </div>
-      <div className="mt-[5.125em]">
+      <div className="mt-[2.53125em] md:mt-[5.125em]">
         <Pagination
           currentPage={currentPage}
           setCurrentPage={onPageChange}

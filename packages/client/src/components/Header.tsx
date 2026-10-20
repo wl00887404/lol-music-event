@@ -20,6 +20,7 @@ function Divider() {
   return <img className="w-[9px] h-[9px]" src="/icons/header-divider.png" />;
 }
 
+// 放大元件用的
 const HEADER_FONT_SIZE_CLASS_NAME = "text-[24px] md:text-[12px] xl:[16px]";
 
 function MobileMenu(props: MobileMenuProps) {
