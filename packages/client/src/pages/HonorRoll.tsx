@@ -124,11 +124,12 @@ function HonorRoll() {
   return (
     <div className="relative px-[1.125em]">
       <HeroCarousel />
-      <div
-        id={SCROLL_TO_HERE_ID}
-        className="scroll-mt-[var(--scroll-margin-top)]"
-      />
-      <div className="flex flex-col items-center mt-[7.5625em]">
+
+      <div className="flex flex-col items-center">
+        <div
+          id={SCROLL_TO_HERE_ID}
+          className="scroll-mt-[var(--scroll-margin-top)]"
+        />
         <img
           src="/icons/honor-roll-title.png"
           className="w-[16.875em] h-[4em] block"

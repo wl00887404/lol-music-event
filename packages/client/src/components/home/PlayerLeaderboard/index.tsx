@@ -90,8 +90,8 @@ function PlayerLeaderboard() {
 
   return (
     <div className="px-[1.125em]">
-      <div ref={scrollRef} className="scroll-mt-[var(--scroll-margin-top)]" />
       <div className="flex justify-center">
+        <div ref={scrollRef} className="scroll-mt-[var(--scroll-margin-top)]" />
         <img
           src="/icons/player-leaderboard-title.png"
           className="w-[14.1875em] h-[3.4375em] block"
