@@ -55,6 +55,7 @@ function CompleteUserDataDialog() {
   // const forceClosed = devCookie === "1";
   const forceClosed = false;
   const open = !forceClosed && !disabled && session?.user.isCompleted === false;
+  // const open = true;
 
   const teamOptions = [
     { value: Team.kda, label: "K/DA" },
@@ -152,20 +153,20 @@ function CompleteUserDataDialog() {
               />
               <ErrorMessage name="team" />
             </label>
-            <div className="flex justify-center mt-[2px]">
+            <div className="flex justify-center mt-[0.125em]">
               <div>
-                <label className="flex items-center gap-[10px]">
+                <label className="flex items-center gap-[0.625em]">
                   <Checkbox checked={isOver15} onChange={setIsOver15} />
-                  <div className="font-[500] leading-[1] text-[20px] text-[#fff9e5]">
+                  <div className="font-[500] leading-[1] text-[1.25em] text-[#fff9e5]">
                     我已年滿 15 歲
                   </div>
                 </label>
-                <label className="flex items-center gap-[10px] mt-[13px]">
+                <label className="flex items-center gap-[0.625em] mt-[0.8125em]">
                   <Checkbox
                     checked={isTermsAndPrivacyAccepted}
                     onChange={setIsTermsAccepted}
                   />
-                  <div className="font-[500] leading-[1] text-[20px] text-[#fff9e5]">
+                  <div className="font-[500] leading-[1] text-[1.25em] text-[#fff9e5]">
                     點擊註冊即代表你同意我們的
                     <a
                       href="/terms-of-service"
@@ -186,7 +187,7 @@ function CompleteUserDataDialog() {
                 </label>
               </div>
             </div>
-            <div className="absolute left-0 bottom-[44px] w-full flex flex-col items-center">
+            <div className="absolute left-0 bottom-[2.75em] w-full flex flex-col items-center">
               <OkButton>註冊</OkButton>
             </div>
           </Form>
@@ -202,7 +203,7 @@ function CompleteUserDataDialog() {
         title={
           <img
             src="/icons/complete-user-data-dialog-title.png"
-            className="w-[227px] h-[54px] block"
+            className="w-[14.1875em] h-[3.375em] block"
           />
         }
         description="完成註冊表單"
@@ -213,7 +214,7 @@ function CompleteUserDataDialog() {
           setCancelDialogOpen(true);
         }}
       >
-        <div className="px-[18px] max-w-[390px] md:max-w-[819px] mx-auto mt-[33px]">
+        <div className="px-[1.125em] max-w-[24.375em] md:max-w-[51.1875em] mx-auto mt-[2.0625em]">
           {form}
         </div>
       </Dialog>

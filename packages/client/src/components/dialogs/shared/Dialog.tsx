@@ -16,6 +16,22 @@ type Props = ComponentPropsWithoutRef<typeof BaseDialog> & {
   showCloseButton?: boolean;
 };
 
+function Background() {
+  const backgroundClassName =
+    "block w-full h-[var(--dialog-height)] object-cover";
+
+  return (
+    <>
+      <RwdImg src="/icons/dialog-bg-2.png" className={backgroundClassName} />
+      <RwdImg
+        src="/icons/dialog-bg-1.png"
+        className={cn(backgroundClassName, "absolute top-0 left-0")}
+        style={{ mixBlendMode: "color-dodge" }}
+      />
+    </>
+  );
+}
+
 function Dialog(props: Props) {
   const {
     title,
@@ -26,34 +42,23 @@ function Dialog(props: Props) {
     showCloseButton = true,
   } = props;
 
-  const backgroundClassName =
-    "block w-full h-[var(--dialog-height)] object-cover";
-
   return (
     <BaseDialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         showCloseButton={false}
         className={cn(
-          "bg-[transparent] !border-none !shadow-[none] !rounded-[0] !px-[18px]",
+          "bg-[transparent] !border-none !shadow-[none] !rounded-[0] !px-[1.125em]",
           // 18 + 1280 + 18
-          "!max-w-[406px] md:!max-w-[1316px]",
+          "!max-w-[25.375em] md:!max-w-[82.25em]",
+          "text-[var(--dialog-font-size)]",
         )}
-        style={{} as React.CSSProperties}
       >
         <div className="relative">
-          <RwdImg
-            src="/icons/dialog-bg-2.png"
-            className={backgroundClassName}
-          />
-          <RwdImg
-            src="/icons/dialog-bg-1.png"
-            className={cn(backgroundClassName, "absolute top-0 left-0")}
-            style={{ mixBlendMode: "color-dodge" }}
-          />
+          <Background />
           <div className="absolute top-0 left-0 w-full h-full">
             <DialogTitle
               className={cn(
-                "!text-[0px] flex justify-center",
+                "!text-[1em] flex justify-center",
                 "mt-[var(--dialog-py)] h-[var(--dialog-title-height)]",
               )}
             >
@@ -66,12 +71,15 @@ function Dialog(props: Props) {
           </div>
           {showCloseButton && (
             <BaseButton
-              className="absolute top-[36px] right-[39px]"
+              className="absolute top-[2.25em] right-[2.4375em]"
               onClick={() => {
                 if (onOpenChange) onOpenChange(false);
               }}
             >
-              <img src="/icons/close.png" className="w-[28px] h-[28px] block" />
+              <img
+                src="/icons/close.png"
+                className="w-[1.75em] h-[1.75em] block"
+              />
             </BaseButton>
           )}
         </div>

@@ -16,7 +16,7 @@ export function FieldName(props: ComponentPropsWithoutRef<"div">) {
 
   return (
     <div
-      className="font-[500] text-[21px] leading-[1] text-[#fff9e5]"
+      className="font-[500] text-[1.3125em] leading-[1] text-[#fff9e5]"
       {...otherProps}
     >
       {children}
@@ -26,30 +26,31 @@ export function FieldName(props: ComponentPropsWithoutRef<"div">) {
 
 function InputContainer(props: { children: React.ReactNode }) {
   return (
-    <div className="relative mt-[8px]">
+    <div className="relative mt-[0.5em]">
       <div className="flex pointer-events-none">
-        <img src="/icons/dialog-input-bg.png" className="w-[10px] h-[48px]" />
+        <img src="/icons/dialog-input-bg.png" className="w-[0.625em] h-[3em]" />
         <div className="flex-1 bg-[#fff9e5]" />
         <img
           src="/icons/dialog-input-bg.png"
-          className="w-[10px] h-[48px] rotate-180"
+          className="w-[0.625em] h-[3em] rotate-180"
         />
       </div>
-      <div className="w-full h-[48px] absolute top-0 left-0">
+      <div className="w-full h-[3em] absolute top-0 left-0">
         {props.children}
       </div>
     </div>
   );
 }
 
-const textClassName = "font-[500] !text-[21px] !leading-[48px] text-[#0b1527]";
+const textClassName =
+  "font-[500] !text-[1.3125em] !leading-[2.2857142857142857143em] text-[#0b1527]";
 
 export function Input(props: React.ComponentProps<typeof BaseInput>) {
   return (
     <InputContainer>
       <BaseInput
         className={cn(
-          "border-none rounded-none py-0 px-[21px]  h-auto",
+          "border-none rounded-none py-0 px-[1em]  h-auto",
           textClassName,
         )}
         {...props}
@@ -62,9 +63,11 @@ export function ErrorMessage(
   props: React.ComponentProps<typeof BaseErrorMessage>,
 ) {
   return (
-    <div className="text-[#FF4655] text-[13px] leading-[1] font-[500] my-[7px]">
-      <BaseErrorMessage {...props} />
-      &nbsp;
+    <div className="my-[0.4375em]">
+      <div className="text-[#FF4655] text-[0.8125em] leading-[1] font-[500]">
+        <BaseErrorMessage {...props} />
+        &nbsp;
+      </div>
     </div>
   );
 }
@@ -98,10 +101,13 @@ export function Select(props: SelectProps) {
           className={cn(
             textClassName,
             "bg-[transparent] text-[#0b1527] w-full",
-            "flex items-center py-0 !px-[21px] !h-[48px] border-none",
+            "flex items-center py-0 !px-[1em] !h-[2.2857142857142857143em] border-none",
           )}
           icon={
-            <img src="/icons/chevron-down.png" className="w-[28px] h-[28px]" />
+            <img
+              src="/icons/chevron-down.png"
+              className="w-[1.3333333333333333333em] aspect-ratio-[1/1]"
+            />
           }
         >
           <SelectValue placeholder={placeholder} />

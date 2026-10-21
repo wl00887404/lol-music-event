@@ -341,7 +341,7 @@ export const soloMissionService = {
     await db.insert(soloMissionTable).values({ userId }).onConflictDoNothing();
   },
   evaluate: async (me: InferSelectModel<typeof userTable>) => {
-    console.log(`${me.riotId} 開始解任務`);
+    // console.log(`${me.riotId} 開始解任務`);
     const { puuid, score, riotId } = me;
     if (!puuid) {
       return console.error("沒有 puuid", me.id);
@@ -374,7 +374,7 @@ export const soloMissionService = {
       )
       .orderBy(asc(matchTable.gameStartTime));
 
-    console.log(`${riotId} 有 ${results.length} 筆可使用的對戰紀錄`);
+    // console.log(`${riotId} 有 ${results.length} 筆可使用的對戰紀錄`);
     for (const result of results) {
       try {
         const matchHistory = assertNoNulls(result.player_match_history);
@@ -496,8 +496,9 @@ export const soloMissionService = {
       .where(eq(userTable.id, inviterId))
       .limit(1)
       .then(head);
+
     if (!inviter) {
-      return console.log("查無邀請者", inviterId);
+      return console.error("查無邀請者", inviterId);
     }
 
     const score = inviter.score || 0;

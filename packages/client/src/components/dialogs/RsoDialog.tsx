@@ -22,20 +22,20 @@ function RsoDialog() {
       title={
         <img
           src="/icons/rso-login-dialog-title.png"
-          className="w-[287px] h-[57px] block"
+          className="w-[17.9375em] h-[3.5625em] block"
         />
       }
       description="登入 / 註冊表單"
     >
       <div
         className={cn(
-          "max-w-[400px] mx-auto mt-[200px]",
-          "flex flex-col gap-[24px]",
+          "max-w-[25em] mx-auto mt-[12.5em]",
+          "flex flex-col gap-[1.5em]",
         )}
       >
-        <label className="flex items-center gap-[12px]">
+        <label className="flex items-center gap-[0.75em]">
           <Checkbox checked={isConfirm} onChange={setIsConfirm} />
-          <div className="font-[500] !leading-[1.2] text-[20px] text-[#fff9e5]">
+          <div className="font-[500] !leading-[1.2] text-[1em] text-[#fff9e5]">
             我確認登入會使我的個人資料對所有用戶公開
           </div>
         </label>
@@ -43,14 +43,14 @@ function RsoDialog() {
           type="button"
           className={cn(
             "!h-auto border-none",
-            "bg-[#EB0029] py-[16px] px-[32px] rounded-[10px] w-full text-[20px]",
-            "flex justify-center items-center gap-[12px]",
+            "bg-[#EB0029] py-[1em] px-[2em] rounded-[10px] w-full text-[1.25em]",
+            "flex justify-center items-center gap-[0.75em]",
             "disabled:opacity-100 disabled:bg-[#999999]",
           )}
           onClick={onClick}
           disabled={!isConfirm}
         >
-          <img src="/icons/riot.svg" className="w-[28px]" />
+          <img src="/icons/riot.svg" className="w-[1.75em]" />
           使用 Riot 帳號以繼續
         </Button>
       </div>
