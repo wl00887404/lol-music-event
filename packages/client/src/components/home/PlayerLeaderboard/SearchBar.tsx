@@ -46,7 +46,7 @@ function SearchBar(props: Props) {
         <img
           src="/icons/search.png"
           // 20 40
-          className="aspect-ratio-[1/1] w-[1.25em] md:w-[2.5em]"
+          className="aspect-[1/1] w-[1.25em] md:w-[2.5em]"
         />
       </InputGroupAddon>
     </InputGroup>

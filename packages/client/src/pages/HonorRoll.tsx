@@ -132,7 +132,7 @@ function HonorRoll() {
           />
           <img
             src="/icons/honor-roll-title.png"
-            className="aspect-ratio-[270/64] h-[3.5em] md:h-[4em] block"
+            className="aspect-[270/64] h-[3.5em] md:h-[4em] block"
           />
         </div>
         {/* PSD 是 1735 */}

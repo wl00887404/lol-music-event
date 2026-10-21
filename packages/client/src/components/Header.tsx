@@ -99,7 +99,7 @@ function MobileMenu(props: MobileMenuProps) {
               </Link>
             )}
             {session?.user && (
-              <Link to="/" onClick={() => setOpen(false)}>
+              <Link to="/lucky-draw" onClick={() => setOpen(false)}>
                 每日抽獎
               </Link>
             )}
@@ -218,7 +218,7 @@ function Header() {
             {session?.user && (
               <>
                 <Divider />
-                <Link to="/" className={linkClassName}>
+                <Link to="/lucky-draw" className={linkClassName}>
                   每日抽獎
                 </Link>
               </>

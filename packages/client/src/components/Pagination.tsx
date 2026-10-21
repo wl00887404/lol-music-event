@@ -25,7 +25,7 @@ function SiblingPageButton(props: SiblingPageButtonProp) {
             : "/icons/chevron-right.png"
         }
         // 26 66
-        className="aspect-ratio-[1/1] w-[1.625em] md:w-[4.125em]"
+        className="aspect-[1/1] w-[1.625em] md:w-[4.125em]"
       />
     </BaseButton>
   );

@@ -94,7 +94,7 @@ function PlayerLeaderboard() {
         <div ref={scrollRef} className="scroll-mt-[var(--scroll-margin-top)]" />
         <img
           src="/icons/player-leaderboard-title.png"
-          className="aspect-ratio-[227/56] h-[1.75em] md:h-[3.5em] block"
+          className="aspect-[227/56] h-[1.75em] md:h-[3.5em] block"
         />
       </div>
       {/* 672 1193 */}

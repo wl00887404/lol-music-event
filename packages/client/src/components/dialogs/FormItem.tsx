@@ -28,11 +28,11 @@ function InputContainer(props: { children: React.ReactNode }) {
   return (
     <div className="relative mt-[0.5em]">
       <div className="flex pointer-events-none">
-        <img src="/icons/dialog-input-bg.png" className="w-[0.625em] h-[3em]" />
-        <div className="flex-1 bg-[#fff9e5]" />
+        <img src="/icons/dialog-input-bg.png" className="h-[3em]" />
+        <div className="flex-1 bg-[#ffffff] mx-[-0.05em]" />
         <img
           src="/icons/dialog-input-bg.png"
-          className="w-[0.625em] h-[3em] rotate-180"
+          className=" h-[3em] rotate-180"
         />
       </div>
       <div className="w-full h-[3em] absolute top-0 left-0">
@@ -106,7 +106,7 @@ export function Select(props: SelectProps) {
           icon={
             <img
               src="/icons/chevron-down.png"
-              className="w-[1.3333333333333333333em] aspect-ratio-[1/1]"
+              className="w-[1.3333em] aspect-[1/1]"
             />
           }
         >
