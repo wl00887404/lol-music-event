@@ -1,7 +1,7 @@
 import BaseButton from "@/components/BaseButton";
 import HeroCarousel from "@/components/home/HeroCarousel";
 import { cn } from "@/libs/utils";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const freeRewards = [
   { key: "free-box", name: "海克斯科技鑰匙 & 寶箱" },
@@ -15,18 +15,22 @@ const freeRewards = [
 const transitionDuration = 5;
 
 function Wheel() {
-  const [index, setIndex] = useState(-1);
-  const deg = index === -1 ? 0 : 3600 - (index * 360) / 7;
+  const onceRef = useRef(false);
+  const [deg, setDeg] = useState(0);
   const imgClass = "block aspect-[1/1] w-[45.625em] max-w-[88vw]";
 
   const onClick = () => {
-    if (index !== -1) return;
-    // 銘謝惠顧是 index 6
+    if (onceRef.current) return;
 
     const max = freeRewards.length + 1;
-    const randomIndex = Math.floor(Math.random() * max);
+    // 銘謝惠顧是 index 6
+    const index = Math.floor(Math.random() * max);
+    const shiftDeg = Math.random() * 12 - 6;
 
-    setIndex(randomIndex);
+    onceRef.current = true;
+    const nextDeg = 3600 - (index * 360) / 7 + shiftDeg;
+
+    setDeg(nextDeg);
   };
 
   return (
