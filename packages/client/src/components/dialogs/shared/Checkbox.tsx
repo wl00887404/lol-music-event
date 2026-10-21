@@ -11,11 +11,16 @@ function Checkbox(props: Props) {
   return (
     <label
       className={cn(
-        "w-[24px] h-[24px] items-center justify-center inline-flex",
+        "w-[0.625em] md:w-[1.5em] aspect-[1/1] items-center justify-center inline-flex",
         "border-[2px] border-[#fff9e5]",
       )}
     >
-      {checked && <img src="/icons/confirm.svg" className="w-[16px] h-[16px]" />}
+      {checked && (
+        <img
+          src="/icons/confirm.svg"
+          className="w-[0.625] md:w-[0.66666666666666666667em] aspect-[1/1]"
+        />
+      )}
       <input
         type="checkbox"
         checked={checked}

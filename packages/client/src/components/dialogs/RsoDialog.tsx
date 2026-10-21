@@ -15,6 +15,8 @@ function RsoDialog() {
     authClient.signIn.oauth2({ providerId: "riot" });
   };
 
+  const fontSizeClassName = "text-[0.65em] md:text-[1.25em]";
+
   return (
     <Dialog
       open={open}
@@ -24,19 +26,25 @@ function RsoDialog() {
       header={
         <img
           src="/icons/rso-login-dialog-title.png"
-          className="w-[17.9375em] h-[3.5625em] block"
+          // md:h=57
+          className="aspect-[282/57] h-[1.21875em] md:h-[3.5625em] block"
         />
       }
     >
       <div
         className={cn(
-          "max-w-[25em] mx-auto mt-[12.5em]",
-          "flex flex-col gap-[1.5em]",
+          "max-w-[16em] md:max-w-[32em] mx-auto mt-[8em] md:mt-[12.5em]",
+          "flex flex-col items-center gap-[1.5em]",
         )}
       >
         <label className="flex items-center gap-[0.75em]">
           <Checkbox checked={isConfirm} onChange={setIsConfirm} />
-          <div className="font-[500] !leading-[1.2] text-[1em] text-[#fff9e5]">
+          <div
+            className={cn(
+              "font-[500] !leading-[1.2] text-[#fff9e5]",
+              fontSizeClassName,
+            )}
+          >
             我確認登入會使我的個人資料對所有用戶公開
           </div>
         </label>
@@ -44,9 +52,10 @@ function RsoDialog() {
           type="button"
           className={cn(
             "!h-auto border-none",
-            "bg-[#EB0029] py-[1em] px-[2em] rounded-[10px] w-full text-[1.25em]",
+            "bg-[#EB0029] py-[1em] px-[2em] rounded-[10px] w-full",
             "flex justify-center items-center gap-[0.75em]",
             "disabled:opacity-100 disabled:bg-[#999999]",
+            fontSizeClassName,
           )}
           onClick={onClick}
           disabled={!isConfirm}

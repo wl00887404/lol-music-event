@@ -21,7 +21,7 @@ export function FieldName(props: ComponentPropsWithoutRef<"div">) {
 
   return (
     <div
-      className="font-[500] text-[1.3125em] leading-[1] text-[#fff9e5]"
+      className="font-[500] text-[0.6875em] md:text-[1.3125em] leading-[1] text-[#fff9e5]"
       {...otherProps}
     >
       {children}
@@ -31,22 +31,28 @@ export function FieldName(props: ComponentPropsWithoutRef<"div">) {
 
 function InputContainer(props: { children: React.ReactNode }) {
   return (
-    <div className="relative mt-[0.5em]">
+    <div className="relative mt-[0.21875em] md:mt-[0.5em]">
       <div className="flex pointer-events-none">
-        <img src="/icons/dialog-input-bg.png" className="h-[3em]" />
+        <img
+          src="/icons/dialog-input-bg.png"
+          className="h-[1.5em] md:h-[3em]"
+        />
         <div className="flex-1 bg-[#ffffff] mx-[-0.05em]" />
-        <img src="/icons/dialog-input-bg.png" className=" h-[3em] rotate-180" />
+        <img
+          src="/icons/dialog-input-bg.png"
+          className="h-[1.5em] md:h-[3em] rotate-180"
+        />
       </div>
-      <div className="w-full h-[3em] absolute top-0 left-0">
+      <div className="w-full h-full absolute top-0 left-0">
         {props.children}
       </div>
     </div>
   );
 }
 
-const fontSizeClassName = "!text-[1.3125em]";
+const fontSizeClassName = "!text-[0.6875em] md:!text-[1.3125em]";
 const otherFontClassName =
-  "font-[500] !leading-[2.2857142857142857143em] text-[#0b1527]";
+  "font-[500] !leading-[2.1818181818181818182em] md:!leading-[2.2857142857142857143em] text-[#0b1527]";
 
 const textClassName = cn(fontSizeClassName, otherFontClassName);
 
@@ -55,7 +61,7 @@ export function Input(props: React.ComponentProps<typeof BaseInput>) {
     <InputContainer>
       <BaseInput
         className={cn(
-          "border-none rounded-none py-0 px-[1em] h-auto",
+          "border-none rounded-none py-0 px-[1em] h-auto block",
           textClassName,
         )}
         {...props}
@@ -68,8 +74,10 @@ export function ErrorMessage(
   props: React.ComponentProps<typeof BaseErrorMessage>,
 ) {
   return (
-    <div className="my-[0.4375em]">
-      <div className="text-[#FF4655] text-[0.8125em] leading-[1] font-[500]">
+    // 8 + 11 + 8; md=7 + 13 + 7
+
+    <div className="my-[0.5em] md:my-[0.4375em]">
+      <div className="text-[#FF4655] text-[0.6875em] md:text-[0.8125em] leading-[1] font-[500]">
         <BaseErrorMessage {...props} />
         &nbsp;
       </div>

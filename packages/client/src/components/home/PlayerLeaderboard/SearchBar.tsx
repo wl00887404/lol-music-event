@@ -30,9 +30,9 @@ function SearchBar(props: Props) {
         className={cn(
           "text-[#0f1923] placeholder:text-[rgba(15,25,35,0.45)]",
           "h-auto font-[700] py-0 font-[family-name:BeaufortforLOL,Noto_Sans_TC]",
-          // text: 13px, px: 13px, leading: 26.5px
+          // text=13px; px=13px; leading=26.5px
           "!text-[0.8125em] px-[0.5em] !leading-[2.03846em]",
-          // text: 32px, px: 28px, leading: 80px
+          // text=32px; px=28px; leading=80px
           "md:!text-[2em] md:!px-[0.875em] md:!leading-[2.5em]",
         )}
       />

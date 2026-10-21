@@ -12,6 +12,7 @@ import ConfirmDialog from "./shared/ConfirmDialog";
 import OkButton from "./shared/OkButton";
 import { FieldName, Input, ErrorMessage, Select } from "./FormItem";
 import { Team } from "@/types";
+import { cn } from "@/libs/utils";
 
 type CancelDialogProps = {
   open: boolean;
@@ -151,20 +152,21 @@ function CompleteUserDataDialog() {
               />
               <ErrorMessage name="team" />
             </label>
-            <div className="flex justify-center mt-[0.125em]">
+
+            <div className="flex  md:justify-center mt-[0.125em]">
               <div>
-                <label className="flex items-center gap-[0.625em]">
+                <label className="flex items-center gap-[0.40625em] md:gap-[0.625em]">
                   <Checkbox checked={isOver15} onChange={setIsOver15} />
-                  <div className="font-[500] leading-[1] text-[1.25em] text-[#fff9e5]">
+                  <div className="font-[500] leading-[1] text-[0.59375em] md:text-[1.25em] text-[#fff9e5]">
                     我已年滿 15 歲
                   </div>
                 </label>
-                <label className="flex items-center gap-[0.625em] mt-[0.8125em]">
+                <label className="flex items-center gap-[0.40625em] md:gap-[0.625em] mt-[0.5625em] md:mt-[0.8125em]">
                   <Checkbox
                     checked={isTermsAndPrivacyAccepted}
                     onChange={setIsTermsAccepted}
                   />
-                  <div className="font-[500] leading-[1] text-[1.25em] text-[#fff9e5]">
+                  <div className="font-[500] leading-[1] text-[0.59375em] md:text-[1.25em] text-[#fff9e5]">
                     點擊註冊即代表你同意我們的
                     <a
                       href="https://game.taiwanmobile.com/HoG/assets/game-privacy.html"
@@ -177,7 +179,7 @@ function CompleteUserDataDialog() {
                 </label>
               </div>
             </div>
-            <div className="absolute left-0 bottom-[2.75em] w-full flex flex-col items-center">
+            <div className="absolute left-0 bottom-[1.5625em] md:bottom-[2.75em] w-full flex flex-col items-center">
               <OkButton>註冊</OkButton>
             </div>
           </Form>
@@ -202,11 +204,17 @@ function CompleteUserDataDialog() {
         header={
           <img
             src="/icons/complete-user-data-dialog-title.png"
-            className="w-[14.1875em] h-[3.375em] block"
+            // md:h=54
+            className="aspect-[227/54] h-[1.21875em] md:h-[3.375em] block"
           />
         }
       >
-        <div className="px-[1.125em] max-w-[24.375em] md:max-w-[51.1875em] mx-auto mt-[2.0625em]">
+        <div
+          className={cn(
+            "px-[1.375em] md:px-[1.125em] max-w-[24.375em] md:max-w-[51.1875em] mx-auto",
+            "mt-[3em] md:mt-[2.0625em]",
+          )}
+        >
           {form}
         </div>
       </Dialog>

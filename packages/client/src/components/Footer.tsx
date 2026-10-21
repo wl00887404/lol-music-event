@@ -20,7 +20,7 @@ function Footer() {
             帳戶連接到英雄聯盟遊戲軟體，即表示您同意台灣大哥大股份有限公司的「使用者合約」和「隱私權政策」。
           </div>
         </div>
-        <div className="flex items-center flex-col md:flex-row gap-[24px] md:gap-[70px] text-[#fff9e5] font-[700] text[13px] !leading-[1.2]">
+        <div className="flex items-center flex-col md:flex-row gap-[24px] md:gap-[70px] text-[#fff9e5] font-[700] text-[13px] !leading-[1.2]">
           <Link to="https://game.taiwanmobile.com/HoG/assets/game-privacy.html">
             服務條款
           </Link>

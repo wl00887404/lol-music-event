@@ -13,11 +13,11 @@ function OkButton(props: Props) {
     <BaseButton
       type="submit"
       className={cn(
-        "w-[15.0625em] h-[4.375em]",
+        "w-[7.5em] md:w-[15.0625em] aspect-[241/70]",
         "bg-[url('/icons/dialog-button.png')] bg-cover",
       )}
     >
-      <span className="text-[#0b1527] font-[700] text-[1.875em] leading-[1]">
+      <span className="text-[#0b1527] font-[700] text-[0.9375em] md:text-[1.875em] leading-[1]">
         {children}
       </span>
     </BaseButton>
