@@ -169,19 +169,11 @@ function CompleteUserDataDialog() {
                   <div className="font-[500] leading-[1] text-[1.25em] text-[#fff9e5]">
                     點擊註冊即代表你同意我們的
                     <a
-                      href="/terms-of-service"
+                      href="https://game.taiwanmobile.com/HoG/assets/game-privacy.html"
                       target="_blank"
-                      className="text-[#63ACFF] underline"
+                      className="text-[#63ACFF] underline mx-[0.5em]"
                     >
                       服務條款
-                    </a>
-                    與
-                    <a
-                      href="/privacy-policy"
-                      target="_blank"
-                      className="text-[#63ACFF] underline"
-                    >
-                      隱私政策
                     </a>
                   </div>
                 </label>

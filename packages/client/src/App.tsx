@@ -45,10 +45,6 @@ function App() {
           element={<Doc url="/docs/personal-data-protection.html" />}
         />
         <Route
-          path="/privacy-policy"
-          element={<Doc url="/docs/privacy-policy.html" />}
-        />
-        <Route
           path="/terms-of-service"
           element={<Doc url="/docs/terms-of-service.html" />}
         />

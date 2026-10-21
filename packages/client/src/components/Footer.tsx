@@ -21,8 +21,9 @@ function Footer() {
           </div>
         </div>
         <div className="flex items-center flex-col md:flex-row gap-[24px] md:gap-[70px] text-[#fff9e5] font-[700] text[13px] !leading-[1.2]">
-          <Link to="/terms-of-service">服務條款</Link>
-          <Link to="/privacy-policy">隱私條款</Link>
+          <Link to="https://game.taiwanmobile.com/HoG/assets/game-privacy.html">
+            服務條款
+          </Link>
           <Link to="/personal-data-protection">個資告知事項</Link>
         </div>
         <div className="flex gap-[12px] py-[8px] px-[12px] bg-[#292929] rounded-[8px]">
