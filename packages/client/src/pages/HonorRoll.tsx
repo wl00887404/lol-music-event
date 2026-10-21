@@ -125,19 +125,19 @@ function HonorRoll() {
     <div className="relative">
       <HeroCarousel />
       <div className="px-[1.125em]">
-        <div className="flex flex-col items-center mt-[7.5625em]">
+        <div className="flex flex-col items-center mt-[2.53125em]  md:mt-[7.5625em]">
           <div
             id={SCROLL_TO_HERE_ID}
             className="scroll-mt-[var(--scroll-margin-top)]"
           />
           <img
             src="/icons/honor-roll-title.png"
-            className="w-[16.875em] h-[4em] block"
+            className="aspect-ratio-[270/64] h-[3.5em] md:h-[4em] block"
           />
         </div>
         {/* PSD 是 1735 */}
         {/* 但我覺得用 home 的 1598 好像比較好 */}
-        <div className="mt-[7.125em] mb-[7.5625em] max-w-[99.875em] mx-auto">
+        <div className="mt-[2.53125em] md:mt-[7.125em] mb-[7.5625em] max-w-[99.875em] mx-auto">
           <div className="grid grid-cols-[repeat(2,1fr)] md:grid-cols-[repeat(3,1fr)] gap-[1.125em] md:gap-[3.75em_6.25em]">
             {items.map((item) => {
               return (
