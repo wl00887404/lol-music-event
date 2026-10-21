@@ -1,5 +1,6 @@
 import BaseButton from "@/components/BaseButton";
 import HeroCarousel from "@/components/home/HeroCarousel";
+import { SCROLL_TO_HERE_ID } from "@/components/ScrollToTop";
 import { cn } from "@/libs/utils";
 import { useRef, useState } from "react";
 
@@ -65,6 +66,7 @@ function LuckyDraw() {
           "flex flex-col items-center px-[1.125em]",
         )}
       >
+        <div id={SCROLL_TO_HERE_ID} />
         <img
           src="/icons/lucky-draw-title.png"
           className="aspect-[490/69] h-[1.75em] md:h-[4.3125em] block"

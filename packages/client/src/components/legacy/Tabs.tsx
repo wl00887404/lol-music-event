@@ -35,7 +35,7 @@ function Tabs(props: TabsProps) {
                 className={cn(
                   "absolute bottom-0 w-full transition-[height,_background]",
                   value === currentValue
-                    ? "h-[5px] bg-[#FF4655] rounded-t-[30px]"
+                    ? "h-[5px] bg-[#ffa836] rounded-t-[30px]"
                     : "h-[2px] bg-[#999999]",
                 )}
               />
