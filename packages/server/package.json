@@ -14,6 +14,7 @@
     "del-mv": "node ./scripts/dropAllMaterializedViews.ts"
   },
   "dependencies": {
+    "@date-fns/tz": "^1.5.0",
     "@types/cookie-parser": "^1.4.10",
     "axios-retry": "^4.5.0",
     "bottleneck": "^2.19.5",

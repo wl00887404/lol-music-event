@@ -88,18 +88,21 @@ export const reward = pgTable(
       .primaryKey()
       .$defaultFn(() => crypto.randomUUID())
       .notNull(),
-    type: text("type").notNull(),
+    key: text("key").notNull(),
     code: text("code").notNull(),
     claimedAt: timestamp("claimed_at"),
-    price: integer("price"),
     claimerId: text("claimer_id").references(() => user.id),
+    price: integer("price").notNull(), // 玩家兌換當下的價格
   },
   (table) => [
     uniqueIndex("reward_code_unique_idx").on(table.code),
     index("reward_claimer_id_idx").on(table.claimerId),
-    uniqueIndex("reward_type_claimer_unique_idx")
-      .on(table.type, table.claimerId)
-      .where(sql`${table.claimerId} IS NOT NULL`),
+    // 搶庫存：只索引尚未被領取的列
+    index("reward_available_key_idx")
+      .on(table.key)
+      .where(sql`${table.claimerId} IS NULL`),
+    // 每日發放量：key 等值 + claimedAt 範圍
+    index("reward_key_claimed_at_idx").on(table.key, table.claimedAt),
   ],
 );
 

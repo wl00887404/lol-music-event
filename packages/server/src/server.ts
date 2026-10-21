@@ -18,6 +18,7 @@ import limiter from "./middlewares/limiter.ts";
 import adminRouter, {
   staticPath as adminStaticPath,
 } from "./controllers/admin.ts";
+import { rewardService } from "./services/reward.ts";
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -48,6 +49,7 @@ app.listen(port, async () => {
   console.log("adminStaticPath", adminStaticPath);
 
   await leaderboardService.initTitles();
+  rewardService.validRewardSettings();
 
   // 正式機更新再 reset 就好
   if (process.env.NODE_ENV !== "development") {

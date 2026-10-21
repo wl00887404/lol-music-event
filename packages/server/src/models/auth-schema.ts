@@ -25,7 +25,6 @@ export const user = pgTable("user", {
   inviteCode: text("invite_code"),
   riotId: text("riot_id"),
   puuid: text("puuid"),
-  tier: integer("tier").default(0),
   isUpdating: boolean("is_updating").default(false),
   isCompleted: boolean("is_completed").default(false),
   inviterId: text("inviter_id"),
@@ -34,6 +33,7 @@ export const user = pgTable("user", {
   termsAcceptedAt: timestamp("terms_accepted_at"),
   privacyAcceptedAt: timestamp("privacy_accepted_at"),
   ageConfirmedAt: timestamp("age_confirmed_at"),
+  freeDrawChances: integer("free_draw_chances").default(1),
 });
 
 export const session = pgTable(

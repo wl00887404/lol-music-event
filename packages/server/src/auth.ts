@@ -50,7 +50,7 @@ export const auth = betterAuth({
             const riotId = `${gameName}#${tagLine}`;
             const { puuid } = await riotService.fetchMeByRiotId(riotId);
             const shortPuuid = puuid.slice(0, 12);
-            
+
             return {
               id: puuid,
               riotId,
@@ -75,7 +75,6 @@ export const auth = betterAuth({
       inviteCode: { type: "string" },
       riotId: { type: "string" },
       puuid: { type: "string" },
-      tier: { type: "number", defaultValue: 0 },
       isUpdating: { type: "boolean", defaultValue: false },
       isCompleted: { type: "boolean", defaultValue: false },
       inviterId: { type: "string" },
@@ -84,6 +83,7 @@ export const auth = betterAuth({
       termsAcceptedAt: { type: "date", returned: false },
       privacyAcceptedAt: { type: "date", returned: false },
       ageConfirmedAt: { type: "date", returned: false },
+      freeDrawChances: { type: "number", defaultValue: 1 },
     },
   },
   hooks: {
