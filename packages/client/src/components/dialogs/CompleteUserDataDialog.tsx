@@ -52,10 +52,8 @@ function CompleteUserDataDialog() {
   ].includes(location.pathname);
 
   const devCookie = getCookieValue("dev");
-  // const forceClosed = devCookie === "1";
-  const forceClosed = false;
+  const forceClosed = devCookie === "1";
   const open = !forceClosed && !disabled && session?.user.isCompleted === false;
-  // const open = true;
 
   const teamOptions = [
     { value: Team.kda, label: "K/DA" },
@@ -192,12 +190,8 @@ function CompleteUserDataDialog() {
     <>
       <Dialog
         open={open}
-        title={
-          <img
-            src="/icons/complete-user-data-dialog-title.png"
-            className="w-[14.1875em] h-[3.375em] block"
-          />
-        }
+        // open
+        title="完成註冊"
         description="完成註冊表單"
         onOpenChange={(nextOpen) => {
           if (nextOpen) return;
@@ -205,6 +199,12 @@ function CompleteUserDataDialog() {
           // 堅持關閉，視同取消註冊，會登出
           setCancelDialogOpen(true);
         }}
+        header={
+          <img
+            src="/icons/complete-user-data-dialog-title.png"
+            className="w-[14.1875em] h-[3.375em] block"
+          />
+        }
       >
         <div className="px-[1.125em] max-w-[24.375em] md:max-w-[51.1875em] mx-auto mt-[2.0625em]">
           {form}

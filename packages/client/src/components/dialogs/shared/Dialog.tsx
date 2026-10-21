@@ -10,10 +10,11 @@ import BaseButton from "@/components/BaseButton";
 import RwdImg from "@/components/RwdImg";
 
 type Props = ComponentPropsWithoutRef<typeof BaseDialog> & {
-  title: ReactNode;
-  description: ReactNode;
+  title: string;
+  description: string;
   children?: ReactNode;
   showCloseButton?: boolean;
+  header?: ReactNode;
 };
 
 function Background() {
@@ -21,14 +22,11 @@ function Background() {
     "block w-full h-[var(--dialog-height)] object-cover";
 
   return (
-    <>
-      <RwdImg src="/icons/dialog-bg-2.png" className={backgroundClassName} />
-      <RwdImg
-        src="/icons/dialog-bg-1.png"
-        className={cn(backgroundClassName, "absolute top-0 left-0")}
-        style={{ mixBlendMode: "color-dodge" }}
-      />
-    </>
+    <RwdImg
+      src="/icons/m-dialog-bg.png"
+      mdSrc="/icons/dialog-bg.png"
+      className={backgroundClassName}
+    />
   );
 }
 
@@ -39,6 +37,7 @@ function Dialog(props: Props) {
     children,
     open,
     onOpenChange,
+    header,
     showCloseButton = true,
   } = props;
 
@@ -48,25 +47,27 @@ function Dialog(props: Props) {
         showCloseButton={false}
         className={cn(
           "bg-[transparent] !border-none !shadow-[none] !rounded-[0] !px-[1.125em]",
-          // 18 + 1280 + 18
-          "!max-w-[25.375em] md:!max-w-[82.25em]",
+          // max-w: 18 + 559 + 18
+          // md:max-w: 18 + 1280 + 18
+          "!max-w-[37.1875em] md:!max-w-[82.25em]",
           "text-[var(--dialog-font-size)]",
         )}
       >
         <div className="relative">
           <Background />
           <div className="absolute top-0 left-0 w-full h-full">
-            <DialogTitle
-              className={cn(
-                "!text-[1em] flex justify-center",
-                "mt-[var(--dialog-py)] h-[var(--dialog-title-height)]",
-              )}
-            >
-              {title}
-            </DialogTitle>
+            <DialogTitle className="hidden">{title}</DialogTitle>
             <DialogDescription className="hidden">
               {description}
             </DialogDescription>
+            <div
+              className={cn(
+                "flex justify-center",
+                "mt-[var(--dialog-py)] h-[var(--dialog-title-height)]",
+              )}
+            >
+              {header}
+            </div>
             {children}
           </div>
           {showCloseButton && (

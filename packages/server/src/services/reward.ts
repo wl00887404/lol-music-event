@@ -350,4 +350,7 @@ export const rewardService = {
   claimPaidReward,
   claimFreeReward,
   validRewardSettings,
+  resetFreeDrawChance: async (count = 1) => {
+    await db.update(userTable).set({ freeDrawChances: count });
+  },
 };

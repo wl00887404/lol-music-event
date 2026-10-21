@@ -1,7 +1,12 @@
 import { ErrorMessage as BaseErrorMessage } from "formik";
 import { Input as BaseInput } from "@/components/ui/input";
 import { cn } from "@/libs/utils";
-import type { ComponentPropsWithoutRef } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type ComponentPropsWithoutRef,
+} from "react";
 
 import {
   Select as BaseSelect,
@@ -30,10 +35,7 @@ function InputContainer(props: { children: React.ReactNode }) {
       <div className="flex pointer-events-none">
         <img src="/icons/dialog-input-bg.png" className="h-[3em]" />
         <div className="flex-1 bg-[#ffffff] mx-[-0.05em]" />
-        <img
-          src="/icons/dialog-input-bg.png"
-          className=" h-[3em] rotate-180"
-        />
+        <img src="/icons/dialog-input-bg.png" className=" h-[3em] rotate-180" />
       </div>
       <div className="w-full h-[3em] absolute top-0 left-0">
         {props.children}
@@ -42,15 +44,18 @@ function InputContainer(props: { children: React.ReactNode }) {
   );
 }
 
-const textClassName =
-  "font-[500] !text-[1.3125em] !leading-[2.2857142857142857143em] text-[#0b1527]";
+const fontSizeClassName = "!text-[1.3125em]";
+const otherFontClassName =
+  "font-[500] !leading-[2.2857142857142857143em] text-[#0b1527]";
+
+const textClassName = cn(fontSizeClassName, otherFontClassName);
 
 export function Input(props: React.ComponentProps<typeof BaseInput>) {
   return (
     <InputContainer>
       <BaseInput
         className={cn(
-          "border-none rounded-none py-0 px-[1em]  h-auto",
+          "border-none rounded-none py-0 px-[1em] h-auto",
           textClassName,
         )}
         {...props}
@@ -81,11 +86,14 @@ type SelectProps = React.ComponentProps<typeof BaseSelect> & {
 
 export function Select(props: SelectProps) {
   const { options, placeholder, ...otherProps } = props;
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const [fontSize, setFontSize] = useState("16px");
 
   const items = options.map((option) => {
     return (
       <SelectItem
-        className={textClassName}
+        className={otherFontClassName}
+        style={{ fontSize }}
         key={option.value}
         value={option.value}
       >
@@ -94,10 +102,18 @@ export function Select(props: SelectProps) {
     );
   });
 
+  useEffect(() => {
+    if (!triggerRef.current) return;
+
+    const cs = getComputedStyle(triggerRef.current);
+    setFontSize(cs.fontSize);
+  }, []);
+
   return (
     <InputContainer>
       <BaseSelect {...otherProps}>
         <SelectTrigger
+          ref={triggerRef}
           className={cn(
             textClassName,
             "bg-[transparent] text-[#0b1527] w-full",

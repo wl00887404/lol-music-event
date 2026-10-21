@@ -2,6 +2,7 @@ import cron from "node-cron";
 import { soloMissionService } from "../services/soloMission.ts";
 import { leaderboardService } from "../services/leaderboard.ts";
 import { lockTimestampMap, riotService } from "../services/riot.ts";
+import { rewardService } from "../services/reward.ts";
 
 const taskOption = { timezone: "Asia/Taipei" };
 // 星期一早上八點，刷新跳過任務次數
@@ -10,6 +11,9 @@ cron.schedule(
   async () => {
     console.log(`[pid:${process.pid}] 跳過任務次數重置`);
     await soloMissionService.resetSkipChance();
+
+    console.log(`[pid:${process.pid}] 每日抽獎次數重置`);
+    await rewardService.resetFreeDrawChance();
   },
   taskOption,
 );

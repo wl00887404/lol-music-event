@@ -6,10 +6,9 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 type Props = {
-  url:
-    | "/docs/personal-data-protection.html"
-    | "/docs/privacy-policy.html"
-    | "/docs/terms-of-service.html";
+  url: "/docs/personal-data-protection.html";
+  // | "/docs/privacy-policy.html"
+  // | "/docs/terms-of-service.html";
 };
 
 function Loading() {

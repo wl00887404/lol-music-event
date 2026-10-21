@@ -19,13 +19,14 @@ function RsoDialog() {
     <Dialog
       open={open}
       onOpenChange={onOpenChange}
-      title={
+      title="登入 / 註冊"
+      description="登入 / 註冊表單"
+      header={
         <img
           src="/icons/rso-login-dialog-title.png"
           className="w-[17.9375em] h-[3.5625em] block"
         />
       }
-      description="登入 / 註冊表單"
     >
       <div
         className={cn(
