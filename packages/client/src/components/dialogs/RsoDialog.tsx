@@ -23,14 +23,14 @@ function RsoDialog() {
       onOpenChange={onOpenChange}
       title="登入 / 註冊"
       description="登入 / 註冊表單"
-      header={
+    >
+      <div className="flex justify-center mt-[1.5625em] md:mt-[2.625em]">
         <img
           src="/icons/rso-login-dialog-title.png"
           // md:h=57
           className="aspect-[282/57] h-[1.21875em] md:h-[3.5625em] block"
         />
-      }
-    >
+      </div>
       <div
         className={cn(
           "max-w-[16em] md:max-w-[32em] mx-auto mt-[8em] md:mt-[12.5em]",

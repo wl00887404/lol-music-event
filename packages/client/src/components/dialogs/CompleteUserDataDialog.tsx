@@ -179,8 +179,14 @@ function CompleteUserDataDialog() {
                 </label>
               </div>
             </div>
-            <div className="absolute left-0 bottom-[1.5625em] md:bottom-[2.75em] w-full flex flex-col items-center">
-              <OkButton>註冊</OkButton>
+            <div
+              className={cn(
+                "absolute left-0 w-full",
+                "flex justify-center",
+                "bottom-[1.5625em] md:bottom-[2.75em]",
+              )}
+            >
+              <OkButton type="submit">註冊</OkButton>
             </div>
           </Form>
         );
@@ -201,14 +207,14 @@ function CompleteUserDataDialog() {
           // 堅持關閉，視同取消註冊，會登出
           setCancelDialogOpen(true);
         }}
-        header={
+      >
+        <div className="flex justify-center mt-[1.5625em] md:mt-[2.625em]">
           <img
             src="/icons/complete-user-data-dialog-title.png"
             // md:h=54
             className="aspect-[227/54] h-[1.21875em] md:h-[3.375em] block"
           />
-        }
-      >
+        </div>
         <div
           className={cn(
             "px-[1.375em] md:px-[1.125em] max-w-[24.375em] md:max-w-[51.1875em] mx-auto",

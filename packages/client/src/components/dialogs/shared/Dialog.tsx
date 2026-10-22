@@ -9,22 +9,21 @@ import { cn } from "@/libs/utils";
 import BaseButton from "@/components/BaseButton";
 import { useViewport } from "@/components/viewportStore";
 
-type Props = ComponentPropsWithoutRef<typeof BaseDialog> & {
+export type BaseDialogProps = ComponentPropsWithoutRef<typeof BaseDialog>;
+export type DialogProps = BaseDialogProps & {
   title: string;
   description: string;
   children?: ReactNode;
   showCloseButton?: boolean;
-  header?: ReactNode;
 };
 
-function Dialog(props: Props) {
+function Dialog(props: DialogProps) {
   const {
     title,
     description,
     children,
     open,
     onOpenChange,
-    header,
     showCloseButton = true,
   } = props;
 
@@ -50,24 +49,14 @@ function Dialog(props: Props) {
       >
         <div
           className={cn(
-            "relative text-[length:var(--dialog-font-size)] ",
+            "relative text-[20px] md:text-[12px]",
             "aspect-[595/974] md:aspect-[1280/779] bg-cover bg-center",
             "max-w-[100vw] h-[30.4375em] md:h-[48.6875em]",
           )}
           style={{ backgroundImage: `url("${bg}")` }}
         >
           {hiddenNode}
-          <div className="absolute top-0 left-0 w-full h-full">
-            <div
-              className={cn(
-                "flex justify-center",
-                "mt-[var(--dialog-py)] h-[var(--dialog-title-height)]",
-              )}
-            >
-              {header}
-            </div>
-            {children}
-          </div>
+          <div className="absolute top-0 left-0 w-full h-full">{children}</div>
           {showCloseButton && (
             <BaseButton
               className="absolute top-[1em] md:top-[2.25em] right-[0.875em] md:right-[2.4375em]"

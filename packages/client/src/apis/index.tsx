@@ -133,7 +133,6 @@ export const checkUpdating = async () => {
   return data;
 };
 
-// FIXME: 要確認
 export type GetMyStatsData = {
   totalRank: number;
   playerCount: number;
@@ -240,7 +239,6 @@ export const skipSoloMission = async () => {
   return unknownError;
 };
 
-// FIXME: 要確認
 type GetMyLeaderboardData = {
   player: PlayerLeaderboardItem | null;
 };
@@ -255,20 +253,14 @@ export const getMyLeaderboard = async () => {
 
 // FIXME: 要確認
 export type Reward = {
-  code: string | null;
-  description: string;
-  finishedCount: number;
-  icon: string;
-  image: string;
+  key: string;
   name: string;
-  totalCount: number;
-  type: string;
 };
 
-type GetRewardData = Reward[];
+type GetRewardsData = Reward[];
 
 export const getRewards = async () => {
-  const response = await instance.get<GetRewardData>("/api/me/rewards");
+  const response = await instance.get<GetRewardsData>("/api/me/rewards");
 
   const { data } = response;
   return data;

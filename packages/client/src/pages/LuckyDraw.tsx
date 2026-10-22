@@ -1,4 +1,6 @@
+import type { Reward } from "@/apis";
 import BaseButton from "@/components/BaseButton";
+import DrawResultDialog from "@/components/dialogs/reward/DrawResultDialog";
 import HeroCarousel from "@/components/home/HeroCarousel";
 import { SCROLL_TO_HERE_ID } from "@/components/ScrollToTop";
 import { cn } from "@/libs/utils";
@@ -13,14 +15,41 @@ const freeRewards = [
   { key: "free-idol-card", name: "限量偶像卡牌包" },
 ];
 
-const transitionDuration = 5;
+const duration = 5;
 
-function Wheel() {
-  const onceRef = useRef(false);
-  const [deg, setDeg] = useState(0);
+function Wheel({ deg, draw }: { deg: number; draw: () => void }) {
   const imgClass = "block aspect-[1/1] w-[45.625em] max-w-[88vw]";
 
-  const onClick = () => {
+  return (
+    <div className="relative">
+      <img
+        className={imgClass}
+        src="/rewards/wheel.png"
+        style={{
+          transition: `transform ${duration}s cubic-bezier(0.12, 0.8, 0.1, 1)`,
+          transform: `rotate(${deg}deg)`,
+        }}
+      />
+      <BaseButton
+        className={cn(
+          imgClass,
+          "absolute top-[0] left-[0]",
+          "bg-[url('/rewards/pointer.png')] bg-cover",
+        )}
+        onClick={draw}
+      />
+    </div>
+  );
+}
+
+function LuckyDraw() {
+  const [resultDialogOpen, setResultDialogOpen] = useState(false);
+  const [reward, setReward] = useState<Reward | null>(null);
+
+  const onceRef = useRef(false);
+  const [deg, setDeg] = useState(0);
+
+  const draw = () => {
     if (onceRef.current) return;
 
     const max = freeRewards.length + 1;
@@ -32,31 +61,13 @@ function Wheel() {
     const nextDeg = 3600 - (index * 360) / 7 + shiftDeg;
 
     setDeg(nextDeg);
+    setReward(freeRewards[index] || null);
+
+    setTimeout(() => {
+      setResultDialogOpen(true);
+    }, duration * 1000);
   };
 
-  return (
-    <div className="relative">
-      <img
-        className={imgClass}
-        src="/rewards/wheel.png"
-        style={{
-          transition: `transform ${transitionDuration}s cubic-bezier(0.12, 0.8, 0.1, 1)`,
-          transform: `rotate(${deg}deg)`,
-        }}
-      />
-      <BaseButton
-        className={cn(
-          imgClass,
-          "absolute top-[0] left-[0]",
-          "bg-[url('/rewards/pointer.png')] bg-cover",
-        )}
-        onClick={onClick}
-      />
-    </div>
-  );
-}
-
-function LuckyDraw() {
   return (
     <div className="relative">
       <HeroCarousel />
@@ -72,7 +83,7 @@ function LuckyDraw() {
           className="aspect-[490/69] h-[1.75em] md:h-[4.3125em] block"
         />
         <div className="mt-[1.375em] md:mt-[2.6875em]">
-          <Wheel />
+          <Wheel deg={deg} draw={draw} />
         </div>
 
         <div className="mt-[1.21875em] md:mt-[3.5em] mb-[8.90625em] md:mb-[6.125em]">
@@ -88,6 +99,14 @@ function LuckyDraw() {
           </BaseButton>
         </div>
       </div>
+      <DrawResultDialog
+        open={resultDialogOpen}
+        onOpenChange={setResultDialogOpen}
+        reward={reward}
+        onOK={() => {
+          setResultDialogOpen(false);
+        }}
+      />
     </div>
   );
 }
