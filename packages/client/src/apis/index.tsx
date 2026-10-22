@@ -275,7 +275,7 @@ export const getRewards = async (type: "free" | "paid") => {
   return data;
 };
 
-type GetMyInviteesData = string;
+type GetMyInviteesData = string[];
 
 export const getMyInvitee = async () => {
   const response = await instance.get<GetMyInviteesData>("/api/me/invitees");
@@ -321,4 +321,15 @@ export const luckyDraw = async () => {
   }
 
   return unknownError;
+};
+
+type GetMyBalanceData = {
+  balance: number;
+};
+
+export const getMyBalance = async () => {
+  const response = await instance.get<GetMyBalanceData>("/api/me/balance");
+
+  const { data } = response;
+  return data;
 };

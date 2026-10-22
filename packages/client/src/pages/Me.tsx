@@ -15,7 +15,7 @@ import Profile from "@/components/me/Profile";
 import ScorePr from "@/components/me/ScorePr";
 import InviteCode from "@/components/me/InviteCode";
 import Stats from "@/components/me/Stats";
-import Prizes from "@/components/me/Prizes";
+import Rewards from "@/components/me/Rewards";
 
 function useSync() {
   const { data: session, isPending, refetch } = authClient.useSession();
@@ -56,7 +56,7 @@ function Me() {
         {/* y = 1799 ~ 1859 */}
         <SyncStatus />
         {/* y = 1945 ~ 2796 */}
-        <div className="flex justify-between">
+        <div className="flex justify-between flex-col md:flex-row">
           <div className="flex flex-col justify-between">
             <Profile />
             <InviteCode />
@@ -66,8 +66,8 @@ function Me() {
         <div className="mt-[1.25em]">
           <Stats />
         </div>
-        <div className="mt-[4.625em] mb-[5.375em]">
-          <Prizes />
+        <div className="mt-[4.625em] mb-[6em]">
+          <Rewards />
         </div>
       </div>
     </div>

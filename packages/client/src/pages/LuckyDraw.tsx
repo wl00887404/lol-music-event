@@ -19,7 +19,7 @@ const rewardOrders = [
   "free-idol-card",
 ];
 
-const duration = 5;
+const DURATION = 5;
 
 function Wheel({
   deg,
@@ -38,7 +38,7 @@ function Wheel({
         className={imgClass}
         src="/rewards/wheel.png"
         style={{
-          transition: `transform ${duration}s cubic-bezier(0.12, 0.8, 0.1, 1)`,
+          transition: `transform ${DURATION}s cubic-bezier(0.12, 0.8, 0.1, 1)`,
           transform: `rotate(${deg}deg)`,
         }}
       />
@@ -55,7 +55,6 @@ function Wheel({
   );
 }
 
-// TODO: 支援多次抽獎？
 function LuckyDraw() {
   const [resultDialogOpen, setResultDialogOpen] = useState(false);
   const [claimDialogOpen, setClaimDialogOpen] = useState(false);
@@ -96,7 +95,7 @@ function LuckyDraw() {
       setTimeout(() => {
         setResultDialogOpen(true);
         setIsDrawing(false);
-      }, duration * 1000);
+      }, DURATION * 1000);
     } else {
       setIsDrawing(false);
     }

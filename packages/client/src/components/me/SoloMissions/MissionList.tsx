@@ -89,7 +89,7 @@ function Item(props: ItemProps) {
         <div
           className={cn(
             "relative h-full flex justify-center items-center text-center",
-            "font-[700] text-[1.5em]",
+            "font-[700] text-[1.5em] leading-[1.6]",
           )}
           style={{ color: missionColor }}
         >

@@ -2,7 +2,10 @@ import express from "express";
 import { requireAuth } from "../auth.ts";
 import { db } from "../db.ts";
 import { user as userTable } from "../models/auth-schema.ts";
-import { playerMatchHistory as playerMatchHistoryTable } from "../models/schema.ts";
+import {
+  playerMatchHistory as playerMatchHistoryTable,
+  reward as rewardTable,
+} from "../models/schema.ts";
 import { count, eq, isNotNull, sql, and, not, sum } from "drizzle-orm";
 import { INVITEE_SCORE, soloMissionService } from "../services/soloMission.ts";
 import { riotService } from "../services/riot.ts";
@@ -378,6 +381,22 @@ meRouter.get(`${URL}/paid-rewards`, async (req, res) => {
     .flat();
 
   return res.send({ rewards: publicRewards });
+});
+
+// 我的餘額
+meRouter.get(`${URL}/balance`, async (req, res) => {
+  const me = req.user!;
+
+  const result = await db
+    .select({ spent: sum(rewardTable.price) })
+    .from(rewardTable)
+    .where(eq(rewardTable.claimerId, me.id))
+    .then(head);
+
+  const total = me.score || 0;
+  const spent = Number(result?.spent || 0);
+
+  return res.send({ balance: total - spent });
 });
 
 meRouter.get(`${URL}/invitees`, async (req, res) => {
