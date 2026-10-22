@@ -7,20 +7,29 @@ import { randomInt } from "node:crypto";
 import { ApiError } from "../middlewares/errorHandler.ts";
 import { tz } from "@date-fns/tz";
 import { startOfDay, addDays, getDay } from "date-fns";
+import paidRewards from "../data/paidRewards.ts";
 
-type ClaimedReward = { id: string; key: string; name: string };
-type Tx = Parameters<Parameters<typeof db.transaction>[0]>[0];
 export type RewardSetting = {
   key: string;
   name: string;
   price: number;
   limit: number; // 玩家兌換上限
+  description: string;
+  isMerch: boolean; // 實體商品
 
   // 每日抽獎的屬性
   dailyLimit: number; // 每日兌換上限
   normalChance: number;
   saturdayChance: number;
 };
+
+type ClaimedReward = {
+  id: string;
+  code: string;
+  claimedAt: Date | null;
+  key: string;
+};
+type Tx = Parameters<Parameters<typeof db.transaction>[0]>[0];
 
 const NoPrizeCode = {
   reachDailyLimit: "CLAIM_COUNT_REACH_DAILY_LIMIT",
@@ -39,17 +48,21 @@ export function getTodayRange(now: Date = new Date()) {
 export const mkPaidRs = (
   key: string,
   name: string,
+  description: string,
   price: number,
   limit: number,
+  isMerch: boolean,
 ) => {
   const rs: RewardSetting = {
     key,
     name,
+    description,
     limit,
     price,
     dailyLimit: Infinity,
     normalChance: 0,
     saturdayChance: 0,
+    isMerch,
   };
 
   return rs;
@@ -58,83 +71,117 @@ export const mkPaidRs = (
 export const mkFreeRs = (
   key: string,
   name: string,
+  description: string,
   dailyLimit: number,
   normalChance: number,
   saturdayChance: number,
+  isMerch: boolean,
 ) => {
   const rs: RewardSetting = {
     key,
     name,
+    description,
     dailyLimit,
     normalChance,
     saturdayChance,
     limit: Infinity,
     price: 0,
+    isMerch,
   };
 
   return rs;
 };
 
-const paidRewardSettings: RewardSetting[] = [
-  mkPaidRs("paid-box", "海克斯科技鑰匙 & 寶箱", 30, 2),
-  mkPaidRs("paid-ball", "世界大賽晶球", 125, 1),
-  mkPaidRs("ezreal-skin-2023", "2023 心鋼之聲 伊澤瑞爾 造型", 240, 1),
-  mkPaidRs("yone-skin-2023", "2023 心鋼之聲 犽凝 造型", 240, 1),
-  mkPaidRs("ksante-skin-2023", "2023 心鋼之聲 卡桑帝 造型", 240, 1),
-  mkPaidRs("sett-skin-2023", "2023 心鋼之聲 賽特 造型", 240, 1),
-  mkPaidRs("aphelios-skin-2023", "2023 心鋼之聲 亞菲利歐 造型", 240, 1),
-  mkPaidRs("ahri-skin-2018", "2018 K/DA 阿璃 造型", 240, 1),
-  mkPaidRs("akali-skin-2018", "2018 K/DA 阿卡莉 造型", 240, 1),
-  mkPaidRs("evelynn-skin-2018", "2018 K/DA 伊芙琳 造型", 240, 1),
-  mkPaidRs("kaisa-skin-2018", "2018 K/DA 凱莎 造型", 240, 1),
-  mkPaidRs("yasuo-skin-2019", "2019 True Damage 犽宿 造型", 240, 1),
-  mkPaidRs("senna-skin-2019", "2019 True Damage 姍娜 造型", 240, 1),
-  mkPaidRs("akali-skin-2019", "2019 True Damage 阿卡莉 造型", 240, 1),
-  mkPaidRs("qiyana-skin-2019", "2019 True Damage 姬亞娜 造型", 240, 1),
-  mkPaidRs("paid-my-card-150", "MyCard 150 點（英雄聯盟專用點數）", 150, 1),
-  mkPaidRs("paid-my-card-300", "MyCard 300 點（英雄聯盟專用點數）", 300, 1),
-  mkPaidRs("paid-idol-box", "大混戰音樂季 典藏箱", 1000, 1),
-  mkPaidRs("paid-idol-card", "限量偶像卡牌包", 250, 2),
-  mkPaidRs("heart-steel-poster", "心鋼之聲 海報掛軸", 350, 1),
-  mkPaidRs("true-damage-poster", "True Damage 海報掛軸", 350, 1),
-  mkPaidRs("kda-poster", "K/DA 海報掛軸", 350, 1),
-  mkPaidRs("true-damage-vinyl", "True Damage 黑膠唱片", 800, 1),
-  mkPaidRs("heart-steel-usb", "心鋼之聲 滑板造型 USB", 1000, 1),
-  mkPaidRs("worlds-2026-collector-box", "2026 世界大賽 典藏版禮盒", 2500, 1),
-  mkPaidRs("dj-sona-figure", "DJ 索娜 公仔", 1000, 1),
-  mkPaidRs("teemo-hat", "提摩帽", 500, 1),
-  mkPaidRs("tibbers-plush", "泰貝爾 娃娃", 800, 1),
-  mkPaidRs("tibbers-blind-box", "泰貝爾吊飾 盲盒", 400, 1),
-  mkPaidRs(
-    "caps-hall-of-legends-bundle",
-    "傳奇殿堂 Caps 帽子 + 滑鼠墊",
-    450,
-    1,
-  ),
-  mkPaidRs("lottery-ticket", "抽獎券", 20, Infinity),
-  mkPaidRs("classic-mode-bundle", "經典模式綜合禮包", 300, 1),
-];
+export const paidRewardSettings: RewardSetting[] = paidRewards.map((pr) => {
+  return mkPaidRs(
+    pr.key,
+    pr.name,
+    pr.description,
+    pr.price || 99999,
+    pr.limit || 0,
+    pr.isMerch,
+  );
+});
 
-const freeRewardSettings: RewardSetting[] = [
-  mkFreeRs("free-box", "海克斯科技鑰匙 & 寶箱", 100, 1_000_000, 1_000_000),
-  mkFreeRs("free-ball", "世界大賽晶球", 40, 400_000, 400_000),
-  mkFreeRs(
-    "free-my-card-150",
-    "MyCard 150 點（英雄聯盟專用點數）",
-    1,
-    0,
-    6_667,
-  ),
-  mkFreeRs(
-    "free-my-card-300",
-    "MyCard 300 點（英雄聯盟專用點數）",
-    1,
-    0,
-    6_667,
-  ),
-  mkFreeRs("free-idol-box", "大混戰音樂季 典藏箱", 1, 0, 6_667),
-  mkFreeRs("free-idol-card", "限量偶像卡牌包", 1, 8_571, 0),
-];
+export const freeRewardSettings = [
+  {
+    from: "paid-box",
+    to: "free-box",
+    dailyLimit: 100,
+    normalChance: 1_000_000,
+    saturdayChance: 1_000_000,
+  },
+  {
+    from: "paid-ball",
+    to: "free-ball",
+    dailyLimit: 40,
+    normalChance: 400_000,
+    saturdayChance: 400_000,
+  },
+  {
+    from: "paid-my-card-150",
+    to: "free-my-card-150",
+    dailyLimit: 1,
+    normalChance: 0,
+    saturdayChance: 6_667,
+  },
+  {
+    from: "paid-my-card-300",
+    to: "free-my-card-300",
+    dailyLimit: 1,
+    normalChance: 0,
+    saturdayChance: 6_667,
+  },
+  {
+    from: "paid-idol-box",
+    to: "free-idol-box",
+    dailyLimit: 100,
+    normalChance: 0,
+    saturdayChance: 6_667,
+  },
+  {
+    from: "paid-idol-card",
+    to: "free-idol-card",
+    dailyLimit: 1,
+    normalChance: 8_571,
+    saturdayChance: 0,
+  },
+].map((s) => {
+  const origin = paidRewards.find((pr) => pr.key === s.from);
+  if (!origin) {
+    throw new Error("抽獎商品缺漏");
+  }
+
+  return mkFreeRs(
+    s.to,
+    origin.name,
+    origin.description,
+    s.dailyLimit,
+    s.normalChance,
+    s.saturdayChance,
+    origin.isMerch,
+  );
+});
+
+const stockMap: Map<string, number> = new Map();
+
+const loadStock = async () => {
+  const results = await db
+    .select({ key: rewardTable.key, count: count() })
+    .from(rewardTable)
+    .where(isNull(rewardTable.claimerId))
+    .groupBy(rewardTable.key);
+
+  for (const pr of paidRewardSettings) {
+    const count = results.find((r) => r.key === pr.key)?.count || 0;
+    stockMap.set(pr.key, count);
+  }
+
+  for (const fr of freeRewardSettings) {
+    const count = results.find((r) => r.key === fr.key)?.count || 0;
+    stockMap.set(fr.key, count);
+  }
+};
 
 export const claimRewardInTx = async (
   tx: Tx,
@@ -230,7 +277,11 @@ export const claimRewardInTx = async (
     .where(
       and(inArray(rewardTable.id, candidate), isNull(rewardTable.claimerId)),
     )
-    .returning({ id: rewardTable.id });
+    .returning({
+      id: rewardTable.id,
+      code: rewardTable.code,
+      claimedAt: rewardTable.claimedAt,
+    });
 
   if (!claimed) {
     throw new ApiError(409, {
@@ -239,7 +290,12 @@ export const claimRewardInTx = async (
     });
   }
 
-  return { id: claimed.id, key: targetReward.key, name: targetReward.name };
+  return {
+    id: claimed.id,
+    code: claimed.code,
+    claimedAt: claimed.claimedAt,
+    key: targetReward.key,
+  };
 };
 
 const claimPaidReward = async (
@@ -280,9 +336,11 @@ const randomFreeReward = () => {
   return null;
 };
 
-type FreeRewardResult =
-  | { won: false; chancesLeft: number }
-  | { won: true; chancesLeft: number; reward: ClaimedReward };
+type FreeRewardResult = {
+  win: boolean;
+  chancesLeft: number;
+  reward: ClaimedReward | null;
+};
 
 const claimFreeReward = async (
   userId: string,
@@ -309,7 +367,7 @@ const claimFreeReward = async (
     const targetReward =
       pickReward === undefined ? randomFreeReward() : pickReward;
     if (targetReward === null) {
-      return { won: false, chancesLeft, reward: null }; // 銘謝惠顧
+      return { win: false, chancesLeft, reward: null }; // 銘謝惠顧
     }
 
     // 3. 領獎：放在 save point 內，領獎失敗只會回滾這一段，不會連帶回滾步驟 1 的扣次數
@@ -317,24 +375,26 @@ const claimFreeReward = async (
       const reward = await tx.transaction((sp) => {
         return claimRewardInTx(sp, userId, targetReward);
       });
-      return { won: true, reward, chancesLeft };
+      return { win: true, reward, chancesLeft };
     } catch (err) {
       if (err instanceof ApiError && NO_PRIZE_CODES.includes(err.body?.code)) {
-        return { won: false, reward: null, chancesLeft }; // 抽到但今日發完 / 沒庫存
+        return { win: false, reward: null, chancesLeft }; // 抽到但今日發完 / 沒庫存
       }
       throw err; // 非預期錯誤：整個 transaction 回滾，次數會退回
     }
   });
 };
 
-const validRewardSettings = () => {
-  const keySet = new Set<string>();
+const rewardSettingMap: Map<string, RewardSetting> = new Map();
 
-  for (const { key } of [...paidRewardSettings, ...freeRewardSettings]) {
-    if (keySet.has(key)) {
-      throw new Error(`${key} 衝突`);
+const validRewardSettings = () => {
+  const rsList = [...paidRewardSettings, ...freeRewardSettings];
+
+  for (const rs of rsList) {
+    if (rewardSettingMap.has(rs.key)) {
+      throw new Error(`${rs.key} 衝突`);
     } else {
-      keySet.add(key);
+      rewardSettingMap.set(rs.key, rs);
     }
   }
 
@@ -346,6 +406,41 @@ const validRewardSettings = () => {
   }
 };
 
+const getRewardSetting = (key: string) => {
+  const setting = rewardService.rewardSettingMap.get(key);
+
+  if (setting) return setting;
+
+  const unknownSetting: RewardSetting = {
+    key: key,
+    name: "unknown reward",
+    description: "",
+    price: 65535,
+    limit: 0,
+    isMerch: false,
+    dailyLimit: 0,
+    normalChance: 0,
+    saturdayChance: 0,
+  };
+
+  return unknownSetting;
+};
+
+const getMyRewards = async (userId: string, type: "free" | "paid") => {
+  const settings = type === "free" ? freeRewardSettings : paidRewardSettings;
+  const keys = settings.map((s) => s.key);
+
+  const results = await db
+    .select()
+    .from(rewardTable)
+    .where(
+      and(inArray(rewardTable.key, keys), eq(rewardTable.claimerId, userId)),
+    );
+
+  return results;
+};
+
+const getMyPaidRewards = async (userId: string) => {};
 export const rewardService = {
   claimPaidReward,
   claimFreeReward,
@@ -353,4 +448,10 @@ export const rewardService = {
   resetFreeDrawChance: async (count = 1) => {
     await db.update(userTable).set({ freeDrawChances: count });
   },
+  stockMap,
+  loadStock,
+  rewardSettingMap,
+  getRewardSetting,
+  paidRewardSettings,
+  getMyRewards,
 };

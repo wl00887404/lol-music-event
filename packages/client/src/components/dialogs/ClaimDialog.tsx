@@ -63,21 +63,20 @@
 
 // function ClaimDialog(props: Props) {
 //   const { reward, refetch, ...otherProps } = props;
-//   const { finishedCount, totalCount } = reward;
-//   const claimable = finishedCount >= totalCount;
-//   const { mutate, isPending } = useMutation({
-//     mutationFn: async () => {
-//       return claimReward(reward.type);
-//     },
-//     onSuccess: (res) => {
-//       if ("error" in res) {
-//         console.log(res.error);
-//         return toast.error(res.error.message);
-//       }
+//   const { available } = reward;
+//   // const { mutate, isPending } = useMutation({
+//   //   mutationFn: async () => {
+//   //     return claimReward(reward.type);
+//   //   },
+//   //   onSuccess: (res) => {
+//   //     if ("error" in res) {
+//   //       console.log(res.error);
+//   //       return toast.error(res.error.message);
+//   //     }
 
-//       refetch();
-//     },
-//   });
+//   //     refetch();
+//   //   },
+//   // });
 
 //   const renderButton = () => {
 //     if (reward.code) {
@@ -94,31 +93,19 @@
 //           "disabled:opacity-100 disabled:bg-[#999999] disabled:shadow-none",
 //         )}
 //         onClick={() => {
-//           if (!claimable) return;
-//           mutate();
+//           if (!available) return;
+//           // mutate();
 //         }}
-//         loading={isPending}
-//         disabled={!claimable}
+//         loading={false}
+//         disabled={!available}
 //       >
-//         {claimable ? "領取" : "尚未達成領取條件"}
+//         {available ? "領取" : "尚未達成領取條件"}
 //       </Button>
 //     );
 
-//     if (finishedCount < totalCount) {
-//       return (
-//         <Tooltip>
-//           <TooltipTrigger asChild>
-//             <div>{button}</div>
-//           </TooltipTrigger>
-//           <TooltipContent>
-//             <p>{reward.description}</p>
-//           </TooltipContent>
-//         </Tooltip>
-//       );
-//     }
-
 //     return button;
 //   };
+
 //   return (
 //     <Dialog {...otherProps} title="領取好禮" description="領取好禮彈窗">
 //       <div
@@ -130,7 +117,7 @@
 //         <div className="text-[14px] md:text-[20px]">{reward.name}</div>
 //         <div className="w-[200px] md:w-[300px] h-[200px] md:h-[300px] grid place-items-center">
 //           <img
-//             src={reward.image}
+//             src={reward}
 //             className="aspect-[1/1] max-w-[100%] object-cover"
 //           />
 //         </div>

@@ -18,7 +18,7 @@ function DrawResultDialog(props: Props) {
   const iconSrc = win ? getIconSrc(key) : "/rewards/icons/loser.png";
 
   return (
-    <Dialog {...otherProps} title="每日抽獎" description="每日抽獎結果">
+    <Dialog {...otherProps} title="每日抽獎" description="每日抽獎結果彈窗">
       <div className="flex flex-col items-center mt-[3.875em] md:mt-[3.125em] px-[1.125em]">
         {win && (
           <img
@@ -26,7 +26,11 @@ function DrawResultDialog(props: Props) {
             className="aspect-[218/40] h-[1.031875em] md:h-[2.5625em] mb-[0.46875em] md:mb-[1.25em]"
           />
         )}
-        <img src={titleSrc} className="max-w-full md:max-w-[36em]" />
+        <img
+          src={titleSrc}
+          className="max-w-full md:max-w-[36em]"
+          alt={reward?.name || ""}
+        />
         <img src={iconSrc} className="mt-[0.5em] max-w-full md:max-w-[26em]" />
         <div
           className={cn(

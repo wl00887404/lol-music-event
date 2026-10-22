@@ -6,12 +6,12 @@ import { playerMatchHistory as playerMatchHistoryTable } from "../models/schema.
 import { count, eq, isNotNull, sql, and, not, sum } from "drizzle-orm";
 import { INVITEE_SCORE, soloMissionService } from "../services/soloMission.ts";
 import { riotService } from "../services/riot.ts";
-import { head, round } from "../libs/lodash.ts";
+import { head, range, round } from "../libs/lodash.ts";
 import { leaderboardService } from "../services/leaderboard.ts";
 import { rewardService } from "../services/reward.ts";
 import { ApiError } from "../middlewares/errorHandler.ts";
 import { logService } from "../services/log.ts";
-import { type PlayerLeaderboardItem, Team } from "../types.ts";
+import { type PlayerLeaderboardItem, PublicReward, Team } from "../types.ts";
 import { playerLeaderboardView } from "../models/materialized-view.ts";
 
 const URL = "/api/me";
@@ -325,11 +325,55 @@ meRouter.get(`${URL}/leaderboard`, async (req, res) => {
   return res.send({ player: await getPlayer() });
 });
 
-meRouter.get(`${URL}/rewards`, async (req, res) => {
-  // const rewards = await rewardService.toJson(req.session!.userId);
+meRouter.get(`${URL}/free-rewards`, async (req, res) => {
+  const me = req.user!;
 
-  // return res.send(rewards);
-  return res.send({});
+  const results = await rewardService.getMyRewards(me.id, "free");
+
+  const publicRewards: PublicReward[] = results.map((r) => {
+    const setting = rewardService.getRewardSetting(r.key);
+
+    return {
+      key: setting.key,
+      name: setting.name,
+      description: setting.description,
+      code: r.code,
+      price: setting.price,
+      isMerch: setting.isMerch,
+      available: false,
+      claimedAt: r.claimedAt,
+    };
+  });
+
+  return res.send({ rewards: publicRewards });
+});
+
+meRouter.get(`${URL}/paid-rewards`, async (req, res) => {
+  const me = req.user!;
+
+  const results = await rewardService.getMyRewards(me.id, "paid");
+
+  const publicRewards: PublicReward[] = rewardService.paidRewardSettings
+    .map((setting) => {
+      const claimed = results.filter((r) => r.key === setting.key);
+      const remainingCount = rewardService.stockMap.get(setting.key) || 0;
+
+      return range(setting.limit).map((index) => {
+        return {
+          key: setting.key,
+          name: setting.name,
+          description: setting.description,
+          price: setting.price,
+          isMerch: setting.isMerch,
+          available: remainingCount > 0,
+          code: claimed[index]?.code || null,
+          claimedAt: claimed[index]?.claimedAt || null,
+        };
+      });
+    })
+    .flat();
+
+  return res.send({ rewards: publicRewards });
 });
 
 meRouter.get(`${URL}/invitees`, async (req, res) => {

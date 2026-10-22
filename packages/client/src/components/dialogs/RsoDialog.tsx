@@ -22,7 +22,7 @@ function RsoDialog() {
       open={open}
       onOpenChange={onOpenChange}
       title="登入 / 註冊"
-      description="登入 / 註冊表單"
+      description="登入 / 註冊彈窗"
     >
       <div className="flex justify-center mt-[1.5625em] md:mt-[2.625em]">
         <img

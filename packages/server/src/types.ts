@@ -446,3 +446,14 @@ export type PlayerLeaderboardItem = {
   totalRank: number;
   titles: string[];
 };
+
+export type PublicReward = {
+  key: string; // 獎勵類別
+  name: string; // 獎勵名稱
+  description: string; // 領獎說明
+  code: string | null; // 有 code 表示是玩家已有獎勵
+  price: number; // 兌換價格時
+  isMerch: boolean; // 是否為實體商品
+  available: boolean; // 還有沒有存貨
+  claimedAt: Date | null; // 兌換日期
+};

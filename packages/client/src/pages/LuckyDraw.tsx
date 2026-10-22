@@ -5,15 +5,8 @@ import HeroCarousel from "@/components/home/HeroCarousel";
 import { SCROLL_TO_HERE_ID } from "@/components/ScrollToTop";
 import { cn } from "@/libs/utils";
 import { useRef, useState } from "react";
-
-const freeRewards = [
-  { key: "free-box", name: "海克斯科技鑰匙 & 寶箱" },
-  { key: "free-ball", name: "世界大賽晶球" },
-  { key: "free-my-card-150", name: "MyCard 15－0 點（英雄聯盟專用點數）" },
-  { key: "free-my-card-300", name: "MyCard 300 點（英雄聯盟專用點數）" },
-  { key: "free-idol-box", name: "大混戰音樂季 典藏箱" },
-  { key: "free-idol-card", name: "限量偶像卡牌包" },
-];
+import toast from "@/components/toast";
+// import ClaimDialog from "@/components/dialogs/ClaimDialog";
 
 const duration = 5;
 
@@ -44,24 +37,27 @@ function Wheel({ deg, draw }: { deg: number; draw: () => void }) {
 
 function LuckyDraw() {
   const [resultDialogOpen, setResultDialogOpen] = useState(false);
+  // const [claimDialogOpen, setClaimDialogOpen] = useState(false);
   const [reward, setReward] = useState<Reward | null>(null);
 
   const onceRef = useRef(false);
   const [deg, setDeg] = useState(0);
 
   const draw = () => {
-    if (onceRef.current) return;
+    if (onceRef.current) {
+      return toast.info("今天已經抽過獎了，明天再來吧");
+    }
 
-    const max = freeRewards.length + 1;
-    // 銘謝惠顧是 index 6
-    const index = Math.floor(Math.random() * max);
-    const shiftDeg = Math.random() * 12 - 6;
+    // const max = freeRewards.length + 1;
+    // // 銘謝惠顧是 index 6
+    // const index = Math.floor(Math.random() * max);
+    // const shiftDeg = Math.random() * 12 - 6;
 
-    onceRef.current = true;
-    const nextDeg = 3600 - (index * 360) / 7 + shiftDeg;
+    // onceRef.current = true;
+    // const nextDeg = 3600 - (index * 360) / 7 + shiftDeg;
 
-    setDeg(nextDeg);
-    setReward(freeRewards[index] || null);
+    // setDeg(nextDeg);
+    // setReward(freeRewards[index] || null);
 
     setTimeout(() => {
       setResultDialogOpen(true);
@@ -107,6 +103,13 @@ function LuckyDraw() {
           setResultDialogOpen(false);
         }}
       />
+      {/* {reward && (
+        <ClaimDialog
+          open={claimDialogOpen}
+          onOpenChange={setClaimDialogOpen}
+          reward={reward}
+        />
+      )} */}
     </div>
   );
 }

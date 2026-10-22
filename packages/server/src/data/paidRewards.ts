@@ -1,0 +1,362 @@
+const paidRewards = [
+  {
+    key: "paid-box",
+    name: "海克斯科技鑰匙 & 寶箱",
+    description:
+      "海克斯科技鑰匙 & 寶箱\n\n兌換後將獲得 海克斯科技鑰匙 & 寶箱 序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 20,000 組，兌完為止",
+    price: 30,
+    limit: 2,
+    isMerch: false,
+  },
+  {
+    key: "paid-ball",
+    name: "世界大賽晶球",
+    description:
+      "2026 世界大賽晶球\n\n兌換後將獲得 2026 世界大賽晶球 序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 13,000 組，兌完為止",
+    price: 125,
+    limit: 1,
+    isMerch: false,
+  },
+  {
+    key: "ezreal-skin-2023",
+    name: "心鋼之聲 伊澤瑞爾 造型 (2023)",
+    description:
+      '心鋼之聲 伊澤瑞爾 (2023)\n\n兌換後將獲得 "心鋼之聲 伊澤瑞爾" (2023) 造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
+    price: 240,
+    limit: 1,
+    isMerch: false,
+  },
+  {
+    key: "yone-skin-2023",
+    name: "心鋼之聲 犽凝 造型 (2023)",
+    description:
+      '心鋼之聲 犽凝 (2023)\n\n兌換後將獲得 "心鋼之聲 犽凝" (2023) 造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
+    price: 240,
+    limit: 1,
+    isMerch: false,
+  },
+  {
+    key: "ksante-skin-2023",
+    name: "心鋼之聲 卡桑帝 造型 (2023)",
+    description:
+      '心鋼之聲 卡桑帝 (2023)\n\n兌換後將獲得 "心鋼之聲 卡桑帝" (2023) 造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
+    price: 240,
+    limit: 1,
+    isMerch: false,
+  },
+  {
+    key: "sett-skin-2023",
+    name: "心鋼之聲 賽特 造型 (2023)",
+    description:
+      '心鋼之聲 賽特 (2023)\n\n兌換後將獲得 "心鋼之聲 賽特" (2023) 造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
+    price: 240,
+    limit: 1,
+    isMerch: false,
+  },
+  {
+    key: "aphelios-skin-2023",
+    name: "心鋼之聲 亞菲利歐 造型 (2023)",
+    description:
+      '心鋼之聲 亞菲利歐 (2023)\n\n兌換後將獲得 "心鋼之聲 亞菲利歐" (2023) 造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
+    price: 240,
+    limit: 1,
+    isMerch: false,
+  },
+  {
+    key: "ahri-skin-2018",
+    name: "K/DA 阿璃 造型 (2018)",
+    description:
+      'K/DA 阿璃 (2018)\n\n兌換後將獲得 "K/DA 阿璃" (2018) 造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
+    price: 240,
+    limit: 1,
+    isMerch: false,
+  },
+  {
+    key: "akali-skin-2018",
+    name: "K/DA 阿卡莉 造型 (2018)",
+    description:
+      'K/DA 阿卡莉 (2018)\n\n兌換後將獲得 "K/DA 阿卡莉" (2018) 造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
+    price: 240,
+    limit: 1,
+    isMerch: false,
+  },
+  {
+    key: "evelynn-skin-2018",
+    name: "K/DA 伊芙琳 造型 (2018)",
+    description:
+      'K/DA 伊芙琳 (2018)\n\n兌換後將獲得 "K/DA 伊芙琳" (2018) 造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
+    price: 240,
+    limit: 1,
+    isMerch: false,
+  },
+  {
+    key: "kaisa-skin-2018",
+    name: "K/DA 凱莎 造型 (2018)",
+    description:
+      'K/DA 凱莎 (2018)\n\n兌換後將獲得 "K/DA 凱莎" (2018) 造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
+    price: 240,
+    limit: 1,
+    isMerch: false,
+  },
+  {
+    key: "yasuo-skin-2019",
+    name: "True Damage 犽宿 造型 (2019)",
+    description:
+      'True Damage 犽宿 (2019)\n\n兌換後將獲得 "True Damage 犽宿" (2019) 造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
+    price: 240,
+    limit: 1,
+    isMerch: false,
+  },
+  {
+    key: "senna-skin-2019",
+    name: "True Damage 姍娜 造型 (2019)",
+    description:
+      'True Damage 姍娜 (2019)\n\n兌換後將獲得 "True Damage 姍娜" (2019) 造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
+    price: 240,
+    limit: 1,
+    isMerch: false,
+  },
+  {
+    key: "akali-skin-2019",
+    name: "True Damage 阿卡莉 造型 (2019)",
+    description:
+      'True Damage 阿卡莉 (2019)\n\n兌換後將獲得 "True Damage 阿卡莉" (2019) 造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
+    price: 240,
+    limit: 1,
+    isMerch: false,
+  },
+  {
+    key: "qiyana-skin-2019",
+    name: "True Damage 姬亞娜 造型 (2019)",
+    description:
+      'True Damage 姬亞娜 (2019)\n\n兌換後將獲得 "True Damage 姬亞娜" (2019) 造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
+    price: 240,
+    limit: 1,
+    isMerch: false,
+  },
+  {
+    key: "paid-my-card-150",
+    name: "MyCard 150 點（英雄聯盟專用點數）",
+    description:
+      "MyCard 150 點（英雄聯盟專用點數）\n\n兌換後將獲得 MyCard 150 點（英雄聯盟專用點數）序號乙組\n序號為一次性使用，兌換成功即失效\n共限量 150 組，兌完為止",
+    price: 150,
+    limit: 1,
+    isMerch: false,
+  },
+  {
+    key: "paid-my-card-300",
+    name: "MyCard 300 點（英雄聯盟專用點數）",
+    description:
+      "MyCard 300 點（英雄聯盟專用點數）\n\n兌換後將獲得 MyCard 300 點（英雄聯盟專用點數）序號乙組\n序號為一次性使用，兌換成功即失效\n共限量 20 組，兌完為止",
+    price: 300,
+    limit: 1,
+    isMerch: false,
+  },
+  {
+    key: "kkbox",
+    name: "KKBOX 體驗序號",
+    description: "",
+    price: null,
+    limit: null,
+    isMerch: false,
+  },
+  {
+    key: "paid-idol-box",
+    name: "大混戰音樂季 典藏箱",
+    description:
+      "大混戰音樂季 典藏箱\n內含三個樂團各式周邊，蒐藏家必備！\n\n兌換後將於 7 個工作天內，由工作人員寄送 Email 至網頁註冊信箱聯絡\n請至收件匣確認信件並回覆\n共限量 20 組，兌完為止\n寄送地址僅限台澎金馬地區",
+    price: 1000,
+    limit: 1,
+    isMerch: true,
+  },
+  {
+    key: "paid-idol-card",
+    name: "限量社群小卡盲盒包",
+    description:
+      "限量社群小卡盲盒包\n一包內含 6 張小卡，來抽出自己最愛的樂團或成員吧！\n\n兌換後將於 7 個工作天內，由工作人員寄送 Email 至網頁註冊信箱聯絡\n請至收件匣確認信件並回覆\n共限量 350 組，兌完為止\n寄送地址僅限台澎金馬地區",
+    price: 250,
+    limit: 2,
+    isMerch: true,
+  },
+  {
+    key: "heart-steel-poster",
+    name: "心鋼之聲 海報掛軸",
+    description:
+      "心鋼之聲 海報掛軸\n\n兌換後將於 7 個工作天內，由工作人員寄送 Email 至網頁註冊信箱聯絡\n請至收件匣確認信件並回覆\n共限量 5 組，兌完為止\n寄送地址僅限台澎金馬地區",
+    price: 350,
+    limit: 1,
+    isMerch: true,
+  },
+  {
+    key: "true-damage-poster",
+    name: "True Damage 海報掛軸",
+    description:
+      "True Damage 海報掛軸\n\n兌換後將於 7 個工作天內，由工作人員寄送 Email 至網頁註冊信箱聯絡\n請至收件匣確認信件並回覆\n共限量 5 組，兌完為止\n寄送地址僅限台澎金馬地區",
+    price: 350,
+    limit: 1,
+    isMerch: true,
+  },
+  {
+    key: "kda-poster",
+    name: "K/DA 海報掛軸",
+    description:
+      "K/DA 海報掛軸\n\n兌換後將於 7 個工作天內，由工作人員寄送 Email 至網頁註冊信箱聯絡\n請至收件匣確認信件並回覆\n共限量 5 組，兌完為止\n寄送地址僅限台澎金馬地區",
+    price: 350,
+    limit: 1,
+    isMerch: true,
+  },
+  {
+    key: "true-damage-vinyl",
+    name: "True Damage 黑膠唱片",
+    description:
+      "True Damage 黑膠唱片\n\n兌換後將於 7 個工作天內，由工作人員寄送 Email 至網頁註冊信箱聯絡\n請至收件匣確認信件並回覆\n共限量 1 組，兌完為止\n寄送地址僅限台澎金馬地區",
+    price: 800,
+    limit: 1,
+    isMerch: true,
+  },
+  {
+    key: "heart-steel-usb",
+    name: "心鋼之聲 滑板造型 USB",
+    description:
+      "心鋼之聲 滑板造型 USB\n\n兌換後將於 7 個工作天內，由工作人員寄送 Email 至網頁註冊信箱聯絡\n請至收件匣確認信件並回覆\n共限量 1 組，兌完為止\n寄送地址僅限台澎金馬地區",
+    price: 1000,
+    limit: 1,
+    isMerch: true,
+  },
+  {
+    key: "kda-vinyl",
+    name: "K/DA 黑膠唱片",
+    description:
+      "K/DA 黑膠唱片\n\n兌換後將於 7 個工作天內，由工作人員寄送 Email 至網頁註冊信箱聯絡\n請至收件匣確認信件並回覆\n共限量 1 組，兌完為止\n寄送地址僅限台澎金馬地區",
+    price: 1000,
+    limit: 1,
+    isMerch: true,
+  },
+  {
+    key: "kda-cdc-blades",
+    name: "K/DA FIRESTARTER CD 典藏套組\n（BLADES 版）",
+    description:
+      "K/DA FIRESTARTER 光碟收藏箱套組\n（BLADES 版）\n\n兌換後將於 7 個工作天內，由工作人員寄送 Email 至網頁註冊信箱聯絡\n請至收件匣確認信件並回覆\n共限量 1 組，兌完為止\n寄送地址僅限台澎金馬地區",
+    price: 1600,
+    limit: 1,
+    isMerch: true,
+  },
+  {
+    key: "kda-cd-blades",
+    name: "K/DA FIRESTARTER CD\n（BLADES 版）",
+    description:
+      "K/DA FIRESTARTER CD\n（BLADES 版）\n\n兌換後將於 7 個工作天內，由工作人員寄送 Email 至網頁註冊信箱聯絡\n請至收件匣確認信件並回覆\n共限量 1 組，兌完為止\n寄送地址僅限台澎金馬地區",
+    price: 450,
+    limit: 1,
+    isMerch: true,
+  },
+  {
+    key: "kda-cd-ahri",
+    name: "K/DA FIRESTARTER CD\n（阿璃版）",
+    description:
+      "K/DA FIRESTARTER CD\n（阿璃版）\n\n兌換後將於 7 個工作天內，由工作人員寄送 Email 至網頁註冊信箱聯絡\n請至收件匣確認信件並回覆\n共限量 1 組，兌完為止\n寄送地址僅限台澎金馬地區",
+    price: 450,
+    limit: 1,
+    isMerch: true,
+  },
+  {
+    key: "kda-cd-akali",
+    name: "K/DA FIRESTARTER CD\n（阿卡莉版）",
+    description:
+      "K/DA FIRESTARTER CD\n（阿卡莉版）\n\n兌換後將於 7 個工作天內，由工作人員寄送 Email 至網頁註冊信箱聯絡\n請至收件匣確認信件並回覆\n共限量 1 組，兌完為止\n寄送地址僅限台澎金馬地區",
+    price: 450,
+    limit: 1,
+    isMerch: true,
+  },
+  {
+    key: "kda-cd-evelynn",
+    name: "K/DA FIRESTARTER CD\n（伊芙琳版）",
+    description:
+      "K/DA FIRESTARTER CD\n（伊芙琳版）\n\n兌換後將於 7 個工作天內，由工作人員寄送 Email 至網頁註冊信箱聯絡\n請至收件匣確認信件並回覆\n共限量 1 組，兌完為止\n寄送地址僅限台澎金馬地區",
+    price: 450,
+    limit: 1,
+    isMerch: true,
+  },
+  {
+    key: "kda-cd-kaisa",
+    name: "K/DA FIRESTARTER CD\n（凱莎版）",
+    description:
+      "K/DA FIRESTARTER CD\n（凱莎版）\n\n兌換後將於 7 個工作天內，由工作人員寄送 Email 至網頁註冊信箱聯絡\n請至收件匣確認信件並回覆\n共限量 1 組，兌完為止\n寄送地址僅限台澎金馬地區",
+    price: 450,
+    limit: 1,
+    isMerch: true,
+  },
+  {
+    key: "worlds-2026-collector-box",
+    name: "2026 世界大賽 典藏版禮盒",
+    description:
+      "2026 世界大賽 典藏版禮盒\n\n兌換後將於 7 個工作天內，由工作人員寄送 Email 至網頁註冊信箱聯絡\n請至收件匣確認信件並回覆\n共限量 1 組，兌完為止\n寄送地址僅限台澎金馬地區",
+    price: 2500,
+    limit: 1,
+    isMerch: true,
+  },
+  {
+    key: "dj-sona-figure",
+    name: "DJ 索娜 公仔",
+    description:
+      "DJ 索娜 公仔\n\n兌換後將於 7 個工作天內，由工作人員寄送 Email 至網頁註冊信箱聯絡\n請至收件匣確認信件並回覆\n共限量 2 組，兌完為止\n寄送地址僅限台澎金馬地區",
+    price: 1000,
+    limit: 1,
+    isMerch: true,
+  },
+  {
+    key: "teemo-hat",
+    name: "提摩帽",
+    description:
+      "提摩帽\n\n兌換後將於 7 個工作天內，由工作人員寄送 Email 至網頁註冊信箱聯絡\n請至收件匣確認信件並回覆\n共限量 5 組，兌完為止\n寄送地址僅限台澎金馬地區",
+    price: 500,
+    limit: 1,
+    isMerch: true,
+  },
+  {
+    key: "tibbers-plush",
+    name: "泰貝爾 娃娃",
+    description:
+      "泰貝爾 娃娃\n\n兌換後將於 7 個工作天內，由工作人員寄送 Email 至網頁註冊信箱聯絡\n請至收件匣確認信件並回覆\n共限量 5 組，兌完為止\n寄送地址僅限台澎金馬地區",
+    price: 800,
+    limit: 1,
+    isMerch: true,
+  },
+  {
+    key: "tibbers-blind-box",
+    name: "泰貝爾吊飾 盲盒",
+    description:
+      "泰貝爾吊飾 盲盒\n\n兌換後將於 7 個工作天內，由工作人員寄送 Email 至網頁註冊信箱聯絡\n請至收件匣確認信件並回覆\n共限量 20 組，兌完為止\n寄送地址僅限台澎金馬地區",
+    price: 400,
+    limit: 1,
+    isMerch: true,
+  },
+  {
+    key: "caps-hall-of-legends-bundle",
+    name: "傳奇殿堂 Caps 帽子 + 滑鼠墊",
+    description:
+      "傳奇殿堂 Caps 帽子 + 滑鼠墊\n\n兌換後將於 7 個工作天內，由工作人員寄送 Email 至網頁註冊信箱聯絡\n請至收件匣確認信件並回覆\n共限量 30 組，兌完為止\n寄送地址僅限台澎金馬地區",
+    price: 450,
+    limit: 1,
+    isMerch: true,
+  },
+  // {
+  //   key: "lottery-ticket",
+  //   name: "抽獎券",
+  //   description: "待補",
+  //   price: 20,
+  //   limit: null,
+  //   isMerch: false,
+  // },
+  {
+    key: "classic-mode-bundle",
+    name: "經典模式綜合禮包",
+    description:
+      "經典模式綜合禮包\n\n內含：提摩小夜燈、阿璃證件帶、圖鑑貼紙、旅行小包、燈箱磁鐵、文件夾\n兌換後將於 7 個工作天內，由工作人員寄送 Email 至網頁註冊信箱聯絡\n請至收件匣確認信件並回覆\n共限量 20 組，兌完為止\n寄送地址僅限台澎金馬地區",
+    price: 300,
+    limit: 1,
+    isMerch: true,
+  },
+];
+
+export default paidRewards;
