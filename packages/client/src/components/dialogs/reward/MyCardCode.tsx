@@ -27,7 +27,7 @@ function MyCardCode({ code }: { code: string }) {
       <div
         className={cn(
           "bg-[#ffffff] px-[1.5em] md:px-[2em] py-[0.5em] md:py-[0.625em] flex items-center gap-[0.5em]",
-          "rounded-t-[4px]",
+          "rounded-t-[8px]",
         )}
       >
         <div className="text-[0.875em] md:text-[1.25em] mr-[1em]">卡號</div>
@@ -68,7 +68,7 @@ function MyCardCode({ code }: { code: string }) {
           "bg-[#f0ca70] !h-auto border-none",
           "py-[0.5em] md:py-[0.625em]",
           "font-[700] tracking-[10%] !leading-[1.2] text-[1em] md:text-[1.25em] text-[#030718]",
-          "rounded-t-[0] rounded-b-[4px]",
+          "rounded-t-[0] rounded-b-[8px]",
         )}
         onClick={() => {
           window.open(
