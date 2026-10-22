@@ -1,7 +1,18 @@
 import { db } from "../db.ts";
 import { user as userTable } from "../models/auth-schema.ts";
 import { reward as rewardTable } from "../models/schema.ts";
-import { and, count, eq, gt, gte, inArray, isNull, lt, sql } from "drizzle-orm";
+import {
+  and,
+  count,
+  eq,
+  gt,
+  gte,
+  inArray,
+  isNull,
+  lt,
+  sql,
+  desc,
+} from "drizzle-orm";
 import { head } from "../libs/lodash.ts";
 import { randomInt } from "node:crypto";
 import { ApiError } from "../middlewares/errorHandler.ts";
@@ -238,7 +249,7 @@ export const claimRewardInTx = async (
     .where(eq(rewardTable.claimerId, userId));
 
   if (targetReward.price > 0) {
-    const spentScore = myRewards.reduce((a, r) => a + r.price, 0);
+    const spentScore = myRewards.reduce((a, r) => a + (r.price || 0), 0);
     if ((me.score || 0) < spentScore + targetReward.price) {
       throw new ApiError(403, {
         code: "SCORE_NOT_ENOUGH",
@@ -435,7 +446,8 @@ const getMyRewards = async (userId: string, type: "free" | "paid") => {
     .from(rewardTable)
     .where(
       and(inArray(rewardTable.key, keys), eq(rewardTable.claimerId, userId)),
-    );
+    )
+    .orderBy(desc(rewardTable.claimedAt));
 
   return results;
 };

@@ -14,9 +14,20 @@ rewardRouter.post(`${URL}/claim`, async (req, res) => {
   const { key } = req.body;
   const price = Number(req.body.price);
 
-  await rewardService.claimPaidReward(me.id, key, price);
+  const reward = await rewardService.claimPaidReward(me.id, key, price);
+  const setting = rewardService.getRewardSetting(reward.key);
+  const publicReward: PublicReward = {
+    key: setting.key,
+    name: setting.name,
+    description: setting.description,
+    code: reward.code,
+    price: setting.price,
+    isMerch: setting.isMerch,
+    available: false,
+    claimedAt: reward.claimedAt,
+  };
 
-  return res.send({ success: true });
+  return res.send({ reward: publicReward });
 });
 
 rewardRouter.post(`${URL}/lucky-draw`, async (req, res) => {

@@ -259,10 +259,12 @@ export type Reward = {
   price: number; // 兌換價格時
   isMerch: boolean; // 是否為實體商品
   available: boolean; // 還有沒有存貨
-  claimedAt: Date | null; // 兌換日期
+  claimedAt: string | null; // 兌換日期
 };
 
-type GetRewardsData = Reward[];
+type GetRewardsData = {
+  rewards: Reward[];
+};
 
 export const getRewards = async (type: "free" | "paid") => {
   const url = type === "free" ? "/api/me/free-rewards" : "/api/me/paid-rewards";
@@ -282,11 +284,11 @@ export const getMyInvitee = async () => {
   return data;
 };
 
-export const claimReward = async (type: string) => {
+export const claimReward = async (key: string, price: number) => {
   try {
     const response = await instance.post<CommonMutationData>(
       "/api/rewards/claim",
-      { type },
+      { key, price },
     );
 
     const { data } = response;

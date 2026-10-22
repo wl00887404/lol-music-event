@@ -7,9 +7,9 @@ function useRewards() {
   const { syncTimestamp } = useSyncStore();
   const { data: session } = authClient.useSession();
   const { data, isPending, refetch } = useQuery({
-    queryKey: ["me", "rewards", syncTimestamp],
+    queryKey: ["me", "rewards", "paid", syncTimestamp],
     queryFn: () => {
-      return getRewards();
+      return getRewards("paid");
     },
     placeholderData: keepPreviousData,
     enabled: Boolean(session?.user),

@@ -5,20 +5,7 @@ import useSoloMissions from "@/hooks/useSoloMissions";
 import BaseButton from "../BaseButton";
 import useTeam from "@/hooks/useTeam";
 import { Team } from "@/types";
-
-function format(dateString: string): string {
-  const date = new Date(dateString);
-  const pad = (n: number) => String(n).padStart(2, "0");
-
-  const YYYY = date.getFullYear();
-  const MM = pad(date.getMonth() + 1);
-  const DD = pad(date.getDate());
-  const hh = pad(date.getHours());
-  const mm = pad(date.getMinutes());
-  const ss = pad(date.getSeconds());
-
-  return `${YYYY}/${MM}/${DD} ${hh}:${mm}:${ss}`;
-}
+import formatDate from "@/libs/formatDate";
 
 type GetTheme = () => {
   textColor: string;
@@ -48,7 +35,7 @@ function SyncStatus() {
       <div className="flex items-center gap-[0.875em] mr-[1em]">
         {syncedAt && (
           <div className="text-[1.75em]" style={{ color: textColor }}>
-            上次同步時間：{format(syncedAt)}
+            上次同步時間：{formatDate(syncedAt)}
           </div>
         )}
 

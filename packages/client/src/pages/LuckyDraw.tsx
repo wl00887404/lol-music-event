@@ -1,5 +1,7 @@
 import { luckyDraw, type Reward } from "@/apis";
 import BaseButton from "@/components/BaseButton";
+import ClaimDialog from "@/components/dialogs/reward/ClaimDialog";
+import DrawRecordDialog from "@/components/dialogs/reward/DrawRecordDialog";
 import DrawResultDialog from "@/components/dialogs/reward/DrawResultDialog";
 import HeroCarousel from "@/components/home/HeroCarousel";
 import { SCROLL_TO_HERE_ID } from "@/components/ScrollToTop";
@@ -7,7 +9,6 @@ import toast from "@/components/toast";
 import { authClient } from "@/libs/auth-client";
 import { cn } from "@/libs/utils";
 import { useEffect, useRef, useState } from "react";
-// import ClaimDialog from "@/components/dialogs/ClaimDialog";
 
 const rewardOrders = [
   "free-box",
@@ -32,7 +33,7 @@ function Wheel({
   const imgClass = "block aspect-[1/1] w-[45.625em] max-w-[88vw]";
 
   return (
-    <div className="relative">
+    <div className="relative overflow-hidden">
       <img
         className={imgClass}
         src="/rewards/wheel.png"
@@ -57,7 +58,8 @@ function Wheel({
 // TODO: 支援多次抽獎？
 function LuckyDraw() {
   const [resultDialogOpen, setResultDialogOpen] = useState(false);
-  // const [claimDialogOpen, setClaimDialogOpen] = useState(false);
+  const [claimDialogOpen, setClaimDialogOpen] = useState(false);
+  const [recordDialogOpen, setRecordDialogOpen] = useState(false);
   const [reward, setReward] = useState<Reward | null>(null);
   const { data: session } = authClient.useSession();
 
@@ -100,6 +102,11 @@ function LuckyDraw() {
     }
   };
 
+  const openClaimDialog = (nextReward: Reward) => {
+    setReward(nextReward);
+    setClaimDialogOpen(true);
+  };
+
   useEffect(() => {
     drawChances.current = session?.user.freeDrawChances || 0;
   }, [session?.user]);
@@ -128,6 +135,7 @@ function LuckyDraw() {
               "aspect-[459/83] h-[2.1875em] md:h-[5.1875em]",
               "bg-[url('/rewards/record-button.png')] bg-cover",
             )}
+            onClick={() => setRecordDialogOpen(true)}
           >
             <div className="font-[700] text-[1.09375em] md:text-[2.625em] text-[#0b1527]">
               中獎紀錄
@@ -141,15 +149,23 @@ function LuckyDraw() {
         reward={reward}
         onOK={() => {
           setResultDialogOpen(false);
+          if (reward !== null) {
+            setClaimDialogOpen(true);
+          }
         }}
       />
-      {/* {reward && (
+      <DrawRecordDialog
+        open={recordDialogOpen}
+        onOpenChange={setRecordDialogOpen}
+        openClaimDialog={openClaimDialog}
+      />
+      {reward && (
         <ClaimDialog
           open={claimDialogOpen}
           onOpenChange={setClaimDialogOpen}
           reward={reward}
         />
-      )} */}
+      )}
     </div>
   );
 }
