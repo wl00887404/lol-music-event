@@ -45,14 +45,12 @@ function Item(props: {
 
 function DrawRecordDialog(props: Props) {
   const { open, openClaimDialog, ...otherProps } = props;
-  const { data, refetch } = useQuery({
+  const { data, refetch, isPending } = useQuery({
     queryKey: ["me", "rewards", "free"],
     queryFn: () => getRewards("free"),
     placeholderData: keepPreviousData,
     enabled: open,
   });
-
-  const items = data?.rewards || [];
 
   useEffect(() => {
     if (!open) return;
@@ -60,6 +58,30 @@ function DrawRecordDialog(props: Props) {
     refetch();
   }, [open, refetch]);
 
+  const renderContent = () => {
+    if (isPending) return null;
+
+    const items = data?.rewards || [];
+
+    if (items.length === 0) {
+      return (
+        <div className="text-[#fff9e5] text-center text-[1em] md:text-[2.2em]">
+          還沒有中獎紀錄
+          <br />
+          下一抽說不定就是你
+        </div>
+      );
+    }
+
+    return items.map((item, index) => {
+      return (
+        <Fragment key={index}>
+          {index !== 0 && <div className="h-[1px] bg-[#fff9e5] my-[0.2em]" />}
+          <Item reward={item} openClaimDialog={openClaimDialog} />
+        </Fragment>
+      );
+    });
+  };
   return (
     <Dialog
       open={open}
@@ -81,16 +103,7 @@ function DrawRecordDialog(props: Props) {
             "md:mx-auto md:w-full md:max-w-[36em]",
           )}
         >
-          {items.map((item, index) => {
-            return (
-              <Fragment key={index}>
-                {index !== 0 && (
-                  <div className="h-[1px] bg-[#fff9e5] my-[0.2em]" />
-                )}
-                <Item reward={item} openClaimDialog={openClaimDialog} />
-              </Fragment>
-            );
-          })}
+          {renderContent()}
         </div>
       </div>
     </Dialog>
