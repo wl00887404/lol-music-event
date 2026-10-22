@@ -1,7 +1,7 @@
 import express from "express";
 import { requireAuth } from "../auth.ts";
 import { rewardService } from "../services/reward.ts";
-import { PublicReward } from "../types.ts";
+import { type PublicReward } from "../types.ts";
 
 const URL = "/api/rewards";
 

@@ -31,6 +31,9 @@ export const authClient = createAuthClient({
         isCompleted: {
           type: "boolean",
         },
+        freeDrawChances: {
+          type: "number",
+        },
       },
     }),
   ],

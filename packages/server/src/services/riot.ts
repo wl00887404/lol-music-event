@@ -26,7 +26,7 @@ import { type Puuid, type MatchDetail } from "../types.ts";
 import { add } from "date-fns";
 
 // FIXME: 預設日期要修改
-const { START_DATE = "2026-09-01T00:00:00+08:00" } = process.env;
+const { START_DATE = "2026-10-21T12:00:00+08:00" } = process.env;
 
 export type fetchUserInfoData = {
   sub: string;

@@ -92,7 +92,7 @@ export const reward = pgTable(
     code: text("code").notNull(),
     claimedAt: timestamp("claimed_at"),
     claimerId: text("claimer_id").references(() => user.id),
-    price: integer("price").notNull(), // 玩家兌換當下的價格
+    price: integer("price"), // 玩家兌換當下的價格
   },
   (table) => [
     uniqueIndex("reward_code_unique_idx").on(table.code),

@@ -299,3 +299,24 @@ export const claimReward = async (type: string) => {
 
   return unknownError;
 };
+
+type LuckyDrawData = {
+  reward: Reward | null;
+};
+
+export const luckyDraw = async () => {
+  try {
+    const response = await instance.post<LuckyDrawData>(
+      "/api/rewards/lucky-draw",
+    );
+
+    const { data } = response;
+    return data;
+  } catch (err) {
+    if (axios.isAxiosError<ErrorResponse>(err)) {
+      return { error: err.response?.data } as ApiError;
+    }
+  }
+
+  return unknownError;
+};

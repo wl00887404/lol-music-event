@@ -25,12 +25,10 @@ import { parseArgs } from "util";
 
 const rawRoutes = [
   "/me",
-  "/products",
   "/personal-data-protection",
-  "/privacy-policy",
-  "/terms-of-service",
   "/honor-roll",
   "/guidelines",
+  "/lucky-draw",
 ];
 
 // ── CLI 參數解析 ──────────────────────────────────────────────────────────────

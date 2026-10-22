@@ -1,16 +1,34 @@
-import type { Reward } from "@/apis";
+import { luckyDraw, type Reward } from "@/apis";
 import BaseButton from "@/components/BaseButton";
 import DrawResultDialog from "@/components/dialogs/reward/DrawResultDialog";
 import HeroCarousel from "@/components/home/HeroCarousel";
 import { SCROLL_TO_HERE_ID } from "@/components/ScrollToTop";
-import { cn } from "@/libs/utils";
-import { useRef, useState } from "react";
 import toast from "@/components/toast";
+import { authClient } from "@/libs/auth-client";
+import { cn } from "@/libs/utils";
+import { useEffect, useRef, useState } from "react";
 // import ClaimDialog from "@/components/dialogs/ClaimDialog";
+
+const rewardOrders = [
+  "free-box",
+  "free-ball",
+  "free-my-card-150",
+  "free-my-card-300",
+  "free-idol-box",
+  "free-idol-card",
+];
 
 const duration = 5;
 
-function Wheel({ deg, draw }: { deg: number; draw: () => void }) {
+function Wheel({
+  deg,
+  draw,
+  disabled,
+}: {
+  deg: number;
+  draw: () => void;
+  disabled: boolean;
+}) {
   const imgClass = "block aspect-[1/1] w-[45.625em] max-w-[88vw]";
 
   return (
@@ -30,39 +48,61 @@ function Wheel({ deg, draw }: { deg: number; draw: () => void }) {
           "bg-[url('/rewards/pointer.png')] bg-cover",
         )}
         onClick={draw}
+        disabled={disabled}
       />
     </div>
   );
 }
 
+// TODO: 支援多次抽獎？
 function LuckyDraw() {
   const [resultDialogOpen, setResultDialogOpen] = useState(false);
   // const [claimDialogOpen, setClaimDialogOpen] = useState(false);
   const [reward, setReward] = useState<Reward | null>(null);
+  const { data: session } = authClient.useSession();
 
-  const onceRef = useRef(false);
+  const drawChances = useRef(0);
+  const [isDrawing, setIsDrawing] = useState(false);
   const [deg, setDeg] = useState(0);
 
-  const draw = () => {
-    if (onceRef.current) {
+  const getDeg = (reward: Reward | null) => {
+    const shiftDeg = Math.random() * 12 - 6;
+    const index = rewardOrders.findIndex((key) => key === reward?.key);
+
+    if (index === -1) {
+      // 銘謝惠顧是 index 6
+      return 3600 - (6 * 360) / 7 + shiftDeg;
+    } else {
+      return 3600 - (index * 360) / 7 + shiftDeg;
+    }
+  };
+
+  const draw = async () => {
+    if (drawChances.current === 0) {
       return toast.info("今天已經抽過獎了，明天再來吧");
     }
 
-    // const max = freeRewards.length + 1;
-    // // 銘謝惠顧是 index 6
-    // const index = Math.floor(Math.random() * max);
-    // const shiftDeg = Math.random() * 12 - 6;
+    setIsDrawing(true);
+    const res = await luckyDraw();
 
-    // onceRef.current = true;
-    // const nextDeg = 3600 - (index * 360) / 7 + shiftDeg;
+    if ("reward" in res) {
+      drawChances.current--;
+      const nextDeg = getDeg(res.reward);
+      setDeg(deg + nextDeg - (deg % 360));
+      setReward(res.reward);
 
-    // setDeg(nextDeg);
-    // setReward(freeRewards[index] || null);
-
-    setTimeout(() => {
-      setResultDialogOpen(true);
-    }, duration * 1000);
+      setTimeout(() => {
+        setResultDialogOpen(true);
+        setIsDrawing(false);
+      }, duration * 1000);
+    } else {
+      setIsDrawing(false);
+    }
   };
+
+  useEffect(() => {
+    drawChances.current = session?.user.freeDrawChances || 0;
+  }, [session?.user]);
 
   return (
     <div className="relative">
@@ -79,7 +119,7 @@ function LuckyDraw() {
           className="aspect-[490/69] h-[1.75em] md:h-[4.3125em] block"
         />
         <div className="mt-[1.375em] md:mt-[2.6875em]">
-          <Wheel deg={deg} draw={draw} />
+          <Wheel deg={deg} draw={draw} disabled={isDrawing} />
         </div>
 
         <div className="mt-[1.21875em] md:mt-[3.5em] mb-[8.90625em] md:mb-[6.125em]">

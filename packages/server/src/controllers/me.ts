@@ -11,7 +11,11 @@ import { leaderboardService } from "../services/leaderboard.ts";
 import { rewardService } from "../services/reward.ts";
 import { ApiError } from "../middlewares/errorHandler.ts";
 import { logService } from "../services/log.ts";
-import { type PlayerLeaderboardItem, PublicReward, Team } from "../types.ts";
+import {
+  type PlayerLeaderboardItem,
+  type PublicReward,
+  Team,
+} from "../types.ts";
 import { playerLeaderboardView } from "../models/materialized-view.ts";
 
 const URL = "/api/me";
