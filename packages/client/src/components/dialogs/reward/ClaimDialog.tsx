@@ -117,7 +117,7 @@ function ClaimDialog(props: Props) {
   const reward = claimedReward || props.reward;
 
   const { key } = reward;
-  const titleSrc = getTitleSrc(key);
+  const { src: titleSrc, aspectRatio } = getTitleSrc(key);
   const iconSrc = getIconSrc(key);
 
   const isTallTile = [
@@ -174,7 +174,11 @@ function ClaimDialog(props: Props) {
       description="獎勵兌換彈窗"
     >
       <div className="flex flex-col items-center mt-[2.4em] px-[1.125em]">
-        <img src={titleSrc} className="max-w-full max-w-full md:max-w-[34em]" />
+        <img
+          src={titleSrc}
+          style={{ aspectRatio }}
+          className="max-w-full max-w-full md:max-w-[34em]"
+        />
         <img
           src={iconSrc}
           className={cn(

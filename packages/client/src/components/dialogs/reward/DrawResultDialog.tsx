@@ -14,8 +14,8 @@ function DrawResultDialog(props: Props) {
   const key = reward?.key;
   const win = key !== undefined;
 
-  const titleSrc = win ? getTitleSrc(key) : "/rewards/titles/loser-title.png";
-  const iconSrc = win ? getIconSrc(key) : "/rewards/icons/loser.png";
+  const { src: titleSrc, aspectRatio } = getTitleSrc(win ? key : "loser");
+  const iconSrc = getIconSrc(win ? key : "loser");
 
   return (
     <Dialog {...otherProps} title="每日抽獎" description="每日抽獎結果彈窗">
@@ -28,6 +28,7 @@ function DrawResultDialog(props: Props) {
         )}
         <img
           src={titleSrc}
+          style={{ aspectRatio }}
           className="max-w-full md:max-w-[30em]"
           alt={reward?.name || ""}
         />
