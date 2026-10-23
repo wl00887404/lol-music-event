@@ -27,17 +27,6 @@ function useSync() {
   }, [session, isPending, refetch, autoSync]);
 }
 
-function SoloMissionAndSyncStatus() {
-  return (
-    <>
-      {/* y = 1239 ~ 1799 */}
-      <SoloMissions />
-      {/* y = 1799 ~ 1859 */}
-      <SyncStatus />
-    </>
-  );
-}
-
 function useCheckLogin() {
   const { data: session, isPending } = authClient.useSession();
   const navigate = useNavigate();
@@ -61,8 +50,11 @@ function Me() {
   return (
     <div>
       <HeroImage />
-      <div className="mt-[5.5625em] max-w-[102em] mx-auto">
-        <SoloMissionAndSyncStatus />
+      <div className="mt-[2em] md:mt-[5.5625em] max-w-[22.125em] md:max-w-[102em] mx-auto">
+        {/* y = 1239 ~ 1799 */}
+        <SoloMissions />
+        {/* y = 1799 ~ 1859 */}
+        <SyncStatus />
         {/* y = 1945 ~ 2796 */}
         <div className="flex justify-between flex-col md:flex-row">
           <div className="flex flex-col justify-between">

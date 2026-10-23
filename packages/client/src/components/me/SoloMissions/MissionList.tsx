@@ -11,15 +11,59 @@ import { cn } from "@/libs/utils";
 import { Team } from "@/types";
 import BaseButton from "@/components/BaseButton";
 import { useEffect, useState } from "react";
+import { useViewport } from "@/components/viewportStore";
+
+type GetTheme = () => {
+  desktopMissionColor: string;
+  desktopScoreColor: string;
+  mobileMissionColor: string;
+  mobileScoreColor: string;
+  finishedMissionColor: string;
+  inProgressMissionColor: string;
+  lockedMissionColor: string;
+};
+
+const useTheme: GetTheme = () => {
+  const team = useTeam();
+
+  if (team == Team.heartSteel) {
+    return {
+      desktopMissionColor: "#262b1b",
+      desktopScoreColor: "#262b1b",
+      mobileMissionColor: "#262b1b",
+      mobileScoreColor: "#262b1b",
+      finishedMissionColor: "#262b1b",
+      inProgressMissionColor: "#262b1b",
+      lockedMissionColor: "#f6efe1",
+    };
+  }
+
+  if (team == Team.trueDamage) {
+    return {
+      desktopMissionColor: "#f5ebe4",
+      desktopScoreColor: "#1c1c1e",
+      mobileMissionColor: "#ffffff",
+      mobileScoreColor: "#deef00",
+      finishedMissionColor: "#1c1c1e",
+      inProgressMissionColor: "#1c1c1e",
+      lockedMissionColor: "#ffffff",
+    };
+  }
+
+  return {
+    desktopMissionColor: "#f5ebe4",
+    desktopScoreColor: "#0b1527",
+    mobileMissionColor: "#f5ebe4",
+    mobileScoreColor: "#f5ebe4",
+    finishedMissionColor: "#f5ebe4",
+    inProgressMissionColor: "#f5ebe4",
+    lockedMissionColor: "#0b1527",
+  };
+};
 
 type ItemProps = {
   item: SoloMission;
   index: number;
-  missionColor: string;
-  scoreColor: string;
-  finishedMissionColor: string;
-  inProgressMissionColor: string;
-  lockedMissionColor: string;
 };
 
 /**
@@ -32,26 +76,32 @@ type ItemProps = {
  */
 
 function Item(props: ItemProps) {
-  const {
-    item,
-    index,
-    missionColor,
-    scoreColor,
-    finishedMissionColor,
-    inProgressMissionColor,
-    lockedMissionColor,
-  } = props;
+  const { item, index } = props;
   const team = useTeam();
+  const viewport = useViewport();
+  const prefix = viewport === "mobile" ? "m-" : "";
 
+  // 桌機版背景圖是超出去的
   const imgClassName = cn(
-    "w-[29.25em] h-[15.3125em] max-w-[none]",
+    "w-[19.9375em] md:w-[29.25em] h-[4.4375em] md:h-[15.3125em] max-w-[none]",
     "absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]",
     "pointer-events-none",
   );
+
   const lineClassName =
     "absolute top-[0] w-[50%] h-full bg-repeat-x bg-[length:auto_100%]";
 
-  const getLabelTheme = () => {
+  const {
+    desktopMissionColor,
+    desktopScoreColor,
+    mobileMissionColor,
+    mobileScoreColor,
+    finishedMissionColor,
+    inProgressMissionColor,
+    lockedMissionColor,
+  } = useTheme();
+
+  const getLabelProps = () => {
     if (item.status === "finished") {
       return {
         leftLineFileName: "mission-finished-line.png",
@@ -76,42 +126,82 @@ function Item(props: ItemProps) {
       labelColor: lockedMissionColor,
     };
   };
-
   const { leftLineFileName, rightLineFileName, labelFileName, labelColor } =
-    getLabelTheme();
-  return (
-    <div>
-      <div className="relative w-full h-[15.3125em] max-w-[20.0625em] mx-auto">
-        <img
-          src={`/icons/${team}/mission-item-bg.png`}
-          className={imgClassName}
-        />
+    getLabelProps();
+
+  const renderContent = () => {
+    if (viewport === "mobile") {
+      const getGlow = () => {
+        if (team !== Team.kda) return undefined;
+
+        const glowColor = "rgba(255, 0, 97, 0.4)";
+        return `drop-shadow(0 0 4px ${glowColor}) drop-shadow(0 0 12px ${glowColor}) drop-shadow(0 0 24px ${glowColor})`;
+      };
+
+      return (
+        <div className="relative flex items-center px-[0.9375em] h-full gap-[1.5em]">
+          <div
+            className="w-0 grow-1 text-[0.75em] leading-[1.6] font-[700]"
+            style={{ color: mobileMissionColor }}
+          >
+            {item.name}
+          </div>
+          <div
+            className="font-[BeaufortforLOL] text-[1.875em]"
+            style={{ color: mobileScoreColor, filter: getGlow() }}
+          >
+            +{item.score}
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <>
         <div
           className={cn(
             "relative h-full flex justify-center items-center text-center",
             "font-[700] text-[1.5em] leading-[1.6]",
           )}
-          style={{ color: missionColor }}
+          style={{ color: desktopMissionColor }}
         >
           {item.name}
         </div>
         <div
-          className={cn("absolute top-[1.625em] left-[20.8125em]")}
-          style={{ color: scoreColor }}
+          className="absolute top-[1.625em] left-[20.8125em]"
+          style={{ color: desktopScoreColor }}
         >
           <span className="font-[BeaufortforLOL] text-[1.875em]">
             +{item.score}
           </span>
         </div>
+      </>
+    );
+  };
+
+  return (
+    <div>
+      <div className="relative w-full h-[4.4375em] md:h-[15.3125em] max-w-[20.0625em] mx-auto">
+        <img
+          src={`/icons/${team}/${prefix}mission-item-bg.png`}
+          className={imgClassName}
+        />
+        {renderContent()}
         {item.status === "finished" && (
           <img
-            src={`/icons/${team}/mission-item-finished.png`}
+            src={`/icons/${team}/${prefix}mission-item-finished.png`}
             className={imgClassName}
             style={{ opacity: 0.45, mixBlendMode: "multiply" }}
           />
         )}
       </div>
-      <div className="relative mt-[-1.25em] flex justify-center -mx-2">
+      <div
+        className={cn(
+          "relative mt-[-1.25em] justify-center -mx-2",
+          // 底下的線標線，桌機才有
+          "hidden md:flex",
+        )}
+      >
         <div
           className={lineClassName}
           style={{
@@ -154,34 +244,46 @@ type SiblingButtonProps = {
 function SiblingButton(props: SiblingButtonProps) {
   const { dir, onClick, disabled } = props;
   const team = useTeam();
-  const padding = "1.75em";
+  const viewport = useViewport();
 
-  const fileName = dir === "prev" ? "chevron-left.png" : "chevron-right.png";
-  const leftOrRight = dir === "prev" ? { left: padding } : { right: padding };
+  if (viewport === "mobile") {
+    const fileName = dir === "prev" ? "chevron-up.png" : "chevron-down.png";
 
-  return (
-    <BaseButton
-      onClick={onClick}
-      disabled={disabled}
-      className={cn(
-        "w-[4.25em] h-[5.875em] absolute top-[4.75em] bg-cover",
-        "disabled:hidden",
-      )}
-      style={{
-        backgroundImage: `url("/icons/${team}/${fileName}")`,
-        ...leftOrRight,
-      }}
-    />
-  );
+    return (
+      <div className="flex justify-center">
+        <BaseButton
+          onClick={onClick}
+          disabled={disabled}
+          className={cn(
+            // 144 92
+            "w-[4.5em] h-[2.875em] bg-cover",
+            "disabled:opacity-0",
+          )}
+          style={{ backgroundImage: `url("/icons/${team}/${fileName}")` }}
+        />
+      </div>
+    );
+  } else {
+    const fileName = dir === "prev" ? "chevron-left.png" : "chevron-right.png";
+    const px = "1.75em";
+    const leftOrRight = dir === "prev" ? { left: px } : { right: px };
+
+    return (
+      <BaseButton
+        onClick={onClick}
+        disabled={disabled}
+        className={cn(
+          "w-[4.25em] h-[5.875em] absolute top-[4.75em] bg-cover z-1",
+          "disabled:hidden",
+        )}
+        style={{
+          backgroundImage: `url("/icons/${team}/${fileName}")`,
+          ...leftOrRight,
+        }}
+      />
+    );
+  }
 }
-
-type GetTheme = () => {
-  missionColor: string;
-  scoreColor: string;
-  finishedMissionColor: string;
-  inProgressMissionColor: string;
-  lockedMissionColor: string;
-};
 
 type MissionListProps = {
   items: SoloMission[] | undefined;
@@ -189,10 +291,10 @@ type MissionListProps = {
 
 function MissionList(props: MissionListProps) {
   const { items } = props;
-  const team = useTeam();
   const [api, setApi] = useState<CarouselApi>();
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(false);
+  const viewport = useViewport();
 
   useEffect(() => {
     if (!api || !items) return;
@@ -211,36 +313,6 @@ function MissionList(props: MissionListProps) {
     });
   }, [api, items]);
 
-  const getTheme: GetTheme = () => {
-    if (team == Team.heartSteel) {
-      return {
-        missionColor: "#262b1b",
-        scoreColor: "#262b1b",
-        finishedMissionColor: "#262b1b",
-        inProgressMissionColor: "#262b1b",
-        lockedMissionColor: "#f6efe1",
-      };
-    }
-
-    if (team == Team.trueDamage) {
-      return {
-        missionColor: "#f5ebe4",
-        scoreColor: "#1c1c1e",
-        finishedMissionColor: "#1c1c1e",
-        inProgressMissionColor: "#1c1c1e",
-        lockedMissionColor: "#ffffff",
-      };
-    }
-
-    return {
-      missionColor: "#f5ebe4",
-      scoreColor: "#0b1527",
-      finishedMissionColor: "#f5ebe4",
-      inProgressMissionColor: "#f5ebe4",
-      lockedMissionColor: "#0b1527",
-    };
-  };
-
   const onPrev = () => {
     if (api) api.scrollPrev();
   };
@@ -249,38 +321,27 @@ function MissionList(props: MissionListProps) {
     if (api) api.scrollNext();
   };
 
-  const {
-    missionColor,
-    scoreColor,
-    finishedMissionColor,
-    inProgressMissionColor,
-    lockedMissionColor,
-  } = getTheme();
-
   if (!items) return null;
 
   return (
-    <div className="relative mt-[2.6875em] px-[4.25em]">
-      <Carousel opts={{ align: "start" }} setApi={setApi}>
-        <CarouselContent>
-          {items.map((item, index) => {
-            return (
-              <CarouselItem key={index} className="basis-1/3">
-                <Item
-                  index={index}
-                  item={item}
-                  missionColor={missionColor}
-                  scoreColor={scoreColor}
-                  finishedMissionColor={finishedMissionColor}
-                  inProgressMissionColor={inProgressMissionColor}
-                  lockedMissionColor={lockedMissionColor}
-                />
-              </CarouselItem>
-            );
-          })}
-        </CarouselContent>
-      </Carousel>
+    <div className="relative mt-[1.09375em] md:mt-[2.6875em] md:px-[4.25em]">
       <SiblingButton dir="prev" disabled={!canPrev} onClick={onPrev} />
+      <div className="py-[0.8125em] md:py-0">
+        <Carousel
+          orientation={viewport === "mobile" ? "vertical" : "horizontal"}
+          setApi={setApi}
+        >
+          <CarouselContent className=" h-[17.625em] md:h-auto">
+            {items.map((item, index) => {
+              return (
+                <CarouselItem key={index} className="basis-1/3">
+                  <Item index={index} item={item} />
+                </CarouselItem>
+              );
+            })}
+          </CarouselContent>
+        </Carousel>
+      </div>
       <SiblingButton dir="next" disabled={!canNext} onClick={onNext} />
     </div>
   );
