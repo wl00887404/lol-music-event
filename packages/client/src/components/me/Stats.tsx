@@ -3,15 +3,19 @@ import useTeam from "@/hooks/useTeam";
 import { Team } from "@/types";
 import { SpacedText } from "../SpacedText";
 import formatNumber from "@/libs/formatNumber";
+import { useViewport } from "../viewportStore";
 
-const WIDTH = 1632;
-const HEIGHT = 480;
+const DESKTOP_WIDTH = 1632;
+const DESKTOP_HEIGHT = 480;
+
+const MOBILE_WIDTH = 708;
+const MOBILE_HEIGHT = 700;
 
 const imageProps = {
   x: 0,
   y: 0,
-  width: WIDTH,
-  height: HEIGHT,
+  width: DESKTOP_WIDTH,
+  height: DESKTOP_HEIGHT,
   preserveAspectRatio: "xMidYMid slice",
 };
 
@@ -47,29 +51,111 @@ function TrueDamageBackground() {
   );
 }
 
+const useTheme = () => {
+  const team = useTeam();
+
+  if (team === Team.heartSteel) {
+    return {
+      color: "#262b1b",
+    };
+  }
+
+  if (team === Team.trueDamage) {
+    return {
+      color: "#1c1c1e",
+    };
+  }
+
+  return {
+    color: "#fff9e5",
+  };
+};
+
+function MobileStats() {
+  const team = useTeam();
+  const stats = useMyStats();
+  const { color } = useTheme();
+
+  const textProps = {
+    fill: color,
+    fontSize: 74,
+    fontFamily: "BeaufortforLOL",
+    textAnchor: "middle",
+    letterSpacing: 3.6,
+  } as const;
+
+  const x1 = 197;
+  const x2 = 511;
+  const y1 = 283;
+  const y2 = 511;
+  const y3 = 608;
+
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox={`0 0 ${MOBILE_WIDTH} ${MOBILE_HEIGHT}`}
+      className="overflow-hidden w-full"
+    >
+      <image
+        x="0"
+        y="0"
+        width={MOBILE_WIDTH}
+        height={MOBILE_HEIGHT}
+        preserveAspectRatio="xMidYMid slice"
+        href={`/icons/${team}/m-stats-bg.png`}
+      />
+      <SpacedText {...textProps} x={x1} y={y1}>
+        {formatNumber(stats.totalCount)}
+      </SpacedText>
+      <SpacedText {...textProps} x={x2} y={y1}>
+        {formatNumber(stats.winCount)}
+      </SpacedText>
+      <SpacedText {...textProps} x={x1} y={y2}>
+        {formatNumber(stats.totalCount - stats.winCount)}
+      </SpacedText>
+      <SpacedText {...textProps} x={x2} y={y2}>
+        {stats.averageKda}
+      </SpacedText>
+
+      <SpacedText
+        x={MOBILE_WIDTH / 2}
+        y={y3}
+        textAnchor="middle"
+        fontSize="17"
+        fontWeight={500}
+        fill={color}
+      >
+        此數據為 26.21 版本更新後，遊玩「隨機單中：大混戰」模式之統計數據，
+      </SpacedText>
+      <SpacedText
+        x={MOBILE_WIDTH / 2}
+        y={y3 + 24}
+        textAnchor="middle"
+        fontSize="17"
+        fontWeight={500}
+        fill={color}
+      >
+        實際獲得分數僅自您註冊後開始計算。
+      </SpacedText>
+      <SpacedText
+        x={MOBILE_WIDTH / 2}
+        y={y3 + 24 + 24}
+        textAnchor="middle"
+        fontSize="17"
+        fontWeight={500}
+        fill={color}
+      >
+        保留版本更新後戰績，不另改為註冊後才累計勝敗場。
+      </SpacedText>
+    </svg>
+  );
+}
+
 function Stats() {
   const team = useTeam();
   const stats = useMyStats();
 
-  const getTheme = () => {
-    if (team === Team.heartSteel) {
-      return {
-        color: "#262b1b",
-      };
-    }
-
-    if (team === Team.trueDamage) {
-      return {
-        color: "#1c1c1e",
-      };
-    }
-
-    return {
-      color: "#fff9e5",
-    };
-  };
-
-  const { color } = getTheme();
+  const { color } = useTheme();
   const x = 242;
   const space = 380;
 
@@ -82,10 +168,16 @@ function Stats() {
     letterSpacing: 3,
   } as const;
 
+  const viewport = useViewport();
+
+  if (viewport === "mobile") {
+    return <MobileStats />;
+  }
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
+      viewBox={`0 0 ${DESKTOP_WIDTH} ${DESKTOP_HEIGHT}`}
       className="overflow-hidden w-full"
     >
       {team === Team.kda && <KdaBackground />}
@@ -104,7 +196,7 @@ function Stats() {
         {stats.averageKda}
       </SpacedText>
       <SpacedText
-        x={WIDTH / 2}
+        x={DESKTOP_WIDTH / 2}
         y="444"
         textAnchor="middle"
         fontSize="17"

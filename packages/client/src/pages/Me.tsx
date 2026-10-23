@@ -51,7 +51,12 @@ function Me() {
   return (
     <div className="relative">
       <HeroImage />
-      <div className="mt-[2em] max-w-[22.125em] md:mt-[5.5625em] md:max-w-[102em] mx-auto">
+      <div
+        className={cn(
+          "mt-[2em] md:mt-[5.5625em]",
+          "max-w-[22.125em] md:max-w-[102em] mx-auto",
+        )}
+      >
         {/* y = 1239 ~ 1799 */}
         <SoloMissions />
         {/* y = 1799 ~ 1859 */}
