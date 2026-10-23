@@ -50,7 +50,7 @@ function TrueDamageBackground() {
 function Stats() {
   const team = useTeam();
   const stats = useMyStats();
-  
+
   const getTheme = () => {
     if (team === Team.heartSteel) {
       return {
@@ -102,6 +102,17 @@ function Stats() {
       </SpacedText>
       <SpacedText {...textProps} x={x + space * 3}>
         {stats.averageKda}
+      </SpacedText>
+      <SpacedText
+        x={WIDTH / 2}
+        y="444"
+        textAnchor="middle"
+        fontSize="17"
+        fontWeight={500}
+        fill={color}
+      >
+        此數據為 26.21
+        版本更新後，遊玩「隨機單中：大混戰」模式之統計數據，實際獲得分數僅自您註冊後開始計算。保留版本更新後戰績，不另改為註冊後才累計勝敗場。
       </SpacedText>
     </svg>
   );
