@@ -93,7 +93,11 @@ function MobileMenu(props: MobileMenuProps) {
               活動首頁
             </Link>
             {KKBOX_LINK && (
-              <Link to={KKBOX_LINK} onClick={() => setOpen(false)}>
+              <Link
+                target="_blank"
+                to={KKBOX_LINK}
+                onClick={() => setOpen(false)}
+              >
                 歌曲測驗
               </Link>
             )}
@@ -209,7 +213,7 @@ function Header() {
             {KKBOX_LINK && (
               <>
                 <Divider />
-                <Link to={KKBOX_LINK} className={linkClassName}>
+                <Link target="_blank" to={KKBOX_LINK} className={linkClassName}>
                   歌曲測驗
                 </Link>
               </>

@@ -183,7 +183,7 @@ function SoloMissions() {
                 )}
               >
                 <span>跳過剩餘次數：{skipChange}</span>
-                <span className="leading-[1.4] md:leading-[1]">
+                <span className="leading-[1.4] md:leading-[1] mb-[-1.4em] md:mb-0">
                   （每週一 08:00 重置）
                 </span>
               </div>

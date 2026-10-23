@@ -331,7 +331,7 @@ function MissionList(props: MissionListProps) {
           orientation={viewport === "mobile" ? "vertical" : "horizontal"}
           setApi={setApi}
         >
-          <CarouselContent className=" h-[17.625em] md:h-auto">
+          <CarouselContent className=" h-[17em] md:h-auto">
             {items.map((item, index) => {
               return (
                 <CarouselItem key={index} className="basis-1/3">
