@@ -13,8 +13,7 @@ import { useDialogStore } from "./dialogs/dialogStore";
 import { cn } from "@/libs/utils";
 import BaseButton from "./BaseButton";
 
-// FIXME: 等連結提供
-const KKBOX_LINK = "";
+const KKBOX_LINK = "https://sp.kkbox.events/KKBOXTW/LOL-2174";
 
 type MobileMenuProps = {
   signOut: () => void;
