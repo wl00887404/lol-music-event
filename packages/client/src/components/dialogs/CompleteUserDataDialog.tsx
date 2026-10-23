@@ -139,7 +139,12 @@ function CompleteUserDataDialog() {
               <ErrorMessage name="inviteCode" />
             </label>
             <label>
-              <FieldName>您要選擇的樂團代表*</FieldName>
+              <FieldName className="flex justify-between items-end">
+                <span>您要選擇的樂團代表*</span>
+                <span className="text-[0.8em] text-[#f0ca70]">
+                  ※選擇並完成註冊後將無法修改
+                </span>
+              </FieldName>
               <Select
                 options={teamOptions}
                 value={formik.values.team}

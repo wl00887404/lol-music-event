@@ -17,11 +17,14 @@ import {
 } from "@/components/ui/select";
 
 export function FieldName(props: ComponentPropsWithoutRef<"div">) {
-  const { children, ...otherProps } = props;
+  const { children, className, ...otherProps } = props;
 
   return (
     <div
-      className="font-[500] text-[0.6875em] md:text-[1.3125em] leading-[1] text-[#fff9e5]"
+      className={cn(
+        "font-[500] text-[0.6875em] md:text-[1.3125em] leading-[1] text-[#fff9e5]",
+        className,
+      )}
       {...otherProps}
     >
       {children}
