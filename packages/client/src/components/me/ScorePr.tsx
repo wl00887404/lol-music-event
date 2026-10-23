@@ -129,6 +129,7 @@ function Text() {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox={`0 0 ${TEXT_WIDTH} ${height}`}
+      className="w-full"
     >
       {renderHeartSteelTextEffect()}
       <text {...baseProps} x={x} y={y}>
@@ -140,10 +141,19 @@ function Text() {
 
 function ScorePr() {
   return (
-    <div className="relative max-w-[58.6875em]">
+    <div
+      className={cn(
+        "relative max-w-[58.6875em]",
+        // 354 / (58.6875 * 16) = 0.37699680511182108626
+        "text-[0.37699680511182108626em] md:text-[1em]",
+      )}
+    >
       <Background />
       <div className="absolute top-[32.8125em] left-0 w-full">
-        <div className="mx-auto" style={{ width: `${TEXT_WIDTH / 16}em` }}>
+        <div
+          className="mx-auto max-w-full"
+          style={{ width: `${TEXT_WIDTH / 16}em` }}
+        >
           <Text />
         </div>
       </div>

@@ -98,7 +98,13 @@ function InviteCode() {
   };
 
   return (
-    <div className="relative max-w-[43.3125em]">
+    <div
+      className={cn(
+        "relative max-w-[43.3125em]",
+        // 354 / (42.5625 * 16) = 0.51982378854625550661
+        "text-[0.51982378854625550661em] md:text-[1em]",
+      )}
+    >
       <Background />
       <div
         className="absolute top-[0] left-[0] w-full h-full pt-[10em]"

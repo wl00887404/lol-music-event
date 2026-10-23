@@ -36,7 +36,7 @@ function SnsPosterDialog(props: Props) {
               if (onOpenChange) onOpenChange(false);
             }}
           >
-            <img src="/icons/close.svg" className="w-[2.5em] md:w-[3.125em]" />
+            <img src="/icons/close.svg" className="w-[2.5em]" />
           </Button>
         </div>
         <DialogTitle className="hidden">分享榮譽戰報</DialogTitle>

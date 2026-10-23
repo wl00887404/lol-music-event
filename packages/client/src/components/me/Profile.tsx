@@ -118,7 +118,13 @@ function Profile() {
   const { riotIdColor, titleColor, buttonColor } = getTheme();
 
   return (
-    <div className="relative max-w-[42.5625em]">
+    <div
+      className={cn(
+        "relative max-w-[42.5625em]",
+        // 354 / (42.5625 * 16) = 0.51982378854625550661
+        "text-[0.51982378854625550661em] md:text-[1em]",
+      )}
+    >
       <Background />
       <div
         className={cn(
