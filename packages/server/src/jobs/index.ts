@@ -11,7 +11,13 @@ cron.schedule(
   async () => {
     console.log(`[pid:${process.pid}] 跳過任務次數重置`);
     await soloMissionService.resetSkipChance();
+  },
+  taskOption,
+);
 
+cron.schedule(
+  "0 8 * * *",
+  async () => {
     console.log(`[pid:${process.pid}] 每日抽獎次數重置`);
     await rewardService.resetFreeDrawChance();
   },
