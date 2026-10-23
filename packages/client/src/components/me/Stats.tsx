@@ -88,7 +88,7 @@ function MobileStats() {
   const x2 = 511;
   const y1 = 283;
   const y2 = 511;
-  const y3 = 608;
+  const y3 = 632;
 
   return (
     <svg
@@ -125,7 +125,7 @@ function MobileStats() {
         fontWeight={500}
         fill={color}
       >
-        此數據為 26.21 版本更新後，遊玩「隨機單中：大混戰」模式之統計數據，
+        此數據為 26.21 版本更新後，遊玩「隨機單中：大混戰」模式之統計數據
       </SpacedText>
       <SpacedText
         x={MOBILE_WIDTH / 2}
@@ -135,17 +135,7 @@ function MobileStats() {
         fontWeight={500}
         fill={color}
       >
-        實際獲得分數僅自您註冊後開始計算。
-      </SpacedText>
-      <SpacedText
-        x={MOBILE_WIDTH / 2}
-        y={y3 + 24 + 24}
-        textAnchor="middle"
-        fontSize="17"
-        fontWeight={500}
-        fill={color}
-      >
-        保留版本更新後戰績，不另改為註冊後才累計勝敗場。
+        實際獲得分數僅自您註冊後開始計算
       </SpacedText>
     </svg>
   );
@@ -204,7 +194,7 @@ function Stats() {
         fill={color}
       >
         此數據為 26.21
-        版本更新後，遊玩「隨機單中：大混戰」模式之統計數據，實際獲得分數僅自您註冊後開始計算。保留版本更新後戰績，不另改為註冊後才累計勝敗場。
+        版本更新後，遊玩「隨機單中：大混戰」模式之統計數據，實際獲得分數僅自您註冊後開始計算。
       </SpacedText>
     </svg>
   );
