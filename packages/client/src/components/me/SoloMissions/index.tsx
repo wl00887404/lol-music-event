@@ -13,6 +13,7 @@ type GetTheme = () => {
   helpColor: string;
 };
 
+
 function SoloMissions() {
   const { data, refetch } = useSoloMissions();
   const skipChange = data?.skipChance || 0;

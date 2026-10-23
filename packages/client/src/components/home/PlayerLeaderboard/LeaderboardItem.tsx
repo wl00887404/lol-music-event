@@ -92,6 +92,14 @@ function LeaderboardItem(props: Props) {
     );
   }
 
+  const getDesktopFontSize = () => {
+    if (riotId.length < 20) {
+      return 33;
+    }
+
+    return 30;
+  };
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -144,7 +152,7 @@ function LeaderboardItem(props: Props) {
       <text
         x="285"
         y="65"
-        fontSize="33"
+        fontSize={getDesktopFontSize()}
         fill="#fff9e5"
         fontFamily="Noto Sans TC"
         fontWeight="700"

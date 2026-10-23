@@ -19,6 +19,25 @@ function LeaderboardItem(props: Props) {
   const { loading } = props;
   const { riotId, image, name } = props.item;
 
+  const getFontSize = () => {
+    if (riotId.length < 8) {
+      return 51;
+    }
+    if (riotId.length < 12) {
+      return 42;
+    }
+
+    if (riotId.length < 16) {
+      return 30;
+    }
+
+    if (riotId.length < 20) {
+      return 24;
+    }
+
+    return 20;
+  };
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -71,7 +90,7 @@ function LeaderboardItem(props: Props) {
         y={263}
         fontFamily="BeaufortforLOL, Noto Sans TC"
         textAnchor="middle"
-        fontSize="51"
+        fontSize={getFontSize()}
         fontWeight="700"
         fill="#fff9e5"
         letterSpacing={1.5}
