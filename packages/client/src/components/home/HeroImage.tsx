@@ -9,8 +9,8 @@ function HeroImage() {
 
     return (
       <RwdImg
-        src={`/banners/m-${team}-banner.png`}
-        mdSrc={`/banners/${team}-banner.png`}
+        src={`/banners/m-${team}-banner.jpg`}
+        mdSrc={`/banners/${team}-banner.jpg`}
         className="w-full"
       />
     );

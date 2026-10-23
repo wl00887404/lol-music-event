@@ -58,29 +58,29 @@ function HeroCarousel() {
         <CarouselContent>
           <CarouselItem>
             <RwdImg
-              src="/banners/m-main-cta.png"
-              mdSrc="/banners/main-cta.png"
+              src="/banners/m-main-cta.jpg"
+              mdSrc="/banners/main-cta.jpg"
               className={imgClassName}
             />
           </CarouselItem>
           <CarouselItem>
             <RwdImg
-              src="/banners/m-kda-cta.png"
-              mdSrc="/banners/kda-cta.png"
+              src="/banners/m-kda-cta.jpg"
+              mdSrc="/banners/kda-cta.jpg"
               className={imgClassName}
             />
           </CarouselItem>
           <CarouselItem>
             <RwdImg
-              src="/banners/m-heart-steel-cta.png"
-              mdSrc="/banners/heart-steel-cta.png"
+              src="/banners/m-heart-steel-cta.jpg"
+              mdSrc="/banners/heart-steel-cta.jpg"
               className={imgClassName}
             />
           </CarouselItem>
           <CarouselItem>
             <RwdImg
-              src="/banners/m-true-damage-cta.png"
-              mdSrc="/banners/true-damage-cta.png"
+              src="/banners/m-true-damage-cta.jpg"
+              mdSrc="/banners/true-damage-cta.jpg"
               className={imgClassName}
             />
           </CarouselItem>

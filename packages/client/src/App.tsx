@@ -24,10 +24,10 @@ function App() {
 
   const getBackgroundImage = () => {
     if (location.pathname === "/me" && team) {
-      return `url('/backgrounds/${prefix}${team}.png')`;
+      return `url('/backgrounds/${prefix}${team}.jpg')`;
     }
 
-    return `url('/backgrounds/${prefix}main.png')`;
+    return `url('/backgrounds/${prefix}main.jpg')`;
   };
 
   return (
