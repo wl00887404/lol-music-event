@@ -29,7 +29,6 @@ const rawRoutes = [
   "/honor-roll",
   "/guidelines",
   "/lucky-draw",
-  "/sns-poster-test"
 ];
 
 // ── CLI 參數解析 ──────────────────────────────────────────────────────────────
