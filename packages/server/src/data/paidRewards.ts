@@ -21,7 +21,7 @@ const paidRewards = [
     key: "ezreal-skin-2023",
     name: "心鋼之聲 伊澤瑞爾 造型 (2023)",
     description:
-      '兌換後將獲得 "心鋼之聲 伊澤瑞爾" (2023) 造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
+      '兌換後將獲得「心鋼之聲 伊澤瑞爾 (2023)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
     price: 240,
     limit: 1,
     isMerch: false,
@@ -30,7 +30,7 @@ const paidRewards = [
     key: "yone-skin-2023",
     name: "心鋼之聲 犽凝 造型 (2023)",
     description:
-      '兌換後將獲得 "心鋼之聲 犽凝" (2023) 造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
+      '兌換後將獲得「心鋼之聲 犽凝 (2023)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
     price: 240,
     limit: 1,
     isMerch: false,
@@ -39,7 +39,7 @@ const paidRewards = [
     key: "ksante-skin-2023",
     name: "心鋼之聲 卡桑帝 造型 (2023)",
     description:
-      '兌換後將獲得 "心鋼之聲 卡桑帝" (2023) 造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
+      '兌換後將獲得「心鋼之聲 卡桑帝 (2023)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
     price: 240,
     limit: 1,
     isMerch: false,
@@ -48,7 +48,7 @@ const paidRewards = [
     key: "sett-skin-2023",
     name: "心鋼之聲 賽特 造型 (2023)",
     description:
-      '兌換後將獲得 "心鋼之聲 賽特" (2023) 造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
+      '兌換後將獲得「心鋼之聲 賽特 (2023)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
     price: 240,
     limit: 1,
     isMerch: false,
@@ -57,7 +57,7 @@ const paidRewards = [
     key: "aphelios-skin-2023",
     name: "心鋼之聲 亞菲利歐 造型 (2023)",
     description:
-      '兌換後將獲得 "心鋼之聲 亞菲利歐" (2023) 造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
+      '兌換後將獲得「心鋼之聲 亞菲利歐 (2023)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
     price: 240,
     limit: 1,
     isMerch: false,
@@ -66,7 +66,7 @@ const paidRewards = [
     key: "ahri-skin-2018",
     name: "K/DA 阿璃 造型 (2018)",
     description:
-      '兌換後將獲得 "K/DA 阿璃" (2018) 造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
+      '兌換後將獲得「K/DA 阿璃 (2018)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
     price: 240,
     limit: 1,
     isMerch: false,
@@ -75,7 +75,7 @@ const paidRewards = [
     key: "akali-skin-2018",
     name: "K/DA 阿卡莉 造型 (2018)",
     description:
-      '兌換後將獲得 "K/DA 阿卡莉" (2018) 造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
+      '兌換後將獲得「K/DA 阿卡莉 (2018)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
     price: 240,
     limit: 1,
     isMerch: false,
@@ -84,7 +84,7 @@ const paidRewards = [
     key: "evelynn-skin-2018",
     name: "K/DA 伊芙琳 造型 (2018)",
     description:
-      '兌換後將獲得 "K/DA 伊芙琳" (2018) 造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
+      '兌換後將獲得「K/DA 伊芙琳 (2018)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
     price: 240,
     limit: 1,
     isMerch: false,
@@ -93,7 +93,7 @@ const paidRewards = [
     key: "kaisa-skin-2018",
     name: "K/DA 凱莎 造型 (2018)",
     description:
-      '兌換後將獲得 "K/DA 凱莎" (2018) 造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
+      '兌換後將獲得「K/DA 凱莎 (2018)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
     price: 240,
     limit: 1,
     isMerch: false,
@@ -102,7 +102,7 @@ const paidRewards = [
     key: "yasuo-skin-2019",
     name: "True Damage 犽宿 造型 (2019)",
     description:
-      '兌換後將獲得 "True Damage 犽宿" (2019) 造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
+      '兌換後將獲得「True Damage 犽宿 (2019)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
     price: 240,
     limit: 1,
     isMerch: false,
@@ -111,7 +111,7 @@ const paidRewards = [
     key: "senna-skin-2019",
     name: "True Damage 姍娜 造型 (2019)",
     description:
-      '兌換後將獲得 "True Damage 姍娜" (2019) 造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
+      '兌換後將獲得「True Damage 姍娜 (2019)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
     price: 240,
     limit: 1,
     isMerch: false,
@@ -120,7 +120,7 @@ const paidRewards = [
     key: "akali-skin-2019",
     name: "True Damage 阿卡莉 造型 (2019)",
     description:
-      '兌換後將獲得 "True Damage 阿卡莉" (2019) 造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
+      '兌換後將獲得「True Damage 阿卡莉 (2019)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
     price: 240,
     limit: 1,
     isMerch: false,
@@ -129,7 +129,7 @@ const paidRewards = [
     key: "qiyana-skin-2019",
     name: "True Damage 姬亞娜 造型 (2019)",
     description:
-      '兌換後將獲得 "True Damage 姬亞娜" (2019) 造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
+      '兌換後將獲得「True Damage 姬亞娜」 (2019) 造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止',
     price: 240,
     limit: 1,
     isMerch: false,

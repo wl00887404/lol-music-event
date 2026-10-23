@@ -9,7 +9,7 @@ function RiotCode({ code }: { code: string }) {
       <div
         className={cn(
           "bg-[#ffffff] px-[1.5em] md:px-[2em] py-[0.5em] md:py-[0.625em] flex items-center gap-[1em]",
-          "rounded-t-[4px]",
+          "rounded-t-[8px]",
         )}
       >
         <div className="grow-1 font-[BeaufortforLOL] text-[0.875em] md:text-[1.25em] text-[#0b1527] max-w-[12.5em] md:max-w-full">

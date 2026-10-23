@@ -1,29 +1,22 @@
 import { cn } from "@/libs/utils";
-import { authClient } from "@/libs/auth-client";
 
 import useTeam from "@/hooks/useTeam";
 import { Team } from "@/types";
-import { useQuery } from "@tanstack/react-query";
-import { getMyBalance } from "@/apis";
+import { type Reward } from "@/apis";
 import useRewards from "@/hooks/useRewards";
+import { getIconSrc } from "../dialogs/reward/helper";
+import BaseButton from "../BaseButton";
+import ClaimDialog from "../dialogs/reward/ClaimDialog";
+import { useState } from "react";
+import useMyBalance from "@/hooks/useMyBalance";
 
-const useMyBalance = () => {
-  const { data: session } = authClient.useSession();
-  const { data } = useQuery({
-    queryKey: ["me", "balance"],
-    queryFn: () => getMyBalance(),
-    enabled: Boolean(session?.user),
-  });
-
-  return data?.balance;
-};
-
-function Header(props: { titleColor: string; balance?: number }) {
-  const { titleColor, balance } = props;
+function Header(props: { titleColor: string }) {
+  const { titleColor } = props;
   const team = useTeam();
+  const { data: balance } = useMyBalance();
 
   const renderBalance = () => {
-    return balance === undefined ? "-" : balance;
+    return balance === undefined ? "-" : balance.balance;
   };
 
   return (
@@ -48,21 +41,80 @@ function Header(props: { titleColor: string; balance?: number }) {
   );
 }
 
+function RewardItem(props: { reward: Reward; balance: number }) {
+  const { reward } = props;
+  const team = useTeam();
+  const iconSrc = getIconSrc(reward.key);
+  const [open, setOpen] = useState(false);
+
+  const renderPrice = () => {
+    if (reward.code) {
+      return <span className="text-[1.4375em] font-[700]">前往兌換</span>;
+    }
+
+    return (
+      <>
+        <span className="text-[1.4375em] font-[BeaufortforLOL]">
+          {reward.price}
+        </span>
+        <span className="text-[1.125em] font-[700]">點</span>
+      </>
+    );
+  };
+
+  return (
+    <>
+      <BaseButton
+        className={cn(
+          "w-full max-w-[17.75em] h-[19.25em] bg-cover",
+          "relative pt-[1.8125em] flex items-start",
+        )}
+        style={{
+          backgroundImage: `url("/icons/${team}/reward-item-bg.png")`,
+        }}
+        onClick={() => {
+          setOpen(true);
+        }}
+      >
+        <div className="w-[14.5625em] h-[14.5625em] grid place-items-center mx-auto">
+          <img
+            src={iconSrc}
+            alt={reward.name}
+            className="aspect-[1/1] w-[80%]"
+          />
+        </div>
+        <div className="leading-[1.4375em] text-center absolute left-0 w-full bottom-[2.1875em]">
+          {renderPrice()}
+        </div>
+      </BaseButton>
+      <ClaimDialog reward={reward} open={open} onOpenChange={setOpen} />
+    </>
+  );
+}
+
 function Body(props: { balance?: number }) {
   const { balance = 0 } = props;
   const team = useTeam();
-  const { data, isPending, refetch } = useRewards();
-  // console.log(data)
+  const { data } = useRewards();
+  const items = data?.rewards || [];
+
   //  306
   return (
     <div
-      className="bg-repeat-y bg-top"
+      className={cn(
+        "bg-repeat-y bg-top px-[1.125em] justify-items-center",
+        "grid grid-cols-[repeat(auto-fill,minmax(17.75em,1fr))]",
+      )}
       style={{
         backgroundImage: `url("/icons/${team}/reward-bg-middle.png")`,
         backgroundSize: "auto 19.125em",
         minHeight: "19.125em",
       }}
-    ></div>
+    >
+      {items.map((item, index) => {
+        return <RewardItem key={index} reward={item} balance={balance} />;
+      })}
+    </div>
   );
 }
 
@@ -81,7 +133,6 @@ function Footer() {
 
 function Rewards() {
   const team = useTeam();
-  const balance = useMyBalance();
 
   const getTheme = () => {
     if (team === Team.heartSteel) {
@@ -105,7 +156,7 @@ function Rewards() {
 
   return (
     <div className="relative">
-      <Header titleColor={titleColor} balance={balance} />
+      <Header titleColor={titleColor} />
       <Body />
       <Footer />
     </div>

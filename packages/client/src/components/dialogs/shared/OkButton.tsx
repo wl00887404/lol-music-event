@@ -7,7 +7,7 @@ type Props = React.ComponentProps<"button"> & {
 };
 
 function OkButton(props: Props) {
-  const { children, type = "button", onClick } = props;
+  const { children, className, type = "button", onClick } = props;
 
   return (
     <BaseButton
@@ -15,6 +15,7 @@ function OkButton(props: Props) {
       className={cn(
         "w-[7.5em] md:w-[15.0625em] aspect-[241/70]",
         "bg-[url('/icons/dialog-button.png')] bg-cover",
+        className,
       )}
       onClick={onClick}
     >

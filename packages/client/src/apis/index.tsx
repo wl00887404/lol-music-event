@@ -284,9 +284,13 @@ export const getMyInvitee = async () => {
   return data;
 };
 
+type ClaimRewardData = {
+  reward: Reward;
+};
+
 export const claimReward = async (key: string, price: number) => {
   try {
-    const response = await instance.post<CommonMutationData>(
+    const response = await instance.post<ClaimRewardData>(
       "/api/rewards/claim",
       { key, price },
     );

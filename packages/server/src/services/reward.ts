@@ -301,6 +301,9 @@ export const claimRewardInTx = async (
     });
   }
 
+  const stockCount = stockMap.get(targetReward.key) || 1;
+  stockMap.set(targetReward.key, stockCount - 1);
+
   return {
     id: claimed.id,
     code: claimed.code,

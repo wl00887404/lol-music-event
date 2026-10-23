@@ -9,6 +9,9 @@ import MyCardCode from "./MyCardCode";
 import { useState } from "react";
 import ConfirmDialog from "../shared/ConfirmDialog";
 import { useMutation } from "@tanstack/react-query";
+import useMyBalance from "@/hooks/useMyBalance";
+import useRewards from "@/hooks/useRewards";
+import toast from "@/components/toast";
 
 type Props = BaseDialogProps & {
   reward: Reward;
@@ -24,9 +27,18 @@ function Code(props: { reward: Reward }) {
   return <RiotCode code={code || ""} />;
 }
 
-function ClaimButton(props: { reward: Reward }) {
-  const { reward } = props;
-  const [open, setOpen] = useState(false);
+function ClaimButton(props: {
+  reward: Reward;
+  setClaimedReward: (claimed: Reward) => void;
+  onOpenChange?: (open: boolean) => void;
+}) {
+  const { reward, onOpenChange, setClaimedReward } = props;
+  const [confirmOpen, setConfirmOpen] = useState(false);
+
+  const { data: balanceData, refetch: refetchBalance } = useMyBalance();
+  const { refetch: refetchRewards } = useRewards();
+
+  const balance = balanceData?.balance || 0;
 
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {
@@ -34,9 +46,39 @@ function ClaimButton(props: { reward: Reward }) {
     },
     onSuccess: (res) => {
       if ("error" in res) return;
-      // refetch();
+
+      setClaimedReward(res.reward);
+      refetchRewards();
+      refetchBalance();
+      toast.success("兌換成功！");
+      setConfirmOpen(false);
     },
   });
+
+  const closeDialog = () => {
+    if (onOpenChange) onOpenChange(false);
+  };
+
+  const renderButton = () => {
+    if (!reward.available) {
+      return <OkButton onClick={closeDialog}>已兌換完畢</OkButton>;
+    }
+    if (balance < reward.price) {
+      return (
+        <OkButton
+          onClick={() => {
+            if (onOpenChange) onOpenChange(false);
+          }}
+        >
+          持有點數不足
+        </OkButton>
+      );
+    }
+
+    return <OkButton onClick={() => setConfirmOpen(true)}>確定兌換</OkButton>;
+  };
+
+  const nextBalance = balance - reward.price;
 
   return (
     <>
@@ -45,30 +87,35 @@ function ClaimButton(props: { reward: Reward }) {
         description={
           <>
             即將消耗 <span className="text-[#FFA836]">{reward.price} 點</span>
-            兌換「 {reward.name}」<br />
+            ，剩餘 <span className="text-[#FFA836]">{nextBalance} 點</span>
+            <br />
             兌換後無法退回，請慎考慮
           </>
         }
-        confirmText="跳過任務"
+        confirmText="確定兌換"
         onConfirm={() => {
           mutate();
         }}
         cancelText="取消"
         onCancel={() => {
-          setOpen(false);
+          setConfirmOpen(false);
         }}
-        open={open}
+        open={confirmOpen}
         confirmButtonLoading={isPending}
       />
-      <OkButton onClick={() => setOpen(true)} disabled={!reward.available}>
-        確定兌換
-      </OkButton>
+      {renderButton()}
     </>
   );
 }
 
 function ClaimDialog(props: Props) {
-  const { reward, onOpenChange, ...otherProps } = props;
+  const { onOpenChange, ...otherProps } = props;
+  const [claimedReward, setClaimedReward] = useState<Reward | null>(null);
+
+  // 兌換後的 reward 可能不在這個位置
+  // 為了正常顯示，只能先存起來
+  const reward = claimedReward || props.reward;
+
   const { key } = reward;
   const titleSrc = getTitleSrc(key);
   const iconSrc = getIconSrc(key);
@@ -94,7 +141,13 @@ function ClaimDialog(props: Props) {
   const renderButton = () => {
     // 尚未進行兌換，一率顯示兌換按鈕
     if (!reward.code) {
-      return <ClaimButton reward={reward} />;
+      return (
+        <ClaimButton
+          reward={reward}
+          onOpenChange={onOpenChange}
+          setClaimedReward={setClaimedReward}
+        />
+      );
     }
 
     // 兌換好的實體，等通知
@@ -121,29 +174,29 @@ function ClaimDialog(props: Props) {
       description="獎勵兌換彈窗"
     >
       <div className="flex flex-col items-center mt-[2.4em] px-[1.125em]">
-        <img src={titleSrc} className="max-w-full max-w-full md:max-w-[36em]" />
+        <img src={titleSrc} className="max-w-full max-w-full md:max-w-[34em]" />
         <img
           src={iconSrc}
           className={cn(
-            "my-[0] md:my-[0.2em] max-w-full",
+            "my-[0] md:my-[0.1em] max-w-full",
             isTallTile ? "md:max-w-[22em]" : "md:max-w-[26em]",
           )}
         />
         <div
           className={cn(
-            "whitespace-pre text-center text-[#ffffff]",
-            "text-[0.5625em] md:text-[1.25em] leading-[1.6]",
-          )}
-        >
-          {renderDescription()}
-        </div>
-        <div
-          className={cn(
             "absolute left-0 w-full",
-            "flex justify-center",
+            "flex flex-col items-center gap-[1.5em]",
             "bottom-[2.4em] md:bottom-[3.0625em]",
           )}
         >
+          <div
+            className={cn(
+              "whitespace-pre text-center text-[#ffffff]",
+              "text-[0.5625em] md:text-[1.25em] leading-[1.4]",
+            )}
+          >
+            {renderDescription()}
+          </div>
           {renderButton()}
         </div>
       </div>
