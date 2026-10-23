@@ -20,7 +20,7 @@ function RsoDialog() {
   return (
     <Dialog
       open={open}
-      open
+      // open
       onOpenChange={onOpenChange}
       title="登入 / 註冊"
       description="登入 / 註冊彈窗"
