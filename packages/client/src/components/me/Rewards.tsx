@@ -52,6 +52,10 @@ function RewardItem(props: { reward: Reward; balance: number }) {
       return <span className="text-[1.4375em] font-[700]">前往兌換</span>;
     }
 
+    if (!reward.available) {
+      return <span className="text-[1.4375em] font-[700]">已兌換完畢</span>;
+    }
+
     return (
       <>
         <span className="text-[1.4375em] font-[BeaufortforLOL]">
@@ -67,7 +71,7 @@ function RewardItem(props: { reward: Reward; balance: number }) {
       <BaseButton
         className={cn(
           "w-full max-w-[17.75em] h-[19.25em] bg-cover",
-          "relative pt-[1.8125em] flex items-start",
+          "relative pt-[1.8125em] flex items-start text-[#000000]",
         )}
         style={{
           backgroundImage: `url("/icons/${team}/reward-item-bg.png")`,

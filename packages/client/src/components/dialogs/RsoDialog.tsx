@@ -20,6 +20,7 @@ function RsoDialog() {
   return (
     <Dialog
       open={open}
+      open
       onOpenChange={onOpenChange}
       title="登入 / 註冊"
       description="登入 / 註冊彈窗"
@@ -34,10 +35,10 @@ function RsoDialog() {
       <div
         className={cn(
           "max-w-[16em] md:max-w-[32em] mx-auto mt-[8em] md:mt-[12.5em]",
-          "flex flex-col items-center gap-[1.5em]",
+          "flex flex-col items-center gap-[1em] md:gap-[1.5em]",
         )}
       >
-        <label className="flex items-center gap-[0.75em]">
+        <label className="flex items-center gap-[0.40625em] md:gap-[0.625em]">
           <Checkbox checked={isConfirm} onChange={setIsConfirm} />
           <div
             className={cn(
