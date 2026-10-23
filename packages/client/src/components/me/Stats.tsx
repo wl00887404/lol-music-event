@@ -187,7 +187,7 @@ function Stats() {
       </SpacedText>
       <SpacedText
         x={DESKTOP_WIDTH / 2}
-        y="444"
+        y="442"
         textAnchor="middle"
         fontSize="17"
         fontWeight={500}

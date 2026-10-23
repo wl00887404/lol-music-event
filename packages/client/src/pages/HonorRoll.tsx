@@ -6,6 +6,11 @@ import getPlaceholderString from "@/libs/getPlaceholderString";
 import getProfileUrl from "@/libs/getProfileUrl";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { SCROLL_TO_HERE_ID } from "@/components/ScrollToTop";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const WIDTH = 521;
 const HEIGHT = 389;
@@ -17,7 +22,7 @@ type Props = {
 
 function LeaderboardItem(props: Props) {
   const { loading } = props;
-  const { riotId, image, name } = props.item;
+  const { riotId, image, name, description } = props.item;
 
   const getFontSize = () => {
     if (riotId.length < 8) {
@@ -38,7 +43,7 @@ function LeaderboardItem(props: Props) {
     return 20;
   };
 
-  return (
+  const svg = (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
@@ -111,6 +116,19 @@ function LeaderboardItem(props: Props) {
       </SpacedText>
     </svg>
   );
+
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>{svg}</TooltipTrigger>
+      <TooltipContent
+        side="bottom"
+        sideOffset={-20}
+        className="bg-[rgba(0,0,0,0.72)]"
+      >
+        <p className="text-[1.2em] font-[500] text-[#f0ca70] ">{description}</p>
+      </TooltipContent>
+    </Tooltip>
+  );
 }
 
 const mockItems: HonorRollItem[] = Array(12)
@@ -121,6 +139,7 @@ const mockItems: HonorRollItem[] = Array(12)
       riotId: getPlaceholderString(11),
       name: getPlaceholderString(6),
       image: "29",
+      description: "",
     };
   });
 

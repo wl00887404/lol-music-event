@@ -36,8 +36,8 @@ function SyncStatus() {
 
     if (team === Team.trueDamage) {
       return {
-        desktopTextColor: "#262b1b",
-        desktopButtonColor: "#f6efe1",
+        desktopTextColor: "#f5ebe4",
+        desktopButtonColor: "#0b1527",
         mobileTextColor: "#0b1527",
         mobileButtonColor: "#deef00",
       };

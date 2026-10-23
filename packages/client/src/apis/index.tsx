@@ -200,8 +200,15 @@ export const getTeamLeaderboard = async () => {
     `/api/leaderboard/team`,
   );
 
+  const teams: Team[] = ["kda", "heart-steel", "true-damage"];
+
   const { data } = response;
-  return data;
+
+  return teams
+    .map((team) => {
+      return { team, score: data[team] };
+    })
+    .sort((a, b) => b.score - a.score);
 };
 
 export type HonorRollItem = {
@@ -209,6 +216,7 @@ export type HonorRollItem = {
   riotId: string;
   name: string;
   image: string;
+  description: string;
 };
 
 type GetHonorRollData = HonorRollItem[];

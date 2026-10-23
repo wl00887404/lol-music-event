@@ -127,6 +127,7 @@ leaderboardRouter.get(`${URL}/honor-roll`, async (req, res) => {
         name: title.name,
         riotId: hasSession ? user.riotId! : maskRiotId(user.riotId),
         image: hasSession ? user.image! : "29",
+        description: title.description,
       };
     });
   });

@@ -4,6 +4,7 @@ import { Team } from "@/types";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { SpacedText } from "../SpacedText";
 import { useViewport } from "../viewportStore";
+import Skeleton from "../Skeleton";
 
 type ItemProps = {
   team: Team;
@@ -20,6 +21,19 @@ const SVG_CLASS_NAME = "overflow-hidden max-w-full w-full" as const;
 function Item(props: ItemProps) {
   const { team, score, loading } = props;
   const viewport = useViewport();
+
+  if (loading) {
+    const aspectRatio =
+      viewport === "mobile"
+        ? `${MOBILE_WIDTH}/${MOBILE_HEIGHT}`
+        : `${DESKTOP_WIDTH}/${DESKTOP_HEIGHT}`;
+
+    return (
+      <Skeleton className="block" enabled>
+        <div style={{ aspectRatio }} />
+      </Skeleton>
+    );
+  }
 
   const defs = (
     <defs>
@@ -128,19 +142,23 @@ function TeamLeaderboard() {
           />
         </div>
         <div className="mt-[2.53125em] md:mt-[2.9375em]">
-          <Item team="kda" score={data?.[Team.kda] || 0} loading={isFetching} />
-        </div>
-        <div className="mt-[0.6875em] md:mt-[4.4375em]">
           <Item
-            team="heart-steel"
-            score={data?.[Team.heartSteel] || 0}
+            team={data?.[0].team || "kda"}
+            score={data?.[0].score || 0}
             loading={isFetching}
           />
         </div>
         <div className="mt-[0.6875em] md:mt-[4.4375em]">
           <Item
-            team="true-damage"
-            score={data?.[Team.trueDamage] || 0}
+            team={data?.[1].team || "heart-steel"}
+            score={data?.[1].score || 0}
+            loading={isFetching}
+          />
+        </div>
+        <div className="mt-[0.6875em] md:mt-[4.4375em]">
+          <Item
+            team={data?.[2].team || "true-damage"}
+            score={data?.[2].score || 0}
             loading={isFetching}
           />
         </div>
