@@ -5,6 +5,7 @@ import Card from "@/components/me/legacy/Card";
 import BackToTopButton from "@/components/BackToTopButton";
 import { cn } from "@/libs/utils";
 import { useQuery } from "@tanstack/react-query";
+import { Loading } from "./Doc";
 
 function Guidelines() {
   const tabs1: TabsProps["tabs"] = [
@@ -49,6 +50,12 @@ function Guidelines() {
     staleTime: Infinity,
   });
 
+  const content = !data ? (
+    <Loading />
+  ) : (
+    <div dangerouslySetInnerHTML={{ __html: data }} />
+  );
+
   return (
     <div>
       <div
@@ -63,7 +70,7 @@ function Guidelines() {
             <Tabs tabs={tabs2} value={currentTab} onChange={onTabChange} />
             <Tabs tabs={tabs3} value={currentTab} onChange={onTabChange} />
           </div>
-          {data && <div dangerouslySetInnerHTML={{ __html: data }} />}
+          {content}
         </Card>
       </div>
       <BackToTopButton />

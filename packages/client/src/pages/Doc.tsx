@@ -11,7 +11,7 @@ type Props = {
   // | "/docs/terms-of-service.html";
 };
 
-function Loading() {
+export function Loading() {
   return (
     <div>
       <h1>
