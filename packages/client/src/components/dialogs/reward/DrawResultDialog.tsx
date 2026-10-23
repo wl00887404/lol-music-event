@@ -28,7 +28,7 @@ function DrawResultDialog(props: Props) {
         )}
         <img
           src={titleSrc}
-          className="max-w-full md:max-w-[36em]"
+          className="max-w-full md:max-w-[30em]"
           alt={reward?.name || ""}
         />
         <img src={iconSrc} className="mt-[0.5em] max-w-full md:max-w-[26em]" />

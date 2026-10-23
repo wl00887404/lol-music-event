@@ -64,5 +64,4 @@ dist-ssr
 # FIXME: 暫時略過前端檔案
 admin
 psd
-*demo*
 .csv
