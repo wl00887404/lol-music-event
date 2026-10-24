@@ -176,7 +176,11 @@ async function getUserProfile(puuid: Puuid): Promise<string | null> {
 
   if (!player) {
     // 應該是不可能有這個錯誤ƒ
-    console.error("line 180: 找不到 player", matchDetail.metadata.matchId, puuid);
+    console.error(
+      "line 180: 找不到 player",
+      matchDetail.metadata.matchId,
+      puuid,
+    );
     return null;
   }
 
@@ -240,7 +244,12 @@ async function syncPlayerMatchHistory(
   const uncompletedMatches = await db
     .select({ matchId: playerMatchHistoryTable.matchId })
     .from(playerMatchHistoryTable)
-    .where(eq(playerMatchHistoryTable.isCompleted, false));
+    .where(
+      and(
+        eq(playerMatchHistoryTable.puuid, puuid),
+        eq(playerMatchHistoryTable.isCompleted, false),
+      ),
+    );
 
   for (const match of uncompletedMatches) {
     const matchDetail = await getMatchDetail(match.matchId);
@@ -262,7 +271,11 @@ async function syncPlayerMatchHistory(
 
     if (!player) {
       // 應該是不可能有這個錯誤
-      console.error("line 265: 找不到 player", matchDetail.metadata.matchId, puuid);
+      console.error(
+        "line 265: 找不到 player",
+        matchDetail.metadata.matchId,
+        puuid,
+      );
       continue;
     }
 

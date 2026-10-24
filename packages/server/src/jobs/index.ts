@@ -34,9 +34,9 @@ cron.schedule(
   taskOption,
 );
 
-// 每半小時，更新排行榜
+// 6 分鐘，更新排行榜
 cron.schedule(
-  "*/30 * * * *",
+  "*/6 * * * *",
   async () => {
     console.log(`[pid:${process.pid}] 更新排行榜`);
     try {
