@@ -123,7 +123,6 @@ function LeaderboardItem(props: Props) {
       <TooltipContent
         side="bottom"
         sideOffset={-20}
-        className="bg-[rgba(0,0,0,0.72)]"
       >
         <p className="text-[1.2em] font-[500] text-[#f0ca70] ">{description}</p>
       </TooltipContent>

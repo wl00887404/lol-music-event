@@ -19,6 +19,7 @@ import { ApiError } from "../middlewares/errorHandler.ts";
 import { tz } from "@date-fns/tz";
 import { startOfDay, addDays, getDay } from "date-fns";
 import paidRewards from "../data/paidRewards.ts";
+import { logService } from "./log.ts";
 
 export type RewardSetting = {
   key: string;
@@ -510,8 +511,19 @@ const getMyRewards = async (userId: string, type: "free" | "paid") => {
 export const rewardService = {
   claimPaidReward,
   claimFreeReward,
-  resetFreeDrawChance: async (count = 1) => {
-    await db.update(userTable).set({ freeDrawChances: count });
+  resetFreeDrawChance: async (nextCount = 1) => {
+    const result = await db
+      .select({ count: count() })
+      .from(userTable)
+      .where(eq(userTable.freeDrawChances, 0))
+      .then(head);
+
+    const prev = result?.count || 0;
+    const message = `昨日抽獎人數：${prev}`;
+    await logService.insert(message);
+    console.log(message);
+
+    await db.update(userTable).set({ freeDrawChances: nextCount });
   },
   stockMap,
   loadStock,

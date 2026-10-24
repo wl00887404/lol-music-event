@@ -242,11 +242,7 @@ function Item(props: ItemProps) {
   return (
     <Tooltip>
       <TooltipTrigger asChild>{content}</TooltipTrigger>
-      <TooltipContent
-        side="bottom"
-        sideOffset={-8}
-        className="bg-[rgba(0,0,0,0.72)]"
-      >
+      <TooltipContent side="bottom" sideOffset={-8}>
         <p className="text-[1.2em] font-[500] text-[#f0ca70] ">
           {item.description}
         </p>
