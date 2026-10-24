@@ -22,11 +22,14 @@ import { rewardService } from "./services/reward.ts";
 
 const port = process.env.PORT || 3000;
 const app = express();
+
 const staticPath = path.join(import.meta.dirname, "../../client/dist");
 
 app.use(express.static(staticPath, { extensions: ["html"] }));
 
 app.use(authRouter);
+
+app.set("trust proxy", 1);
 app.use(limiter);
 
 app.use(express.json());
