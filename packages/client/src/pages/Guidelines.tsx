@@ -12,16 +12,17 @@ function Guidelines() {
     { value: "register", label: "註冊網站" },
     { value: "faction", label: "選擇陣營" },
     { value: "daily-draw", label: "每日抽獎" },
+    { value: "mission", label: "完成任務" },
   ];
   const tabs2: TabsProps["tabs"] = [
-    { value: "mission", label: "完成任務" },
     { value: "invite", label: "邀請朋友" },
     { value: "game-data", label: "遊戲數據" },
+    { value: "reward", label: "兌換好禮" },
+    { value: "title", label: "取得稱號" },
   ];
 
   const tabs3: TabsProps["tabs"] = [
-    { value: "reward", label: "兌換好禮" },
-    { value: "title", label: "取得稱號" },
+    { value: "listening-mission", label: "聆聽任務" },
     { value: "custom-service", label: "活動信箱" },
   ];
 
