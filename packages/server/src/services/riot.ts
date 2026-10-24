@@ -4,7 +4,6 @@ import {
   match as matchTable,
   matchDetail as matchDetailTable,
   playerMatchHistory as playerMatchHistoryTable,
-  soloMission,
 } from "../models/schema.ts";
 import {
   eq,
@@ -14,7 +13,6 @@ import {
   asc,
   type InferSelectModel,
   sql,
-  isNull,
 } from "drizzle-orm";
 import { user as userTable } from "../models/auth-schema.ts";
 import { soloMissionService } from "./soloMission.ts";
@@ -64,11 +62,11 @@ async function fetchMe(accessToken: string) {
 }
 
 async function fetchMeByRiotId(riotId: string) {
-  const spilt = riotId.split("#");
-  if (spilt.length !== 2) throw new Error("riot id 錯誤");
+  const split = riotId.split("#");
+  if (split.length !== 2) throw new Error("riot id 錯誤");
 
-  const gameName = encodeURIComponent(spilt[0]);
-  const tagLine = encodeURIComponent(spilt[1]);
+  const gameName = encodeURIComponent(split[0]);
+  const tagLine = encodeURIComponent(split[1]);
   const baseUrl = "https://asia.api.riotgames.com" as const;
   const url = `${baseUrl}/riot/account/v1/accounts/by-riot-id/${gameName}/${tagLine}`;
   const { data } = await riotGet<FetchUserData>(url);
@@ -292,6 +290,8 @@ async function syncPlayerMatchHistory(
             eq(playerMatchHistoryTable.matchId, match.matchId),
           ),
         );
+
+      continue;
     }
 
     await db
