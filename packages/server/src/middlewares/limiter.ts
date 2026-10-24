@@ -8,8 +8,8 @@ const redisClient = new Redis(process.env.REDIS_URI!);
 const anonLimiter = new RateLimiterRedis({
   storeClient: redisClient,
   keyPrefix: "rl_anon",
-  points: 100,
-  duration: 60,
+  points: 200,
+  duration: 90,
 });
 
 const authLimiter = new RateLimiterRedis({

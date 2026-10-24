@@ -29,7 +29,7 @@ function Title(props: Props) {
         />
         <SpacedText
           x={x + MOBILE_WIDTH / 2}
-          y={y + MOBILE_HEIGHT / 2 + 6}
+          y={y + MOBILE_HEIGHT / 2 + 7}
           fontFamily="BeaufortforLOL, Noto Sans TC"
           textAnchor="middle"
           fontSize={21}
@@ -42,6 +42,14 @@ function Title(props: Props) {
       </g>
     );
   }
+
+  const getFontSize = () => {
+    if (title.length < 16) {
+      return 24;
+    }
+
+    return 22;
+  };
 
   return (
     <g>
@@ -58,7 +66,7 @@ function Title(props: Props) {
         y={y + DESKTOP_HEIGHT / 2 + 9}
         fontFamily="BeaufortforLOL, Noto Sans TC"
         textAnchor="middle"
-        fontSize={24}
+        fontSize={getFontSize()}
         fontWeight="700"
         fill="#0b1527"
         letterSpacing={1}

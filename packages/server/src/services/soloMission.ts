@@ -491,11 +491,6 @@ export const soloMissionService = {
           );
 
           if (!isInviteCompleted && me.inviterId) {
-            await logService.insert(
-              `${riotId} 首次完成任務，幫推薦者加分`,
-              match.id,
-            );
-
             isInviteCompleted = true;
             await soloMissionService.processInvite(
               me.inviterId,
@@ -594,7 +589,7 @@ export const soloMissionService = {
     const nextScore = score + INVITER_SCORE;
 
     await logService.insert(
-      `${inviter.riotId} 藉由 ${inviteeRiotId} 推薦任務加分，從 ${score} 加分到 ${nextScore}`,
+      `${inviter.riotId} 獲得 ${INVITER_SCORE} 分，從 ${score} 加分到 ${nextScore}，藉由 ${inviteeRiotId} 完成首次任務`,
     );
 
     await db

@@ -108,14 +108,14 @@ meRouter.post(`${URL}/complete-user-data`, async (req, res) => {
     });
   }
 
-const PHONE_REGEX = /^\d{1,20}$/;
-if (!PHONE_REGEX.test(body.phone)) {
-  throw new ApiError(400, {
-    code: "INVALID_PHONE_FORMAT",
-    message: "手機號碼格式錯誤，僅容許數字",
-    phone: body.phone,
-  });
-}
+  const PHONE_REGEX = /^\d{1,20}$/;
+  if (!PHONE_REGEX.test(body.phone)) {
+    throw new ApiError(400, {
+      code: "INVALID_PHONE_FORMAT",
+      message: "手機號碼格式錯誤，僅容許數字",
+      phone: body.phone,
+    });
+  }
   if (
     body.team !== Team.kda &&
     body.team !== Team.heartSteel &&
@@ -185,7 +185,7 @@ if (!PHONE_REGEX.test(body.phone)) {
 
     score += INVITEE_SCORE;
     await logService.insert(
-      `${inviter.riotId} 邀請了 ${me.riotId}，${me.riotId} 獲得受邀分數 ${score}`,
+      `${me.riotId} 獲得 ${INVITEE_SCORE} 分，從 ${0} 加分到 ${score}，藉由 ${inviter.riotId} 的邀請`,
     );
   }
 
