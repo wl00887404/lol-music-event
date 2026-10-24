@@ -7,6 +7,7 @@ const paidRewards = [
     price: 30,
     limit: 2,
     isMerch: false,
+    unlimitedSupply: false,
   },
   {
     key: "paid-ball",
@@ -16,6 +17,7 @@ const paidRewards = [
     price: 125,
     limit: 1,
     isMerch: false,
+    unlimitedSupply: false,
   },
   {
     key: "ezreal-skin-2023",
@@ -25,6 +27,7 @@ const paidRewards = [
     price: 240,
     limit: 1,
     isMerch: false,
+    unlimitedSupply: false,
   },
   {
     key: "yone-skin-2023",
@@ -34,6 +37,7 @@ const paidRewards = [
     price: 240,
     limit: 1,
     isMerch: false,
+    unlimitedSupply: false,
   },
   {
     key: "ksante-skin-2023",
@@ -43,6 +47,7 @@ const paidRewards = [
     price: 240,
     limit: 1,
     isMerch: false,
+    unlimitedSupply: false,
   },
   {
     key: "sett-skin-2023",
@@ -52,6 +57,7 @@ const paidRewards = [
     price: 240,
     limit: 1,
     isMerch: false,
+    unlimitedSupply: false,
   },
   {
     key: "aphelios-skin-2023",
@@ -61,6 +67,7 @@ const paidRewards = [
     price: 240,
     limit: 1,
     isMerch: false,
+    unlimitedSupply: false,
   },
   {
     key: "ahri-skin-2018",
@@ -70,6 +77,7 @@ const paidRewards = [
     price: 240,
     limit: 1,
     isMerch: false,
+    unlimitedSupply: false,
   },
   {
     key: "akali-skin-2018",
@@ -79,6 +87,7 @@ const paidRewards = [
     price: 240,
     limit: 1,
     isMerch: false,
+    unlimitedSupply: false,
   },
   {
     key: "evelynn-skin-2018",
@@ -88,6 +97,7 @@ const paidRewards = [
     price: 240,
     limit: 1,
     isMerch: false,
+    unlimitedSupply: false,
   },
   {
     key: "kaisa-skin-2018",
@@ -97,6 +107,7 @@ const paidRewards = [
     price: 240,
     limit: 1,
     isMerch: false,
+    unlimitedSupply: false,
   },
   {
     key: "yasuo-skin-2019",
@@ -106,6 +117,7 @@ const paidRewards = [
     price: 240,
     limit: 1,
     isMerch: false,
+    unlimitedSupply: false,
   },
   {
     key: "senna-skin-2019",
@@ -115,6 +127,7 @@ const paidRewards = [
     price: 240,
     limit: 1,
     isMerch: false,
+    unlimitedSupply: false,
   },
   {
     key: "akali-skin-2019",
@@ -124,6 +137,7 @@ const paidRewards = [
     price: 240,
     limit: 1,
     isMerch: false,
+    unlimitedSupply: false,
   },
   {
     key: "qiyana-skin-2019",
@@ -133,6 +147,7 @@ const paidRewards = [
     price: 240,
     limit: 1,
     isMerch: false,
+    unlimitedSupply: false,
   },
   {
     key: "paid-my-card-150",
@@ -142,6 +157,7 @@ const paidRewards = [
     price: 150,
     limit: 1,
     isMerch: false,
+    unlimitedSupply: false,
   },
   {
     key: "paid-my-card-300",
@@ -151,6 +167,7 @@ const paidRewards = [
     price: 300,
     limit: 1,
     isMerch: false,
+    unlimitedSupply: false,
   },
   // {
   //   key: "kkbox",
@@ -168,6 +185,7 @@ const paidRewards = [
     price: 1000,
     limit: 1,
     isMerch: true,
+    unlimitedSupply: false,
   },
   {
     key: "paid-idol-card",
@@ -177,6 +195,7 @@ const paidRewards = [
     price: 250,
     limit: 2,
     isMerch: true,
+    unlimitedSupply: false,
   },
   {
     key: "heart-steel-poster",
@@ -186,6 +205,7 @@ const paidRewards = [
     price: 350,
     limit: 1,
     isMerch: true,
+    unlimitedSupply: false,
   },
   {
     key: "true-damage-poster",
@@ -195,6 +215,7 @@ const paidRewards = [
     price: 350,
     limit: 1,
     isMerch: true,
+    unlimitedSupply: false,
   },
   {
     key: "kda-poster",
@@ -204,6 +225,7 @@ const paidRewards = [
     price: 350,
     limit: 1,
     isMerch: true,
+    unlimitedSupply: false,
   },
   {
     key: "true-damage-vinyl",
@@ -213,6 +235,7 @@ const paidRewards = [
     price: 800,
     limit: 1,
     isMerch: true,
+    unlimitedSupply: false,
   },
   {
     key: "heart-steel-usb",
@@ -222,6 +245,7 @@ const paidRewards = [
     price: 1000,
     limit: 1,
     isMerch: true,
+    unlimitedSupply: false,
   },
   {
     key: "kda-vinyl",
@@ -231,6 +255,7 @@ const paidRewards = [
     price: 1000,
     limit: 1,
     isMerch: true,
+    unlimitedSupply: false,
   },
   {
     key: "kda-cdc-blades",
@@ -240,6 +265,7 @@ const paidRewards = [
     price: 1600,
     limit: 1,
     isMerch: true,
+    unlimitedSupply: false,
   },
   {
     key: "kda-cd-blades",
@@ -249,6 +275,7 @@ const paidRewards = [
     price: 450,
     limit: 1,
     isMerch: true,
+    unlimitedSupply: false,
   },
   {
     key: "kda-cd-ahri",
@@ -258,6 +285,7 @@ const paidRewards = [
     price: 450,
     limit: 1,
     isMerch: true,
+    unlimitedSupply: false,
   },
   {
     key: "kda-cd-akali",
@@ -267,6 +295,7 @@ const paidRewards = [
     price: 450,
     limit: 1,
     isMerch: true,
+    unlimitedSupply: false,
   },
   {
     key: "kda-cd-evelynn",
@@ -276,6 +305,7 @@ const paidRewards = [
     price: 450,
     limit: 1,
     isMerch: true,
+    unlimitedSupply: false,
   },
   {
     key: "kda-cd-kaisa",
@@ -285,6 +315,7 @@ const paidRewards = [
     price: 450,
     limit: 1,
     isMerch: true,
+    unlimitedSupply: false,
   },
   {
     key: "worlds-2026-collector-box",
@@ -294,6 +325,7 @@ const paidRewards = [
     price: 2500,
     limit: 1,
     isMerch: true,
+    unlimitedSupply: false,
   },
   {
     key: "dj-sona-figure",
@@ -303,6 +335,7 @@ const paidRewards = [
     price: 1000,
     limit: 1,
     isMerch: true,
+    unlimitedSupply: false,
   },
   {
     key: "teemo-hat",
@@ -312,6 +345,7 @@ const paidRewards = [
     price: 500,
     limit: 1,
     isMerch: true,
+    unlimitedSupply: false,
   },
   {
     key: "tibbers-plush",
@@ -321,6 +355,7 @@ const paidRewards = [
     price: 800,
     limit: 1,
     isMerch: true,
+    unlimitedSupply: false,
   },
   {
     key: "tibbers-blind-box",
@@ -330,6 +365,7 @@ const paidRewards = [
     price: 400,
     limit: 1,
     isMerch: true,
+    unlimitedSupply: false,
   },
   {
     key: "caps-hall-of-legends-bundle",
@@ -339,16 +375,18 @@ const paidRewards = [
     price: 450,
     limit: 1,
     isMerch: true,
+    unlimitedSupply: false,
   },
-  // {
-  //   key: "lottery-ticket",
-  //   name: "抽獎券",
-  //   description:
-  //     "有機會獲得：大混戰音樂季 典藏箱、\n隨機樂團海報掛軸、限量社群小卡盲盒包。\n僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。",
-  //   price: 20,
-  //   limit: null,
-  //   isMerch: false,
-  // },
+  {
+    key: "lottery-ticket",
+    name: "抽獎券",
+    description:
+      "有機會獲得：大混戰音樂季 典藏箱、\n隨機樂團海報掛軸、限量社群小卡盲盒包。\n僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。",
+    price: 20,
+    limit: Infinity,
+    isMerch: false,
+    unlimitedSupply: true,
+  },
   {
     key: "classic-mode-bundle",
     name: "經典模式綜合禮包",
@@ -357,6 +395,7 @@ const paidRewards = [
     price: 300,
     limit: 1,
     isMerch: true,
+    unlimitedSupply: false,
   },
 ];
 

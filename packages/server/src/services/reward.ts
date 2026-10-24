@@ -27,6 +27,7 @@ export type RewardSetting = {
   limit: number; // 玩家兌換上限
   description: string;
   isMerch: boolean; // 實體商品
+  unlimitedSupply: boolean; // 無限兌換
 
   // 每日抽獎的屬性
   dailyLimit: number; // 每日兌換上限
@@ -63,6 +64,7 @@ export const mkPaidRs = (
   price: number,
   limit: number,
   isMerch: boolean,
+  unlimitedSupply: boolean,
 ) => {
   const rs: RewardSetting = {
     key,
@@ -74,6 +76,7 @@ export const mkPaidRs = (
     normalChance: 0,
     saturdayChance: 0,
     isMerch,
+    unlimitedSupply,
   };
 
   return rs;
@@ -87,6 +90,7 @@ export const mkFreeRs = (
   normalChance: number,
   saturdayChance: number,
   isMerch: boolean,
+  unlimitedSupply: boolean,
 ) => {
   const rs: RewardSetting = {
     key,
@@ -98,6 +102,7 @@ export const mkFreeRs = (
     limit: Infinity,
     price: 0,
     isMerch,
+    unlimitedSupply,
   };
 
   return rs;
@@ -109,8 +114,9 @@ export const paidRewardSettings: RewardSetting[] = paidRewards.map((pr) => {
     pr.name,
     pr.description,
     pr.price || 99999,
-    pr.limit || 0,
+    pr.unlimitedSupply ? Infinity : pr.limit,
     pr.isMerch,
+    pr.unlimitedSupply,
   );
 });
 
@@ -146,7 +152,7 @@ export const freeRewardSettings = [
   {
     from: "paid-idol-box",
     to: "free-idol-box",
-    dailyLimit: 100,
+    dailyLimit: 1,
     normalChance: 0,
     saturdayChance: 6_667,
   },
@@ -171,6 +177,7 @@ export const freeRewardSettings = [
     s.normalChance,
     s.saturdayChance,
     origin.isMerch,
+    origin.unlimitedSupply,
   );
 });
 
@@ -183,14 +190,15 @@ const loadStock = async () => {
     .where(isNull(rewardTable.claimerId))
     .groupBy(rewardTable.key);
 
-  for (const pr of paidRewardSettings) {
-    const count = results.find((r) => r.key === pr.key)?.count || 0;
-    stockMap.set(pr.key, count);
-  }
+  const allSettings = [...paidRewardSettings, ...freeRewardSettings];
 
-  for (const fr of freeRewardSettings) {
-    const count = results.find((r) => r.key === fr.key)?.count || 0;
-    stockMap.set(fr.key, count);
+  for (const s of allSettings) {
+    if (s.unlimitedSupply) {
+      stockMap.set(s.key, Infinity);
+    } else {
+      const count = results.find((r) => r.key === s.key)?.count || 0;
+      stockMap.set(s.key, count);
+    }
   }
 };
 
@@ -268,31 +276,65 @@ export const claimRewardInTx = async (
     });
   }
 
-  // 4. 原子地搶一件庫存
-  const candidate = tx
-    .select({ id: rewardTable.id })
-    .from(rewardTable)
-    .where(
-      and(isNull(rewardTable.claimerId), eq(rewardTable.key, targetReward.key)),
-    )
-    .limit(1)
-    .for("update", { skipLocked: true });
+  const doClaim = async () => {
+    // 4. 無限購買商品，插入一筆購買紀錄
+    if (targetReward.unlimitedSupply) {
+      const id = crypto.randomUUID();
+      const [claimed] = await tx
+        .insert(rewardTable)
+        .values({
+          id,
+          key: targetReward.key,
+          code: `${targetReward.key}-${id}`,
+          claimerId: userId,
+          claimedAt: new Date(),
+          price: targetReward.price,
+        })
+        .returning({
+          id: rewardTable.id,
+          code: rewardTable.code,
+          claimedAt: rewardTable.claimedAt,
+        });
 
-  const [claimed] = await tx
-    .update(rewardTable)
-    .set({
-      claimerId: userId,
-      claimedAt: new Date(),
-      price: targetReward.price,
-    })
-    .where(
-      and(inArray(rewardTable.id, candidate), isNull(rewardTable.claimerId)),
-    )
-    .returning({
-      id: rewardTable.id,
-      code: rewardTable.code,
-      claimedAt: rewardTable.claimedAt,
-    });
+      return claimed;
+    } else {
+      // 4. 原子地搶一件庫存
+      const candidate = tx
+        .select({ id: rewardTable.id })
+        .from(rewardTable)
+        .where(
+          and(
+            isNull(rewardTable.claimerId),
+            eq(rewardTable.key, targetReward.key),
+          ),
+        )
+        .limit(1)
+        .for("update", { skipLocked: true });
+
+      const [claimed] = await tx
+        .update(rewardTable)
+        .set({
+          claimerId: userId,
+          claimedAt: new Date(),
+          price: targetReward.price,
+        })
+        .where(
+          and(
+            inArray(rewardTable.id, candidate),
+            isNull(rewardTable.claimerId),
+          ),
+        )
+        .returning({
+          id: rewardTable.id,
+          code: rewardTable.code,
+          claimedAt: rewardTable.claimedAt,
+        });
+
+      return claimed;
+    }
+  };
+
+  const claimed = await doClaim();
 
   if (!claimed) {
     throw new ApiError(409, {
@@ -402,6 +444,13 @@ const claimFreeReward = async (
 const rewardSettingMap: Map<string, RewardSetting> = new Map();
 
 const validRewardSettings = () => {
+  // 付費商品：非無限供應者必須有明確的個人上限（非負整數）
+  for (const rs of paidRewardSettings) {
+    if (!rs.unlimitedSupply && !(Number.isInteger(rs.limit) && rs.limit >= 0)) {
+      throw new Error(`${rs.key} 的 limit 必須是非負整數`);
+    }
+  }
+
   const rsList = [...paidRewardSettings, ...freeRewardSettings];
 
   for (const rs of rsList) {
@@ -420,6 +469,8 @@ const validRewardSettings = () => {
   }
 };
 
+validRewardSettings();
+
 const getRewardSetting = (key: string) => {
   const setting = rewardService.rewardSettingMap.get(key);
 
@@ -435,6 +486,7 @@ const getRewardSetting = (key: string) => {
     dailyLimit: 0,
     normalChance: 0,
     saturdayChance: 0,
+    unlimitedSupply: false,
   };
 
   return unknownSetting;
@@ -455,11 +507,9 @@ const getMyRewards = async (userId: string, type: "free" | "paid") => {
   return results;
 };
 
-const getMyPaidRewards = async (userId: string) => {};
 export const rewardService = {
   claimPaidReward,
   claimFreeReward,
-  validRewardSettings,
   resetFreeDrawChance: async (count = 1) => {
     await db.update(userTable).set({ freeDrawChances: count });
   },

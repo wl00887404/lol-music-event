@@ -49,7 +49,6 @@ app.listen(port, async () => {
   console.log("adminStaticPath", adminStaticPath);
 
   await leaderboardService.initTitles();
-  await rewardService.validRewardSettings();
   await rewardService.loadStock();
 
   // 正式機更新再 reset 就好

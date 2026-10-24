@@ -364,8 +364,20 @@ meRouter.get(`${URL}/paid-rewards`, async (req, res) => {
     .map((setting) => {
       const claimed = results.filter((r) => r.key === setting.key);
       const remainingCount = rewardService.stockMap.get(setting.key) || 0;
+      const displayCount = setting.limit === Infinity ? 1 : setting.limit;
 
-      return range(setting.limit).map((index) => {
+      return range(displayCount).map((index) => {
+        const getClaimedState = () => {
+          if (setting.limit === Infinity) {
+            return { code: null, claimedAt: null };
+          }
+
+          return {
+            code: claimed[index]?.code || null,
+            claimedAt: claimed[index]?.claimedAt || null,
+          };
+        };
+
         return {
           key: setting.key,
           name: setting.name,
@@ -373,8 +385,7 @@ meRouter.get(`${URL}/paid-rewards`, async (req, res) => {
           price: setting.price,
           isMerch: setting.isMerch,
           available: remainingCount > 0,
-          code: claimed[index]?.code || null,
-          claimedAt: claimed[index]?.claimedAt || null,
+          ...getClaimedState(),
         };
       });
     })

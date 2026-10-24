@@ -1,6 +1,9 @@
 import { db } from "../db.ts";
 import { user } from "../models/auth-schema.ts";
-import { playerLeaderboardView, teamLeaderboardView } from "../models/materialized-view.ts";
+import {
+  playerLeaderboardView,
+  teamLeaderboardView,
+} from "../models/materialized-view.ts";
 import {
   and,
   count,
