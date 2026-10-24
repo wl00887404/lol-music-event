@@ -120,6 +120,7 @@ function ClaimDialog(props: Props) {
   const { src: titleSrc, aspectRatio } = getTitleSrc(key);
   const iconSrc = getIconSrc(key);
 
+  // FIXME: 現在有 aspectRatio，應該不用手動儲存這些資料
   const isTallTile = [
     "paid-idol-card",
     "paid-idol-box",

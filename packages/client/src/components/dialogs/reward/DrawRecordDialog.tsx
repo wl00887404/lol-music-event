@@ -18,10 +18,9 @@ function Item(props: {
   const { openClaimDialog, reward } = props;
   const { name, claimedAt } = reward;
   const buttonClassName = cn(
-    "aspect-[161/52] h-[1.0625em]",
+    "aspect-[161/52] h-[1.25em]",
     "bg-[url('/rewards/claim-button.png')] bg-cover",
   );
-  const textClassName = "text-[#030718] font-[700] text-[0.5625em]";
 
   return (
     <div className={cn("text-[#fff9e5] px-[0.5625em]", "text-[28px]")}>
@@ -36,7 +35,9 @@ function Item(props: {
           className={buttonClassName}
           onClick={() => openClaimDialog(reward)}
         >
-          <div className={textClassName}>前往兌換</div>
+          <div className="text-[#030718] font-[700] text-[0.5625em]">
+            {reward.isMerch ? "專人處理中" : "前往兌換"}
+          </div>
         </BaseButton>
       </div>
     </div>

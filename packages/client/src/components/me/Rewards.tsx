@@ -57,7 +57,7 @@ function RewardItem(props: { reward: Reward; balance: number }) {
     if (reward.code) {
       return (
         <span className="text-[0.71875em] md:text-[1.4375em] font-[700]">
-          前往兌換
+          {reward.isMerch ? "專人處理中" : "前往兌換"}
         </span>
       );
     }
