@@ -12,6 +12,11 @@ import { Team } from "@/types";
 import BaseButton from "@/components/BaseButton";
 import { useEffect, useState } from "react";
 import { useViewport } from "@/components/viewportStore";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 type GetTheme = () => {
   desktopMissionColor: string;
@@ -179,7 +184,7 @@ function Item(props: ItemProps) {
     );
   };
 
-  return (
+  const content = (
     <div>
       <div className="relative w-full h-[4.4375em] md:h-[15.3125em] max-w-[20.0625em] mx-auto">
         <img
@@ -232,6 +237,21 @@ function Item(props: ItemProps) {
         </div>
       </div>
     </div>
+  );
+
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>{content}</TooltipTrigger>
+      <TooltipContent
+        side="bottom"
+        sideOffset={-8}
+        className="bg-[rgba(0,0,0,0.72)]"
+      >
+        <p className="text-[1.2em] font-[500] text-[#f0ca70] ">
+          {item.description}
+        </p>
+      </TooltipContent>
+    </Tooltip>
   );
 }
 

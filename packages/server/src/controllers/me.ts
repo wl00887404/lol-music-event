@@ -108,15 +108,14 @@ meRouter.post(`${URL}/complete-user-data`, async (req, res) => {
     });
   }
 
-  const PHONE_REGEX = /^\d{10}$/;
-  if (!PHONE_REGEX.test(body.phone)) {
-    throw new ApiError(400, {
-      code: "INVALID_PHONE_FORMAT",
-      message: "手機號碼格式錯誤",
-      phone: body.phone,
-    });
-  }
-
+const PHONE_REGEX = /^\d{1,20}$/;
+if (!PHONE_REGEX.test(body.phone)) {
+  throw new ApiError(400, {
+    code: "INVALID_PHONE_FORMAT",
+    message: "手機號碼格式錯誤，僅容許數字",
+    phone: body.phone,
+  });
+}
   if (
     body.team !== Team.kda &&
     body.team !== Team.heartSteel &&

@@ -71,11 +71,11 @@ function CompleteUserDataDialog() {
 
   const validationSchema = Yup.object({
     email: Yup.string()
-      .email("電子信箱格式錯誤")
-      .required("電子信箱為必填欄位"),
+      .required("電子信箱為必填欄位")
+      .email("電子信箱格式錯誤"),
     phone: Yup.string()
-      .matches(/\d{10}/, "手機號碼格式錯誤")
-      .required("手機號碼為必填欄位"),
+      .required("手機號碼為必填欄位")
+      .matches(/^\d{1,20}$/, "手機號碼格式錯誤，僅容許數字"),
     team: Yup.string().required("樂團代表為必填欄位"),
     inviteCode: Yup.string(),
   });

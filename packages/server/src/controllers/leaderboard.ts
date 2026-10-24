@@ -123,7 +123,7 @@ leaderboardRouter.get(`${URL}/honor-roll`, async (req, res) => {
   const data: HonorRollItem[] = leaderboardService.titles.flatMap((title) => {
     return title.users.map((user) => {
       return {
-        id: user.id,
+        id: `${title.name}-${user.id}`,
         name: title.name,
         riotId: hasSession ? user.riotId! : maskRiotId(user.riotId),
         image: hasSession ? user.image! : "29",

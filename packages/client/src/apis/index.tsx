@@ -60,6 +60,7 @@ type CommonMutationData = { success: true };
 
 export type SoloMission = {
   name: string;
+  description: string;
   score: number;
   status: "finished" | "inProgress" | "locked";
 };

@@ -14,6 +14,12 @@ import {
 } from "../libs/assertNoNulls.ts";
 import { ApiError } from "../middlewares/errorHandler.ts";
 
+function formatNumber(num: number): string {
+  return num.toLocaleString("en-US");
+}
+
+export default formatNumber;
+
 export const INVITER_SCORE = 5;
 export const INVITEE_SCORE = 3;
 
@@ -24,7 +30,7 @@ type SoloMission = {
     >,
     match: NonNullableFields<InferSelectModel<typeof matchTable>>,
   ) => boolean;
-  toJson: () => { name: string; score: number };
+  toJson: () => { name: string; description: string; score: number };
 };
 
 const assists = (score: number, value: number): SoloMission => {
@@ -33,7 +39,12 @@ const assists = (score: number, value: number): SoloMission => {
       return matchHistory.assists >= value;
     },
     toJson: () => {
-      return { name: `單場大混戰獲得 ${value} 次助攻`, score };
+      const dv = formatNumber(value);
+      return {
+        name: `單場大混戰獲得 ${dv} 次助攻`,
+        description: `在單場隨機單中：大混戰模式中，完成遊戲並獲得 ${dv} 次助攻`,
+        score,
+      };
     },
   };
 };
@@ -44,7 +55,11 @@ const win = (score: number): SoloMission => {
       return matchHistory.win;
     },
     toJson: () => {
-      return { name: `贏得 1 場大混戰`, score };
+      return {
+        name: `贏得 1 場大混戰`,
+        description: `在隨機單中：大混戰模式中，贏得 1 場遊戲`,
+        score,
+      };
     },
   };
 };
@@ -60,7 +75,12 @@ const damageDealtToChampions = (score: number, value: number): SoloMission => {
       return result >= value;
     },
     toJson: () => {
-      return { name: `單場大混戰對英雄造成傷害達到 ${value}`, score };
+      const dv = formatNumber(value);
+      return {
+        name: `單場大混戰對英雄造成傷害達到 ${dv}`,
+        description: `在單場隨機單中：大混戰模式中，完成遊戲並對英雄造成傷害達到 ${dv}`,
+        score,
+      };
     },
   };
 };
@@ -71,7 +91,11 @@ const kills = (score: number, value: number): SoloMission => {
       return matchHistory.kills >= value;
     },
     toJson: () => {
-      return { name: `單場大混戰獲得擊殺 ${value} 次`, score };
+      return {
+        name: `單場大混戰獲得擊殺 ${value} 次`,
+        description: `在單場隨機單中：大混戰模式中，完成遊戲並獲得 ${value} 次擊殺`,
+        score,
+      };
     },
   };
 };
@@ -88,7 +112,11 @@ const spellCasts = (score: number, value: number): SoloMission => {
       );
     },
     toJson: () => {
-      return { name: `單場大混戰施放 ${value} 次技能`, score };
+      return {
+        name: `單場大混戰施放 ${value} 次技能`,
+        description: `在單場隨機單中：大混戰模式中，完成遊戲並施放 ${value} 次技能`,
+        score,
+      };
     },
   };
 };
@@ -106,6 +134,7 @@ const spell123CastsAndWin = (score: number, value: number): SoloMission => {
     toJson: () => {
       return {
         name: `單場大混戰施放 ${value} 次非大絕技能並贏得勝利`,
+        description: `在單場隨機單中：大混戰模式中，贏得遊戲勝利並施放非大絕技能 ${value} 次`,
         score,
       };
     },
@@ -118,7 +147,11 @@ const spell4CastsAndWin = (score: number, value: number): SoloMission => {
       return matchHistory.win && matchHistory.spell4Casts >= value;
     },
     toJson: () => {
-      return { name: `單場大混戰施放 ${value} 次大絕技能並贏得勝利`, score };
+      return {
+        name: `單場大混戰施放 ${value} 次大絕技能並贏得勝利`,
+        description: `在單場隨機單中：大混戰模式中，贏得遊戲勝利並施放大絕技能 ${value} 次`,
+        score,
+      };
     },
   };
 };
@@ -129,7 +162,11 @@ const gameDuration = (score: number, value: number): SoloMission => {
       return matchHistory.win && match.gameDuration <= value * 60;
     },
     toJson: () => {
-      return { name: `單場大混戰在 ${value} 分鐘內獲得勝利`, score };
+      return {
+        name: `單場大混戰在 ${value} 分鐘內獲得勝利`,
+        description: `在隨機單中：大混戰模式中於 ${value} 分鐘內贏得 1 場遊戲`,
+        score,
+      };
     },
   };
 };
@@ -140,7 +177,11 @@ const totalMinionsKilled = (score: number, value: number): SoloMission => {
       return matchHistory.totalMinionsKilled >= value;
     },
     toJson: () => {
-      return { name: `單場大混戰中獲得擊殺士兵 ${value} 次`, score };
+      return {
+        name: `單場大混戰中獲得擊殺士兵 ${value} 次`,
+        description: `在單場隨機單中：大混戰模式中，完成遊戲並獲得擊殺士兵 ${value} 次`,
+        score,
+      };
     },
   };
 };
@@ -153,6 +194,7 @@ const totalKills = (score: number, value: number): SoloMission => {
     toJson: () => {
       return {
         name: `單場大混戰雙方總擊殺數超過 ${value} 的情況下獲得勝利`,
+        description: `在單場隨機單中：大混戰模式中，完成遊戲並在雙方總擊殺數超過 ${value} 的情況下贏得 1 場遊戲`,
         score,
       };
     },
@@ -165,7 +207,11 @@ const snowballsHit = (score: number, value: number): SoloMission => {
       return matchHistory.snowballsHit >= value;
     },
     toJson: () => {
-      return { name: `單場大混戰使用雪球擊中對手超過 ${value} 次`, score };
+      return {
+        name: `單場大混戰使用雪球擊中對手超過 ${value} 次`,
+        description: `在單場隨機單中：大混戰模式中，完成遊戲並使用雪球（標記）召喚師技能命中敵方英雄超過 ${value} 次`,
+        score,
+      };
     },
   };
 };
@@ -176,7 +222,11 @@ const skillshotsHit = (score: number, value: number): SoloMission => {
       return matchHistory.skillshotsHit >= value;
     },
     toJson: () => {
-      return { name: `單場大混戰使用指向技能命中敵方英雄 ${value} 次`, score };
+      return {
+        name: `單場大混戰使用指向技能命中敵方英雄 ${value} 次`,
+        description: `在單場隨機單中：大混戰模式中，完成遊戲並使用指向技能命中敵方英雄 ${value} 次`,
+        score,
+      };
     },
   };
 };
@@ -187,7 +237,11 @@ const deaths = (score: number, value: number): SoloMission => {
       return matchHistory.deaths <= value;
     },
     toJson: () => {
-      return { name: `單場大混戰死亡次數少於或等於 ${value} 次`, score };
+      return {
+        name: `單場大混戰死亡次數少於或等於 ${value} 次`,
+        description: `在單場隨機單中：大混戰模式中，完成遊戲並死亡次數少於或等於 ${value} 次`,
+        score,
+      };
     },
   };
 };
@@ -198,7 +252,11 @@ const deathsAndWin = (score: number, value: number): SoloMission => {
       return matchHistory.win && matchHistory.deaths <= value;
     },
     toJson: () => {
-      return { name: `單場大混戰死亡次數少於或等於 ${value} 次並勝利`, score };
+      return {
+        name: `單場大混戰死亡次數少於或等於 ${value} 次並勝利`,
+        description: `在單場隨機單中：大混戰模式中，贏得遊戲勝利並死亡次數少於或等於 ${value} 次`,
+        score,
+      };
     },
   };
 };
@@ -209,7 +267,12 @@ const damageDealtToTurrets = (score: number, value: number): SoloMission => {
       return matchHistory.damageDealtToTurrets >= value;
     },
     toJson: () => {
-      return { name: `單場大混戰對防禦塔造成傷害達到 ${value}`, score };
+      const dv = formatNumber(value);
+      return {
+        name: `單場大混戰對防禦塔造成傷害達到 ${dv}`,
+        description: `在單場隨機單中：大混戰模式中，完成遊戲並對防禦塔造成傷害達到 ${dv}`,
+        score,
+      };
     },
   };
 };
@@ -223,7 +286,12 @@ const physicalDamageDealtToChampions = (
       return matchHistory.physicalDamageDealtToChampions >= value;
     },
     toJson: () => {
-      return { name: `單場大混戰對英雄造成物理傷害達到 ${value}`, score };
+      const dv = formatNumber(value);
+      return {
+        name: `單場大混戰對英雄造成物理傷害達到 ${dv}`,
+        description: `在單場隨機單中：大混戰模式中，完成遊戲並對英雄造成物理傷害達到 ${dv}`,
+        score,
+      };
     },
   };
 };
@@ -237,7 +305,12 @@ const magicDamageDealtToChampions = (
       return matchHistory.magicDamageDealtToChampions >= value;
     },
     toJson: () => {
-      return { name: `單場大混戰對英雄造成魔法傷害達到 ${value}`, score };
+      const dv = formatNumber(value);
+      return {
+        name: `單場大混戰對英雄造成魔法傷害達到 ${dv}`,
+        description: `在單場隨機單中：大混戰模式中，完成遊戲並對英雄造成魔法傷害達到 ${dv}`,
+        score,
+      };
     },
   };
 };
@@ -248,7 +321,11 @@ const killParticipation = (score: number, value: number): SoloMission => {
       return matchHistory.killParticipation * 100 >= value;
     },
     toJson: () => {
-      return { name: `單場大混戰參團率超過 ${value}%`, score };
+      return {
+        name: `單場大混戰參團率超過 ${value}%`,
+        description: `在單場隨機單中：大混戰模式中，完成遊戲並獲得（自己的擊殺數 + 助攻數）超過己方隊伍的總擊殺數 ${value}%`,
+        score,
+      };
     },
   };
 };
@@ -265,7 +342,11 @@ const doubleKills = (score: number, value: number): SoloMission => {
       return result >= value;
     },
     toJson: () => {
-      return { name: `單場大混戰獲得 ${value} 次雙殺`, score };
+      return {
+        name: `單場大混戰獲得 ${value} 次雙殺`,
+        description: `在單場隨機單中：大混戰模式中，完成遊戲並獲得 ${value} 次雙殺`,
+        score,
+      };
     },
   };
 };
@@ -281,7 +362,11 @@ const tripleKills = (score: number, value: number): SoloMission => {
       return result >= value;
     },
     toJson: () => {
-      return { name: `單場大混戰獲得 ${value} 次三連殺`, score };
+      return {
+        name: `單場大混戰獲得 ${value} 次三連殺`,
+        description: `在單場隨機單中：大混戰模式中，完成遊戲並獲得 ${value} 次三連殺`,
+        score,
+      };
     },
   };
 };
@@ -292,7 +377,11 @@ const winStreak = (score: number, value: number): SoloMission => {
       return matchHistory.winStreak >= value;
     },
     toJson: () => {
-      return { name: `獲得 ${value} 場大混戰連續勝利`, score };
+      return {
+        name: `獲得 ${value} 場大混戰連續勝利`,
+        description: `在隨機單中：大混戰模式中，連續贏得 ${value} 場遊戲`,
+        score,
+      };
     },
   };
 };
