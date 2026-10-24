@@ -2,16 +2,33 @@ import { cn } from "@/libs/utils";
 import Dialog, { type BaseDialogProps } from "../shared/Dialog";
 import OkButton from "../shared/OkButton";
 import { getIconSrc, getTitleSrc } from "./helper";
-import { claimReward, type Reward } from "@/apis";
+import { claimReward, getMyLotteryTicketCount, type Reward } from "@/apis";
 
 import RiotCode from "./RiotCode";
 import MyCardCode from "./MyCardCode";
 import { useState } from "react";
 import ConfirmDialog from "../shared/ConfirmDialog";
-import { useMutation } from "@tanstack/react-query";
+import { keepPreviousData, useMutation, useQuery } from "@tanstack/react-query";
 import useMyBalance from "@/hooks/useMyBalance";
 import useRewards from "@/hooks/useRewards";
 import toast from "@/components/toast";
+import { authClient } from "@/libs/auth-client";
+
+const LOTTERY_TICKET_KEY = "lottery-ticket";
+
+function useMyLotteryTicketCount(rewardKey: string) {
+  const { data: session } = authClient.useSession();
+  const { data, isPending, refetch } = useQuery({
+    queryKey: ["me", "lotteryTicketCount"],
+    queryFn: () => {
+      return getMyLotteryTicketCount();
+    },
+    placeholderData: keepPreviousData,
+    enabled: Boolean(session?.user) && rewardKey === LOTTERY_TICKET_KEY,
+  });
+
+  return { data, isPending, refetch };
+}
 
 type Props = BaseDialogProps & {
   reward: Reward;
@@ -37,6 +54,10 @@ function ClaimButton(props: {
 
   const { data: balanceData, refetch: refetchBalance } = useMyBalance();
   const { refetch: refetchRewards } = useRewards();
+  const {
+    data: myLotteryTicketCountData,
+    refetch: refetchMLotteryTicketCount,
+  } = useMyLotteryTicketCount(reward.key);
 
   const balance = balanceData?.balance || 0;
 
@@ -52,6 +73,7 @@ function ClaimButton(props: {
       refetchBalance();
       toast.success("兌換成功！");
       setConfirmOpen(false);
+      refetchMLotteryTicketCount();
     },
   });
 
@@ -80,10 +102,21 @@ function ClaimButton(props: {
 
   const nextBalance = balance - reward.price;
 
+  const getName = () => {
+    if (reward.key == LOTTERY_TICKET_KEY) {
+      const count = myLotteryTicketCountData?.count || 0;
+      return `${reward.name} ${count + 1}`;
+    }
+
+    return reward.name;
+  };
+
+  const name = getName();
+
   return (
     <>
       <ConfirmDialog
-        title={`確定兌換「${reward.name}」`}
+        title={`確定兌換「${name}」`}
         description={
           <>
             即將消耗 <span className="text-[#FFA836]">{reward.price} 點</span>
@@ -159,7 +192,7 @@ function ClaimDialog(props: Props) {
             if (onOpenChange) onOpenChange(false);
           }}
         >
-          知道了
+          專人處理中
         </OkButton>
       );
     }

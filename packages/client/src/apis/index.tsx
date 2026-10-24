@@ -345,3 +345,12 @@ export const getMyBalance = async () => {
   const { data } = response;
   return data;
 };
+
+export const getMyLotteryTicketCount = async () => {
+  const response = await instance.get<{ count: number }>(
+    "/api/me/lottery-ticket-count",
+  );
+
+  const { data } = response;
+  return data;
+};

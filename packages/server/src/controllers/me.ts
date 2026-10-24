@@ -419,4 +419,21 @@ meRouter.get(`${URL}/invitees`, async (req, res) => {
   return res.send(invitees.map((invitee) => invitee.id));
 });
 
+meRouter.get(`${URL}/lottery-ticket-count`, async (req, res) => {
+  const me = req.user!;
+
+  const result = await db
+    .select({ count: count() })
+    .from(rewardTable)
+    .where(
+      and(
+        eq(rewardTable.claimerId, me.id),
+        eq(rewardTable.key, "lottery-ticket"),
+      ),
+    )
+    .then(head);
+
+  return res.send({ count: result?.count || 0 });
+});
+
 export default meRouter;
