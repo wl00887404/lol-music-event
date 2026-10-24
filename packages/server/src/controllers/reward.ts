@@ -20,11 +20,14 @@ rewardRouter.post(`${URL}/claim`, async (req, res) => {
     key: setting.key,
     name: setting.name,
     description: setting.description,
-    code: reward.code,
-    price: setting.price,
-    isMerch: setting.isMerch,
-    available: false,
     claimedAt: reward.claimedAt,
+    isMerch: setting.isMerch,
+    price: setting.price,
+
+    // 無限兌換不回傳 code，避免誤判顯示兌換按鈕
+    code: setting.unlimitedSupply ? null : reward.code,
+    // 無限兌換永遠可以再換一個
+    available: setting.unlimitedSupply ? true : false,
   };
 
   return res.send({ reward: publicReward });
