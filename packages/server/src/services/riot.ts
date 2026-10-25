@@ -185,7 +185,7 @@ async function getUserProfile(puuid: Puuid): Promise<string | null> {
   return player.profileIcon.toString();
 }
 
-async function syncPlayerMatchHistory(
+export async function syncPlayerMatchHistory(
   user: InferSelectModel<typeof userTable>,
 ) {
   if (!user.puuid) return console.error("user 沒有 puuid", user.id);
@@ -326,7 +326,8 @@ async function syncPlayerMatchHistory(
         quadraKills: player.quadraKills,
         pentaKills: player.pentaKills,
         damagePerMinute: player.challenges.damagePerMinute,
-        killParticipation: player.challenges.killParticipation,
+        // 全隊 0 殺，不會有擊殺參與率
+        killParticipation: player.challenges.killParticipation || 0,
         gameEndedInEarlySurrender: player.gameEndedInEarlySurrender,
         isCompleted: true,
       })
