@@ -269,6 +269,10 @@ function SnsPoster(props: Props) {
         font-family: "My Noto Sans TC";
         src: url("${assets.fontBase64}") format("truetype");
       }
+      @font-face {
+        font-family: "BeaufortforLOL";
+        src: url("/fonts/BeaufortforLOL-Bold.ttf") format("truetype");
+      }
     `;
 
     return (
