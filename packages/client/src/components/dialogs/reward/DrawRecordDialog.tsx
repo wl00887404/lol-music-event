@@ -6,6 +6,7 @@ import formatDate from "@/libs/formatDate";
 import { Fragment } from "react/jsx-runtime";
 import BaseButton from "@/components/BaseButton";
 import { useEffect } from "react";
+import { imgUri } from "@/libs/uris";
 
 type Props = BaseDialogProps & {
   openClaimDialog: (nextReward: Reward) => void;
@@ -93,7 +94,7 @@ function DrawRecordDialog(props: Props) {
       <div className="h-full flex flex-col px-[1.125em]">
         <div className="flex flex-col items-center mt-[1.875em] md:mt-[3.1875em]">
           <img
-            src="/rewards/record-title.png"
+            src={imgUri("/rewards/record-title.png")}
             className="aspect-[165/40] h-[1.0625em] md:h-[2.5em]"
           />
         </div>

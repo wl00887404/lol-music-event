@@ -83,16 +83,6 @@ function Me() {
           <Rewards />
         </div>
       </div>
-      {/* <img
-        src="/kda-demo.png"
-        style={{
-          width: 390,
-          position: "absolute",
-          top: -35,
-          left: 0,
-          opacity: 0.4,
-        }}
-      /> */}
     </div>
   );
 }

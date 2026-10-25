@@ -2,6 +2,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/libs/utils";
 import { useEffect, useRef } from "react";
 import BaseButton from "./BaseButton";
+import { imgUri } from "@/libs/uris";
 
 type SiblingPageButtonProp = {
   type: "prev" | "next";
@@ -37,7 +38,12 @@ type DotsProps = {
 
 function Dots(props: DotsProps) {
   const { className } = props;
-  return <img className={cn("w-[4.125em]", className)} src="/icons/dots.png" />;
+  return (
+    <img
+      className={cn("w-[4.125em]", className)}
+      src={imgUri("/icons/dots.png")}
+    />
+  );
 }
 
 type PageProps = {

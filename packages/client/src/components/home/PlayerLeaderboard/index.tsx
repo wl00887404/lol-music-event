@@ -14,6 +14,7 @@ import useRestoreScroll from "@/hooks/useRestoreScroll";
 import MyLeaderboard from "./MyLeaderboard";
 import Empty from "../Empty";
 import { cn } from "@/libs/utils";
+import { imgUri } from "@/libs/uris";
 
 const mockItems: PlayerLeaderboardItem[] = Array(HOME_PAGE_SIZE)
   .fill(0)
@@ -93,7 +94,7 @@ function PlayerLeaderboard() {
       <div className="flex justify-center">
         <div ref={scrollRef} className="scroll-mt-[var(--scroll-margin-top)]" />
         <img
-          src="/icons/player-leaderboard-title.png"
+          src={imgUri("/icons/player-leaderboard-title.png")}
           className="aspect-[227/56] h-[1.75em] md:h-[3.5em] block"
         />
       </div>

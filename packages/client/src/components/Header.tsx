@@ -12,6 +12,7 @@ import { authClient } from "@/libs/auth-client";
 import { useDialogStore } from "./dialogs/dialogStore";
 import { cn } from "@/libs/utils";
 import BaseButton from "./BaseButton";
+import { imgUri } from "@/libs/uris";
 
 const KKBOX_LINK = "https://sp.kkbox.events/KKBOXTW/LOL-2174";
 
@@ -20,7 +21,12 @@ type MobileMenuProps = {
 };
 
 function Divider() {
-  return <img className="w-[9px] h-[9px]" src="/icons/header-divider.png" />;
+  return (
+    <img
+      className="w-[9px] h-[9px]"
+      src={imgUri("/icons/header-divider.png")}
+    />
+  );
 }
 
 // 放大元件用的
@@ -197,7 +203,7 @@ function Header() {
         >
           <Link to="/">
             <img
-              src="/logos/lol-logo.png"
+              src={imgUri("/logos/lol-logo.png")}
               className="w-[1.375em] md:w-[2.8125em]"
             />
           </Link>

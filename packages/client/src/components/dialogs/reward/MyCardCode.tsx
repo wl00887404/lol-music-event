@@ -2,6 +2,7 @@ import { cn } from "@/libs/utils";
 import { Button } from "@/components/ui/button";
 import toast from "@/components/toast";
 import copy from "copy-to-clipboard";
+import { imgUri } from "@/libs/uris";
 
 function MyCardCode({ code }: { code: string }) {
   const matchArray = code.match(
@@ -39,7 +40,7 @@ function MyCardCode({ code }: { code: string }) {
           onClick={onAccountCopy}
         >
           <img
-            src="/icons/copy.svg"
+            src={imgUri("/icons/copy.svg")}
             className="block w-[0.875em] md:w-[1.125em]"
           />
         </Button>
@@ -58,7 +59,7 @@ function MyCardCode({ code }: { code: string }) {
           onClick={onPasswordCopy}
         >
           <img
-            src="/icons/copy.svg"
+            src={imgUri("/icons/copy.svg")}
             className="block w-[0.875em] md:w-[1.125em]"
           />
         </Button>

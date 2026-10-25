@@ -11,6 +11,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { imgUri } from "@/libs/uris";
 
 const WIDTH = 521;
 const HEIGHT = 389;
@@ -120,10 +121,7 @@ function LeaderboardItem(props: Props) {
   return (
     <Tooltip>
       <TooltipTrigger asChild>{svg}</TooltipTrigger>
-      <TooltipContent
-        side="bottom"
-        sideOffset={-20}
-      >
+      <TooltipContent side="bottom" sideOffset={-20}>
         <p className="text-[1.2em] font-[500] text-[#f0ca70] ">{description}</p>
       </TooltipContent>
     </Tooltip>
@@ -165,7 +163,7 @@ function HonorRoll() {
         <div className="flex flex-col items-center mt-[2.53125em]  md:mt-[7.5625em]">
           <div id={SCROLL_TO_HERE_ID} />
           <img
-            src="/icons/honor-roll-title.png"
+            src={imgUri("/icons/honor-roll-title.png")}
             className="aspect-[270/64] h-[3.5em] md:h-[4em] block"
           />
         </div>

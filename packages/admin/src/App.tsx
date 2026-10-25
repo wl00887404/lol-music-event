@@ -2,9 +2,9 @@ import { Button, Layout, Menu } from "antd";
 import { useEffect, useState } from "react";
 import UserTable from "./components/UserTable";
 import { authClient } from "./libs/auth-client";
-import ScoreCountPage from "./components/ScoreCountPage";
+// import ScoreCountPage from "./components/ScoreCountPage";
 import { RollbackOutlined } from "@ant-design/icons";
-import UserSourcePage from "./components/UserSourcePage";
+// import UserSourcePage from "./components/UserSourcePage";
 import RewardTable from "./components/RewardTable";
 import DatabaseTable from "./components/DatabaseTable";
 
@@ -59,8 +59,8 @@ function App() {
       <Content style={{ padding: "16px 48px" }}>
         {menuKey === "user" && <UserTable />}
         {menuKey === "reward" && <RewardTable />}
-        {menuKey === "scoreCount" && <ScoreCountPage />}
-        {menuKey === "userSource" && <UserSourcePage />}
+        {/* {menuKey === "scoreCount" && <ScoreCountPage />} */}
+        {/* {menuKey === "userSource" && <UserSourcePage />} */}
         {menuKey === "database" && <DatabaseTable />}
       </Content>
     </Layout>

@@ -6,6 +6,7 @@ import type { PlayerLeaderboardItem } from "@/apis";
 import { SpacedText } from "@/components/SpacedText";
 import getProfileUrl from "@/libs/getProfileUrl";
 import { useViewport } from "@/components/viewportStore";
+import { imgUri } from "@/libs/uris";
 
 const DESKTOP_WIDTH = 1592;
 const DESKTOP_HEIGHT = 139;
@@ -169,7 +170,7 @@ function MyLeaderboard() {
       <MyLeaderboardItem item={item} loading={myLeaderboard.isPending} />
       <div className="mt-[0.9375em] md:mt-[2.875em]">
         <img
-          src="/icons/player-leaderboard-divider.png"
+          src={imgUri("/icons/player-leaderboard-divider.png")}
           className="h-[4px] object-cover"
         />
       </div>

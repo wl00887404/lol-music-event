@@ -8,6 +8,7 @@ import {
 import { cn } from "@/libs/utils";
 import BaseButton from "@/components/BaseButton";
 import { useViewport } from "@/components/viewportStore";
+import { imgUri } from "@/libs/uris";
 
 export type BaseDialogProps = ComponentPropsWithoutRef<typeof BaseDialog>;
 export type DialogProps = BaseDialogProps & {
@@ -65,7 +66,7 @@ function Dialog(props: DialogProps) {
               }}
             >
               <img
-                src="/icons/close.png"
+                src={imgUri("/icons/close.png")}
                 className="w-[0.6875em] md:w-[1.75em] aspect-[1/1] block"
               />
             </BaseButton>

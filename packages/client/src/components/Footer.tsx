@@ -1,3 +1,4 @@
+import { imgUri } from "@/libs/uris";
 import { Link } from "react-router";
 
 function Footer() {
@@ -6,8 +7,8 @@ function Footer() {
       <div className="absolute top-0 left-0 w-full h-full bg-[#364d98] mix-blend-multiply" />
       <div className="relative z-1 flex flex-col items-center py-[48px] gap-[32px] md:gap-[48px] p-[12px]">
         <div className="flex items-center gap-[16px] md:gap-[36px] flex-col md:flex-row">
-          <img src="/logos/riot-logo.svg" className="h-[46px]" />
-          <img src="/logos/twm-logo.png" className="h-[46px]" />
+          <img src={imgUri("/logos/riot-logo.svg")} className="h-[46px]" />
+          <img src={imgUri("/logos/twm-logo.png")} className="h-[46px]" />
         </div>
         <div className="text-[13px] !leading-[1.2] text-center text-[#999999] max-w-[590px]">
           <div>
@@ -27,7 +28,7 @@ function Footer() {
           <Link to="/personal-data-protection">個資告知事項</Link>
         </div>
         <div className="flex gap-[12px] py-[8px] px-[12px] bg-[#292929] rounded-[8px]">
-          <img src="/icons/r15.jpg" className="w-[55px] h-[55px]" />
+          <img src={imgUri("/icons/r15.jpg")} className="w-[55px] h-[55px]" />
           <div className="text-[#fff9e5] font-[600] text-[13px] !leading-[1.5]">
             請注意遊戲時間，避免沉迷。
             <br />

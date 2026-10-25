@@ -1,3 +1,4 @@
+import { imgUri } from "@/libs/uris";
 import { Button } from "./ui/button";
 
 function BackToTopButton() {
@@ -8,7 +9,10 @@ function BackToTopButton() {
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
       }}
     >
-      <img src="/icons/chevron-up.svg" className="w-[14px] h-[14px]" />
+      <img
+        src={imgUri("/icons/chevron-up.svg")}
+        className="w-[14px] h-[14px]"
+      />
     </Button>
   );
 }

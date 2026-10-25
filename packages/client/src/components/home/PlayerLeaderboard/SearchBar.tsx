@@ -3,6 +3,7 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
+import { imgUri } from "@/libs/uris";
 import { cn } from "@/libs/utils";
 
 type Props = {
@@ -44,7 +45,7 @@ function SearchBar(props: Props) {
         )}
       >
         <img
-          src="/icons/search.png"
+          src={imgUri("/icons/search.png")}
           // 20 40
           className="aspect-[1/1] w-[1.25em] md:w-[2.5em]"
         />

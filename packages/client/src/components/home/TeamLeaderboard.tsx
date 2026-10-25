@@ -5,6 +5,7 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { SpacedText } from "../SpacedText";
 import { useViewport } from "../viewportStore";
 import Skeleton from "../Skeleton";
+import { imgUri } from "@/libs/uris";
 
 type ItemProps = {
   team: Team;
@@ -137,7 +138,7 @@ function TeamLeaderboard() {
       <div className="max-w-[42em] md:max-w-[100.9375em] mx-auto">
         <div className="flex justify-center">
           <img
-            src="/icons/team-leaderboard-title.png"
+            src={imgUri("/icons/team-leaderboard-title.png")}
             className="aspect-[226/56] h-[1.75em] md:h-[3.5em] block"
           />
         </div>

@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import copy from "copy-to-clipboard";
 import { Eye, EyeClosed } from "lucide-react";
 import toast from "@/components/toast";
+import { imgUri } from "@/libs/uris";
 
 type Props = {
   className?: string;
@@ -34,7 +35,10 @@ function InviteCode(props: Props) {
         )}
       </Button>
       <Button className="p-0 !h-auto border-none" onClick={onCopy}>
-        <img src="/icons/copy.svg" className="block w-[16px] md:w-[24px]" />
+        <img
+          src={imgUri("/icons/copy.svg")}
+          className="block w-[16px] md:w-[24px]"
+        />
       </Button>
     </div>
   );

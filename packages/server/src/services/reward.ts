@@ -32,8 +32,8 @@ export type RewardSetting = {
 
   // 每日抽獎的屬性
   dailyLimit: number; // 每日兌換上限
-  normalChance: number;
-  saturdayChance: number;
+  weekdayChance: number;
+  weekendChance: number;
 };
 
 type ClaimedReward = {
@@ -74,8 +74,8 @@ export const mkPaidRs = (
     limit,
     price,
     dailyLimit: Infinity,
-    normalChance: 0,
-    saturdayChance: 0,
+    weekdayChance: 0,
+    weekendChance: 0,
     isMerch,
     unlimitedSupply,
   };
@@ -88,8 +88,8 @@ export const mkFreeRs = (
   name: string,
   description: string,
   dailyLimit: number,
-  normalChance: number,
-  saturdayChance: number,
+  weekdayChance: number,
+  weekendChance: number,
   isMerch: boolean,
   unlimitedSupply: boolean,
 ) => {
@@ -98,8 +98,8 @@ export const mkFreeRs = (
     name,
     description,
     dailyLimit,
-    normalChance,
-    saturdayChance,
+    weekdayChance,
+    weekendChance,
     limit: Infinity,
     price: 0,
     isMerch,
@@ -126,43 +126,43 @@ export const freeRewardSettings = [
     from: "paid-box",
     to: "free-box",
     dailyLimit: 100,
-    normalChance: 1_000_000,
-    saturdayChance: 1_000_000,
+    weekdayChance: 1_000_000,
+    weekendChance: 1_000_000,
   },
   {
     from: "paid-ball",
     to: "free-ball",
     dailyLimit: 40,
-    normalChance: 400_000,
-    saturdayChance: 400_000,
+    weekdayChance: 400_000,
+    weekendChance: 400_000,
   },
   {
     from: "paid-my-card-150",
     to: "free-my-card-150",
     dailyLimit: 1,
-    normalChance: 0,
-    saturdayChance: 6_667,
+    weekdayChance: 0,
+    weekendChance: 6_667,
   },
   {
     from: "paid-my-card-300",
     to: "free-my-card-300",
     dailyLimit: 1,
-    normalChance: 0,
-    saturdayChance: 6_667,
+    weekdayChance: 0,
+    weekendChance: 6_667,
   },
   {
     from: "paid-idol-box",
     to: "free-idol-box",
     dailyLimit: 1,
-    normalChance: 0,
-    saturdayChance: 6_667,
+    weekdayChance: 0,
+    weekendChance: 6_667,
   },
   {
     from: "paid-idol-card",
     to: "free-idol-card",
     dailyLimit: 1,
-    normalChance: 8_571,
-    saturdayChance: 0,
+    weekdayChance: 8_571,
+    weekendChance: 0,
   },
 ].map((s) => {
   const origin = paidRewards.find((pr) => pr.key === s.from);
@@ -175,8 +175,8 @@ export const freeRewardSettings = [
     origin.name,
     origin.description,
     s.dailyLimit,
-    s.normalChance,
-    s.saturdayChance,
+    s.weekdayChance,
+    s.weekendChance,
     origin.isMerch,
     origin.unlimitedSupply,
   );
@@ -381,12 +381,13 @@ const claimPaidReward = async (
 const MAX_DICE = 100_000_000;
 
 const randomFreeReward = () => {
-  const isSaturday = getDay(new Date(), { in: TAIPEI }) === 6;
+  const day = getDay(new Date(), { in: TAIPEI });
+  const isWeekend = day === 6 || day === 0;
 
   let dice = randomInt(1, MAX_DICE + 1); // 1 ~ MAX_DICE，上界 exclusive
 
   for (const rs of freeRewardSettings) {
-    dice -= isSaturday ? rs.saturdayChance : rs.normalChance;
+    dice -= isWeekend ? rs.weekendChance : rs.weekdayChance;
     if (dice <= 0) return rs;
   }
 
@@ -462,7 +463,7 @@ const validRewardSettings = () => {
     }
   }
 
-  for (const key of ["normalChance", "saturdayChance"] as const) {
+  for (const key of ["weekdayChance", "weekendChance"] as const) {
     const sum = freeRewardSettings.reduce((s, r) => s + r[key], 0);
     if (sum > MAX_DICE) {
       throw new Error(`${key} 總和超過 MAX_DICE`);
@@ -485,8 +486,8 @@ const getRewardSetting = (key: string) => {
     limit: 0,
     isMerch: false,
     dailyLimit: 0,
-    normalChance: 0,
-    saturdayChance: 0,
+    weekdayChance: 0,
+    weekendChance: 0,
     unlimitedSupply: false,
   };
 

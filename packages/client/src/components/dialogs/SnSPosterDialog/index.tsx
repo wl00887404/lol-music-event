@@ -11,6 +11,7 @@ import SnsPoster from "./SnsPoster";
 import { authClient } from "@/libs/auth-client";
 import useMyStats from "@/hooks/useMyStats";
 import useTeam from "@/hooks/useTeam";
+import { imgUri } from "@/libs/uris";
 
 type Props = ComponentPropsWithoutRef<typeof BaseDialog>;
 
@@ -36,7 +37,7 @@ function SnsPosterDialog(props: Props) {
               if (onOpenChange) onOpenChange(false);
             }}
           >
-            <img src="/icons/close.svg" className="w-[2.5em]" />
+            <img src={imgUri("/icons/close.svg")} className="w-[2.5em]" />
           </Button>
         </div>
         <DialogTitle className="hidden">分享榮譽戰報</DialogTitle>

@@ -1,3 +1,4 @@
+import { imgUri } from "@/libs/uris";
 import { cn } from "@/libs/utils";
 
 type Props = {
@@ -16,7 +17,10 @@ function Checkbox(props: Props) {
       )}
     >
       {checked && (
-        <img src="/icons/confirm.svg" className="w-[0.7em] aspect-[1/1]" />
+        <img
+          src={imgUri("/icons/confirm.svg")}
+          className="w-[0.7em] aspect-[1/1]"
+        />
       )}
       <input
         type="checkbox"

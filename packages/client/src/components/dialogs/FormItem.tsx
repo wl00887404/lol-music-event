@@ -15,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { imgUri } from "@/libs/uris";
 
 export function FieldName(props: ComponentPropsWithoutRef<"div">) {
   const { children, className, ...otherProps } = props;
@@ -37,12 +38,12 @@ function InputContainer(props: { children: React.ReactNode }) {
     <div className="relative mt-[0.21875em] md:mt-[0.5em]">
       <div className="flex pointer-events-none">
         <img
-          src="/icons/dialog-input-bg.png"
+          src={imgUri("/icons/dialog-input-bg.png")}
           className="h-[1.5em] md:h-[3em]"
         />
         <div className="flex-1 bg-[#ffffff] mx-[-0.05em]" />
         <img
-          src="/icons/dialog-input-bg.png"
+          src={imgUri("/icons/dialog-input-bg.png")}
           className="h-[1.5em] md:h-[3em] rotate-180"
         />
       </div>
@@ -132,7 +133,7 @@ export function Select(props: SelectProps) {
           )}
           icon={
             <img
-              src="/icons/chevron-down.png"
+              src={imgUri("/icons/chevron-down.png")}
               className="w-[1.3333em] aspect-[1/1]"
             />
           }

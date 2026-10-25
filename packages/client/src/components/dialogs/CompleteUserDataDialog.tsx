@@ -13,6 +13,7 @@ import OkButton from "./shared/OkButton";
 import { FieldName, Input, ErrorMessage, Select } from "./FormItem";
 import { Team } from "@/types";
 import { cn } from "@/libs/utils";
+import { imgUri } from "@/libs/uris";
 
 type CancelDialogProps = {
   open: boolean;
@@ -215,7 +216,7 @@ function CompleteUserDataDialog() {
       >
         <div className="flex justify-center mt-[1.5625em] md:mt-[2.625em]">
           <img
-            src="/icons/complete-user-data-dialog-title.png"
+            src={imgUri("/icons/complete-user-data-dialog-title.png")}
             // md:h=54
             className="aspect-[227/54] h-[1.21875em] md:h-[3.375em] block"
           />

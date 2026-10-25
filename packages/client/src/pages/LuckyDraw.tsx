@@ -7,6 +7,7 @@ import HeroCarousel from "@/components/home/HeroCarousel";
 import { SCROLL_TO_HERE_ID } from "@/components/ScrollToTop";
 import toast from "@/components/toast";
 import { authClient } from "@/libs/auth-client";
+import { imgUri } from "@/libs/uris";
 import { cn } from "@/libs/utils";
 import { useEffect, useRef, useState } from "react";
 
@@ -36,7 +37,7 @@ function Wheel({
     <div className="relative overflow-hidden">
       <img
         className={imgClass}
-        src="/rewards/wheel.png"
+        src={imgUri("/rewards/wheel.png")}
         style={{
           transition: `transform ${DURATION}s cubic-bezier(0.12, 0.8, 0.1, 1)`,
           transform: `rotate(${deg}deg)`,
@@ -121,7 +122,7 @@ function LuckyDraw() {
       >
         <div id={SCROLL_TO_HERE_ID} />
         <img
-          src="/icons/lucky-draw-title.png"
+          src={imgUri("/icons/lucky-draw-title.png")}
           className="aspect-[490/69] h-[1.75em] md:h-[4.3125em] block"
         />
         <div className="mt-[1.375em] md:mt-[2.6875em]">

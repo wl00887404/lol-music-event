@@ -3,6 +3,7 @@ import Dialog, { type BaseDialogProps } from "../shared/Dialog";
 import OkButton from "../shared/OkButton";
 import { getIconSrc, getTitleSrc } from "./helper";
 import type { Reward } from "@/apis";
+import { imgUri } from "@/libs/uris";
 
 type Props = BaseDialogProps & {
   onOK: () => void;
@@ -22,7 +23,7 @@ function DrawResultDialog(props: Props) {
       <div className="flex flex-col items-center mt-[3.875em] md:mt-[3.125em] px-[1.125em]">
         {win && (
           <img
-            src="/rewards/win-title.png"
+            src={imgUri("/rewards/win-title.png")}
             className="aspect-[218/40] h-[1.031875em] md:h-[2.5625em] mb-[0.46875em] md:mb-[1.25em]"
           />
         )}
