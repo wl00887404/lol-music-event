@@ -1,5 +1,7 @@
+import { imgUri } from "@/libs/uris";
+
 export const getIconSrc = (key: string) => {
-  return `/rewards/icons/${key.replace("free-", "paid-")}.png`;
+  return imgUri(`/rewards/icons/${key.replace("free-", "paid-")}.png`);
 };
 
 const meta: Record<string, number[]> = {
@@ -54,7 +56,7 @@ export const getTitleSrc = (key: string) => {
     : undefined;
 
   return {
-    src: `/rewards/titles/${fileName}`,
+    src: imgUri(`/rewards/titles/${fileName}`),
     aspectRatio,
   };
 };

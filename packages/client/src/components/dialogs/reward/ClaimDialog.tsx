@@ -211,12 +211,12 @@ function ClaimDialog(props: Props) {
         <img
           src={titleSrc}
           style={{ aspectRatio }}
-          className="max-w-full max-w-full md:max-w-[34em]"
+          className="w-full max-w-full  md:max-w-[34em]"
         />
         <img
           src={iconSrc}
           className={cn(
-            "my-[0] md:my-[0.1em] max-w-full",
+            "my-[0] md:my-[0.1em] max-w-full w-full",
             isTallTile ? "md:max-w-[22em]" : "md:max-w-[26em]",
           )}
         />
