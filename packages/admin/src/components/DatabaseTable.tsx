@@ -2,6 +2,7 @@ import { keepPreviousData, useMutation, useQuery } from "@tanstack/react-query";
 import { Button, Flex, message, Table, type TableProps } from "antd";
 import {
   getDbSize,
+  reloadStockMap,
   truncateMatchDetail,
   updateLeaderboard,
   type DbSize,
@@ -32,6 +33,21 @@ function DatabaseTable() {
   const { mutate: updateMutate, isPending: isUpdating } = useMutation({
     mutationFn: async () => {
       return updateLeaderboard();
+    },
+    onSuccess: (res) => {
+      if ("error" in res) {
+        console.log(res.error);
+        return message.error(res.error.message);
+      }
+
+      message.success("更新成功");
+      refetch();
+    },
+  });
+
+  const { mutate: reloadMutate, isPending: isReloading } = useMutation({
+    mutationFn: async () => {
+      return reloadStockMap();
     },
     onSuccess: (res) => {
       if ("error" in res) {
@@ -76,6 +92,13 @@ function DatabaseTable() {
                 loading={isUpdating}
               >
                 更新排行榜
+              </Button>
+              <Button
+                type="primary"
+                onClick={() => reloadMutate()}
+                loading={isReloading}
+              >
+                刷新庫存量快取
               </Button>
             </Flex>
           );

@@ -1,4 +1,6 @@
-const paidRewards = [
+import keyBy from "./libs/keyBy";
+
+const rewardSettings = [
   {
     key: "paid-box",
     name: "海克斯科技鑰匙 & 寶箱",
@@ -397,7 +399,65 @@ const paidRewards = [
     isMerch: true,
     unlimitedSupply: false,
   },
-];
+].map((pr) => {
+  return {
+    ...pr,
+    name: pr.key.includes("paid") ? pr.name + "（兌換）" : pr.name,
+  };
+});
 
+export const paidRewards = rewardSettings.filter(
+  (rs) => rs.unlimitedSupply === false,
+);
 
-export default paidRewards;
+export const freeRewards = [
+  {
+    from: "paid-box",
+    to: "free-box",
+  },
+  {
+    from: "paid-ball",
+    to: "free-ball",
+  },
+  {
+    from: "paid-my-card-150",
+    to: "free-my-card-150",
+  },
+  {
+    from: "paid-my-card-300",
+    to: "free-my-card-300",
+  },
+  {
+    from: "paid-idol-box",
+    to: "free-idol-box",
+  },
+  {
+    from: "paid-idol-card",
+    to: "free-idol-card",
+  },
+].map((s) => {
+  const origin = paidRewards.find((pr) => pr.key === s.from);
+  if (!origin) {
+    throw new Error("抽獎商品缺漏");
+  }
+
+  return {
+    ...origin,
+    key: s.to,
+    name: origin.name.replace("兌換", "抽獎"),
+  };
+});
+
+export const lotteryRewards = rewardSettings.filter((rs) => rs.unlimitedSupply);
+
+export const codeRewards = [...paidRewards, ...freeRewards].filter(
+  (rs) => !rs.isMerch,
+);
+
+export const merchRewards = [...paidRewards, ...freeRewards].filter(
+  (rs) => rs.isMerch,
+);
+
+const allRewards = [...lotteryRewards, ...codeRewards, ...merchRewards];
+
+export const rewardMap = keyBy(allRewards, (r) => r.key);

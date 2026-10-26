@@ -43,7 +43,7 @@ const exportedColumns: ExportedColumn[] = [
   },
   { dataIndex: "riotId", title: "Riot ID" },
   { dataIndex: "score", title: "榮譽積分" },
-  { dataIndex: "email", title: "email" },
+  { dataIndex: "email", title: "Email" },
   { dataIndex: "phone", title: "電話" },
   { dataIndex: "inviterRiotId", title: "邀請者" },
   { dataIndex: "teamName", title: "所屬隊伍" },
@@ -92,6 +92,7 @@ const DEFAULT_SEARCH_STATE = {
   isCompleted: "true",
   riotId: "",
   inviterRiotId: "",
+  team: "all",
 };
 
 function UserTable() {
@@ -108,6 +109,7 @@ function UserTable() {
       searchState.isCompleted,
       searchState.riotId,
       searchState.inviterRiotId,
+      searchState.team,
     ],
     queryFn: () => {
       return getUsers({
@@ -117,6 +119,7 @@ function UserTable() {
         isCompleted: searchState.isCompleted,
         riotId: searchState.riotId,
         inviterRiotId: searchState.inviterRiotId,
+        team: searchState.team,
       });
     },
     placeholderData: keepPreviousData,
@@ -134,7 +137,7 @@ function UserTable() {
     return (
       <Table<User>
         columns={[
-          { dataIndex: "email", title: "email", render: renderNullable },
+          { dataIndex: "email", title: "Email", render: renderNullable },
           { dataIndex: "phone", title: "電話", render: renderNullable },
         ]}
         dataSource={[user]}
@@ -227,6 +230,17 @@ function UserTable() {
           <Form.Item name="inviterRiotId" label="邀請者">
             <Input placeholder="GameName#TagLine" allowClear />
           </Form.Item>
+          <Form.Item name="team" label="樂團">
+            <Select
+              style={{ minWidth: "8em" }}
+              options={[
+                { label: "全部", value: "all" },
+                { label: "K/DA", value: "kda" },
+                { label: "心鋼之聲 HEARTSTEEL", value: "heart-steel" },
+                { label: "True Damage", value: "true-damage" },
+              ]}
+            />
+          </Form.Item>
           <Space>
             <Button type="primary" htmlType="submit">
               搜尋
@@ -243,7 +257,6 @@ function UserTable() {
           </Space>
         </Form>
       </Card>
-
       <Table<User>
         columns={columns}
         rowKey="id"

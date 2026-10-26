@@ -20,3 +20,7 @@ export const renderNullable = (value: any) => {
 
 export const showTotal = (total: number, range: number[]) =>
   `第 ${range[0]} 至 ${range[1]} 條，共 ${total} 筆資料`;
+
+export const renderNumber = (num: number) => {
+  return num.toLocaleString("en-US");
+};

@@ -87,6 +87,7 @@ type GetUsersPayload = {
   isCompleted?: string;
   riotId?: string;
   inviterRiotId?: string;
+  team?: string;
 };
 
 export const getUsers = async (payload: GetUsersPayload) => {
@@ -99,6 +100,7 @@ export const getUsers = async (payload: GetUsersPayload) => {
   qs.append("isCompleted", payload.isCompleted || "all");
   qs.append("riotId", (payload.riotId || "").trim());
   qs.append("inviterRiotId", (payload.inviterRiotId || "").trim());
+  qs.append("team", (payload.team || "all").trim());
 
   const response = await instance.get<GetUsersData>(`/api/admin/users?${qs}`);
   const { data } = response;
@@ -201,44 +203,46 @@ export const getSchools = async () => {
   return data;
 };
 
-export type GetScoreCountData = { score: number; count: number }[];
+// export type GetScoreCountData = { score: number; count: number }[];
 
-export const getScoreCount = async () => {
-  const response = await instance.get<GetScoreCountData>(
-    "/api/admin/statistics/score-count",
-  );
-  const { data } = response;
+// export const getScoreCount = async () => {
+//   const response = await instance.get<GetScoreCountData>(
+//     "/api/admin/statistics/score-count",
+//   );
+//   const { data } = response;
 
-  return data.sort((a, b) => a.score - b.score);
-};
+//   return data.sort((a, b) => a.score - b.score);
+// };
 
-export type GetCreateAt = {
-  createdAt: DateString;
-  inviterId: string | null;
-  isCompleted: boolean;
-}[];
+// export type GetCreateAt = {
+//   createdAt: DateString;
+//   inviterId: string | null;
+//   isCompleted: boolean;
+// }[];
 
-export const getCreatedAt = async () => {
-  const response = await instance.get<GetCreateAt>(
-    "/api/admin/statistics/user-source",
-  );
+// export const getCreatedAt = async () => {
+//   const response = await instance.get<GetCreateAt>(
+//     "/api/admin/statistics/user-source",
+//   );
 
-  const { data } = response;
+//   const { data } = response;
 
-  return data;
-};
+//   return data;
+// };
 
 export type Reward = {
   id: string;
-  type: string;
+  key: string;
   claimerRiotId: string;
-  teamName: string;
+  claimedAt: string;
+  claimerEmail: string;
+  claimerPhone: string;
 };
 
 type GetRewardPayload = {
   offset: number;
   limit?: number;
-  rewardKey?: string;
+  rewardKeys?: string[];
   claimerRiotId?: string;
 };
 
@@ -248,29 +252,26 @@ export type GetRewardData = {
 };
 
 export const getRewards = async (payload: GetRewardPayload) => {
-  const qs = new URLSearchParams();
-  qs.append("offset", `${payload.offset || 0}`);
-  if (payload.limit !== undefined) {
-    qs.append("limit", payload.limit.toString());
-  }
-  qs.append("rewardKey", payload.rewardKey || "");
-  qs.append("claimerRiotId", payload.claimerRiotId || "");
-
-  const response = await instance.get<GetRewardData>(
-    `/api/admin/rewards?${qs}`,
-  );
+  const response = await instance.post<GetRewardData>(`/api/admin/rewards`, {
+    offset: payload.offset || 0,
+    limit: payload.limit,
+    rewardKeys: payload.rewardKeys || [],
+    claimerRiotId: payload.claimerRiotId || "",
+  });
   const { data } = response;
 
   return data;
 };
 
-type GetRemainingRewards = {
-  type: string;
+export type Stock = {
+  key: string;
   count: number;
-}[];
+};
+
+export type GetRemainingRewardsData = Stock[];
 
 export const getRemainingRewards = async () => {
-  const response = await instance.get<GetRemainingRewards>(
+  const response = await instance.get<GetRemainingRewardsData>(
     `/api/admin/rewards/remaining`,
   );
   const { data } = response;
@@ -298,6 +299,23 @@ export const truncateMatchDetail = async () => {
   try {
     const response = await instance.post<{ success: true }>(
       `/api/admin/truncate-match-detail`,
+    );
+    const { data } = response;
+
+    return data;
+  } catch (err) {
+    if (axios.isAxiosError<ErrorResponse>(err)) {
+      return { error: err.response?.data } as ApiError;
+    }
+  }
+
+  return unknownError;
+};
+
+export const reloadStockMap = async () => {
+  try {
+    const response = await instance.post<{ success: true }>(
+      `/api/admin/reload-stock-map`,
     );
     const { data } = response;
 

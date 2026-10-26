@@ -8,111 +8,117 @@ import {
   Select,
   Space,
   Table,
+  Typography,
   type TableProps,
 } from "antd";
-import { useEffect, useMemo, useState } from "react";
-import { getRemainingRewards, getRewards, type Reward } from "../apis";
-import { showTotal } from "./tableHelper";
+import { useEffect, useState } from "react";
+import { getRewards, type Reward } from "../apis";
+import { renderDate, showTotal } from "./tableHelper";
 import { useForm } from "antd/es/form/Form";
-
-const rewardsSettingMap = {
-  "hang-time-buddy": {
-    type: "hang-time-buddy",
-    name: "懸吊樹懶 吊飾",
-  },
-  "pixel-moments-pearl": {
-    type: "pixel-moments-pearl",
-    name: "像素混戰：深海遺珠 玩家卡面",
-  },
-  "not-today-spray": {
-    type: "not-today-spray",
-    name: "今非死期 塗鴉",
-  },
-  "slime-mosh-buddy": {
-    type: "slime-mosh-buddy",
-    name: "爆爆史萊姆 吊飾",
-  },
-  "the-perfect-shot": {
-    type: "the-perfect-shot",
-    name: "完美鏡頭 玩家卡面",
-  },
-  "bust-a-move-spray": {
-    type: "bust-a-move-spray",
-    name: "尬舞鳥人 塗鴉",
-  },
-};
+import {
+  paidRewards,
+  freeRewards,
+  codeRewards,
+  merchRewards,
+  rewardMap,
+} from "../data";
+import { MailTwoTone, PhoneTwoTone } from "@ant-design/icons";
 
 const DEFAULT_SEARCH_STATE = {
-  rewardKey: "all",
   claimerRiotId: "",
+  source: "all",
 };
 
-function getRewardName(rewardKey: string) {
-  const type = rewardKey as keyof typeof rewardsSettingMap;
+const paidRewardKeys = paidRewards.map((r) => r.key);
+const freeRewardKeys = freeRewards.map((r) => r.key);
 
-  if (rewardsSettingMap[type]?.name) {
-    return rewardsSettingMap[type]?.name;
-  }
+type Props = {
+  type: "merch" | "code";
+};
 
-  return rewardKey;
-}
-
-function RewardTable() {
+function RewardTable(props: Props) {
+  const { type } = props;
   const [current, setCurrent] = useState(1);
   const [pageSize, setPageSize] = useState(20);
   const [searchState, setSearchState] = useState(DEFAULT_SEARCH_STATE);
   const [form] = useForm();
+
+  const rewards = (() => {
+    const rewards = type == "code" ? codeRewards : merchRewards;
+    const { source } = searchState;
+
+    return rewards.filter((r) => {
+      if (source === "all") return true;
+      if (source === "free") return freeRewardKeys.includes(r.key);
+
+      return paidRewardKeys.includes(r.key);
+    });
+  })();
 
   const { data, isPending } = useQuery({
     queryKey: [
       "getRewards",
       current,
       pageSize,
-      searchState.rewardKey,
+      type,
+      searchState.source,
       searchState.claimerRiotId,
     ],
     queryFn: () => {
+      const keys = rewards.map((r) => r.key);
+
       return getRewards({
         offset: (current - 1) * pageSize,
         limit: pageSize,
-        rewardKey: searchState.rewardKey,
+        rewardKeys: keys,
         claimerRiotId: searchState.claimerRiotId,
       });
     },
     placeholderData: keepPreviousData,
   });
 
-  const { data: remaining } = useQuery({
-    queryKey: ["getRemainingRewards"],
-    queryFn: getRemainingRewards,
-  });
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }, [current, pageSize]);
 
   const columns: TableProps<Reward>["columns"] = [
     {
-      key: "type",
-      title: "虛寶類型",
+      key: "name",
+      title: "獎勵名稱",
       render: (reward: Reward) => {
-        return getRewardName(reward.type);
+        return rewardMap[reward.key]?.name || "未知獎勵";
       },
     },
     { dataIndex: "claimerRiotId", title: "領取人" },
-    { dataIndex: "teamName", title: "所屬隊伍" },
+    {
+      key: "contactInfo",
+      title: "聯絡資訊",
+      render: (reward: Reward) => {
+        return (
+          <Flex vertical gap="small">
+            <Flex gap="medium">
+              <MailTwoTone />
+              <Typography.Text copyable={{ text: reward.claimerEmail }}>
+                {reward.claimerEmail}
+              </Typography.Text>
+            </Flex>
+            <Flex gap="medium">
+              <PhoneTwoTone />
+              <Typography.Text>{reward.claimerPhone}</Typography.Text>
+            </Flex>
+          </Flex>
+        );
+      },
+    },
+    { dataIndex: "claimedAt", title: "兌換時間", render: renderDate },
   ];
 
-  const options = useMemo(() => {
-    return [
-      { label: "全部", value: "all" },
-      ...Object.values(rewardsSettingMap).map((reward) => {
-        return {
-          label: reward.name,
-          value: reward.type,
-        };
-      }),
-    ];
-  }, []);
+  const options = [
+    { label: "全部", value: "all" },
+    { label: "抽獎", value: "free" },
+    { label: "兌換", value: "paid" },
+  ];
+
   return (
     <Flex vertical gap="small">
       <Card>
@@ -126,7 +132,7 @@ function RewardTable() {
           style={{ rowGap: "8px" }}
           form={form}
         >
-          <Form.Item name="rewardKey" label="虛寶類型">
+          <Form.Item name="source" label="來源">
             <Select style={{ width: "18em" }} options={options} />
           </Form.Item>
           <Form.Item name="claimerRiotId" label="領取玩家">
@@ -160,19 +166,6 @@ function RewardTable() {
           pageSize,
           onShowSizeChange: (_current, next) => setPageSize(next),
           showTotal,
-        }}
-        title={() => {
-          return (
-            <Flex justify="end" align="center" gap="medium">
-              {remaining?.map((reward) => {
-                return (
-                  <div key={reward.type}>
-                    {getRewardName(reward.type)}：{reward.count}
-                  </div>
-                );
-              })}
-            </Flex>
-          );
         }}
       />
     </Flex>

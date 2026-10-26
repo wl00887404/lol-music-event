@@ -4,17 +4,20 @@ import UserTable from "./components/UserTable";
 import { authClient } from "./libs/auth-client";
 // import ScoreCountPage from "./components/ScoreCountPage";
 import { RollbackOutlined } from "@ant-design/icons";
-// import UserSourcePage from "./components/UserSourcePage";
 import RewardTable from "./components/RewardTable";
 import DatabaseTable from "./components/DatabaseTable";
+import StockTable from "./components/StockTable";
 
 const { Header, Content } = Layout;
 
 const items = [
-  { key: "user", label: "玩家" },
-  { key: "reward", label: "虛寶" },
-  { key: "scoreCount", label: "積分概況" },
-  { key: "userSource", label: "新玩家統計" },
+  { key: "merchRewards", label: "實體獎品" },
+  { key: "codeRewards", label: "虛體寶物" },
+  { key: "lotteryRewards", label: "抽獎卷" },
+  { key: "stock", label: "庫存量" },
+  { key: "users", label: "玩家" },
+
+  // { key: "scoreCount", label: "積分概況" },
   { key: "database", label: "資料庫相關" },
 ];
 
@@ -57,10 +60,11 @@ function App() {
         />
       </Header>
       <Content style={{ padding: "16px 48px" }}>
-        {menuKey === "user" && <UserTable />}
-        {menuKey === "reward" && <RewardTable />}
+        {menuKey === "users" && <UserTable />}
+        {menuKey === "stock" && <StockTable />}
+        {menuKey === "merchRewards" && <RewardTable type="merch" />}
+        {menuKey === "codeRewards" && <RewardTable type="code" />}
         {/* {menuKey === "scoreCount" && <ScoreCountPage />} */}
-        {/* {menuKey === "userSource" && <UserSourcePage />} */}
         {menuKey === "database" && <DatabaseTable />}
       </Content>
     </Layout>

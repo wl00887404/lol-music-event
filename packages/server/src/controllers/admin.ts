@@ -3,19 +3,43 @@ import express, { type RequestHandler } from "express";
 import { db } from "../db.ts";
 import { user as userTable } from "../models/auth-schema.ts";
 import { ApiError } from "../middlewares/errorHandler.ts";
-import { count, eq, desc, ilike, and, not, isNull, sql } from "drizzle-orm";
+import {
+  count,
+  eq,
+  desc,
+  ilike,
+  and,
+  not,
+  isNull,
+  sql,
+  inArray,
+  isNotNull,
+} from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
 import { head } from "../libs/lodash.ts";
 import { reward as rewardTable } from "../models/schema.ts";
 import path from "path";
 import { leaderboardService } from "../services/leaderboard.ts";
 import { riotService } from "../services/riot.ts";
+import { rewardService } from "../services/reward.ts";
+import { Team } from "../types.ts";
 
 export const staticPath = path.join(import.meta.dirname, "../../../admin/dist");
 
 const URL = "/api/admin";
 const DEFAULT_LIMIT = 100 as const;
 const MAX_LIMIT = DEFAULT_LIMIT;
+
+const teamNameMap: Record<string, string> = {
+  [Team.kda]: "K/DA",
+  [Team.heartSteel]: "心鋼之聲 HEARTSTEEL",
+  [Team.trueDamage]: "True Damage",
+};
+
+const adminUserIds = (process.env.ADMIN_USER_ID || "")
+  .split(",")
+  .map((id) => id.trim())
+  .filter((id) => Boolean(id));
 
 export const requireAdmin: RequestHandler = async (req, _res, next) => {
   if (!req.session) {
@@ -26,7 +50,7 @@ export const requireAdmin: RequestHandler = async (req, _res, next) => {
     });
   }
 
-  if (req.session.userId !== process.env.ADMIN_USER_ID) {
+  if (!adminUserIds.includes(req.session.userId)) {
     throw new ApiError(400, {
       code: "UNAUTHORIZED",
       message: "權限不足",
@@ -74,6 +98,7 @@ adminRouter.use(URL, requireAdmin);
 adminRouter.get(`${URL}/users`, async (req, res) => {
   const { offset, limit } = parsePagination(req.query);
   const isCompleted = parseQueryField(req.query, "isCompleted") || "all";
+  const team = parseQueryField(req.query, "team") || "all";
   const riotId = parseQueryField(req.query, "riotId") || "";
   const inviterRiotId = parseQueryField(req.query, "inviterRiotId") || "";
 
@@ -85,8 +110,8 @@ adminRouter.get(`${URL}/users`, async (req, res) => {
     conditions.push(eq(userTable.isCompleted, isCompleted === "true"));
   }
 
-  if (isCompleted !== "all") {
-    conditions.push(eq(userTable.isCompleted, isCompleted === "true"));
+  if (team !== "all") {
+    conditions.push(eq(userTable.team, team));
   }
 
   if (riotId) {
@@ -115,7 +140,6 @@ adminRouter.get(`${URL}/users`, async (req, res) => {
         inviteCode: userTable.inviteCode,
         riotId: userTable.riotId,
         puuid: userTable.puuid,
-        tier: userTable.tier,
         isUpdating: userTable.isUpdating,
         isCompleted: userTable.isCompleted,
         inviterId: userTable.inviterId,
@@ -125,6 +149,7 @@ adminRouter.get(`${URL}/users`, async (req, res) => {
         privacyAcceptedAt: userTable.privacyAcceptedAt,
         ageConfirmedAt: userTable.ageConfirmedAt,
         inviterRiotId: inviterTable.riotId,
+        team: userTable.team,
       })
       .from(userTable)
       .leftJoin(inviterTable, eq(userTable.inviterId, inviterTable.id))
@@ -145,6 +170,7 @@ adminRouter.get(`${URL}/users`, async (req, res) => {
       return {
         ...user,
         email: user.email.includes("@placeholder.com") ? null : user.email,
+        teamName: user.team ? teamNameMap[user.team] : null,
       };
     }),
     total: total.count,
@@ -240,41 +266,39 @@ adminRouter.post(`${URL}/users/:id`, async (req, res) => {
   return res.send({ success: true });
 });
 
-adminRouter.get(`${URL}/statistics/score-count`, async (req, res) => {
-  const result = await db
-    .select({ score: userTable.score, count: count() })
-    .from(userTable)
-    .where(eq(userTable.isCompleted, true))
-    .groupBy(userTable.score);
+// adminRouter.get(`${URL}/statistics/score-count`, async (req, res) => {
+//   const result = await db
+//     .select({ score: userTable.score, count: count() })
+//     .from(userTable)
+//     .where(eq(userTable.isCompleted, true))
+//     .groupBy(userTable.score);
 
-  return res.send(result);
-});
+//   return res.send(result);
+// });
 
-adminRouter.get(`${URL}/statistics/user-source`, async (req, res) => {
-  const result = await db
-    .select({
-      createdAt: userTable.createdAt,
-      isCompleted: userTable.isCompleted,
-      inviterId: userTable.inviterId,
-    })
-    .from(userTable);
+// adminRouter.get(`${URL}/statistics/user-source`, async (req, res) => {
+//   const result = await db
+//     .select({
+//       createdAt: userTable.createdAt,
+//       isCompleted: userTable.isCompleted,
+//       inviterId: userTable.inviterId,
+//     })
+//     .from(userTable);
 
-  return res.send(result);
-});
+//   return res.send(result);
+// });
 
-adminRouter.get(`${URL}/rewards`, async (req, res) => {
-  const { offset, limit } = parsePagination(req.query);
-  const rewardType = parseQueryField(req.query, "rewardType") || "all";
-  const claimerRiotId = parseQueryField(req.query, "claimerRiotId") || "";
+adminRouter.post(`${URL}/rewards`, async (req, res) => {
+  const { offset, limit } = parsePagination(req.body);
+  const rewardKeys = Array.isArray(req.body.rewardKeys)
+    ? req.body.rewardKeys
+    : [];
+  const claimerRiotId = req.body.claimerRiotId || "";
 
-  const conditions = [];
-
-  if (rewardType !== "all") {
-    conditions.push(eq(rewardTable.type, rewardType));
-  }
+  const conditions = [inArray(rewardTable.key, rewardKeys)];
 
   if (claimerRiotId) {
-    conditions.push(eq(userTable.riotId, claimerRiotId));
+    conditions.push(eq(rewardTable.claimerId, claimerRiotId));
   }
 
   const whereClause = conditions.length !== 0 ? and(...conditions) : undefined;
@@ -283,13 +307,16 @@ adminRouter.get(`${URL}/rewards`, async (req, res) => {
     db
       .select({
         id: rewardTable.id,
-        type: rewardTable.type,
+        key: rewardTable.key,
         claimerRiotId: userTable.riotId,
+        claimedAt: rewardTable.claimedAt,
+        claimerEmail: userTable.email,
+        claimerPhone: userTable.phone,
       })
       .from(rewardTable)
       .innerJoin(userTable, eq(rewardTable.claimerId, userTable.id))
       .where(whereClause)
-      .orderBy(desc(rewardTable.id))
+      .orderBy(desc(rewardTable.claimedAt), desc(rewardTable.id))
       .offset(offset)
       .limit(limit),
     db
@@ -308,10 +335,10 @@ adminRouter.get(`${URL}/rewards`, async (req, res) => {
 
 adminRouter.get(`${URL}/rewards/remaining`, async (_req, res) => {
   const result = await db
-    .select({ type: rewardTable.type, count: count() })
+    .select({ key: rewardTable.key, count: count() })
     .from(rewardTable)
     .where(isNull(rewardTable.claimerId))
-    .groupBy(rewardTable.type);
+    .groupBy(rewardTable.key);
 
   return res.send(result);
 });
@@ -347,6 +374,12 @@ adminRouter.post(`${URL}/update-leaderboard`, async (_req, res) => {
 
 adminRouter.post(`${URL}/truncate-match-detail`, async (_req, res) => {
   await riotService.truncateMatchDetail();
+
+  return res.send({ success: true });
+});
+
+adminRouter.post(`${URL}/reload-stock-map`, async (_req, res) => {
+  await rewardService.loadStock();
 
   return res.send({ success: true });
 });
