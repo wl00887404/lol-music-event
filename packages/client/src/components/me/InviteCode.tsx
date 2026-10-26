@@ -3,7 +3,7 @@ import { authClient } from "@/libs/auth-client";
 import { cn } from "@/libs/utils";
 import { Team } from "@/types";
 import BaseButton from "../BaseButton";
-import { getMyInvitee } from "@/apis";
+import { getMyInviteeCount } from "@/apis";
 import { useQuery } from "@tanstack/react-query";
 import copy from "copy-to-clipboard";
 import toast from "@/components/toast";
@@ -67,8 +67,8 @@ function InviteCode() {
   const team = useTeam();
   const code = session?.user.inviteCode || "";
   const { data } = useQuery({
-    queryKey: ["me", "invitees"],
-    queryFn: () => getMyInvitee(),
+    queryKey: ["me", "inviteeCount"],
+    queryFn: () => getMyInviteeCount(),
     enabled: Boolean(session?.user),
   });
 
@@ -127,7 +127,7 @@ function InviteCode() {
             每名受邀者第一次完成任務邀請者即可獲得 +5 分積分
             <br />
             目前邀請人數：
-            {data !== undefined ? data.length : "-"}
+            {data !== undefined ? data.count : "-"}
           </div>
         </div>
       </div>

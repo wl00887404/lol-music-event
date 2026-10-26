@@ -1,5 +1,5 @@
 import { authClient } from "@/libs/auth-client";
-import type { Team } from "@/types";
+import { Team } from "@/types";
 
 function useTeam() {
   const { data: session } = authClient.useSession();
@@ -8,7 +8,7 @@ function useTeam() {
     return session.user.team as Team;
   }
 
-  return null;
+  return Team.kda;
 }
 
 export default useTeam;

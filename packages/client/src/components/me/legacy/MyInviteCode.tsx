@@ -2,14 +2,14 @@ import InviteCode from "@/components/InviteCode";
 import { authClient } from "@/libs/auth-client";
 import Card from "./Card";
 import { useQuery } from "@tanstack/react-query";
-import { getMyInvitee } from "@/apis";
+import { getMyInviteeCount } from "@/apis";
 
 function MyInviteCode() {
   const { data: session } = authClient.useSession();
 
   const { data } = useQuery({
     queryKey: ["me", "invitees"],
-    queryFn: () => getMyInvitee(),
+    queryFn: () => getMyInviteeCount(),
     enabled: Boolean(session?.user),
   });
 
@@ -23,7 +23,7 @@ function MyInviteCode() {
         每名受邀者第一次完成任務邀請者即可獲得 +5 分積分
         <br />
         目前邀請人數：
-        {data !== undefined ? data.length : "-"}
+        {data !== undefined ? data.count : "-"}
       </div>
     </Card>
   );

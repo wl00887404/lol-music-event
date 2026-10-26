@@ -284,10 +284,12 @@ export const getRewards = async (type: "free" | "paid") => {
   return data;
 };
 
-type GetMyInviteesData = string[];
+type GetMyInviteeCountData = { count: number };
 
-export const getMyInvitee = async () => {
-  const response = await instance.get<GetMyInviteesData>("/api/me/invitees");
+export const getMyInviteeCount = async () => {
+  const response = await instance.get<GetMyInviteeCountData>(
+    "/api/me/invitee-count",
+  );
 
   const { data } = response;
   return data;

@@ -409,13 +409,14 @@ meRouter.get(`${URL}/balance`, async (req, res) => {
   return res.send({ balance: total - spent });
 });
 
-meRouter.get(`${URL}/invitees`, async (req, res) => {
-  const invitees = await db
-    .select({ id: userTable.id })
+meRouter.get(`${URL}/invitee-count`, async (req, res) => {
+  const result = await db
+    .select({ count: count() })
     .from(userTable)
-    .where(eq(userTable.inviterId, req.session!.userId));
+    .where(eq(userTable.inviterId, req.session!.userId))
+    .then(head);
 
-  return res.send(invitees.map((invitee) => invitee.id));
+  return res.send({ count: result.count || 0 });
 });
 
 meRouter.get(`${URL}/lottery-ticket-count`, async (req, res) => {
