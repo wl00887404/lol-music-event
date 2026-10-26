@@ -125,9 +125,9 @@ export const freeRewardSettings = [
   {
     from: "paid-box",
     to: "free-box",
-    dailyLimit: 100,
-    weekdayChance: 1_000_000,
-    weekendChance: 1_000_000,
+    dailyLimit: 1000,
+    weekdayChance: 10_000_000,
+    weekendChance: 10_000_000,
   },
   {
     from: "paid-ball",
