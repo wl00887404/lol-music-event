@@ -15,7 +15,7 @@ function DrawResultDialog(props: Props) {
   const key = reward?.key;
   const win = key !== undefined;
 
-  const { src: titleSrc, aspectRatio } = getTitleSrc(win ? key : "loser");
+  const { src: titleSrc, width, height } = getTitleSrc(win ? key : "loser");
   const iconSrc = getIconSrc(win ? key : "loser");
 
   return (
@@ -29,9 +29,12 @@ function DrawResultDialog(props: Props) {
         )}
         <img
           src={titleSrc}
-          style={{ aspectRatio }}
-          className="max-w-full md:max-w-[30em]"
           alt={reward?.name || ""}
+          className="max-w-full md:max-w-[30em]"
+          style={{
+            width,
+            aspectRatio: width && height ? `${width}/${height}` : undefined,
+          }}
         />
         <img src={iconSrc} className="mt-[0.5em] max-w-full md:max-w-[26em]" />
         <div

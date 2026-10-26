@@ -150,7 +150,7 @@ function ClaimDialog(props: Props) {
   const reward = claimedReward || props.reward;
 
   const { key } = reward;
-  const { src: titleSrc, aspectRatio } = getTitleSrc(key);
+  const { src: titleSrc, width, height } = getTitleSrc(key);
   const iconSrc = getIconSrc(key);
 
   // FIXME: 現在有 aspectRatio，應該不用手動儲存這些資料
@@ -210,8 +210,12 @@ function ClaimDialog(props: Props) {
       <div className="flex flex-col items-center mt-[2.4em] px-[1.125em]">
         <img
           src={titleSrc}
-          style={{ aspectRatio }}
-          className="w-full max-w-full  md:max-w-[34em]"
+          alt={reward?.name || ""}
+          className="max-w-full  md:max-w-[34em]"
+          style={{
+            width,
+            aspectRatio: width && height ? `${width}/${height}` : undefined,
+          }}
         />
         <img
           src={iconSrc}

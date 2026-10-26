@@ -32,7 +32,7 @@ const meta: Record<string, number[]> = {
   "paid-ball-title.png": [512, 58],
   "paid-box-title.png": [601, 59],
   "paid-idol-box-title.png": [539, 103],
-  "paid-idol-card-title.png": [763, 103],
+  "paid-idol-card-title.png": [763, 103], 
   "paid-my-card-150-title.png": [937, 65],
   "paid-my-card-300-title.png": [937, 65],
   "qiyana-skin-2019-title.png": [800, 65],
@@ -50,13 +50,12 @@ const meta: Record<string, number[]> = {
 
 export const getTitleSrc = (key: string) => {
   const fileName = `${key.replace("free-", "paid-")}-title.png`;
-
-  const aspectRatio = meta[fileName]
-    ? meta[fileName][0] + "/" + meta[fileName][1]
-    : undefined;
+  const width = meta[fileName]?.[0] || undefined;
+  const height = meta[fileName]?.[1] || undefined;
 
   return {
     src: imgUri(`/rewards/titles/${fileName}`),
-    aspectRatio,
+    width,
+    height,
   };
 };
