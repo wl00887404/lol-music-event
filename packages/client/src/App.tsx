@@ -16,6 +16,7 @@ import { cn } from "./libs/utils";
 import { useViewport } from "./components/viewportStore";
 import LuckyDraw from "./pages/LuckyDraw";
 import { imgUri } from "./libs/uris";
+import MoreRewardsPopup from "./components/dialogs/MoreRewardsPopup";
 
 function App() {
   const location = useLocation();
@@ -54,6 +55,7 @@ function App() {
       <Footer />
       <Dialogs />
       <ScrollToTop />
+      <MoreRewardsPopup />
     </div>
   );
 }
