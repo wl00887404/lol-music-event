@@ -9,6 +9,7 @@ import { Team } from "@/types";
 import BaseButton from "../BaseButton";
 import RwdImg from "@/components/RwdImg";
 import getProfileUrl from "@/libs/getProfileUrl";
+import { imgUri } from "@/libs/uris";
 
 type TitleProps = {
   children: ReactNode;
@@ -116,6 +117,8 @@ function Profile() {
   };
 
   const { riotIdColor, titleColor, buttonColor } = getTheme();
+  const uri = imgUri(`/icons/${team}/share-button.png`);
+  const style = { backgroundImage: `url('${uri}')` };
 
   return (
     <div
@@ -152,13 +155,13 @@ function Profile() {
         {title ? (
           <Title color={titleColor}>{title}</Title>
         ) : (
-          <div className="h-[1.25em]" />
+          <div className="h-[1.5em]" />
         )}
         <div className="mt-[0.125em]">
           <BaseButton
             className="w-[15.3125em] h-[4.1875em] bg-cover"
             style={{
-              backgroundImage: `url("/icons/${team}/share-button.png")`,
+              ...style,
               color: buttonColor,
             }}
             onClick={() => setOpen(true)}

@@ -39,7 +39,7 @@ function MyLeaderboardItem(props: Props) {
         className={SVG_CLASS_NAME}
       >
         <image
-          href={`/icons/m-my-leaderboard-bg.png`}
+          href={imgUri(`/icons/m-my-leaderboard-bg.png`)}
           x="0"
           y="0"
           width={MOBILE_WIDTH}
@@ -95,7 +95,7 @@ function MyLeaderboardItem(props: Props) {
         </clipPath>
       </defs>
       <image
-        href={`/icons/my-leaderboard-bg-2.png`}
+        href={imgUri(`/icons/my-leaderboard-bg-2.png`)}
         x="0"
         y="0"
         width={DESKTOP_WIDTH}
@@ -103,7 +103,7 @@ function MyLeaderboardItem(props: Props) {
         preserveAspectRatio="xMidYMid slice"
       />
       <image
-        href={`/icons/my-leaderboard-bg-1.png`}
+        href={imgUri(`/icons/my-leaderboard-bg-1.png`)}
         x="0"
         y="0"
         width={DESKTOP_WIDTH}

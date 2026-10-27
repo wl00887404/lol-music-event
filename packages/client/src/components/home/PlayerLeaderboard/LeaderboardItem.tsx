@@ -4,6 +4,7 @@ import type { PlayerLeaderboardItem } from "@/apis";
 import { SpacedText } from "@/components/SpacedText";
 import getProfileUrl from "@/libs/getProfileUrl";
 import { useViewport } from "@/components/viewportStore";
+import { imgUri } from "@/libs/uris";
 
 const DESKTOP_WIDTH = 1598;
 const DESKTOP_HEIGHT = 108;
@@ -26,18 +27,18 @@ function LeaderboardItem(props: Props) {
 
   const getBackgroundHref = () => {
     if (totalRank === 1) {
-      return `/icons/${prefix}player-leaderboard-first-bg.png`;
+      return imgUri(`/icons/${prefix}player-leaderboard-first-bg.png`);
     }
 
     if (totalRank === 2) {
-      return `/icons/${prefix}player-leaderboard-second-bg.png`;
+      return imgUri(`/icons/${prefix}player-leaderboard-second-bg.png`);
     }
 
     if (totalRank === 3) {
-      return `/icons/${prefix}player-leaderboard-third-bg.png`;
+      return imgUri(`/icons/${prefix}player-leaderboard-third-bg.png`);
     }
 
-    return `/icons/${prefix}player-leaderboard-fourth-bg.png`;
+    return imgUri(`/icons/${prefix}player-leaderboard-fourth-bg.png`);
   };
 
   if (viewport === "mobile") {
@@ -120,7 +121,7 @@ function LeaderboardItem(props: Props) {
         preserveAspectRatio="xMidYMid slice"
       />
       <image
-        href={`/icons/player-leaderboard-bg.png`}
+        href={imgUri(`/icons/player-leaderboard-bg.png`)}
         x="0"
         y="0"
         width={DESKTOP_WIDTH}

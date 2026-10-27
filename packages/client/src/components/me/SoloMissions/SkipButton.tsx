@@ -7,6 +7,7 @@ import ConfirmDialog from "../../dialogs/shared/ConfirmDialog";
 import { useState } from "react";
 import BaseButton from "../../BaseButton";
 import { useViewport } from "@/components/viewportStore";
+import { imgUri } from "@/libs/uris";
 
 type SkipButtonProps = {
   skipChange: number;
@@ -36,6 +37,9 @@ function SkipButton(props: SkipButtonProps) {
   const viewport = useViewport();
   const prefix = viewport === "mobile" ? "m-" : "";
 
+  const uri = imgUri(`/icons/${team}/${prefix}skip-button.png`);
+  const style = { backgroundImage: `url('${uri}')` };
+
   return (
     <>
       {/* 195 55 */}
@@ -47,14 +51,16 @@ function SkipButton(props: SkipButtonProps) {
           "disabled:opacity-45 bg-cover",
         )}
         style={{
+          ...style,
           color: buttonColor,
-          backgroundImage: `url('/icons/${team}/${prefix}skip-button.png')`,
         }}
         loadingColor={buttonColor}
         disabled={skipChange === 0 || !currentMission}
         onClick={() => setConfirmDialogOpen(true)}
       >
-        <span className="font-[700] text-[0.625em] md:text-[1.4375em]">跳過當前任務</span>
+        <span className="font-[700] text-[0.625em] md:text-[1.4375em]">
+          跳過當前任務
+        </span>
       </BaseButton>
       <ConfirmDialog
         title="跳過當前任務"

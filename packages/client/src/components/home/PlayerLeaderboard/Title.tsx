@@ -1,5 +1,6 @@
 import { SpacedText } from "@/components/SpacedText";
 import { useViewport } from "@/components/viewportStore";
+import { imgUri } from "@/libs/uris";
 
 const DESKTOP_WIDTH = 342;
 const DESKTOP_HEIGHT = 56;
@@ -20,7 +21,7 @@ function Title(props: Props) {
     return (
       <g>
         <image
-          href={`/icons/m-title-bg.png`}
+          href={imgUri(`/icons/m-title-bg.png`)}
           x={x}
           y={y}
           width={MOBILE_WIDTH}
@@ -54,7 +55,7 @@ function Title(props: Props) {
   return (
     <g>
       <image
-        href={`/icons/title-bg.png`}
+        href={imgUri(`/icons/title-bg.png`)}
         x={x}
         y={y}
         width={DESKTOP_WIDTH}

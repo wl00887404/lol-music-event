@@ -17,6 +17,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { imgUri } from "@/libs/uris";
 
 type GetTheme = () => {
   desktopMissionColor: string;
@@ -184,17 +185,21 @@ function Item(props: ItemProps) {
     );
   };
 
+  const leftLineUri = imgUri(`/icons/${team}/${leftLineFileName}`);
+  const rightLineUri = imgUri(`/icons/${team}/${rightLineFileName}`);
+  const labelUri = imgUri(`/icons/${team}/${labelFileName}`);
+
   const content = (
     <div>
       <div className="relative w-full h-[4.4375em] md:h-[15.3125em] max-w-[20.0625em] mx-auto">
         <img
-          src={`/icons/${team}/${prefix}mission-item-bg.png`}
+          src={imgUri(`/icons/${team}/${prefix}mission-item-bg.png`)}
           className={imgClassName}
         />
         {renderContent()}
         {item.status === "finished" && (
           <img
-            src={`/icons/${team}/${prefix}mission-item-finished.png`}
+            src={imgUri(`/icons/${team}/${prefix}mission-item-finished.png`)}
             className={imgClassName}
             style={{ opacity: 0.45, mixBlendMode: "multiply" }}
           />
@@ -211,14 +216,14 @@ function Item(props: ItemProps) {
           className={lineClassName}
           style={{
             left: 0,
-            backgroundImage: `url("/icons/${team}/${leftLineFileName}")`,
+            backgroundImage: `url("${leftLineUri}")`,
           }}
         />
         <div
           className={lineClassName}
           style={{
             right: 0,
-            backgroundImage: `url("/icons/${team}/${rightLineFileName}")`,
+            backgroundImage: `url("${rightLineUri}")`,
           }}
         />
         <div
@@ -227,7 +232,7 @@ function Item(props: ItemProps) {
             "flex justify-center items-center",
           )}
           style={{
-            backgroundImage: `url("/icons/${team}/${labelFileName}")`,
+            backgroundImage: `url("${labelUri}")`,
             color: labelColor,
           }}
         >
@@ -265,6 +270,9 @@ function SiblingButton(props: SiblingButtonProps) {
   if (viewport === "mobile") {
     const fileName = dir === "prev" ? "chevron-up.png" : "chevron-down.png";
 
+    const uri = imgUri(`/icons/${team}/${fileName}`);
+    const style = { backgroundImage: `url('${uri}')` };
+
     return (
       <div className="flex justify-center">
         <BaseButton
@@ -275,14 +283,17 @@ function SiblingButton(props: SiblingButtonProps) {
             "w-[4.5em] h-[2.875em] bg-cover",
             "disabled:opacity-0",
           )}
-          style={{ backgroundImage: `url("/icons/${team}/${fileName}")` }}
+          style={style}
         />
       </div>
     );
   } else {
-    const fileName = dir === "prev" ? "chevron-left.png" : "chevron-right.png";
+    const fileName =
+      dir === "prev" ? imgUri("chevron-left.png") : imgUri("chevron-right.png");
     const px = "1.75em";
     const leftOrRight = dir === "prev" ? { left: px } : { right: px };
+    const uri = imgUri(`/icons/${team}/${fileName}`);
+    const style = { backgroundImage: `url('${uri}')` };
 
     return (
       <BaseButton
@@ -292,10 +303,7 @@ function SiblingButton(props: SiblingButtonProps) {
           "w-[4.25em] h-[5.875em] absolute top-[4.75em] bg-cover z-1",
           "disabled:hidden",
         )}
-        style={{
-          backgroundImage: `url("/icons/${team}/${fileName}")`,
-          ...leftOrRight,
-        }}
+        style={{ ...style, ...leftOrRight }}
       />
     );
   }

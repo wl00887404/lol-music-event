@@ -56,7 +56,7 @@ function LeaderboardItem(props: Props) {
         </clipPath>
       </defs>
       <image
-        href={`/icons/honor-roll-item-bg-3.png`}
+        href={imgUri(`/icons/honor-roll-item-bg-3.png`)}
         x="0"
         y="0"
         width={WIDTH}
@@ -64,7 +64,7 @@ function LeaderboardItem(props: Props) {
         preserveAspectRatio="xMidYMid slice"
       />
       <image
-        href={`/icons/honor-roll-item-bg-2.png`}
+        href={imgUri(`/icons/honor-roll-item-bg-2.png`)}
         x="0"
         y="0"
         width={WIDTH}
@@ -73,7 +73,7 @@ function LeaderboardItem(props: Props) {
         style={{ mixBlendMode: "color-dodge" }}
       />
       <image
-        href={`/icons/honor-roll-item-bg-1.png`}
+        href={imgUri(`/icons/honor-roll-item-bg-1.png`)}
         x="0"
         y="0"
         width={WIDTH}

@@ -32,6 +32,8 @@ function Wheel({
   disabled: boolean;
 }) {
   const imgClass = "block aspect-[1/1] w-[45.625em] max-w-[88vw]";
+  const uri = imgUri(`/rewards/pointer.png`);
+  const style = { backgroundImage: `url('${uri}')` };
 
   return (
     <div className="relative overflow-hidden">
@@ -44,11 +46,8 @@ function Wheel({
         }}
       />
       <BaseButton
-        className={cn(
-          imgClass,
-          "absolute top-[0] left-[0]",
-          "bg-[url('/rewards/pointer.png')] bg-cover",
-        )}
+        className={cn(imgClass, "absolute top-[0] left-[0] bg-cover")}
+        style={style}
         onClick={draw}
         disabled={disabled}
       />
@@ -111,6 +110,9 @@ function LuckyDraw() {
     drawChances.current = session?.user.freeDrawChances || 0;
   }, [session?.user]);
 
+  const uri = imgUri(`/rewards/record-button.png`);
+  const style = { backgroundImage: `url('${uri}')` };
+
   return (
     <div className="relative">
       <HeroCarousel />
@@ -132,9 +134,9 @@ function LuckyDraw() {
         <div className="mt-[1.21875em] md:mt-[3.5em] mb-[8.90625em] md:mb-[6.125em]">
           <BaseButton
             className={cn(
-              "aspect-[459/83] h-[2.1875em] md:h-[5.1875em]",
-              "bg-[url('/rewards/record-button.png')] bg-cover",
+              "aspect-[459/83] h-[2.1875em] md:h-[5.1875em]  bg-cover",
             )}
+            style={style}
             onClick={() => setRecordDialogOpen(true)}
           >
             <div className="font-[700] text-[1.09375em] md:text-[2.625em] text-[#0b1527]">

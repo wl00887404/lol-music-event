@@ -15,6 +15,7 @@ import SnsPosterTest from "./pages/SnsPosterTest";
 import { cn } from "./libs/utils";
 import { useViewport } from "./components/viewportStore";
 import LuckyDraw from "./pages/LuckyDraw";
+import { imgUri } from "./libs/uris";
 
 function App() {
   const location = useLocation();
@@ -24,10 +25,12 @@ function App() {
 
   const getBackgroundImage = () => {
     if (location.pathname === "/me" && team) {
-      return `url('/backgrounds/${prefix}${team}.jpg')`;
+      const uri = imgUri(`/backgrounds/${prefix}${team}.jpg`);
+      return `url('${uri}')`;
     }
 
-    return `url('/backgrounds/${prefix}main.jpg')`;
+    const uri = imgUri(`/backgrounds/${prefix}main.jpg`);
+    return `url('${uri}')`;
   };
 
   return (

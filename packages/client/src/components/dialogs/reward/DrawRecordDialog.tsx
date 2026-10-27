@@ -18,10 +18,10 @@ function Item(props: {
 }) {
   const { openClaimDialog, reward } = props;
   const { name, claimedAt } = reward;
-  const buttonClassName = cn(
-    "aspect-[161/52] h-[1.25em]",
-    "bg-[url('/rewards/claim-button.png')] bg-cover",
-  );
+  const buttonClassName = cn("aspect-[161/52] h-[1.25em] bg-cover");
+
+  const uri = imgUri("/rewards/claim-button.png");
+  const style = { backgroundImage: `url('${uri}')` };
 
   return (
     <div className={cn("text-[#fff9e5] px-[0.5625em]", "text-[28px]")}>
@@ -34,6 +34,7 @@ function Item(props: {
         <div className="text-[0.5625em]">{name}</div>
         <BaseButton
           className={buttonClassName}
+          style={style}
           onClick={() => openClaimDialog(reward)}
         >
           <div className="text-[#030718] font-[700] text-[0.5625em]">

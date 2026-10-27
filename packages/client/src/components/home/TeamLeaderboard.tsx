@@ -54,7 +54,7 @@ function Item(props: ItemProps) {
       >
         {defs}
         <image
-          href={`/icons/m-${team}-leaderboard-bg.png`}
+          href={imgUri(`/icons/m-${team}-leaderboard-bg.png`)}
           x="0"
           y="0"
           width={MOBILE_WIDTH}
@@ -84,7 +84,7 @@ function Item(props: ItemProps) {
     >
       {defs}
       <image
-        href={`/icons/${team}-leaderboard-bg-3.png`}
+        href={imgUri(`/icons/${team}-leaderboard-bg-3.png`)}
         x="0"
         y="0"
         width={DESKTOP_WIDTH}
@@ -92,7 +92,7 @@ function Item(props: ItemProps) {
         preserveAspectRatio="xMidYMid slice"
       />
       <image
-        href={`/icons/${team}-leaderboard-bg-2.png`}
+        href={imgUri(`/icons/${team}-leaderboard-bg-2.png`)}
         x="0"
         y="0"
         width={DESKTOP_WIDTH}
@@ -101,7 +101,7 @@ function Item(props: ItemProps) {
         style={{ mixBlendMode: "color-dodge" }}
       />
       <image
-        href={`/icons/${team}-leaderboard-bg-1.png`}
+        href={imgUri(`/icons/${team}-leaderboard-bg-1.png`)}
         x="0"
         y="0"
         width={DESKTOP_WIDTH}

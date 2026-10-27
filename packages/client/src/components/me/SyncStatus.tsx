@@ -7,6 +7,7 @@ import useTeam from "@/hooks/useTeam";
 import { Team } from "@/types";
 import formatDate from "@/libs/formatDate";
 import { useViewport } from "../viewportStore";
+import { imgUri } from "@/libs/uris";
 
 type GetTheme = () => {
   desktopTextColor: string;
@@ -59,6 +60,9 @@ function SyncStatus() {
   const buttonColor =
     viewport === "mobile" ? theme.mobileButtonColor : theme.desktopButtonColor;
 
+  const uri = imgUri(`/icons/${team}/${prefix}sync-button.png`);
+  const style = { backgroundImage: `url('${uri}')` };
+
   return (
     <div
       className={cn(
@@ -92,10 +96,7 @@ function SyncStatus() {
           loading={isSyncing}
           loadingColor={buttonColor}
           onClick={() => sync(refetch)}
-          style={{
-            backgroundImage: `url('/icons/${team}/${prefix}sync-button.png')`,
-            color: buttonColor,
-          }}
+          style={{ ...style, color: buttonColor }}
         >
           <span className="text-[0.78125em] md:text-[1.75em] font-[500]">
             同步

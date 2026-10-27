@@ -8,7 +8,6 @@ import {
 import Autoplay from "embla-carousel-autoplay";
 import RwdImg from "@/components/RwdImg";
 import { useEffect, useState } from "react";
-import { imgUri } from "@/libs/uris";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const useDots = () => {
@@ -59,29 +58,29 @@ function HeroCarousel() {
         <CarouselContent>
           <CarouselItem>
             <RwdImg
-              src={imgUri("/banners/m-main-cta.jpg")}
-              mdSrc={imgUri("/banners/main-cta.jpg")}
+              src={"/banners/m-main-cta.jpg"}
+              mdSrc={"/banners/main-cta.jpg"}
               className={imgClassName}
             />
           </CarouselItem>
           <CarouselItem>
             <RwdImg
-              src={imgUri("/banners/m-kda-cta.jpg")}
-              mdSrc={imgUri("/banners/kda-cta.jpg")}
+              src={"/banners/m-kda-cta.jpg"}
+              mdSrc={"/banners/kda-cta.jpg"}
               className={imgClassName}
             />
           </CarouselItem>
           <CarouselItem>
             <RwdImg
-              src={imgUri("/banners/m-heart-steel-cta.jpg")}
-              mdSrc={imgUri("/banners/heart-steel-cta.jpg")}
+              src={"/banners/m-heart-steel-cta.jpg"}
+              mdSrc={"/banners/heart-steel-cta.jpg"}
               className={imgClassName}
             />
           </CarouselItem>
           <CarouselItem>
             <RwdImg
-              src={imgUri("/banners/m-true-damage-cta.jpg")}
-              mdSrc={imgUri("/banners/true-damage-cta.jpg")}
+              src={"/banners/m-true-damage-cta.jpg"}
+              mdSrc={"/banners/true-damage-cta.jpg"}
               className={imgClassName}
             />
           </CarouselItem>

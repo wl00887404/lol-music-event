@@ -10,6 +10,7 @@ import ClaimDialog from "../dialogs/reward/ClaimDialog";
 import { useState } from "react";
 import useMyBalance from "@/hooks/useMyBalance";
 import { useViewport } from "../viewportStore";
+import { imgUri } from "@/libs/uris";
 
 function Header(props: { titleColor: string }) {
   const { titleColor } = props;
@@ -23,12 +24,13 @@ function Header(props: { titleColor: string }) {
   const viewport = useViewport();
   const prefix = viewport === "mobile" ? "m-" : "";
 
+  const uri = imgUri(`/icons/${team}/${prefix}reward-bg-top.png`);
+  const style = { backgroundImage: `url('${uri}')` };
+
   return (
     <div
       className="bg-repeat-y bg-top bg-[size:auto_100%] h-[4.8125em] md:h-[12.1875em]"
-      style={{
-        backgroundImage: `url("/icons/${team}/${prefix}reward-bg-top.png")`,
-      }}
+      style={style}
     >
       <div
         className="pl-[1.5em] md:pl-[3.5em] pt-[1.15625em] md:pt-[3.3125em]"
@@ -80,6 +82,9 @@ function RewardItem(props: { reward: Reward; balance: number }) {
     );
   };
 
+  const uri = imgUri(`/icons/${team}/reward-item-bg.png`);
+  const style = { backgroundImage: `url('${uri}')` };
+
   return (
     <>
       <BaseButton
@@ -87,9 +92,7 @@ function RewardItem(props: { reward: Reward; balance: number }) {
           "w-full max-w-[8.875em] h-[9.625em] md:max-w-[17.75em] md:h-[19.25em] bg-cover",
           "relative pt-[0.90625em] md:pt-[1.8125em] flex items-start text-[#000000]",
         )}
-        style={{
-          backgroundImage: `url("/icons/${team}/reward-item-bg.png")`,
-        }}
+        style={style}
         onClick={() => {
           setOpen(true);
         }}
@@ -124,6 +127,9 @@ function Body(props: { balance?: number }) {
   const viewport = useViewport();
   const prefix = viewport === "mobile" ? "m-" : "";
 
+  const uri = imgUri(`/icons/${team}/${prefix}reward-bg-middle.png`);
+  const style = { backgroundImage: `url('${uri}')` };
+
   //  306
   return (
     <div
@@ -133,9 +139,7 @@ function Body(props: { balance?: number }) {
         "grid-cols-[repeat(auto-fill,minmax(8.875em,1fr))] md:grid-cols-[repeat(auto-fill,minmax(17.75em,1fr))]",
         "bg-[size:auto_9.5625em] md:bg-[size:auto_19.125em]",
       )}
-      style={{
-        backgroundImage: `url("/icons/${team}/${prefix}reward-bg-middle.png")`,
-      }}
+      style={style}
     >
       {items.map((item, index) => {
         return <RewardItem key={index} reward={item} balance={balance} />;
@@ -149,12 +153,13 @@ function Footer() {
   const viewport = useViewport();
   const prefix = viewport === "mobile" ? "m-" : "";
 
+  const uri = imgUri(`/icons/${team}/${prefix}reward-bg-bottom.png`);
+  const style = { backgroundImage: `url('${uri}')` };
+
   return (
     <div
       className="h-[1.875em] md:h-[3.4375em] bg-[size:auto_100%]"
-      style={{
-        backgroundImage: `url("/icons/${team}/${prefix}reward-bg-bottom.png")`,
-      }}
+      style={style}
     />
   );
 }

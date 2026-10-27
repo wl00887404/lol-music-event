@@ -2,6 +2,7 @@ import { useViewport } from "@/components/viewportStore";
 import { type Tab as TabType, Tab } from "./types";
 import { cn } from "@/libs/utils";
 import BaseButton from "@/components/BaseButton";
+import { imgUri } from "@/libs/uris";
 
 const DESKTOP_WIDTH = 1193;
 const DESKTOP_HEIGHT = 82;
@@ -33,7 +34,7 @@ function TeamFilter(props: Props) {
         className={SVG_CLASS_NAME}
       >
         <image
-          href={`/icons/${prefix}team-filter-bg-2.png`}
+          href={imgUri(`/icons/${prefix}team-filter-bg-2.png`)}
           x="0"
           y="0"
           width={width}
@@ -41,7 +42,7 @@ function TeamFilter(props: Props) {
           preserveAspectRatio="xMidYMid slice"
         />
         <image
-          href={`/icons/${prefix}team-filter-bg-${currentTab}.png`}
+          href={imgUri(`/icons/${prefix}team-filter-bg-${currentTab}.png`)}
           x="0"
           y="0"
           width={width}
@@ -49,7 +50,7 @@ function TeamFilter(props: Props) {
           preserveAspectRatio="xMidYMid slice"
         />
         <image
-          href={`/icons/${prefix}team-filter-bg-1.png`}
+          href={imgUri(`/icons/${prefix}team-filter-bg-1.png`)}
           x="0"
           y="0"
           width={width}

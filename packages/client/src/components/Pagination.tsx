@@ -22,8 +22,8 @@ function SiblingPageButton(props: SiblingPageButtonProp) {
       <img
         src={
           type === "prev"
-            ? "/icons/chevron-left.png"
-            : "/icons/chevron-right.png"
+            ? imgUri("/icons/chevron-left.png")
+            : imgUri("/icons/chevron-right.png")
         }
         // 26 66
         className="aspect-[1/1] w-[1.625em] md:w-[4.125em]"
@@ -144,6 +144,9 @@ function Pagination(props: Props) {
     }, 670);
   };
 
+  const uri = imgUri("/icons/m-pagination-input-bg.png");
+  const style = { backgroundImage: `url("${uri}")` };
+
   return (
     <div className={fontClassName}>
       <div
@@ -189,8 +192,9 @@ function Pagination(props: Props) {
               "h-auto p-0",
               // text: 17px, leading: 24, width: 56
               "!text-[1.0625em] !leading-[1.4117647058823529412em] w-[3.2941176470588235294em]",
-              "border-none rounded-none bg-[url('/icons/m-pagination-input-bg.png')] bg-cover",
+              "border-none rounded-none bg-cover",
             )}
+            style={style}
           />
         </div>
         <div className="text-[#fff9e5] font-[900] text-[1.0625em] md:hidden mr-[1.03125em]">

@@ -5,6 +5,7 @@ import SkipButton from "./SkipButton";
 import MissionList from "./MissionList";
 import { cn } from "@/libs/utils";
 import { useViewport } from "@/components/viewportStore";
+import { imgUri } from "@/libs/uris";
 
 function DesktopBackground() {
   // 1632 * 560
@@ -14,7 +15,7 @@ function DesktopBackground() {
   if (team === Team.heartSteel) {
     return (
       <img
-        src={`/icons/heart-steel/mission-bg.png`}
+        src={imgUri(`/icons/heart-steel/mission-bg.png`)}
         className={backgroundClassName}
       />
     );
@@ -23,7 +24,7 @@ function DesktopBackground() {
   if (team === Team.trueDamage) {
     return (
       <img
-        src={`/icons/true-damage/mission-bg.png`}
+        src={imgUri(`/icons/true-damage/mission-bg.png`)}
         className={backgroundClassName}
       />
     );
@@ -32,11 +33,11 @@ function DesktopBackground() {
   return (
     <>
       <img
-        src={`/icons/kda/mission-bg-2.png`}
+        src={imgUri(`/icons/kda/mission-bg-2.png`)}
         className={backgroundClassName}
       />
       <img
-        src={`/icons/kda/mission-bg-1.png`}
+        src={imgUri(`/icons/kda/mission-bg-1.png`)}
         className={cn(backgroundClassName, "absolute top-0 left-0")}
         style={{ mixBlendMode: "color-dodge" }}
       />
@@ -52,7 +53,7 @@ function MobileBackground() {
   if (team === Team.heartSteel) {
     return (
       <img
-        src={`/icons/heart-steel/m-mission-bg.png`}
+        src={imgUri(`/icons/heart-steel/m-mission-bg.png`)}
         className={backgroundClassName}
       />
     );
@@ -61,7 +62,7 @@ function MobileBackground() {
   if (team === Team.trueDamage) {
     return (
       <img
-        src={`/icons/true-damage/m-mission-bg.png`}
+        src={imgUri(`/icons/true-damage/m-mission-bg.png`)}
         className={backgroundClassName}
       />
     );
@@ -70,16 +71,16 @@ function MobileBackground() {
   return (
     <>
       <img
-        src={`/icons/kda/m-mission-bg-3.png`}
+        src={imgUri(`/icons/kda/m-mission-bg-3.png`)}
         className={backgroundClassName}
       />
       <img
-        src={`/icons/kda/m-mission-bg-2.png`}
+        src={imgUri(`/icons/kda/m-mission-bg-2.png`)}
         className={cn(backgroundClassName, "absolute top-0 left-0")}
         style={{ mixBlendMode: "color-dodge" }}
       />
       <img
-        src={`/icons/kda/m-mission-bg-1.png`}
+        src={imgUri(`/icons/kda/m-mission-bg-1.png`)}
         className={cn(backgroundClassName, "absolute top-0 left-0")}
         style={{ mixBlendMode: "color-dodge" }}
       />

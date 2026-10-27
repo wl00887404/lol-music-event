@@ -246,6 +246,7 @@ function SnsPoster(props: Props) {
 
   const assets = useLoadAssets(
     "/fonts/NotoSansTC-VariableFont_wght.ttf",
+    "/fonts/BeaufortforLOL-Bold.ttf",
     `/posters/${team}/bg.jpg`,
   );
 
@@ -267,11 +268,11 @@ function SnsPoster(props: Props) {
     const cssText = css`
       @font-face {
         font-family: "My Noto Sans TC";
-        src: url("${assets.fontBase64}") format("truetype");
+        src: url("${assets.font1Base64}") format("truetype");
       }
       @font-face {
         font-family: "BeaufortforLOL";
-        src: url("/fonts/BeaufortforLOL-Bold.ttf") format("truetype");
+        src: url("${assets.font2Base64}") format("truetype");
       }
     `;
 

@@ -78,7 +78,7 @@ function MobileMenu(props: MobileMenuProps) {
       >
         <DrawerTrigger>
           <img
-            src={open ? "/icons/close.svg" : "/icons/menu.png"}
+            src={open ? imgUri("/icons/close.svg") : imgUri("/icons/menu.png")}
             className={cn(HEADER_FONT_SIZE_CLASS_NAME, "w-[1.3125em]")}
           />
         </DrawerTrigger>
@@ -140,11 +140,11 @@ function Header() {
     window.location.href = "/";
   };
 
+  const uri = imgUri("/icons/header-button.png");
+  const style = { backgroundImage: `url("${uri}")` };
+
   const renderButton = () => {
-    const buttonClassName = cn(
-      "w-[8.9375em] h-[2.75em]",
-      "bg-[url('/icons/header-button.png')] bg-cover",
-    );
+    const buttonClassName = cn("w-[8.9375em] h-[2.75em] bg-cover");
 
     const textClassName = "text-[#030718] font-[700] text-[1.25em]";
 
@@ -152,6 +152,7 @@ function Header() {
       return (
         <BaseButton
           className={buttonClassName}
+          style={style}
           loading={isPending}
           loadingColor="#030718"
         />
@@ -162,6 +163,7 @@ function Header() {
       return (
         <BaseButton
           className={buttonClassName}
+          style={style}
           onClick={() => {
             setRsoOpen(true);
           }}

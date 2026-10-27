@@ -2,7 +2,8 @@ import toast from "@/components/toast";
 import { useState, useEffect } from "react";
 
 interface Assets {
-  fontBase64: string;
+  font1Base64: string;
+  font2Base64: string;
   imageBase64: string;
 }
 
@@ -16,17 +17,23 @@ async function fetchBase64(url: string): Promise<string> {
   });
 }
 
-function useLoadAssets(fontPath: string, imagePath: string) {
+function useLoadAssets(
+  fontPath1: string,
+  fontPath2: string,
+  imagePath: string,
+) {
   const [assets, setAssets] = useState<Assets | null>(null);
 
   useEffect(() => {
-    Promise.all([fetchBase64(fontPath), fetchBase64(imagePath)]).then(
-      ([fontBase64, imageBase64]) => {
-        toast.debug("assets onload");
-        setAssets({ fontBase64, imageBase64 });
-      },
-    );
-  }, [fontPath, imagePath]);
+    Promise.all([
+      fetchBase64(fontPath1),
+      fetchBase64(fontPath2),
+      fetchBase64(imagePath),
+    ]).then(([font1Base64, font2Base64, imageBase64]) => {
+      toast.debug("assets onload");
+      setAssets({ font1Base64, font2Base64, imageBase64 });
+    });
+  }, [fontPath1, fontPath2, imagePath]);
 
   return assets;
 }

@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import copy from "copy-to-clipboard";
 import toast from "@/components/toast";
 import RwdImg from "@/components/RwdImg";
+import { imgUri } from "@/libs/uris";
 
 function Background() {
   // 373
@@ -46,16 +47,16 @@ function Background() {
   return (
     <>
       <RwdImg
-        src={`/icons/kda/invite-bg-3.png`}
+        src={imgUri(`/icons/kda/invite-bg-3.png`)}
         className={backgroundClassName}
       />
       <RwdImg
-        src={`/icons/kda/invite-bg-2.png`}
+        src={imgUri(`/icons/kda/invite-bg-2.png`)}
         className={cn(backgroundClassName, "absolute top-0 left-0")}
         style={{ mixBlendMode: "color-dodge" }}
       />
       <RwdImg
-        src={`/icons/kda/invite-bg-1.png`}
+        src={imgUri(`/icons/kda/invite-bg-1.png`)}
         className={cn(backgroundClassName, "absolute top-0 left-0")}
       />
     </>
@@ -97,6 +98,9 @@ function InviteCode() {
     toast.success("複製成功");
   };
 
+  const uri = imgUri(`/icons/${team}/copy.png`);
+  const style = { backgroundImage: `url('${uri}')` };
+
   return (
     <div
       className={cn(
@@ -118,7 +122,7 @@ function InviteCode() {
           </div>
           <BaseButton
             className="w-[3.25em] h-[3.25em] bg-[cover]"
-            style={{ backgroundImage: `url("/icons/${team}/copy.png")` }}
+            style={style}
             onClick={onCopy}
           />
         </div>

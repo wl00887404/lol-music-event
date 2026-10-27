@@ -4,6 +4,7 @@ import { Team } from "@/types";
 import { SpacedText } from "../SpacedText";
 import formatNumber from "@/libs/formatNumber";
 import { useViewport } from "../viewportStore";
+import { imgUri } from "@/libs/uris";
 
 const DESKTOP_WIDTH = 1632;
 const DESKTOP_HEIGHT = 480;
@@ -22,31 +23,39 @@ const imageProps = {
 function KdaBackground() {
   return (
     <>
-      <image href="/icons/kda/stats-bg-3.png" {...imageProps} />
+      <image href={imgUri("/icons/kda/stats-bg-3.png")} {...imageProps} />
       <image
-        href="/icons/kda/stats-bg-2.png"
+        href={imgUri("/icons/kda/stats-bg-2.png")}
         {...imageProps}
         style={{ mixBlendMode: "color-dodge" }}
       />
-      <image href="/icons/kda/stats-bg-1.png" {...imageProps} />
+      <image href={imgUri("/icons/kda/stats-bg-1.png")} {...imageProps} />
     </>
   );
 }
 
 function HeartSteelBackground() {
-  return <image href="/icons/heart-steel/stats-bg.png" {...imageProps} />;
+  return (
+    <image href={imgUri("/icons/heart-steel/stats-bg.png")} {...imageProps} />
+  );
 }
 
 function TrueDamageBackground() {
   return (
     <>
-      <image href="/icons/true-damage/stats-bg-3.png" {...imageProps} />
       <image
-        href="/icons/true-damage/stats-bg-2.png"
+        href={imgUri("/icons/true-damage/stats-bg-3.png")}
+        {...imageProps}
+      />
+      <image
+        href={imgUri("/icons/true-damage/stats-bg-2.png")}
         {...imageProps}
         style={{ mixBlendMode: "soft-light" }}
       />
-      <image href="/icons/true-damage/stats-bg-1.png" {...imageProps} />
+      <image
+        href={imgUri("/icons/true-damage/stats-bg-1.png")}
+        {...imageProps}
+      />
     </>
   );
 }
@@ -102,7 +111,7 @@ function MobileStats() {
         width={MOBILE_WIDTH}
         height={MOBILE_HEIGHT}
         preserveAspectRatio="xMidYMid slice"
-        href={`/icons/${team}/m-stats-bg.png`}
+        href={imgUri(`/icons/${team}/m-stats-bg.png`)}
       />
       <SpacedText {...textProps} x={x1} y={y1}>
         {formatNumber(stats.totalCount)}
