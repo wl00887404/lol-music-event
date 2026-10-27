@@ -93,10 +93,11 @@ function MobileStats() {
     letterSpacing: 3.6,
   } as const;
 
+  const hsShift = team === "heart-steel" ? 17 : 0;
   const x1 = 197;
   const x2 = 511;
-  const y1 = 283;
-  const y2 = 511;
+  const y1 = 283 + hsShift;
+  const y2 = 511 + hsShift;
   const y3 = 632;
 
   return (
