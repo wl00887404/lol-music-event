@@ -182,6 +182,13 @@ export const freeRewardSettings = [
   );
 });
 
+export const lotteryRewardSettings = [
+  ...freeRewardSettings,
+  ...paidRewardSettings,
+].filter((rs) => {
+  return rs.unlimitedSupply;
+});
+
 const stockMap: Map<string, number> = new Map();
 
 const loadStock = async () => {

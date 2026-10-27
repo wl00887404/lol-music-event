@@ -31,11 +31,7 @@ function StockTable() {
 
         if (count !== 0) return renderNumber(count);
 
-        return (
-          <span style={{ color: token.colorError}}>
-            {count}
-          </span>
-        );
+        return <span style={{ color: token.colorError }}>{count}</span>;
       },
     },
   ];
@@ -46,7 +42,7 @@ function StockTable() {
         <Typography.Title level={2}>實體獎勵</Typography.Title>
         <Table<string>
           columns={columns}
-          rowKey="id"
+          rowKey={(key) => key}
           dataSource={merchRewardKeys}
           loading={isPending}
           pagination={false}
@@ -56,7 +52,7 @@ function StockTable() {
         <Typography.Title level={2}>虛擬獎勵</Typography.Title>
         <Table<string>
           columns={columns}
-          rowKey="id"
+          rowKey={(key) => key}
           dataSource={codeRewardKeys}
           loading={isPending}
           pagination={false}

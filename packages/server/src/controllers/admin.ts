@@ -21,7 +21,7 @@ import { reward as rewardTable } from "../models/schema.ts";
 import path from "path";
 import { leaderboardService } from "../services/leaderboard.ts";
 import { riotService } from "../services/riot.ts";
-import { rewardService } from "../services/reward.ts";
+import { lotteryRewardSettings, rewardService } from "../services/reward.ts";
 import { Team } from "../types.ts";
 
 export const staticPath = path.join(import.meta.dirname, "../../../admin/dist");
@@ -267,17 +267,17 @@ adminRouter.post(`${URL}/users/:id`, async (req, res) => {
 });
 
 // adminRouter.get(`${URL}/statistics/score-count`, async (req, res) => {
-//   const result = await db
+//   const results = await db
 //     .select({ score: userTable.score, count: count() })
 //     .from(userTable)
 //     .where(eq(userTable.isCompleted, true))
 //     .groupBy(userTable.score);
 
-//   return res.send(result);
+//   return res.send(results);
 // });
 
 // adminRouter.get(`${URL}/statistics/user-source`, async (req, res) => {
-//   const result = await db
+//   const results = await db
 //     .select({
 //       createdAt: userTable.createdAt,
 //       isCompleted: userTable.isCompleted,
@@ -285,7 +285,7 @@ adminRouter.post(`${URL}/users/:id`, async (req, res) => {
 //     })
 //     .from(userTable);
 
-//   return res.send(result);
+//   return res.send(results);
 // });
 
 adminRouter.post(`${URL}/rewards`, async (req, res) => {
@@ -334,13 +334,46 @@ adminRouter.post(`${URL}/rewards`, async (req, res) => {
 });
 
 adminRouter.get(`${URL}/rewards/remaining`, async (_req, res) => {
-  const result = await db
+  const results = await db
     .select({ key: rewardTable.key, count: count() })
     .from(rewardTable)
     .where(isNull(rewardTable.claimerId))
     .groupBy(rewardTable.key);
 
-  return res.send(result);
+  return res.send(results);
+});
+
+adminRouter.get(`${URL}/rewards/lottery`, async (req, res) => {
+  const { offset, limit } = parsePagination(req.query);
+  const condition = eq(rewardTable.key, "lottery-ticket");
+  console.log({ offset, limit });
+  // const condition = inArray(
+  //   rewardTable.key,
+  //   lotteryRewardSettings.map((rs) => rs.key),
+  // );
+
+  const [results, total] = await Promise.all([
+    db
+      .select({
+        key: rewardTable.key,
+        claimerRiotId: userTable.riotId,
+        claimerEmail: userTable.email,
+        claimerPhone: userTable.phone,
+        count: count(),
+      })
+      .from(rewardTable)
+      .innerJoin(userTable, eq(rewardTable.claimerId, userTable.id))
+      .where(condition)
+      .groupBy(userTable.id, rewardTable.key)
+      .offset(offset)
+      .limit(limit),
+    db.select({ count: count() }).from(rewardTable).where(condition).then(head),
+  ]);
+
+  return res.send({
+    data: results,
+    total: total.count,
+  });
 });
 
 adminRouter.get(`${URL}/db-size`, async (_req, res) => {

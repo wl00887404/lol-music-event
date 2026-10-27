@@ -345,3 +345,34 @@ export const updateLeaderboard = async () => {
 
   return unknownError;
 };
+
+export type LotteryReward = {
+  key: string;
+  claimerRiotId: string;
+  claimerEmail: string;
+  claimerPhone: string;
+  count: number;
+};
+
+export type GetLotteryRewardsData = {
+  data: LotteryReward[];
+  total: number;
+};
+export type GetLotteryRewardsPayload = {
+  offset: number;
+  limit?: number;
+};
+
+export const getLotteryRewards = async (payload: GetLotteryRewardsPayload) => {
+  const qs = new URLSearchParams();
+  qs.append("offset", `${payload.offset || 0}`);
+  if (payload.limit !== undefined) {
+    qs.append("limit", payload.limit.toString());
+  }
+  const response = await instance.get<GetLotteryRewardsData>(
+    `/api/admin/rewards/lottery?${qs}`,
+  );
+  const { data } = response;
+
+  return data;
+};
