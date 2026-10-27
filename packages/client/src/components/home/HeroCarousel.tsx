@@ -65,6 +65,13 @@ function HeroCarousel() {
           </CarouselItem>
           <CarouselItem>
             <RwdImg
+              src={"/banners/m-more-rewards.jpg?t=1027"}
+              mdSrc={"/banners/more-rewards.jpg?t=1027"}
+              className={imgClassName}
+            />
+          </CarouselItem>
+          <CarouselItem>
+            <RwdImg
               src={"/banners/m-kda-cta.jpg"}
               mdSrc={"/banners/kda-cta.jpg"}
               className={imgClassName}
