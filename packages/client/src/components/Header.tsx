@@ -174,7 +174,7 @@ function Header() {
     }
 
     return (
-      <BaseButton className={buttonClassName} onClick={signOut}>
+      <BaseButton className={buttonClassName} style={style} onClick={signOut}>
         <span className={textClassName}>登出</span>
       </BaseButton>
     );
