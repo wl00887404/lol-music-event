@@ -15,22 +15,24 @@ function StockTable() {
     placeholderData: keepPreviousData,
   });
 
-  const columns: TableProps<Stock>["columns"] = [
+  const columns: TableProps<string>["columns"] = [
     {
       key: "name",
       title: "獎勵名稱",
-      render: (stock: Stock) => {
-        return rewardMap[stock.key]?.name || "未知獎勵";
+      render: (key: string) => {
+        return rewardMap[key].name;
       },
     },
     {
-      dataIndex: "count",
+      key: "count",
       title: "剩餘數量",
-      render: (count: number) => {
+      render: (key: string) => {
+        const count = data?.find((d) => d.key == key)?.count || 0;
+
         if (count !== 0) return renderNumber(count);
 
         return (
-          <span style={{ color: token.colorError, fontWeight: 900 }}>
+          <span style={{ color: token.colorError}}>
             {count}
           </span>
         );
@@ -42,28 +44,20 @@ function StockTable() {
     <Flex vertical gap="large">
       <div>
         <Typography.Title level={2}>實體獎勵</Typography.Title>
-        <Table<Stock>
+        <Table<string>
           columns={columns}
           rowKey="id"
-          dataSource={
-            data?.filter((row) => {
-              return merchRewardKeys.includes(row.key);
-            }) || []
-          }
+          dataSource={merchRewardKeys}
           loading={isPending}
           pagination={false}
         />
       </div>
       <div>
         <Typography.Title level={2}>虛擬獎勵</Typography.Title>
-        <Table<Stock>
+        <Table<string>
           columns={columns}
           rowKey="id"
-          dataSource={
-            data?.filter((row) => {
-              return codeRewardKeys.includes(row.key);
-            }) || []
-          }
+          dataSource={codeRewardKeys}
           loading={isPending}
           pagination={false}
         />
