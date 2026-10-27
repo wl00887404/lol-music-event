@@ -1,6 +1,6 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Flex, Table, Typography, type TableProps, theme } from "antd";
-import { getRemainingRewards, type Stock } from "../apis";
+import { getStock } from "../apis";
 import { codeRewards, rewardMap, merchRewards } from "../data";
 import { renderNumber } from "./tableHelper";
 
@@ -11,7 +11,7 @@ function StockTable() {
   const { token } = theme.useToken();
   const { data, isPending } = useQuery({
     queryKey: ["getRemainingRewards"],
-    queryFn: getRemainingRewards,
+    queryFn: getStock,
     placeholderData: keepPreviousData,
   });
 
@@ -24,14 +24,23 @@ function StockTable() {
       },
     },
     {
-      key: "count",
+      key: "unclaimedCount",
       title: "剩餘數量",
       render: (key: string) => {
-        const count = data?.find((d) => d.key == key)?.count || 0;
+        const count = data?.find((d) => d.key == key)?.unclaimedCount || 0;
 
         if (count !== 0) return renderNumber(count);
 
         return <span style={{ color: token.colorError }}>{count}</span>;
+      },
+    },
+    {
+      key: "claimedCount",
+      title: "已兌換數量",
+      render: (key: string) => {
+        const count = data?.find((d) => d.key == key)?.claimedCount || 0;
+
+        return renderNumber(count);
       },
     },
   ];

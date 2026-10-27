@@ -265,15 +265,14 @@ export const getRewards = async (payload: GetRewardPayload) => {
 
 export type Stock = {
   key: string;
-  count: number;
+  claimedCount: number;
+  unclaimedCount: number;
 };
 
-export type GetRemainingRewardsData = Stock[];
+export type GetStockData = Stock[];
 
-export const getRemainingRewards = async () => {
-  const response = await instance.get<GetRemainingRewardsData>(
-    `/api/admin/rewards/remaining`,
-  );
+export const getStock = async () => {
+  const response = await instance.get<GetStockData>(`/api/admin/rewards/stock`);
   const { data } = response;
 
   return data;

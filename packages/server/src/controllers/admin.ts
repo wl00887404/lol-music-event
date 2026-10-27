@@ -298,7 +298,7 @@ adminRouter.post(`${URL}/rewards`, async (req, res) => {
   const conditions = [inArray(rewardTable.key, rewardKeys)];
 
   if (claimerRiotId) {
-    conditions.push(eq(rewardTable.claimerId, claimerRiotId));
+    conditions.push(ilike(userTable.riotId, `%${claimerRiotId}%`));
   }
 
   const whereClause = conditions.length !== 0 ? and(...conditions) : undefined;
@@ -333,11 +333,15 @@ adminRouter.post(`${URL}/rewards`, async (req, res) => {
   });
 });
 
-adminRouter.get(`${URL}/rewards/remaining`, async (_req, res) => {
+adminRouter.get(`${URL}/rewards/stock`, async (_req, res) => {
   const results = await db
-    .select({ key: rewardTable.key, count: count() })
+    .select({
+      key: rewardTable.key,
+      claimedCount: count(rewardTable.claimerId), // claimerId IS NOT NULL
+      unclaimedCount:
+        sql<number>`count(*) - count(${rewardTable.claimerId})`.mapWith(Number), // IS NULL
+    })
     .from(rewardTable)
-    .where(isNull(rewardTable.claimerId))
     .groupBy(rewardTable.key);
 
   return res.send(results);
