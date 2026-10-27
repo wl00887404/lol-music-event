@@ -428,7 +428,7 @@ adminRouter.use(
       message = "not admin";
     }
 
-    if (!req.session || req.session.userId !== process.env.ADMIN_USER_ID) {
+    if (!req.session || !adminUserIds.includes(req.session.userId)) {
       return res
         .status(404)
         .send(
