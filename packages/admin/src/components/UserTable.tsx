@@ -82,7 +82,7 @@ function ExportButton() {
 
   return (
     <Button type="primary" loading={isExporting} onClick={onClick}>
-      導出 Excel
+      匯出 Excel
     </Button>
   );
 }

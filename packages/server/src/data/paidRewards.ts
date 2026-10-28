@@ -231,7 +231,7 @@ const paidRewards = [
     key: "true-damage-vinyl",
     name: "True Damage 黑膠唱片",
     description:
-      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n共限量 1 組，兌完為止\n活動再加碼限量 3 組，兌完為止",
+      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n限量 1 組，兌完為止\n活動再加碼限量 3 組，兌完為止",
     price: 800,
     limit: 1,
     isMerch: true,

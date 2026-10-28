@@ -111,3 +111,9 @@ export const log = pgTable("log", {
   message: text("message").notNull(),
   date: timestamp().notNull().defaultNow(),
 });
+
+export const freeDrawReport = pgTable("free_draw_report", {
+  date: timestamp("date").notNull(),
+  drawCount: integer("draw_count").notNull(),
+  rewards: jsonb("rewards").notNull(),
+});

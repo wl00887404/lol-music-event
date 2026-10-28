@@ -357,6 +357,7 @@ export type GetLotteryRewardsData = {
   data: LotteryReward[];
   total: number;
 };
+
 export type GetLotteryRewardsPayload = {
   offset: number;
   limit?: number;

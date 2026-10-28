@@ -43,6 +43,17 @@ function StockTable() {
         return renderNumber(count);
       },
     },
+    {
+      key: "totalCount",
+      title: "合計",
+      render: (key: string) => {
+        const d = data?.find((d) => d.key == key);
+        const unclaimedCount = d?.unclaimedCount || 0;
+        const claimedCount = d?.claimedCount || 0;
+
+        return renderNumber(unclaimedCount + claimedCount);
+      },
+    },
   ];
 
   return (

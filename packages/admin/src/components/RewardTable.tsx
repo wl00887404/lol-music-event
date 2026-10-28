@@ -59,9 +59,15 @@ const exportedColumns: ExportedColumn[] = [
   { dataIndex: "claimedAt", title: "兌換時間", render: renderDate },
 ];
 
-function ExportButton(props: { type: "merch" | "code"; rewardKeys: string[] }) {
-  const { rewardKeys, type } = props;
+function ExportButton(props: { type: "merch" | "code" }) {
+  const { type } = props;
   const [isExporting, setIsExporting] = useState(false);
+
+  const rewardKeys = useMemo(() => {
+    const rewards = type == "code" ? codeRewards : merchRewards;
+
+    return rewards.map((r) => r.key);
+  }, [type]);
 
   const prefix = type === "code" ? "虛擬寶物" : "實體獎品";
   const fileName = prefix + format(new Date(), "yyyy/MM/dd HH:mm");
@@ -97,7 +103,7 @@ function ExportButton(props: { type: "merch" | "code"; rewardKeys: string[] }) {
 
   return (
     <Button type="primary" loading={isExporting} onClick={onClick}>
-      導出 Excel
+      匯出 Excel
     </Button>
   );
 }
@@ -236,7 +242,7 @@ function RewardTable(props: Props) {
         title={() => {
           return (
             <Flex justify="end" align="center" gap="medium">
-              <ExportButton rewardKeys={rewardKeys} type={type} />
+              <ExportButton type={type} />
             </Flex>
           );
         }}

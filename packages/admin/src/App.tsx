@@ -22,7 +22,10 @@ const items = [
 ];
 
 function App() {
-  const [menuKey, setMenuKey] = useState(items[0].key);
+  const storageKey = "last-tab" as const;
+  const [menuKey, setMenuKey] = useState(
+    window.localStorage.getItem(storageKey) || items[0].key,
+  );
 
   useEffect(() => {
     const myWindows = {
@@ -54,6 +57,7 @@ function App() {
           selectedKeys={[menuKey]}
           onClick={({ key }) => {
             setMenuKey(key);
+            window.localStorage.setItem(storageKey, key);
           }}
           items={items}
           style={{ flex: 1, minWidth: 0 }}
