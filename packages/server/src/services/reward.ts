@@ -521,33 +521,40 @@ export const rewardService = {
   claimFreeReward,
   resetFreeDrawChance: async (nextCount = 1) => {
     const { start, end } = getTodayRange();
+
     const userResult = await db
       .select({ count: count() })
       .from(userTable)
       .where(eq(userTable.freeDrawChances, 0))
       .then(head);
 
-    const yesterdayStart = subDays(start, 1);
-    const yesterdayEnd = subDays(end, 1);
-    const rewardResults = db
-      .select({ key: rewardTable.key, count: count() })
-      .from(rewardTable)
-      .where(
-        and(
-          gte(rewardTable.claimedAt, yesterdayStart),
-          lt(rewardTable.claimedAt, yesterdayEnd),
-          inArray(
-            rewardTable.key,
-            freeRewardSettings.map((fr) => fr.key),
-          ),
-        ),
-      );
+    const prev = userResult?.count || 0;
+    const message = `昨日抽獎人數：${prev}`;
+    await logService.insert(message);
 
-    await db.insert(freeDrawReport).values({
-      date: yesterdayStart,
-      drawCount: userResult?.count || 0,
-      rewards: rewardResults,
-    });
+    try {
+      const yesterdayStart = subDays(start, 1);
+      const yesterdayEnd = subDays(end, 1);
+      const rewardResults = db
+        .select({ key: rewardTable.key, count: count() })
+        .from(rewardTable)
+        .where(
+          and(
+            gte(rewardTable.claimedAt, yesterdayStart),
+            lt(rewardTable.claimedAt, yesterdayEnd),
+            inArray(
+              rewardTable.key,
+              freeRewardSettings.map((fr) => fr.key),
+            ),
+          ),
+        );
+
+      await db.insert(freeDrawReport).values({
+        date: yesterdayStart,
+        drawCount: userResult?.count || 0,
+        rewards: rewardResults,
+      });
+    } catch (e) {}
 
     await db.update(userTable).set({ freeDrawChances: nextCount });
   },
