@@ -53,7 +53,7 @@ const exportedColumns: ExportedColumn[] = [
       return rewardMap[key]?.name || "未知獎勵";
     },
   },
-  { dataIndex: "claimerRiotId", title: "兌換人" },
+  { dataIndex: "claimerRiotId", title: "兌換玩家" },
   { dataIndex: "claimerEmail", title: "Email" },
   { dataIndex: "claimerPhone", title: "聯絡電話" },
   { dataIndex: "claimedAt", title: "兌換時間", render: renderDate },
@@ -155,7 +155,7 @@ function RewardTable(props: Props) {
         return rewardMap[key]?.name || "未知獎勵";
       },
     },
-    { dataIndex: "claimerRiotId", title: "兌換人" },
+    { dataIndex: "claimerRiotId", title: "兌換玩家" },
     {
       key: "contactInfo",
       title: "聯絡資訊",
@@ -190,7 +190,7 @@ function RewardTable(props: Props) {
       <Card>
         <Form
           layout="inline"
-          initialValues={searchState}
+          initialValues={DEFAULT_SEARCH_STATE}
           onFinish={(values) => {
             setCurrent(1);
             setSearchState(values);
@@ -201,8 +201,8 @@ function RewardTable(props: Props) {
           <Form.Item name="source" label="來源">
             <Select style={{ width: "18em" }} options={options} />
           </Form.Item>
-          <Form.Item name="claimerRiotId" label="領取玩家">
-            <Input placeholder="" allowClear />
+          <Form.Item name="claimerRiotId" label="兌換玩家">
+            <Input placeholder="GameName#TagLine" allowClear />
           </Form.Item>
           <Space>
             <Button type="primary" htmlType="submit">

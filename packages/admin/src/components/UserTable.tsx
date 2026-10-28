@@ -197,7 +197,7 @@ function UserTable() {
       <Card>
         <Form
           layout="inline"
-          initialValues={searchState}
+          initialValues={DEFAULT_SEARCH_STATE}
           onFinish={(values) => {
             setSearchState(values);
             setCurrent(1);

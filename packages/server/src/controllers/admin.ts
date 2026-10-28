@@ -14,10 +14,11 @@ import {
   sql,
   inArray,
   isNotNull,
+  countDistinct,
 } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
 import { head } from "../libs/lodash.ts";
-import { reward as rewardTable } from "../models/schema.ts";
+import { log as logTable, reward as rewardTable } from "../models/schema.ts";
 import path from "path";
 import { leaderboardService } from "../services/leaderboard.ts";
 import { riotService } from "../services/riot.ts";
@@ -350,7 +351,6 @@ adminRouter.get(`${URL}/rewards/stock`, async (_req, res) => {
 adminRouter.get(`${URL}/rewards/lottery`, async (req, res) => {
   const { offset, limit } = parsePagination(req.query);
   const condition = eq(rewardTable.key, "lottery-ticket");
-  console.log({ offset, limit });
   // const condition = inArray(
   //   rewardTable.key,
   //   lotteryRewardSettings.map((rs) => rs.key),
@@ -371,7 +371,11 @@ adminRouter.get(`${URL}/rewards/lottery`, async (req, res) => {
       .groupBy(userTable.id, rewardTable.key)
       .offset(offset)
       .limit(limit),
-    db.select({ count: count() }).from(rewardTable).where(condition).then(head),
+    db
+      .select({ count: countDistinct(rewardTable.claimerId) })
+      .from(rewardTable)
+      .where(condition)
+      .then(head),
   ]);
 
   return res.send({
@@ -413,6 +417,22 @@ adminRouter.post(`${URL}/truncate-match-detail`, async (_req, res) => {
   await riotService.truncateMatchDetail();
 
   return res.send({ success: true });
+});
+
+adminRouter.get(`${URL}/log`, async (req, res) => {
+  const { offset, limit } = parsePagination(req.query);
+  const keyword = req.query.keyWord || "";
+  const condition = ilike(logTable.message, `%${keyword}%`);
+
+  const [results, total] = await Promise.all([
+    db.select().from(logTable).where(condition).offset(offset).limit(limit),
+    db.select({ count: count() }).from(logTable).where(condition).then(head),
+  ]);
+
+  return res.send({
+    data: results,
+    total: total.count,
+  });
 });
 
 adminRouter.post(`${URL}/reload-stock-map`, async (_req, res) => {

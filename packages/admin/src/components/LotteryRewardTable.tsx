@@ -28,7 +28,7 @@ function LotteryRewardTable() {
         return rewardMap[key]?.name;
       },
     },
-    { dataIndex: "claimerRiotId", title: "兌換人" },
+    { dataIndex: "claimerRiotId", title: "兌換玩家" },
     {
       key: "contactInfo",
       title: "聯絡資訊",

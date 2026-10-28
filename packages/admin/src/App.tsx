@@ -7,7 +7,7 @@ import { RollbackOutlined } from "@ant-design/icons";
 import RewardTable from "./components/RewardTable";
 import DatabaseTable from "./components/DatabaseTable";
 import StockTable from "./components/StockTable";
-import LotteryRewardTable from "./components/LotteryRewardTable2";
+import LotteryRewardTable from "./components/LotteryRewardTable";
 
 const { Header, Content } = Layout;
 
