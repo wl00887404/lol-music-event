@@ -10,7 +10,7 @@ const merchRewardKeys = merchRewards.map((r) => r.key);
 function StockTable() {
   const { token } = theme.useToken();
   const { data, isPending } = useQuery({
-    queryKey: ["getRemainingRewards"],
+    queryKey: ["getStock"],
     queryFn: getStock,
     placeholderData: keepPreviousData,
   });
@@ -19,6 +19,7 @@ function StockTable() {
     {
       key: "name",
       title: "獎勵名稱",
+
       render: (key: string) => {
         return rewardMap[key].name;
       },
@@ -26,6 +27,7 @@ function StockTable() {
     {
       key: "unclaimedCount",
       title: "剩餘數量",
+      width: 160,
       render: (key: string) => {
         const count = data?.find((d) => d.key == key)?.unclaimedCount || 0;
 
@@ -37,6 +39,7 @@ function StockTable() {
     {
       key: "claimedCount",
       title: "已兌換數量",
+      width: 160,
       render: (key: string) => {
         const count = data?.find((d) => d.key == key)?.claimedCount || 0;
 
@@ -46,6 +49,7 @@ function StockTable() {
     {
       key: "totalCount",
       title: "合計",
+      width: 160,
       render: (key: string) => {
         const d = data?.find((d) => d.key == key);
         const unclaimedCount = d?.unclaimedCount || 0;

@@ -13,7 +13,7 @@ import {
 } from "antd";
 import { useEffect, useMemo, useState } from "react";
 import { getRewards, type Reward } from "../apis";
-import { renderDate, showTotal } from "./tableHelper";
+import { renderDateTime, showTotal } from "./tableHelper";
 import { useForm } from "antd/es/form/Form";
 import {
   paidRewards,
@@ -56,7 +56,7 @@ const exportedColumns: ExportedColumn[] = [
   { dataIndex: "claimerRiotId", title: "兌換玩家" },
   { dataIndex: "claimerEmail", title: "Email" },
   { dataIndex: "claimerPhone", title: "聯絡電話" },
-  { dataIndex: "claimedAt", title: "兌換時間", render: renderDate },
+  { dataIndex: "claimedAt", title: "兌換時間", render: renderDateTime },
 ];
 
 function ExportButton(props: { type: "merch" | "code" }) {
@@ -182,7 +182,7 @@ function RewardTable(props: Props) {
         );
       },
     },
-    { dataIndex: "claimedAt", title: "兌換時間", render: renderDate },
+    { dataIndex: "claimedAt", title: "兌換時間", render: renderDateTime },
   ];
 
   const options = [

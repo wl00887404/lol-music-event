@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import { getUpdatingCount, getUsers, type User } from "../apis";
 import {
   renderBoolean,
-  renderDate,
+  renderDateTime,
   renderNullable,
   showTotal,
 } from "./tableHelper";
@@ -33,7 +33,7 @@ type ExportedColumn = {
 };
 
 const exportedColumns: ExportedColumn[] = [
-  { dataIndex: "createdAt", title: "註冊時間", render: renderDate },
+  { dataIndex: "createdAt", title: "註冊時間", render: renderDateTime },
   {
     dataIndex: "isCompleted",
     title: "完成註冊",
@@ -148,7 +148,7 @@ function UserTable() {
   };
 
   const columns: TableProps<User>["columns"] = [
-    { dataIndex: "createdAt", title: "註冊時間", render: renderDate },
+    { dataIndex: "createdAt", title: "註冊時間", render: renderDateTime },
     { dataIndex: "isCompleted", title: "完成註冊", render: renderBoolean },
     { dataIndex: "riotId", title: "riot id" },
     { dataIndex: "score", title: "榮譽積分" },

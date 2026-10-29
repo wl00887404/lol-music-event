@@ -221,7 +221,7 @@ const paidRewards = [
     key: "kda-poster",
     name: "K/DA 海報掛軸",
     description:
-      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n共限量 5 組，兌完為止",
+      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n限量 5 組，活動再加碼 10 組，兌完為止",
     price: 350,
     limit: 1,
     isMerch: true,
@@ -241,7 +241,7 @@ const paidRewards = [
     key: "heart-steel-usb",
     name: "心鋼之聲 滑板造型 USB",
     description:
-      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n共限量 1 組，兌完為止\n活動再加碼限量 2 組，兌完為止",
+      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n限量 1 組，兌完為止\n活動再加碼限量 2 組，兌完為止",
     price: 1000,
     limit: 1,
     isMerch: true,
@@ -251,7 +251,7 @@ const paidRewards = [
     key: "kda-vinyl",
     name: "K/DA 黑膠唱片",
     description:
-      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n共限量 1 組，兌完為止\n活動再加碼限量 3 組，兌完為止",
+      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n限量 1 組，兌完為止\n活動再加碼限量 3 組，兌完為止",
     price: 1000,
     limit: 1,
     isMerch: true,
@@ -261,7 +261,7 @@ const paidRewards = [
     key: "kda-cdc-blades",
     name: "K/DA FIRESTARTER CD 典藏套組\n（BLADES 版）",
     description:
-      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n共限量 1 組，兌完為止\n活動再加碼限量 6 組，兌完為止",
+      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n限量 1 組，兌完為止\n活動再加碼限量 6 組，兌完為止",
     price: 1600,
     limit: 1,
     isMerch: true,
@@ -271,7 +271,7 @@ const paidRewards = [
     key: "kda-cd-blades",
     name: "K/DA FIRESTARTER CD\n（BLADES 版）",
     description:
-      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n共限量 1 組，兌完為止\n活動再加碼限量 9 組，兌完為止",
+      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n限量 1 組，兌完為止\n活動再加碼限量 19 組，兌完為止",
     price: 450,
     limit: 1,
     isMerch: true,
@@ -281,7 +281,7 @@ const paidRewards = [
     key: "kda-cd-ahri",
     name: "K/DA FIRESTARTER CD\n（阿璃版）",
     description:
-      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n共限量 1 組，兌完為止\n活動再加碼限量 5 組，兌完為止",
+      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n限量 1 組，兌完為止\n活動再加碼限量 5 組，兌完為止",
     price: 450,
     limit: 1,
     isMerch: true,
@@ -291,7 +291,7 @@ const paidRewards = [
     key: "kda-cd-akali",
     name: "K/DA FIRESTARTER CD\n（阿卡莉版）",
     description:
-      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n共限量 1 組，兌完為止\n活動再加碼限量 5 組，兌完為止",
+      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n限量 1 組，兌完為止\n活動再加碼限量 15 組，兌完為止",
     price: 450,
     limit: 1,
     isMerch: true,
@@ -301,7 +301,7 @@ const paidRewards = [
     key: "kda-cd-evelynn",
     name: "K/DA FIRESTARTER CD\n（伊芙琳版）",
     description:
-      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n共限量 1 組，兌完為止\n活動再加碼限量 5 組，兌完為止",
+      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n限量 1 組，兌完為止\n活動再加碼限量 15 組，兌完為止",
     price: 450,
     limit: 1,
     isMerch: true,
@@ -311,7 +311,7 @@ const paidRewards = [
     key: "kda-cd-kaisa",
     name: "K/DA FIRESTARTER CD\n（凱莎版）",
     description:
-      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n共限量 1 組，兌完為止\n活動再加碼限量 5 組，兌完為止",
+      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n限量 1 組，兌完為止\n活動再加碼限量 15 組，兌完為止",
     price: 450,
     limit: 1,
     isMerch: true,
@@ -321,7 +321,7 @@ const paidRewards = [
     key: "worlds-2026-collector-box",
     name: "2026 世界大賽 典藏版禮盒",
     description:
-      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n共限量 1 組，兌完為止",
+      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n限量 1 組，活動再加碼 1 組，兌完為止",
     price: 2500,
     limit: 1,
     isMerch: true,
@@ -391,7 +391,7 @@ const paidRewards = [
     key: "classic-mode-bundle",
     name: "經典模式綜合禮包",
     description:
-      "內含：提摩小夜燈、阿璃證件帶、\n圖鑑貼紙、旅行小包、燈箱磁鐵、文件夾\n僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n共限量 20 組，兌完為止\n活動再加碼限量 40 組，兌完為止",
+      "內含：提摩小夜燈、阿璃證件帶、\n圖鑑貼紙、旅行小包、燈箱磁鐵、文件夾\n僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n限量 20 組，活動再加碼限量 40 組，兌完為止",
     price: 300,
     limit: 1,
     isMerch: true,

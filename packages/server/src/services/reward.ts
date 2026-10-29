@@ -547,7 +547,8 @@ export const rewardService = {
               freeRewardSettings.map((fr) => fr.key),
             ),
           ),
-        );
+        )
+        .groupBy(rewardTable.key);
 
       await db.insert(freeDrawReport).values({
         date: yesterdayStart,

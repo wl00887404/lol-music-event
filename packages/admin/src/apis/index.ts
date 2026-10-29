@@ -376,3 +376,22 @@ export const getLotteryRewards = async (payload: GetLotteryRewardsPayload) => {
 
   return data;
 };
+
+export type FreeDrawReportReward = { key: string; count: number };
+export type FreeDrawReport = {
+  date: string;
+  drawCount: number;
+  rewards: FreeDrawReportReward[];
+};
+
+export type GetFreeDrawReportData = FreeDrawReport[];
+
+export const getFreeDrawReport = async (now?: boolean) => {
+  const postfix = now ? "/now" : "";
+  const response = await instance.get<GetFreeDrawReportData>(
+    `/api/admin/free-draw-report${postfix}`,
+  );
+  const { data } = response;
+
+  return data;
+};

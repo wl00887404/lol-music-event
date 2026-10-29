@@ -2,8 +2,12 @@ import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { type DateString } from "../apis";
 import { format } from "date-fns";
 
-export const renderDate = (dateString: DateString) => {
+export const renderDateTime = (dateString: DateString) => {
   return format(new Date(dateString), "yyyy/MM/dd HH:mm:ss");
+};
+
+export const renderDate = (dateString: DateString) => {
+  return format(new Date(dateString), "yyyy/MM/dd");
 };
 
 export const renderBoolean = (value: boolean) => {

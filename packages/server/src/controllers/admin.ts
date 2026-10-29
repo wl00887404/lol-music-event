@@ -15,14 +15,25 @@ import {
   inArray,
   isNotNull,
   countDistinct,
+  gte,
+  lt,
 } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
 import { head } from "../libs/lodash.ts";
-import { log as logTable, reward as rewardTable } from "../models/schema.ts";
+import {
+  freeDrawReport,
+  log as logTable,
+  reward as rewardTable,
+} from "../models/schema.ts";
 import path from "path";
 import { leaderboardService } from "../services/leaderboard.ts";
 import { riotService } from "../services/riot.ts";
-import { lotteryRewardSettings, rewardService } from "../services/reward.ts";
+import {
+  freeRewardSettings,
+  getTodayRange,
+  lotteryRewardSettings,
+  rewardService,
+} from "../services/reward.ts";
 import { Team } from "../types.ts";
 
 export const staticPath = path.join(import.meta.dirname, "../../../admin/dist");
@@ -439,6 +450,48 @@ adminRouter.post(`${URL}/reload-stock-map`, async (_req, res) => {
   await rewardService.loadStock();
 
   return res.send({ success: true });
+});
+
+adminRouter.get(`${URL}/free-draw-report`, async (req, res) => {
+  const results = await db
+    .select()
+    .from(freeDrawReport)
+    .orderBy(desc(freeDrawReport.date));
+
+  return res.send(results);
+});
+
+adminRouter.get(`${URL}/free-draw-report/now`, async (req, res) => {
+  const { start, end } = getTodayRange();
+
+  const userResult = await db
+    .select({ count: count() })
+    .from(userTable)
+    .where(eq(userTable.freeDrawChances, 0))
+    .then(head);
+
+  const rewardResults = await db
+    .select({ key: rewardTable.key, count: count() })
+    .from(rewardTable)
+    .where(
+      and(
+        gte(rewardTable.claimedAt, start),
+        lt(rewardTable.claimedAt, end),
+        inArray(
+          rewardTable.key,
+          freeRewardSettings.map((fr) => fr.key),
+        ),
+      ),
+    )
+    .groupBy(rewardTable.key);
+
+  return res.send([
+    {
+      date: start,
+      drawCount: userResult?.count || 0,
+      rewards: rewardResults || [],
+    },
+  ]);
 });
 
 adminRouter.use(
