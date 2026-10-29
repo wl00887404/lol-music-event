@@ -1,6 +1,6 @@
 import { db } from "../db.ts";
 import { user as userTable } from "../models/auth-schema.ts";
-import { and, asc, eq, gt, type InferSelectModel } from "drizzle-orm";
+import { and, asc, count, eq, gt, type InferSelectModel } from "drizzle-orm";
 import {
   match as matchTable,
   playerMatchHistory as playerMatchHistoryTable,
@@ -22,6 +22,7 @@ export default formatNumber;
 
 export const INVITER_SCORE = 5;
 export const INVITEE_SCORE = 3;
+export const INVITE_LIMIT = 1200;
 
 type SoloMission = {
   evaluate: (
@@ -585,17 +586,34 @@ export const soloMissionService = {
       return console.error("查無邀請者", inviterId);
     }
 
-    const score = inviter.score || 0;
-    const nextScore = score + INVITER_SCORE;
+    const hasInvitedResult = await db
+      .select({ count: count() })
+      .from(userTable)
+      .where(
+        and(
+          eq(userTable.inviterId, inviterId),
+          eq(userTable.isInviteCompleted, true),
+        ),
+      )
+      .then(head);
 
-    await logService.insert(
-      `${inviter.riotId} 獲得 ${INVITER_SCORE} 分，從 ${score} 加分到 ${nextScore}，藉由 ${inviteeRiotId} 完成首次任務`,
-    );
+    if (hasInvitedResult?.count >= INVITE_LIMIT) {
+      await logService.insert(
+        `${inviter.riotId} 獲得 0 分，邀請成功人數超過上限 ${INVITE_LIMIT}`,
+      );
+    } else {
+      const score = inviter.score || 0;
+      const nextScore = score + INVITER_SCORE;
 
-    await db
-      .update(userTable)
-      .set({ score: nextScore })
-      .where(eq(userTable.id, inviterId));
+      await logService.insert(
+        `${inviter.riotId} 獲得 ${INVITER_SCORE} 分，從 ${score} 加分到 ${nextScore}，藉由 ${inviteeRiotId} 完成首次任務`,
+      );
+
+      await db
+        .update(userTable)
+        .set({ score: nextScore })
+        .where(eq(userTable.id, inviterId));
+    }
   },
   skip: async (me: InferSelectModel<typeof userTable>) => {
     const state = await db
