@@ -69,9 +69,12 @@ export const mkPaidRs = (
   weekendChance: 0,
 });
 
-export const mkFreeRs = (o: Omit<RewardSetting, "price">): RewardSetting => ({
+export const mkFreeRs = (
+  o: Omit<RewardSetting, "price" | "unlimitedSupply">,
+): RewardSetting => ({
   ...o,
   price: 0,
+  unlimitedSupply: false, // 免費獎勵一律從預建庫存領取
 });
 
 export const paidRewardSettings: RewardSetting[] = paidRewards.map((pr) =>
@@ -151,7 +154,6 @@ export const freeRewardSettings = [
     weekendChance: s.weekendChance,
     limit: s.limit,
     isMerch: origin.isMerch,
-    unlimitedSupply: origin.unlimitedSupply,
   });
 });
 

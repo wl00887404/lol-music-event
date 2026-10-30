@@ -93,7 +93,6 @@ const freeSetting = (o: { dailyLimit?: number; limit?: number } = {}) => {
     weekendChance: 0,
     limit: o.limit ?? Infinity,
     isMerch: false,
-    unlimitedSupply: false,
   });
 };
 
