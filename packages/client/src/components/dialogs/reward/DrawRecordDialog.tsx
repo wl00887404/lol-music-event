@@ -7,6 +7,7 @@ import { Fragment } from "react/jsx-runtime";
 import BaseButton from "@/components/BaseButton";
 import { useEffect } from "react";
 import { imgUri } from "@/libs/uris";
+import { getClaimedMerchButtonText } from "./helper";
 
 type Props = BaseDialogProps & {
   openClaimDialog: (nextReward: Reward) => void;
@@ -37,8 +38,8 @@ function Item(props: {
           style={style}
           onClick={() => openClaimDialog(reward)}
         >
-          <div className="text-[#030718] font-[700] text-[0.5625em]">
-            {reward.isMerch ? "專人處理中" : "前往兌換"}
+          <div className="text-[#030718] font-[500] text-[0.5625em]">
+            {reward.isMerch ? getClaimedMerchButtonText(reward) : "前往兌換"}
           </div>
         </BaseButton>
       </div>

@@ -278,6 +278,20 @@ adminRouter.post(`${URL}/users/:id`, async (req, res) => {
   return res.send({ success: true });
 });
 
+adminRouter.post(`${URL}/rewards/:id/button-text`, async (req, res) => {
+  const id = req.params.id;
+  const body = req.body as unknown as {
+    buttonText?: string;
+  };
+
+  await db
+    .update(rewardTable)
+    .set({ buttonText: body.buttonText || null })
+    .where(eq(rewardTable.id, id));
+
+  return res.send({ success: true });
+});
+
 // adminRouter.get(`${URL}/statistics/score-count`, async (req, res) => {
 //   const results = await db
 //     .select({ score: userTable.score, count: count() })
@@ -324,6 +338,7 @@ adminRouter.post(`${URL}/rewards`, async (req, res) => {
         claimedAt: rewardTable.claimedAt,
         claimerEmail: userTable.email,
         claimerPhone: userTable.phone,
+        buttonText: rewardTable.buttonText,
       })
       .from(rewardTable)
       .innerJoin(userTable, eq(rewardTable.claimerId, userTable.id))

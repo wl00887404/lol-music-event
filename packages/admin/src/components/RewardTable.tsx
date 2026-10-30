@@ -26,6 +26,7 @@ import { MailTwoTone, PhoneTwoTone } from "@ant-design/icons";
 import exportToExcel from "../libs/exportToExcel";
 import { format } from "date-fns";
 import { fetchAllData } from "../apis/fetchAllData";
+import UpdateRewardModal from "./UpdateRewardModal";
 
 const DEFAULT_SEARCH_STATE = {
   claimerRiotId: "",
@@ -129,7 +130,7 @@ function RewardTable(props: Props) {
       .map((r) => r.key);
   }, [type, source]);
 
-  const { data, isPending } = useQuery({
+  const { data, isPending, refetch } = useQuery({
     queryKey: [
       "getRewards",
       current,
@@ -184,6 +185,21 @@ function RewardTable(props: Props) {
     },
     { dataIndex: "claimedAt", title: "兌換時間", render: renderDateTime },
   ];
+
+  if (type === "merch") {
+    columns.push({
+      key: "action",
+      title: "按鈕文字",
+      render: (reward: Reward) => {
+        return (
+          <Flex gap="middle" align="center">
+            {reward.buttonText}
+            <UpdateRewardModal reward={reward} refetch={refetch} />
+          </Flex>
+        );
+      },
+    });
+  }
 
   const options = [
     { label: "全部", value: "all" },

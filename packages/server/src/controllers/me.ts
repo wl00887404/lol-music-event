@@ -348,6 +348,7 @@ meRouter.get(`${URL}/free-rewards`, async (req, res) => {
       isMerch: setting.isMerch,
       available: false,
       claimedAt: r.claimedAt,
+      buttonText: r.buttonText,
     };
   });
 
@@ -368,12 +369,13 @@ meRouter.get(`${URL}/paid-rewards`, async (req, res) => {
       return range(displayCount).map((index) => {
         const getClaimedState = () => {
           if (setting.limit === Infinity) {
-            return { code: null, claimedAt: null };
+            return { code: null, claimedAt: null, buttonText: null };
           }
 
           return {
             code: claimed[index]?.code || null,
             claimedAt: claimed[index]?.claimedAt || null,
+            buttonText: claimed[index]?.buttonText || null,
           };
         };
 

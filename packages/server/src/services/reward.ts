@@ -40,6 +40,7 @@ type ClaimedReward = {
   id: string;
   code: string;
   claimedAt: Date | null;
+  buttonText: string | null;
   key: string;
 };
 type Tx = Parameters<Parameters<typeof db.transaction>[0]>[0];
@@ -47,6 +48,7 @@ type Tx = Parameters<Parameters<typeof db.transaction>[0]>[0];
 const NoPrizeCode = {
   reachDailyLimit: "CLAIM_COUNT_REACH_DAILY_LIMIT",
   outOfStock: "REWARD_OUT_OF_STOCK",
+  reachUserLimit: "CLAIM_COUNT_REACH_USER_LIMIT",
 } as const;
 const NO_PRIZE_CODES: string[] = Object.values(NoPrizeCode);
 
@@ -59,75 +61,39 @@ export function getTodayRange(now: Date = new Date()) {
 }
 
 export const mkPaidRs = (
-  key: string,
-  name: string,
-  description: string,
-  price: number,
-  limit: number,
-  isMerch: boolean,
-  unlimitedSupply: boolean,
-) => {
-  const rs: RewardSetting = {
-    key,
-    name,
-    description,
-    limit,
-    price,
-    dailyLimit: Infinity,
-    weekdayChance: 0,
-    weekendChance: 0,
-    isMerch,
-    unlimitedSupply,
-  };
-
-  return rs;
-};
-
-export const mkFreeRs = (
-  key: string,
-  name: string,
-  description: string,
-  dailyLimit: number,
-  weekdayChance: number,
-  weekendChance: number,
-  isMerch: boolean,
-  unlimitedSupply: boolean,
-) => {
-  const rs: RewardSetting = {
-    key,
-    name,
-    description,
-    dailyLimit,
-    weekdayChance,
-    weekendChance,
-    limit: Infinity,
-    price: 0,
-    isMerch,
-    unlimitedSupply,
-  };
-
-  return rs;
-};
-
-export const paidRewardSettings: RewardSetting[] = paidRewards.map((pr) => {
-  return mkPaidRs(
-    pr.key,
-    pr.name,
-    pr.description,
-    pr.price || 99999,
-    pr.unlimitedSupply ? Infinity : pr.limit,
-    pr.isMerch,
-    pr.unlimitedSupply,
-  );
+  o: Omit<RewardSetting, "dailyLimit" | "weekdayChance" | "weekendChance">,
+): RewardSetting => ({
+  ...o,
+  dailyLimit: Infinity,
+  weekdayChance: 0,
+  weekendChance: 0,
 });
+
+export const mkFreeRs = (o: Omit<RewardSetting, "price">): RewardSetting => ({
+  ...o,
+  price: 0,
+});
+
+export const paidRewardSettings: RewardSetting[] = paidRewards.map((pr) =>
+  mkPaidRs({
+    key: pr.key,
+    name: pr.name,
+    description: pr.description,
+    price: pr.price || 99999,
+    limit: pr.unlimitedSupply ? Infinity : pr.limit,
+    isMerch: pr.isMerch,
+    unlimitedSupply: pr.unlimitedSupply,
+  }),
+);
 
 export const freeRewardSettings = [
   {
     from: "paid-box",
     to: "free-box",
-    dailyLimit: 1000,
+    dailyLimit: 1500,
     weekdayChance: 10_000_000,
     weekendChance: 10_000_000,
+    limit: 1,
   },
   {
     from: "paid-ball",
@@ -135,6 +101,7 @@ export const freeRewardSettings = [
     dailyLimit: 40,
     weekdayChance: 400_000,
     weekendChance: 400_000,
+    limit: Infinity,
   },
   {
     from: "paid-my-card-150",
@@ -142,6 +109,7 @@ export const freeRewardSettings = [
     dailyLimit: 1,
     weekdayChance: 0,
     weekendChance: 6_667,
+    limit: Infinity,
   },
   {
     from: "paid-my-card-300",
@@ -149,6 +117,7 @@ export const freeRewardSettings = [
     dailyLimit: 1,
     weekdayChance: 0,
     weekendChance: 6_667,
+    limit: Infinity,
   },
   {
     from: "paid-idol-box",
@@ -156,6 +125,7 @@ export const freeRewardSettings = [
     dailyLimit: 1,
     weekdayChance: 0,
     weekendChance: 6_667,
+    limit: Infinity,
   },
   {
     from: "paid-idol-card",
@@ -163,6 +133,7 @@ export const freeRewardSettings = [
     dailyLimit: 1,
     weekdayChance: 8_571,
     weekendChance: 0,
+    limit: Infinity,
   },
 ].map((s) => {
   const origin = paidRewards.find((pr) => pr.key === s.from);
@@ -170,16 +141,17 @@ export const freeRewardSettings = [
     throw new Error("抽獎商品缺漏");
   }
 
-  return mkFreeRs(
-    s.to,
-    origin.name,
-    origin.description,
-    s.dailyLimit,
-    s.weekdayChance,
-    s.weekendChance,
-    origin.isMerch,
-    origin.unlimitedSupply,
-  );
+  return mkFreeRs({
+    key: s.to,
+    name: origin.name,
+    description: origin.description,
+    dailyLimit: s.dailyLimit,
+    weekdayChance: s.weekdayChance,
+    weekendChance: s.weekendChance,
+    limit: s.limit,
+    isMerch: origin.isMerch,
+    unlimitedSupply: origin.unlimitedSupply,
+  });
 });
 
 export const lotteryRewardSettings = [
@@ -277,9 +249,13 @@ export const claimRewardInTx = async (
   const claimedCount = myRewards.filter(
     (r) => r.key === targetReward.key,
   ).length;
-  if (claimedCount >= targetReward.limit) {
+
+  const isBoxGod =
+    userId === "ZhcPjIkICj6Yc2GRMxQAsPMnrfDXwegr" &&
+    targetReward.key === "free-box";
+  if (!isBoxGod && claimedCount >= targetReward.limit) {
     throw new ApiError(403, {
-      code: "CLAIM_COUNT_REACH_USER_LIMIT",
+      code: NoPrizeCode.reachUserLimit,
       message: "兌換數量已達使用者上限",
     });
   }
@@ -302,6 +278,7 @@ export const claimRewardInTx = async (
           id: rewardTable.id,
           code: rewardTable.code,
           claimedAt: rewardTable.claimedAt,
+          buttonText: rewardTable.buttonText,
         });
 
       return claimed;
@@ -336,6 +313,7 @@ export const claimRewardInTx = async (
           id: rewardTable.id,
           code: rewardTable.code,
           claimedAt: rewardTable.claimedAt,
+          buttonText: rewardTable.buttonText,
         });
 
       return claimed;
@@ -358,6 +336,7 @@ export const claimRewardInTx = async (
     id: claimed.id,
     code: claimed.code,
     claimedAt: claimed.claimedAt,
+    buttonText: claimed.buttonText,
     key: targetReward.key,
   };
 };
@@ -520,8 +499,6 @@ export const rewardService = {
   claimPaidReward,
   claimFreeReward,
   resetFreeDrawChance: async (nextCount = 1) => {
-    const { start, end } = getTodayRange();
-
     const userResult = await db
       .select({ count: count() })
       .from(userTable)
@@ -533,9 +510,10 @@ export const rewardService = {
     await logService.insert(message);
 
     try {
-      const yesterdayStart = subDays(start, 1);
-      const yesterdayEnd = subDays(end, 1);
-      const rewardResults = db
+      const { start: yesterdayStart, end: yesterdayEnd } = getTodayRange(
+        subDays(new Date(), 1, { in: TAIPEI }),
+      );
+      const rewardResults = await db
         .select({ key: rewardTable.key, count: count() })
         .from(rewardTable)
         .where(

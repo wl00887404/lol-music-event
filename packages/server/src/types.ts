@@ -456,4 +456,5 @@ export type PublicReward = {
   isMerch: boolean; // 是否為實體商品
   available: boolean; // 還有沒有存貨
   claimedAt: Date | null; // 兌換日期
+  buttonText: string | null; // 自訂按鈕文字
 };

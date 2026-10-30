@@ -1,3 +1,4 @@
+import type { Reward } from "@/apis";
 import { imgUri } from "@/libs/uris";
 
 export const getIconSrc = (key: string) => {
@@ -58,4 +59,8 @@ export const getTitleSrc = (key: string) => {
     width,
     height,
   };
+};
+
+export const getClaimedMerchButtonText = (reward: Reward) => {
+  return reward.buttonText ? reward.buttonText : "專人處理中";
 };

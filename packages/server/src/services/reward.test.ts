@@ -66,24 +66,35 @@ const paidSetting = (
 ) => {
   const key = `${PREFIX}-k${seq++}`;
   const unlimitedSupply = o.unlimitedSupply ?? false;
-  return mkPaidRs(
+  return mkPaidRs({
     key,
-    key,
-    "",
-    o.price ?? 10,
-    unlimitedSupply ? Infinity : (o.limit ?? Infinity),
-    false,
+    name: key,
+    description: "",
+    price: o.price ?? 10,
+    limit: unlimitedSupply ? Infinity : (o.limit ?? Infinity),
+    isMerch: false,
     unlimitedSupply,
-  );
+  });
 };
 
 // 無限兌換（如抽獎券）：不需要預建庫存，兌換時現場產生紀錄
 const unlimitedSetting = (price = 20) =>
   paidSetting({ price, unlimitedSupply: true });
 
-const freeSetting = (o: { dailyLimit?: number } = {}) => {
+// 免費獎勵：price 固定 0；limit 是「每人最多中幾次」（預設不限）
+const freeSetting = (o: { dailyLimit?: number; limit?: number } = {}) => {
   const key = `${PREFIX}-k${seq++}`;
-  return mkFreeRs(key, key, "", o.dailyLimit ?? Infinity, 0, 0, false, false);
+  return mkFreeRs({
+    key,
+    name: key,
+    description: "",
+    dailyLimit: o.dailyLimit ?? Infinity,
+    weekdayChance: 0,
+    weekendChance: 0,
+    limit: o.limit ?? Infinity,
+    isMerch: false,
+    unlimitedSupply: false,
+  });
 };
 
 // 預建庫存列。code 固定為 `${key}-c${i}`，
@@ -217,8 +228,20 @@ describe("claimRewardInTx：基本規則", () => {
     await expect(claim(userId, rs)).resolves.toMatchObject({ key: rs.key });
   });
 
+  it("免費獎勵也受個人上限限制", async () => {
+    const rs = freeSetting({ limit: 1 });
+    const userId = await createUser();
+    await addStock(rs, 2);
+
+    await claim(userId, rs);
+    expect(await rejectCode(claim(userId, rs))).toBe(
+      "CLAIM_COUNT_REACH_USER_LIMIT",
+    );
+    expect(await claimedRows(rs.key)).toHaveLength(1);
+  });
+
   it("limit 為 Infinity 但非無限供應：仍從預建庫存領取，不會現場生成", async () => {
-    // 免費獎勵的 limit 固定是 Infinity（個人不限次數），
+    // 免費獎勵的 limit 預設是 Infinity（個人不限次數），
     // 但它不是 unlimitedSupply，必須領預建庫存。
     const rs = freeSetting();
     const [u1, u2] = await createUsers(2);
@@ -478,6 +501,23 @@ describe("claimFreeReward", () => {
     expect(await claimedRows(rs.key)).toHaveLength(0);
   });
 
+  it("抽到但已達個人上限：視為沒中，次數照扣，不再發放", async () => {
+    // 對應 free-box 的「每人最多中一次」。
+    // 這題依賴 service 把 CLAIM_COUNT_REACH_USER_LIMIT 納入 no-prize 清單；
+    // 若沒納入，玩家會收到錯誤且次數退回，這題會失敗。
+    const rs = freeSetting({ limit: 1 });
+    const userId = await createUser({ freeDrawChances: 2 });
+    await addStock(rs, 3);
+
+    const first = await rewardService.claimFreeReward(userId, rs);
+    const second = await rewardService.claimFreeReward(userId, rs);
+
+    expect(first).toMatchObject({ win: true, chancesLeft: 1 });
+    expect(second).toEqual({ win: false, reward: null, chancesLeft: 0 });
+    expect(await getChances(userId)).toBe(0);
+    expect(await claimedRows(rs.key)).toHaveLength(1);
+  });
+
   it("非預期的 DB 錯誤：整筆回滾，次數退回", async () => {
     // price 1.5 能通過點數檢查，但寫入 integer 欄位時 PostgreSQL 會報錯，
     // 藉此模擬「領獎階段發生非預期錯誤」（不是 ApiError，所以不會被當成沒中）。
@@ -506,6 +546,21 @@ describe("claimFreeReward", () => {
     expect(ok).toHaveLength(1);
     expect(failCodes).toEqual(Array(9).fill("DRAW_CHANCE_NOT_ENOUGH"));
     expect(await getChances(userId)).toBe(0);
+  });
+
+  it("併發：同一玩家同時抽兩次，個人上限 1 的獎只會中一次", async () => {
+    const rs = freeSetting({ limit: 1 });
+    const userId = await createUser({ freeDrawChances: 2 });
+    await addStock(rs, 5);
+
+    const results = await Promise.all([
+      rewardService.claimFreeReward(userId, rs),
+      rewardService.claimFreeReward(userId, rs),
+    ]);
+
+    expect(results.filter((r) => r.win)).toHaveLength(1);
+    expect(await claimedRows(rs.key)).toHaveLength(1);
+    expect(await getChances(userId)).toBe(0); // 兩次擲骰都各扣一次
   });
 });
 

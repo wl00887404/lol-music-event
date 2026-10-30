@@ -1,7 +1,7 @@
 import { cn } from "@/libs/utils";
 import Dialog, { type BaseDialogProps } from "../shared/Dialog";
 import OkButton from "../shared/OkButton";
-import { getIconSrc, getTitleSrc } from "./helper";
+import { getClaimedMerchButtonText, getIconSrc, getTitleSrc } from "./helper";
 import { claimReward, getMyLotteryTicketCount, type Reward } from "@/apis";
 
 import RiotCode from "./RiotCode";
@@ -192,7 +192,7 @@ function ClaimDialog(props: Props) {
             if (onOpenChange) onOpenChange(false);
           }}
         >
-          專人處理中
+          {getClaimedMerchButtonText(reward)}
         </OkButton>
       );
     }

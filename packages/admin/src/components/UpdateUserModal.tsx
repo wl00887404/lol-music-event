@@ -3,20 +3,13 @@ import { updateUser, type User } from "../apis";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "antd/es/form/Form";
 
-import { Cascader } from "antd";
-
 const formItemLayout = {
   labelCol: { span: 6 },
   wrapperCol: { span: 16 },
 };
 
-function UpdateUserModal({
-  user,
-  refetch,
-}: {
-  user: User;
-  refetch: () => void;
-}) {
+function UpdateUserModal(props: { user: User; refetch: () => void }) {
+  const { user, refetch } = props;
   const [open, setOpen] = useState(false);
   const [form] = useForm();
   const [submitting, setSubmitting] = useState(false);

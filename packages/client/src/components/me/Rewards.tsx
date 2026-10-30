@@ -4,7 +4,7 @@ import useTeam from "@/hooks/useTeam";
 import { Team } from "@/types";
 import { type Reward } from "@/apis";
 import useRewards from "@/hooks/useRewards";
-import { getIconSrc } from "../dialogs/reward/helper";
+import { getClaimedMerchButtonText, getIconSrc } from "../dialogs/reward/helper";
 import BaseButton from "../BaseButton";
 import ClaimDialog from "../dialogs/reward/ClaimDialog";
 import { useState } from "react";
@@ -58,8 +58,8 @@ function RewardItem(props: { reward: Reward; balance: number }) {
   const renderPrice = () => {
     if (reward.code) {
       return (
-        <span className="text-[0.71875em] md:text-[1.4375em] font-[700]">
-          {reward.isMerch ? "專人處理中" : "前往兌換"}
+        <span className="text-[0.71875em] md:text-[1.4375em] font-[500]">
+          {reward.isMerch ? getClaimedMerchButtonText(reward) : "前往兌換"}
         </span>
       );
     }

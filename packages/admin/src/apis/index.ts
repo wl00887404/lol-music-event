@@ -189,6 +189,29 @@ export const updateUser = async (payload: UpdateUserPayload) => {
   return unknownError;
 };
 
+type UpdateRewardPayload = {
+  id: string;
+  buttonText: string;
+};
+
+export const updateReward = async (payload: UpdateRewardPayload) => {
+  try {
+    const response = await instance.post<{ success: true }>(
+      `/api/admin/rewards/${payload.id}/button-text`,
+      { buttonText: payload.buttonText },
+    );
+    const { data } = response;
+
+    return data;
+  } catch (err) {
+    if (axios.isAxiosError<ErrorResponse>(err)) {
+      return { error: err.response?.data } as ApiError;
+    }
+  }
+
+  return unknownError;
+};
+
 export type GetSchoolsData = {
   north: { highSchool: string[]; college: string[] };
   central: { highSchool: string[]; college: string[] };
@@ -237,6 +260,7 @@ export type Reward = {
   claimedAt: string;
   claimerEmail: string;
   claimerPhone: string;
+  buttonText: string | null;
 };
 
 type GetRewardPayload = {

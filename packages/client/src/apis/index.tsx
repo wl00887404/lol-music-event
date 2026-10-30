@@ -269,6 +269,7 @@ export type Reward = {
   isMerch: boolean; // 是否為實體商品
   available: boolean; // 還有沒有存貨
   claimedAt: string | null; // 兌換日期
+  buttonText: string | null; // 自訂按鈕文字
 };
 
 type GetRewardsData = {

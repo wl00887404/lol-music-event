@@ -23,6 +23,7 @@ rewardRouter.post(`${URL}/claim`, async (req, res) => {
     claimedAt: reward.claimedAt,
     isMerch: setting.isMerch,
     price: setting.price,
+    buttonText: reward.buttonText,
 
     // 無限兌換不回傳 code，避免誤判顯示兌換按鈕
     code: setting.unlimitedSupply ? null : reward.code,
@@ -51,6 +52,7 @@ rewardRouter.post(`${URL}/lucky-draw`, async (req, res) => {
     isMerch: setting.isMerch,
     available: false,
     claimedAt: reward.claimedAt,
+    buttonText: reward.buttonText,
   };
 
   return res.send({ reward: publicReward });
