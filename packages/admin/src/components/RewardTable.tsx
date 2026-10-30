@@ -193,7 +193,7 @@ function RewardTable(props: Props) {
       render: (reward: Reward) => {
         return (
           <Flex gap="middle" align="center">
-            {reward.buttonText}
+            {reward.buttonText || "專人處理中"}
             <UpdateRewardModal reward={reward} refetch={refetch} />
           </Flex>
         );

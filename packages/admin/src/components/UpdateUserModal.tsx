@@ -1,11 +1,11 @@
 import { Button, Form, Input, message, Modal } from "antd";
 import { updateUser, type User } from "../apis";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "antd/es/form/Form";
 
 const formItemLayout = {
-  labelCol: { span: 6 },
-  wrapperCol: { span: 16 },
+  labelCol: { span: 4 },
+  wrapperCol: { span: 18 },
 };
 
 function UpdateUserModal(props: { user: User; refetch: () => void }) {
@@ -39,14 +39,12 @@ function UpdateUserModal(props: { user: User; refetch: () => void }) {
         onCancel={() => setOpen(false)}
         onOk={async () => {
           const id = user.id;
-          const email = form.getFieldValue("email") || "";
-          const phone = form.getFieldValue("phone") || "";
-          const schoolArray = form.getFieldValue("school");
-          const school = schoolArray[schoolArray.length - 1] || "";
+          const email = form.getFieldValue("email").trim() || "";
+          const phone = form.getFieldValue("phone").trim() || "";
 
           setSubmitting(true);
 
-          const res = await updateUser({ id, email, phone, school });
+          const res = await updateUser({ id, email, phone });
 
           setSubmitting(false);
 

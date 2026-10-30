@@ -90,7 +90,8 @@ export const freeRewardSettings = [
   {
     from: "paid-box",
     to: "free-box",
-    dailyLimit: 1500,
+    // TODO: 2026/10/30 要加大 500
+    dailyLimit: 1000,
     weekdayChance: 10_000_000,
     weekendChance: 10_000_000,
     limit: 1,

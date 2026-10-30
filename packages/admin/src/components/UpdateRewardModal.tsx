@@ -5,8 +5,8 @@ import { useForm } from "antd/es/form/Form";
 import { rewardMap } from "../data";
 
 const formItemLayout = {
-  labelCol: { span: 6 },
-  wrapperCol: { span: 16 },
+  labelCol: { span: 4 },
+  wrapperCol: { span: 18 },
 };
 
 function UpdateRewardModal(props: { reward: Reward; refetch: () => void }) {
@@ -41,7 +41,7 @@ function UpdateRewardModal(props: { reward: Reward; refetch: () => void }) {
         onCancel={() => setOpen(false)}
         onOk={async () => {
           const id = reward.id;
-          const buttonText = form.getFieldValue("buttonText") || "";
+          const buttonText = form.getFieldValue("buttonText").trim() || "";
 
           setSubmitting(true);
 
@@ -75,13 +75,18 @@ function UpdateRewardModal(props: { reward: Reward; refetch: () => void }) {
           <Form.Item
             name="buttonText"
             label="按鈕文字"
-            help="如果空白，會顯示「專人處理中」"
+            help={
+              <>
+                此段文字使用者會看到，請警慎用詞
+                <br />
+                網頁上大約能顯示 5 個字，超過會破版
+                <br />
+                如果空白，會顯示「專人處理中」
+                <br />
+              </>
+            }
           >
-            <Input
-              placeholder={reward.buttonText || ""}
-              allowClear
-              maxLength={5}
-            />
+            <Input placeholder={reward.buttonText || "專人處理中"} allowClear />
           </Form.Item>
         </Form>
       </Modal>

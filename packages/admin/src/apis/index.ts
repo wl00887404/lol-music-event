@@ -108,49 +108,6 @@ export const getUsers = async (payload: GetUsersPayload) => {
   return data;
 };
 
-export type TeamMission = {
-  name: string;
-  description: string;
-  status: "finished" | "inProgress" | "locked";
-};
-
-export type TeamMember = { riotId: string; score: number; isLeader: boolean };
-
-export type Team = {
-  id: string;
-  inviteCode: string;
-  name: string;
-  school: string;
-  missionArgs: { isFinished: boolean }[];
-  members: TeamMember[];
-  missions: TeamMission[];
-};
-
-export type GetTeamsData = {
-  data: Team[];
-  total: number;
-};
-
-type GetTeamsPayload = {
-  offset: number;
-  limit?: number;
-  teamName?: string;
-};
-
-export const getTeams = async (payload: GetTeamsPayload) => {
-  const qs = new URLSearchParams();
-  qs.append("offset", `${payload.offset || 0}`);
-  if (payload.limit !== undefined) {
-    qs.append("limit", payload.limit.toString());
-  }
-  qs.append("teamName", payload.teamName || "");
-
-  const response = await instance.get<GetTeamsData>(`/api/admin/teams?${qs}`);
-  const { data } = response;
-
-  return data;
-};
-
 type GetUpdatingCount = {
   count: number;
 };
@@ -167,7 +124,6 @@ export const getUpdatingCount = async () => {
 type UpdateUserPayload = {
   id: string;
   email: string;
-  school: string;
   phone: string;
 };
 
@@ -175,7 +131,7 @@ export const updateUser = async (payload: UpdateUserPayload) => {
   try {
     const response = await instance.post<{ success: true }>(
       `/api/admin/users/${payload.id}`,
-      { email: payload.email, school: payload.school, phone: payload.phone },
+      { email: payload.email, phone: payload.phone },
     );
     const { data } = response;
 
@@ -210,20 +166,6 @@ export const updateReward = async (payload: UpdateRewardPayload) => {
   }
 
   return unknownError;
-};
-
-export type GetSchoolsData = {
-  north: { highSchool: string[]; college: string[] };
-  central: { highSchool: string[]; college: string[] };
-  south: { highSchool: string[]; college: string[] };
-  other: { highSchool: string[]; college: string[] };
-};
-
-export const getSchools = async () => {
-  const response = await instance.get<GetSchoolsData>("/api/schools");
-  const { data } = response;
-
-  return data;
 };
 
 // export type GetScoreCountData = { score: number; count: number }[];
