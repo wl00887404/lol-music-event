@@ -93,7 +93,7 @@ export const freeRewardSettings = [
   {
     from: "paid-box",
     to: "free-box",
-    dailyLimit: 1500,
+    dailyLimit: 1000,
     weekdayChance: 10_000_000,
     weekendChance: 10_000_000,
     limit: 1,
@@ -252,10 +252,7 @@ export const claimRewardInTx = async (
     (r) => r.key === targetReward.key,
   ).length;
 
-  const isBoxGod =
-    userId === "ZhcPjIkICj6Yc2GRMxQAsPMnrfDXwegr" &&
-    targetReward.key === "free-box";
-  if (!isBoxGod && claimedCount >= targetReward.limit) {
+  if (claimedCount >= targetReward.limit) {
     throw new ApiError(403, {
       code: NoPrizeCode.reachUserLimit,
       message: "兌換數量已達使用者上限",

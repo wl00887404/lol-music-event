@@ -13,19 +13,21 @@ type Row = {
   drawCount: number;
   key: string;
   count: number;
-  keyCount: number;
+  rowSpan: number;
 };
 
 const convertData = (data: FreeDrawReport[]): Row[] => {
   return data
     .map((d) => {
-      return d.rewards.map((r) => {
+      return d.rewards.map((r, index) => {
         return {
           date: d.date,
           drawCount: d.drawCount,
           key: r.key,
           count: r.count,
-          keyCount: d.rewards.length,
+          // 第一 row 要回傳往下跨幾 row
+          // 其他 row 要回傳 0
+          rowSpan: index === 0 ? d.rewards.length : 0,
         };
       });
     })
@@ -41,6 +43,8 @@ function FreeDrawReportTable() {
     },
     placeholderData: keepPreviousData,
   });
+
+  console.log(historyData);
 
   const { data: todayData, isPending: isTodayPending } = useQuery({
     queryKey: ["getFreeDrawReport", "now"],
@@ -58,20 +62,16 @@ function FreeDrawReportTable() {
       title: "日期",
       width: 160,
       render: renderDate,
-      onCell: (row, index) => {
-        return {
-          rowSpan: (index || 0) % row.keyCount ? 0 : row.keyCount,
-        };
+      onCell: (row) => {
+        return { rowSpan: row.rowSpan };
       },
     },
     {
       dataIndex: "drawCount",
       title: "抽獎人數",
       width: 160,
-      onCell: (row, index) => {
-        return {
-          rowSpan: (index || 0) % row.keyCount ? 0 : row.keyCount,
-        };
+      onCell: (row) => {
+        return { rowSpan: row.rowSpan };
       },
     },
     {
@@ -100,7 +100,9 @@ function FreeDrawReportTable() {
         <Typography.Title level={2}>歷史資料</Typography.Title>
         <Table<Row>
           columns={columns}
-          rowKey={(r) => r.date + r.key}
+          rowKey={(r) => {
+            return r.date + r.key;
+          }}
           dataSource={historyData || []}
           loading={isHistoryPending}
           pagination={false}

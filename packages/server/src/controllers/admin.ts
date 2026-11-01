@@ -394,7 +394,7 @@ adminRouter.get(`${URL}/rewards/lottery`, async (req, res) => {
       .from(rewardTable)
       .innerJoin(userTable, eq(rewardTable.claimerId, userTable.id))
       .where(condition)
-      .groupBy(userTable.id, rewardTable.key)
+      .groupBy(userTable.id)
       .offset(offset)
       .limit(limit),
     db
