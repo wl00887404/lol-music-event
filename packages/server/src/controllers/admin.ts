@@ -377,10 +377,6 @@ adminRouter.get(`${URL}/rewards/stock`, async (_req, res) => {
 adminRouter.get(`${URL}/rewards/lottery`, async (req, res) => {
   const { offset, limit } = parsePagination(req.query);
   const condition = eq(rewardTable.key, "lottery-ticket");
-  // const condition = inArray(
-  //   rewardTable.key,
-  //   lotteryRewardSettings.map((rs) => rs.key),
-  // );
 
   const [results, total] = await Promise.all([
     db
@@ -394,7 +390,7 @@ adminRouter.get(`${URL}/rewards/lottery`, async (req, res) => {
       .from(rewardTable)
       .innerJoin(userTable, eq(rewardTable.claimerId, userTable.id))
       .where(condition)
-      .groupBy(userTable.id)
+      .groupBy(userTable.id, rewardTable.key)
       .offset(offset)
       .limit(limit),
     db

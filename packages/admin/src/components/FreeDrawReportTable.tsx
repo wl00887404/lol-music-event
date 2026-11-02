@@ -44,8 +44,6 @@ function FreeDrawReportTable() {
     placeholderData: keepPreviousData,
   });
 
-  console.log(historyData);
-
   const { data: todayData, isPending: isTodayPending } = useQuery({
     queryKey: ["getFreeDrawReport", "now"],
     queryFn: async () => {
