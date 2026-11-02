@@ -17,6 +17,7 @@ import {
   renderBoolean,
   renderDateTime,
   renderNullable,
+  renderNumber,
   showTotal,
 } from "./tableHelper";
 import { fetchAllData } from "../apis/fetchAllData";
@@ -151,7 +152,7 @@ function UserTable() {
     { dataIndex: "createdAt", title: "註冊時間", render: renderDateTime },
     { dataIndex: "isCompleted", title: "完成註冊", render: renderBoolean },
     { dataIndex: "riotId", title: "Riot ID" },
-    { dataIndex: "score", title: "榮譽積分" },
+    { dataIndex: "score", title: "榮譽積分", render: renderNumber },
     {
       key: "inviter",
       title: "邀請者",
