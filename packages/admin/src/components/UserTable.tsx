@@ -150,7 +150,7 @@ function UserTable() {
   const columns: TableProps<User>["columns"] = [
     { dataIndex: "createdAt", title: "註冊時間", render: renderDateTime },
     { dataIndex: "isCompleted", title: "完成註冊", render: renderBoolean },
-    { dataIndex: "riotId", title: "riot id" },
+    { dataIndex: "riotId", title: "Riot ID" },
     { dataIndex: "score", title: "榮譽積分" },
     {
       key: "inviter",

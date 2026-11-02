@@ -137,7 +137,7 @@ adminRouter.get(`${URL}/users`, async (req, res) => {
   const whereClause = conditions.length !== 0 ? and(...conditions) : undefined;
   const orderByClause = parseUserSort(req.query);
 
-  const [users, total] = await Promise.all([
+  const [results, total] = await Promise.all([
     db
       .select({
         id: userTable.id,
@@ -178,7 +178,7 @@ adminRouter.get(`${URL}/users`, async (req, res) => {
   ]);
 
   return res.send({
-    data: users.map((user) => {
+    data: results.map((user) => {
       return {
         ...user,
         email: user.email.includes("@placeholder.com") ? null : user.email,
@@ -503,6 +503,44 @@ adminRouter.get(`${URL}/free-draw-report/now`, async (req, res) => {
       rewards: rewardResults || [],
     },
   ]);
+});
+
+adminRouter.get(`${URL}/rich-men`, async (req, res) => {
+  const { offset, limit } = parsePagination(req.query);
+  const riotId = parseQueryField(req.query, "riotId") || "";
+
+  const conditions = [];
+  if (riotId) {
+    conditions.push(ilike(userTable.riotId, `%${riotId}%`));
+  }
+
+  const whereClause = conditions.length !== 0 ? and(...conditions) : undefined;
+
+  const spent = sql<number>`COALESCE(SUM(${rewardTable.price}), 0)`;
+  const balance = sql<number>`COALESCE(${userTable.score}, 0) - ${spent}`;
+
+  const [results, total] = await Promise.all([
+    db
+      .select({
+        riotId: userTable.riotId,
+        score: userTable.score,
+        spent: spent.mapWith(Number).as("spent"),
+        balance: balance.mapWith(Number).as("balance"),
+      })
+      .from(userTable)
+      .leftJoin(rewardTable, eq(rewardTable.claimerId, userTable.id))
+      .where(whereClause)
+      .groupBy(userTable.id)
+      .orderBy(desc(balance))
+      .offset(offset)
+      .limit(limit),
+    db.select({ count: count() }).from(userTable).where(whereClause).then(head),
+  ]);
+
+  return res.send({
+    data: results,
+    total: total.count,
+  });
 });
 
 adminRouter.use(

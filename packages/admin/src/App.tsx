@@ -9,6 +9,7 @@ import DatabaseTable from "./components/DatabaseTable";
 import StockTable from "./components/StockTable";
 import LotteryRewardTable from "./components/LotteryRewardTable";
 import FreeDrawReportTable from "./components/FreeDrawReportTable";
+import RichManTable from "./components/RichManTable";
 
 const { Header, Content } = Layout;
 
@@ -19,6 +20,7 @@ const items = [
   { key: "stock", label: "庫存量" },
   { key: "users", label: "玩家" },
   { key: "freeDrawReport", label: "每日抽獎" },
+  { key: "richMen", label: "富豪榜" },
   // { key: "scoreCount", label: "積分概況" },
   { key: "database", label: "資料庫相關" },
 ];
@@ -71,7 +73,8 @@ function App() {
         {menuKey === "merchRewards" && <RewardTable type="merch" />}
         {menuKey === "codeRewards" && <RewardTable type="code" />}
         {menuKey === "lotteryRewards" && <LotteryRewardTable />}
-        {menuKey==="freeDrawReport"&&<FreeDrawReportTable />}
+        {menuKey === "freeDrawReport" && <FreeDrawReportTable />}
+        {menuKey === "richMen" && <RichManTable />}
         {/* {menuKey === "scoreCount" && <ScoreCountPage />} */}
         {menuKey === "database" && <DatabaseTable />}
       </Content>

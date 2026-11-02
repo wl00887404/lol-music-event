@@ -108,6 +108,40 @@ export const getUsers = async (payload: GetUsersPayload) => {
   return data;
 };
 
+export type RichMan = {
+  riotId: string;
+  score: number;
+  spent: number;
+  balance: number;
+};
+
+export type GetRichMenData = {
+  data: RichMan[];
+  total: number;
+};
+
+type GetRichMenPayload = {
+  offset: number;
+  limit?: number;
+  riotId?: string;
+};
+
+export const getRichMen = async (payload: GetRichMenPayload) => {
+  const qs = new URLSearchParams();
+  qs.append("offset", `${payload.offset || 0}`);
+  if (payload.limit !== undefined) {
+    qs.append("limit", payload.limit.toString());
+  }
+  qs.append("riotId", (payload.riotId || "").trim());
+
+  const response = await instance.get<GetRichMenData>(
+    `/api/admin/rich-men?${qs}`,
+  );
+  const { data } = response;
+
+  return data;
+};
+
 type GetUpdatingCount = {
   count: number;
 };
