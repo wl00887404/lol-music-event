@@ -45,6 +45,7 @@ type ClaimedReward = {
 };
 type Tx = Parameters<Parameters<typeof db.transaction>[0]>[0];
 
+const MAX_DICE = 100_000_000;
 const NoPrizeCode = {
   reachDailyLimit: "CLAIM_COUNT_REACH_DAILY_LIMIT",
   outOfStock: "REWARD_OUT_OF_STOCK",
@@ -93,17 +94,17 @@ export const freeRewardSettings = [
   {
     from: "paid-box",
     to: "free-box",
-    dailyLimit: 1000,
-    weekdayChance: 10_000_000,
-    weekendChance: 10_000_000,
+    dailyLimit: 500,
+    weekdayChance: 5_000_000,
+    weekendChance: 5_000_000,
     limit: 1,
   },
   {
     from: "paid-ball",
     to: "free-ball",
-    dailyLimit: 40,
-    weekdayChance: 400_000,
-    weekendChance: 400_000,
+    dailyLimit: 200,
+    weekdayChance: 2_000_000,
+    weekendChance: 2_000_000,
     limit: Infinity,
   },
   {
@@ -362,8 +363,6 @@ const claimPaidReward = async (
 
   return db.transaction((tx) => claimRewardInTx(tx, userId, targetReward));
 };
-
-const MAX_DICE = 100_000_000;
 
 const randomFreeReward = () => {
   const day = getDay(new Date(), { in: TAIPEI });

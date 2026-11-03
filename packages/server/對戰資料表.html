@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>對戰資料表</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>"
+    />
+    <style>
+      :root {
+        --bg: #f6f7f9;
+        --surface: #fff;
+        --text: #1c2128;
+        --muted: #6b7480;
+        --border: #e1e4e8;
+        --win: #e6f4ea;
+        --loss: #fdecea;
+        --accent: #2f6fed;
+        --best: #b7791f;
+        --winc: #1a7f37;
+        --lossc: #cf222e;
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+        color-scheme: light;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #0f1318;
+          --surface: #171c23;
+          --text: #e6e9ed;
+          --muted: #8b95a1;
+          --border: #2a313a;
+          --win: #14301f;
+          --loss: #3a1a1c;
+          --accent: #6b9bff;
+          --best: #f0b85a;
+          --winc: #3fb950;
+          --lossc: #ff7b72;
+          color-scheme: dark;
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #0f1318;
+        --surface: #171c23;
+        --text: #e6e9ed;
+        --muted: #8b95a1;
+        --border: #2a313a;
+        --win: #14301f;
+        --loss: #3a1a1c;
+        --accent: #6b9bff;
+        --best: #f0b85a;
+        --winc: #3fb950;
+        --lossc: #ff7b72;
+        color-scheme: dark;
+      }
+      html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font:
+          14px/1.5 -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          "Noto Sans TC",
+          "PingFang TC",
+          "Microsoft JhengHei",
+          sans-serif;
+      }
+      main {
+        max-width: 100%;
+        padding: 16px;
+      }
+      h1 {
+        font-size: 18px;
+        margin: 0 0 12px;
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 12px;
+        margin-bottom: 12px;
+      }
+      textarea {
+        width: 100%;
+        height: 110px;
+        resize: vertical;
+        background: var(--bg);
+        color: var(--text);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 8px;
+        font:
+          12px/1.4 ui-monospace,
+          Menlo,
+          Consolas,
+          monospace;
+      }
+      button {
+        background: var(--accent);
+        color: #fff;
+        border: 0;
+        border-radius: 6px;
+        padding: 6px 14px;
+        font: inherit;
+        cursor: pointer;
+      }
+      button.ghost {
+        background: transparent;
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+      .row {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-top: 8px;
+      }
+      .err {
+        color: var(--lossc);
+        font-size: 13px;
+      }
+      .stats {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+      .stats div span {
+        display: block;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .stats div b {
+        font-size: 18px;
+      }
+      .cols {
+        display: flex;
+        gap: 4px 14px;
+        flex-wrap: wrap;
+        font-size: 13px;
+      }
+      .cols label {
+        cursor: pointer;
+        white-space: nowrap;
+      }
+      .wrap {
+        overflow: auto;
+        /* MAX: 改這裡 */
+        max-height: 88vh;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: var(--surface);
+      }
+      table {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: max-content;
+        min-width: 100%;
+      }
+      th,
+      td {
+        padding: 6px 10px;
+        text-align: right;
+        white-space: nowrap;
+        border-bottom: 1px solid var(--border);
+        font-variant-numeric: tabular-nums;
+      }
+      th {
+        position: sticky;
+        top: 0;
+        background: var(--surface);
+        cursor: pointer;
+        user-select: none;
+        z-index: 2;
+        font-weight: 600;
+        font-size: 12px;
+        color: var(--muted);
+      }
+      th.sorted {
+        color: var(--accent);
+      }
+      td.l,
+      th.l {
+        text-align: left;
+      }
+      tr.win td {
+        background: var(--win);
+      }
+      tr.loss td {
+        background: var(--loss);
+      }
+      td.best {
+        font-weight: 700;
+        color: var(--best);
+      }
+      .w {
+        color: var(--winc);
+        font-weight: 700;
+      }
+      .x {
+        color: var(--lossc);
+        font-weight: 700;
+      }
+      td.sticky,
+      th.sticky {
+        position: sticky;
+        left: 0;
+        z-index: 1;
+      }
+      th.sticky {
+        z-index: 3;
+      }
+      td.sticky {
+        background: var(--surface);
+      }
+      tr.win td.sticky {
+        background: var(--win);
+      }
+      tr.loss td.sticky {
+        background: var(--loss);
+      }
+      .muted {
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>對戰資料表</h1>
+      <div class="card" hidden>
+        <textarea
+          id="inp"
+          placeholder="貼上 JSON 陣列 [ {...}, {...} ]（也支援直接貼多個物件、結尾多逗號）"
+        ></textarea>
+        <div class="row">
+          <button id="go">顯示表格</button>
+          <button class="ghost" id="clr">清除</button>
+          <span class="err" id="err"></span>
+        </div>
+      </div>
+      <div id="out" hidden>
+        <div class="wrap"><table id="tbl"></table></div>
+      </div>
+    </main>
+    <script>
+      const DATA = [];
+    </script>
+    <script>
+      const nf = (n) =>
+        n == null || n !== n ? "" : Math.round(n).toLocaleString("en-US");
+      const champDmg = (d) =>
+        d.physicalDamageDealtToChampions +
+        d.magicDamageDealtToChampions +
+        d.trueDamageDealtToChampions;
+      const kda = (d) => (d.kills + d.assists) / Math.max(1, d.deaths);
+      const num = (label, key, extra = {}) => ({
+        label,
+        get: (d) => d[key],
+        fmt: nf,
+        ...extra,
+      });
+
+      // 欄位定義：on = 預設顯示
+      const COLS = [
+        {
+          id: "date",
+          label: "時間",
+          get: (d) => d.date,
+          fmt: (v) => v,
+          left: 1,
+          nobest: 1,
+        },
+        {
+          id: "message",
+          label: "message",
+          get: (d) => d.message,
+          fmt: (v) => v,
+          left: 1,
+          nobest: 1,
+        },
+        {
+          id: "result",
+          label: "結果",
+          get: (d) =>
+            typeof d.win === "boolean" ? (d.win ? 1 : 0) : undefined,
+          fmt: (v, d) =>
+            `<span class="${d.win ? "w" : "x"}">${d.win ? "勝" : "敗"}${d.gameEndedInEarlySurrender ? "（投降）" : ""}</span>`,
+          html: 1,
+          on: 1,
+          nobest: 1,
+        },
+        {
+          id: "champ",
+          label: "英雄 ID",
+          get: (d) => d.championId,
+          fmt: (v) => v,
+          on: 1,
+          nobest: 1,
+        },
+        { id: "k", label: "K", get: (d) => d.kills, fmt: nf, on: 1 },
+        { id: "d", label: "D", get: (d) => d.deaths, fmt: nf, on: 1, worst: 1 },
+        { id: "a", label: "A", get: (d) => d.assists, fmt: nf, on: 1 },
+        { id: "kda", label: "KDA", get: kda, fmt: (v) => v.toFixed(2), on: 1 },
+        {
+          id: "kp",
+          label: "參戰率",
+          get: (d) => d.killParticipation,
+          fmt: (v) => (v * 100).toFixed(0) + "%",
+          on: 1,
+        },
+        { id: "cdmg", label: "對英雄傷害", get: champDmg, fmt: nf, on: 1 },
+        {
+          id: "dpm",
+          label: "DPM",
+          get: (d) => d.damagePerMinute,
+          fmt: nf,
+          on: 1,
+        },
+        {
+          id: "phys",
+          label: "物理",
+          get: (d) => d.physicalDamageDealtToChampions,
+          fmt: nf,
+        },
+        {
+          id: "magic",
+          label: "魔法",
+          get: (d) => d.magicDamageDealtToChampions,
+          fmt: nf,
+        },
+        {
+          id: "true",
+          label: "真實",
+          get: (d) => d.trueDamageDealtToChampions,
+          fmt: nf,
+        },
+        {
+          id: "turret",
+          label: "對塔傷害",
+          get: (d) => d.damageDealtToTurrets,
+          fmt: nf,
+          on: 1,
+        },
+        {
+          id: "taken",
+          label: "承受傷害",
+          get: (d) => d.totalDamageTaken,
+          fmt: nf,
+          on: 1,
+        },
+        {
+          id: "tdmg",
+          label: "總傷害",
+          get: (d) =>
+            d.physicalDamageDealt + d.magicDamageDealt + d.trueDamageDealt,
+          fmt: nf,
+        },
+        { id: "gold", label: "金錢", get: (d) => d.goldEarned, fmt: nf, on: 1 },
+        {
+          id: "cs",
+          label: "補兵",
+          get: (d) => d.totalMinionsKilled,
+          fmt: nf,
+          on: 1,
+        },
+        { id: "cc", label: "控場秒數", get: (d) => d.timeCCingOthers, fmt: nf },
+        {
+          id: "shield",
+          label: "護盾隊友",
+          get: (d) => d.totalDamageShieldedOnTeammates,
+          fmt: nf,
+        },
+        {
+          id: "heal",
+          label: "治療隊友",
+          get: (d) => d.totalHealsOnTeammates,
+          fmt: nf,
+        },
+        {
+          id: "skill",
+          label: "技能命中",
+          get: (d) => d.skillshotsHit,
+          fmt: nf,
+        },
+        { id: "snow", label: "雪球命中", get: (d) => d.snowballsHit, fmt: nf },
+        { id: "q", label: "Q 次數", get: (d) => d.spell1Casts, fmt: nf },
+        { id: "w", label: "W 次數", get: (d) => d.spell2Casts, fmt: nf },
+        { id: "e", label: "E 次數", get: (d) => d.spell3Casts, fmt: nf },
+        { id: "r", label: "R 次數", get: (d) => d.spell4Casts, fmt: nf },
+        { id: "dbl", label: "雙殺", get: (d) => d.doubleKills, fmt: nf },
+        { id: "tri", label: "三殺", get: (d) => d.tripleKills, fmt: nf },
+        { id: "quad", label: "四殺", get: (d) => d.quadraKills, fmt: nf },
+        { id: "penta", label: "五殺", get: (d) => d.pentaKills, fmt: nf },
+        { id: "streak", label: "連勝", get: (d) => d.winStreak, fmt: nf },
+      ];
+
+      let rows = [],
+        sortId = null,
+        sortDir = -1;
+      const $ = (id) => document.getElementById(id);
+
+      function parseInput(txt) {
+        txt = txt.trim();
+        if (!txt) throw new Error("請先貼上資料");
+        txt = txt.replace(/^[^\[{]*?(?=[\[{])/, "").replace(/;\s*$/, "");
+        const attempt = (s) => JSON.parse(s.replace(/,\s*([}\]])/g, "$1"));
+        let v;
+        try {
+          v = attempt(txt);
+        } catch (e) {
+          v = attempt("[" + txt.replace(/}\s*,?\s*{/g, "},{") + "]");
+        }
+        if (!Array.isArray(v)) v = [v];
+        return v;
+      }
+
+      function render() {
+        const cols = COLS;
+        const sc = COLS.find((c) => c.id === sortId);
+        const sorted = rows
+          .map((d, i) => ({ d, i }))
+          .sort((a, b) => {
+            if (!sc) return a.i - b.i;
+            const x = sc.get(a.d),
+              y = sc.get(b.d);
+            const nx = x == null || x !== x,
+              ny = y == null || y !== y;
+            if (nx || ny) return nx && ny ? a.i - b.i : nx ? 1 : -1;
+            const r =
+              typeof x === "string"
+                ? String(x).localeCompare(String(y))
+                : x - y;
+            return (r || a.i - b.i) * sortDir;
+          })
+          .map((o) => o.d);
+
+        // 每欄最佳值（最大；死亡數取最小）
+        const best = {};
+        cols.forEach((c) => {
+          if (c.nobest) return;
+          const vals = rows
+            .map((d) => c.get(d))
+            .filter((v) => typeof v === "number" && !isNaN(v));
+          if (vals.length < 2) return;
+          const b = c.worst ? Math.min(...vals) : Math.max(...vals);
+          if (b !== 0) best[c.id] = b;
+        });
+
+        let h =
+          "<thead><tr>" +
+          cols
+            .map(
+              (c, i) =>
+                `<th class="${c.left ? "l" : ""} ${c.id === sortId ? "sorted" : ""} ${i === 0 ? "sticky" : ""}" data-id="${c.id}">${c.label}${c.id === sortId ? (sortDir > 0 ? " ▲" : " ▼") : ""}</th>`,
+            )
+            .join("") +
+          "</tr></thead><tbody>";
+        sorted.forEach((d) => {
+          h +=
+            `<tr class="${d.win === true ? "win" : d.win === false ? "loss" : ""}">` +
+            cols
+              .map((c, i) => {
+                const v = c.get(d);
+                const cls = [
+                  c.left ? "l" : "",
+                  i === 0 ? "sticky" : "",
+                  best[c.id] === v ? "best" : "",
+                ].join(" ");
+                const empty = v == null || v !== v;
+                return `<td class="${cls}">${empty ? "" : c.html ? c.fmt(v, d) : esc(c.fmt(v, d))}</td>`;
+              })
+              .join("") +
+            "</tr>";
+        });
+        $("tbl").innerHTML = h + "</tbody>";
+        $("tbl")
+          .querySelectorAll("th")
+          .forEach(
+            (th) =>
+              (th.onclick = () => {
+                const id = th.dataset.id;
+                if (id === sortId) sortDir *= -1;
+                else {
+                  sortId = id;
+                  sortDir =
+                    id === "date"
+                      ? -1
+                      : COLS.find((c) => c.id === id).left
+                        ? 1
+                        : -1;
+                }
+                render();
+              }),
+          );
+      }
+
+      function esc(s) {
+        return String(s).replace(
+          /[&<>"]/g,
+          (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c],
+        );
+      }
+
+      function run() {
+        $("err").textContent = "";
+        try {
+          rows = parseInput($("inp").value);
+          if (!rows.length) throw new Error("陣列是空的");
+          try {
+            localStorage.setItem("mt-data", $("inp").value);
+          } catch (e) {}
+          $("out").hidden = false;
+          render();
+        } catch (e) {
+          $("out").hidden = true;
+          $("err").textContent = "解析失敗：" + e.message;
+        }
+      }
+
+      $("go").onclick = run;
+      $("clr").onclick = () => {
+        $("inp").value = "";
+        $("out").hidden = true;
+        $("err").textContent = "";
+        try {
+          localStorage.removeItem("mt-data");
+        } catch (e) {}
+      };
+      $("inp").addEventListener("paste", () => setTimeout(run, 0));
+
+      if (typeof DATA !== undefined) {
+        $("inp").value = JSON.stringify(DATA, null);
+        run();
+      } else {
+        try {
+          const saved = localStorage.getItem("mt-data");
+          if (saved) {
+            $("inp").value = saved;
+            run();
+          }
+        } catch (e) {}
+      }
+    </script>
+  </body>
+</html>
