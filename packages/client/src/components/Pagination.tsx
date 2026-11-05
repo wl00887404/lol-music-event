@@ -59,7 +59,7 @@ function Page(props: PageProps) {
   return (
     <BaseButton
       className={cn(
-        "w-[4.125em] h-[4.125em]",
+        "min-w-[4.125em] px-[0.8em] h-[4.125em]",
         currentPage === page ? "text-[#f0ca70]" : "text-[#fff9e5]",
         className,
       )}
@@ -144,9 +144,6 @@ function Pagination(props: Props) {
     }, 670);
   };
 
-  const uri = imgUri("/icons/m-pagination-input-bg.png");
-  const style = { backgroundImage: `url("${uri}")` };
-
   return (
     <div className={fontClassName}>
       <div
@@ -160,6 +157,34 @@ function Pagination(props: Props) {
           onClick={() => setCurrentPage(currentPage - 1)}
           disabled={currentPage <= 1}
         />
+
+        <div
+          className={cn(
+            "octagon bg-[#fff8e5]",
+            "ml-[2.0625em] mr-[1.03125em] md:m-[0]",
+            "text-[1em] md:text-[3.125em]",
+          )}
+          style={{ "--x": "0.25em", "--y": "0.25em" } as React.CSSProperties}
+        >
+          <Input
+            ref={inputRef}
+            name="jump"
+            defaultValue={currentPage.toString()}
+            onChange={onChange}
+            inputMode="numeric"
+            min={1}
+            max={maxPage}
+            className={cn(
+              "text-[#0b1527] text-center font-[family-name:BeaufortforLOL]",
+              "h-auto p-0",
+              // text: 17px, leading: 24, width: 56
+              "!text-[1.0625em] !leading-[1.4117647058823529412em] w-[3.2941176470588235294em]",
+              "md:!text-[1em] !leading-[1.32em]",
+              "border-none rounded-none bg-cover",
+            )}
+          />
+        </div>
+
         {desktopPages.map((page, index) => {
           const key = `desktop-${index}`;
           const className = "hidden md:grid";
@@ -178,25 +203,7 @@ function Pagination(props: Props) {
             );
           }
         })}
-        <div className="ml-[2.0625em] mr-[1.03125em] md:hidden">
-          <Input
-            ref={inputRef}
-            name="jump"
-            defaultValue={currentPage.toString()}
-            onChange={onChange}
-            inputMode="numeric"
-            min={1}
-            max={maxPage}
-            className={cn(
-              "text-[#0b1527] text-center font-[family-name:BeaufortforLOL]",
-              "h-auto p-0",
-              // text: 17px, leading: 24, width: 56
-              "!text-[1.0625em] !leading-[1.4117647058823529412em] w-[3.2941176470588235294em]",
-              "border-none rounded-none bg-cover",
-            )}
-            style={style}
-          />
-        </div>
+
         <div className="text-[#fff9e5] font-[900] text-[1.0625em] md:hidden mr-[1.03125em]">
           /
         </div>

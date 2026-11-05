@@ -16,6 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { imgUri } from "@/libs/uris";
+import { useViewport } from "../viewportStore";
 
 export function FieldName(props: ComponentPropsWithoutRef<"div">) {
   const { children, className, ...otherProps } = props;
@@ -34,22 +35,23 @@ export function FieldName(props: ComponentPropsWithoutRef<"div">) {
 }
 
 function InputContainer(props: { children: React.ReactNode }) {
+  const viewport = useViewport();
+
   return (
-    <div className="relative mt-[0.21875em] md:mt-[0.5em]">
-      <div className="flex pointer-events-none">
-        <img
-          src={imgUri("/icons/dialog-input-bg.png")}
-          className="h-[1.5em] md:h-[3em]"
-        />
-        <div className="flex-1 bg-[#ffffff] mx-[-0.05em]" />
-        <img
-          src={imgUri("/icons/dialog-input-bg.png")}
-          className="h-[1.5em] md:h-[3em] rotate-180"
-        />
-      </div>
-      <div className="w-full h-full absolute top-0 left-0">
-        {props.children}
-      </div>
+    <div
+      className={cn(
+        "relative w-full bg-[#ffffff] octagon",
+        "h-[1.5em] md:h-[3em]",
+        "mt-[0.21875em] md:mt-[0.5em]",
+      )}
+      style={
+        {
+          "--x": viewport === "mobile" ? "0.3125em" : "0.625em",
+          "--y": "20.8%",
+        } as React.CSSProperties
+      }
+    >
+      {props.children}
     </div>
   );
 }

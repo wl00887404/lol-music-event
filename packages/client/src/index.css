@@ -168,3 +168,16 @@ body {
 #scroll-to-here {
   scroll-margin-top: var(--scroll-margin-top);
 }
+
+.octagon {
+  clip-path: polygon(
+    var(--x) 0%,
+    calc(100% - var(--x)) 0%,
+    100% var(--y),
+    100% calc(100% - var(--y)),
+    calc(100% - var(--x)) 100%,
+    var(--x) 100%,
+    0% calc(100% - var(--y)),
+    0% var(--y)
+  );
+}
