@@ -3,7 +3,7 @@ const paidRewards = [
     key: "paid-box",
     name: "海克斯科技鑰匙 & 寶箱",
     description:
-      "兌換後將獲得 海克斯科技鑰匙 & 寶箱 序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 20,000 組，兌完為止",
+      "兌換後將獲得 海克斯科技鑰匙 & 寶箱 序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n限量 20,000 組，活動再加碼 36,000 組，兌完為止",
     price: 30,
     limit: 2,
     isMerch: false,
@@ -13,7 +13,7 @@ const paidRewards = [
     key: "paid-ball",
     name: "世界大賽晶球",
     description:
-      "兌換後將獲得 2026 世界大賽晶球 序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 13,000 組，兌完為止",
+      "兌換後將獲得 2026 世界大賽晶球 序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n限量 13,000 組，活動再加碼 22,000 組，兌完為止",
     price: 125,
     limit: 1,
     isMerch: false,
@@ -23,7 +23,7 @@ const paidRewards = [
     key: "ezreal-skin-2023",
     name: "心鋼之聲 伊澤瑞爾 造型 (2023)",
     description:
-      "兌換後將獲得「心鋼之聲 伊澤瑞爾 (2023)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止",
+      "兌換後將獲得「心鋼之聲 伊澤瑞爾 (2023)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n限量 10 組，活動再加碼 15 組，兌完為止",
     price: 240,
     limit: 1,
     isMerch: false,
@@ -33,7 +33,7 @@ const paidRewards = [
     key: "yone-skin-2023",
     name: "心鋼之聲 犽凝 造型 (2023)",
     description:
-      "兌換後將獲得「心鋼之聲 犽凝 (2023)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止",
+      "兌換後將獲得「心鋼之聲 犽凝 (2023)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n限量 10 組，活動再加碼 15 組，兌完為止",
     price: 240,
     limit: 1,
     isMerch: false,
@@ -43,7 +43,7 @@ const paidRewards = [
     key: "ksante-skin-2023",
     name: "心鋼之聲 卡桑帝 造型 (2023)",
     description:
-      "兌換後將獲得「心鋼之聲 卡桑帝 (2023)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止",
+      "兌換後將獲得「心鋼之聲 卡桑帝 (2023)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n限量 10 組，活動再加碼 15 組，兌完為止",
     price: 240,
     limit: 1,
     isMerch: false,
@@ -53,7 +53,7 @@ const paidRewards = [
     key: "sett-skin-2023",
     name: "心鋼之聲 賽特 造型 (2023)",
     description:
-      "兌換後將獲得「心鋼之聲 賽特 (2023)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止",
+      "兌換後將獲得「心鋼之聲 賽特 (2023)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n限量 10 組，活動再加碼 15 組，兌完為止",
     price: 240,
     limit: 1,
     isMerch: false,
@@ -63,7 +63,7 @@ const paidRewards = [
     key: "aphelios-skin-2023",
     name: "心鋼之聲 亞菲利歐 造型 (2023)",
     description:
-      "兌換後將獲得「心鋼之聲 亞菲利歐 (2023)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止",
+      "兌換後將獲得「心鋼之聲 亞菲利歐 (2023)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n限量 10 組，活動再加碼 15 組，兌完為止",
     price: 240,
     limit: 1,
     isMerch: false,
@@ -73,7 +73,7 @@ const paidRewards = [
     key: "ahri-skin-2018",
     name: "K/DA 阿璃 造型 (2018)",
     description:
-      "兌換後將獲得「K/DA 阿璃 (2018)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止",
+      "兌換後將獲得「K/DA 阿璃 (2018)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n限量 10 組，活動再加碼 15 組，兌完為止",
     price: 240,
     limit: 1,
     isMerch: false,
@@ -83,7 +83,7 @@ const paidRewards = [
     key: "akali-skin-2018",
     name: "K/DA 阿卡莉 造型 (2018)",
     description:
-      "兌換後將獲得「K/DA 阿卡莉 (2018)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止",
+      "兌換後將獲得「K/DA 阿卡莉 (2018)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n限量 10 組，活動再加碼 15 組，兌完為止",
     price: 240,
     limit: 1,
     isMerch: false,
@@ -93,7 +93,7 @@ const paidRewards = [
     key: "evelynn-skin-2018",
     name: "K/DA 伊芙琳 造型 (2018)",
     description:
-      "兌換後將獲得「K/DA 伊芙琳 (2018)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止",
+      "兌換後將獲得「K/DA 伊芙琳 (2018)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n限量 10 組，活動再加碼 15 組，兌完為止",
     price: 240,
     limit: 1,
     isMerch: false,
@@ -103,7 +103,7 @@ const paidRewards = [
     key: "kaisa-skin-2018",
     name: "K/DA 凱莎 造型 (2018)",
     description:
-      "兌換後將獲得「K/DA 凱莎 (2018)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止",
+      "兌換後將獲得「K/DA 凱莎 (2018)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n限量 10 組，活動再加碼 15 組，兌完為止",
     price: 240,
     limit: 1,
     isMerch: false,
@@ -113,7 +113,7 @@ const paidRewards = [
     key: "yasuo-skin-2019",
     name: "True Damage 犽宿 造型 (2019)",
     description:
-      "兌換後將獲得「True Damage 犽宿 (2019)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止",
+      "兌換後將獲得「True Damage 犽宿 (2019)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n限量 10 組，活動再加碼 15 組，兌完為止",
     price: 240,
     limit: 1,
     isMerch: false,
@@ -123,7 +123,7 @@ const paidRewards = [
     key: "senna-skin-2019",
     name: "True Damage 姍娜 造型 (2019)",
     description:
-      "兌換後將獲得「True Damage 姍娜 (2019)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止",
+      "兌換後將獲得「True Damage 姍娜 (2019)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n限量 10 組，活動再加碼 15 組，兌完為止",
     price: 240,
     limit: 1,
     isMerch: false,
@@ -133,7 +133,7 @@ const paidRewards = [
     key: "akali-skin-2019",
     name: "True Damage 阿卡莉 造型 (2019)",
     description:
-      "兌換後將獲得「True Damage 阿卡莉 (2019)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止",
+      "兌換後將獲得「True Damage 阿卡莉 (2019)」造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n限量 10 組，活動再加碼 15 組，兌完為止",
     price: 240,
     limit: 1,
     isMerch: false,
@@ -143,11 +143,132 @@ const paidRewards = [
     key: "qiyana-skin-2019",
     name: "True Damage 姬亞娜 造型 (2019)",
     description:
-      "兌換後將獲得「True Damage 姬亞娜」 (2019) 造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 10 組，兌完為止",
+      "兌換後將獲得「True Damage 姬亞娜」 (2019) 造型序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n限量 10 組，活動再加碼 15 組，兌完為止",
     price: 240,
     limit: 1,
     isMerch: false,
     unlimitedSupply: false,
+  },
+  {
+    key: "maybe-next-time-emote",
+    name: "下次囉 表情",
+    description:
+      "兌換後將獲得「下次囉」表情序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 100 組，兌完為止",
+    price: 150,
+    limit: 1,
+    isMerch: false,
+    unlimitedSupply: false,
+  },
+  {
+    key: "stone-faced-emote",
+    name: "傻眼石像 表情",
+    description:
+      "兌換後將獲得「傻眼石像」表情序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 100 組，兌完為止",
+    price: 150,
+    limit: 1,
+    isMerch: false,
+    unlimitedSupply: false,
+  },
+
+  {
+    key: "abandoned-top-island-emote",
+    name: "上路孤島 表情",
+    description:
+      "兌換後將獲得「上路孤島」表情序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 100 組，兌完為止",
+    price: 150,
+    limit: 1,
+    isMerch: false,
+    unlimitedSupply: false,
+  },
+  {
+    key: "okay-emote",
+    name: "OK 表情",
+    description:
+      "兌換後將獲得「OK」表情序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 100 組，兌完為止",
+    price: 150,
+    limit: 1,
+    isMerch: false,
+    unlimitedSupply: false,
+  },
+  {
+    key: "unworthy-emote",
+    name: "不值得 表情",
+    description:
+      "兌換後將獲得「不值得」表情序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 100 組，兌完為止",
+    price: 150,
+    limit: 1,
+    isMerch: false,
+    unlimitedSupply: false,
+  },
+  {
+    key: "pcs-emotes-hps-arghhh",
+    name: "PCS：HPS 表情",
+    description:
+      "兌換後將獲得「PCS：HPS - 天啊，求求你不要！」表情序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 7 組，兌完為止",
+    price: 777,
+    limit: 1,
+    isMerch: false,
+    unlimitedSupply: false,
+  },
+  {
+    key: "paid-idol-box",
+    name: "大混戰音樂季 典藏箱",
+    description:
+      "內含：典藏明信片、限定貼紙包、樂團桌牌（隨機 1 款）、\n樂團光碟鑰匙圈（隨機 1 款）、限量社群小卡盲盒包 × 2 包\n僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n限量 25 組，活動再加碼 10 組，兌完為止",
+    price: 1000,
+    limit: 1,
+    isMerch: true,
+    unlimitedSupply: false,
+  },
+  {
+    key: "paid-idol-card-extra",
+    name: "限量社群小卡盲盒包（加碼）",
+    description:
+      "為了讓更多玩家都可以獲得限量社群小卡盲盒包，\n僅限未透過本網頁兌換或抽獎獲得過限量社群小卡盲盒包之玩家兌換。\n僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料\n實際寄送時間依贈品到貨及官方出貨安排為準。\n共限量 1,200 組，兌完為止",
+    price: 250,
+    limit: 1,
+    isMerch: true,
+    unlimitedSupply: false,
+  },
+  {
+    key: "heart-steel-usb",
+    name: "心鋼之聲 滑板造型 USB",
+    description:
+      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n限量 1 組，兌完為止\n活動再加碼限量 2 組，兌完為止",
+    price: 1000,
+    limit: 1,
+    isMerch: true,
+    unlimitedSupply: false,
+  },
+  {
+    key: "kda-cdc-blades",
+    name: "K/DA FIRESTARTER CD 典藏套組\n（BLADES 版）",
+    description:
+      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n限量 1 組，兌完為止\n活動再加碼限量 6 組，兌完為止",
+    price: 1600,
+    limit: 1,
+    isMerch: true,
+    unlimitedSupply: false,
+  },
+  {
+    key: "worlds-2026-collector-box",
+    name: "2026 世界大賽 典藏版禮盒",
+    description:
+      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n限量 1 組，活動再加碼 1 組，兌完為止",
+    price: 2500,
+    limit: 1,
+    isMerch: true,
+    unlimitedSupply: false,
+  },
+  {
+    key: "lottery-ticket",
+    name: "抽獎券",
+    description:
+      "有機會獲得：大混戰音樂季 典藏箱、\n隨機樂團海報掛軸、限量社群小卡盲盒包。\n活動結束後將於 7 日內抽出得獎者\n屆時將由工作人員寄送 Email 至網頁註冊信箱聯絡\n僅限寄送台澎金馬地區。實際寄送時間依贈品到貨及官方出貨安排為準。",
+    price: 20,
+    limit: Infinity,
+    isMerch: false,
+    unlimitedSupply: true,
   },
   {
     key: "paid-my-card-150",
@@ -167,24 +288,6 @@ const paidRewards = [
     price: 300,
     limit: 1,
     isMerch: false,
-    unlimitedSupply: false,
-  },
-  // {
-  //   key: "kkbox",
-  //   name: "KKBOX 體驗序號",
-  //   description: "",
-  //   price: null,
-  //   limit: null,
-  //   isMerch: false,
-  // },
-  {
-    key: "paid-idol-box",
-    name: "大混戰音樂季 典藏箱",
-    description:
-      "內含：典藏明信片、限定貼紙包、樂團桌牌（隨機 1 款）、\n樂團光碟鑰匙圈（隨機 1 款）、限量社群小卡盲盒包 × 2 包\n僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n共限量 25 組，兌完為止",
-    price: 1000,
-    limit: 1,
-    isMerch: true,
     unlimitedSupply: false,
   },
   {
@@ -238,16 +341,6 @@ const paidRewards = [
     unlimitedSupply: false,
   },
   {
-    key: "heart-steel-usb",
-    name: "心鋼之聲 滑板造型 USB",
-    description:
-      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n限量 1 組，兌完為止\n活動再加碼限量 2 組，兌完為止",
-    price: 1000,
-    limit: 1,
-    isMerch: true,
-    unlimitedSupply: false,
-  },
-  {
     key: "kda-vinyl",
     name: "K/DA 黑膠唱片",
     description:
@@ -257,16 +350,7 @@ const paidRewards = [
     isMerch: true,
     unlimitedSupply: false,
   },
-  {
-    key: "kda-cdc-blades",
-    name: "K/DA FIRESTARTER CD 典藏套組\n（BLADES 版）",
-    description:
-      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n限量 1 組，兌完為止\n活動再加碼限量 6 組，兌完為止",
-    price: 1600,
-    limit: 1,
-    isMerch: true,
-    unlimitedSupply: false,
-  },
+
   {
     key: "kda-cd-blades",
     name: "K/DA FIRESTARTER CD\n（BLADES 版）",
@@ -317,16 +401,7 @@ const paidRewards = [
     isMerch: true,
     unlimitedSupply: false,
   },
-  {
-    key: "worlds-2026-collector-box",
-    name: "2026 世界大賽 典藏版禮盒",
-    description:
-      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n限量 1 組，活動再加碼 1 組，兌完為止",
-    price: 2500,
-    limit: 1,
-    isMerch: true,
-    unlimitedSupply: false,
-  },
+
   {
     key: "dj-sona-figure",
     name: "DJ 索娜 公仔",
@@ -376,16 +451,6 @@ const paidRewards = [
     limit: 1,
     isMerch: true,
     unlimitedSupply: false,
-  },
-  {
-    key: "lottery-ticket",
-    name: "抽獎券",
-    description:
-      "有機會獲得：大混戰音樂季 典藏箱、\n隨機樂團海報掛軸、限量社群小卡盲盒包。\n活動結束後將於 7 日內抽出得獎者\n屆時將由工作人員寄送 Email 至網頁註冊信箱聯絡\n僅限寄送台澎金馬地區。實際寄送時間依贈品到貨及官方出貨安排為準。",
-    price: 20,
-    limit: Infinity,
-    isMerch: false,
-    unlimitedSupply: true,
   },
   {
     key: "classic-mode-bundle",

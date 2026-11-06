@@ -2,10 +2,15 @@ import type { Reward } from "@/apis";
 import { imgUri } from "@/libs/uris";
 
 export const getIconSrc = (key: string) => {
+  if (key === "paid-idol-card-extra") {
+    return imgUri(`/rewards/icons/paid-idol-card.png`);
+  }
+
   return imgUri(`/rewards/icons/${key.replace("free-", "paid-")}.png`);
 };
 
 const meta: Record<string, number[]> = {
+  "abandoned-top-island-emote-title.png": [364, 58],
   "ahri-skin-2018-title.png": [487 * 0.8, 64 * 0.8],
   "akali-skin-2018-title.png": [545 * 0.8, 64 * 0.8],
   "akali-skin-2019-title.png": [800, 66],
@@ -30,20 +35,26 @@ const meta: Record<string, number[]> = {
   "ksante-skin-2023-title.png": [634, 64],
   "loser-title.png": [411 * 0.8, 141 * 0.8],
   "lottery-ticket-title.png": [251 * 0.8, 81 * 0.8],
+  "maybe-next-time-emote-title.png": [305, 58],
+  "okay-emote-title.png": [219, 58],
   "paid-ball-title.png": [512, 58],
   "paid-box-title.png": [601, 59],
   "paid-idol-box-title.png": [539, 103],
+  "paid-idol-card-extra-title.png": [930, 103],
   "paid-idol-card-title.png": [930, 103],
   "paid-my-card-150-title.png": [937, 65],
   "paid-my-card-300-title.png": [937, 65],
+  "pcs-emotes-hps-arghhh-title.png": [942, 58],
   "qiyana-skin-2019-title.png": [800, 65],
   "senna-skin-2019-title.png": [742, 65],
   "sett-skin-2023-title.png": [574, 64],
+  "stone-faced-emote-title.png": [366, 58],
   "teemo-hat-title.png": [174 * 0.8, 58 * 0.8],
   "tibbers-blind-box-title.png": [424 * 0.72, 58 * 0.72],
   "tibbers-plush-title.png": [307 * 0.8, 58 * 0.8],
   "true-damage-poster-title.png": [648, 66],
   "true-damage-vinyl-title.png": [645, 66],
+  "unworthy-emote-title.png": [306, 58],
   "worlds-2026-collector-box-title.png": [704, 58],
   "yasuo-skin-2019-title.png": [742, 66],
   "yone-skin-2023-title.png": [574, 64],

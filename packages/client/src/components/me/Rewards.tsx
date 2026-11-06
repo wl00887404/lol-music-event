@@ -4,7 +4,10 @@ import useTeam from "@/hooks/useTeam";
 import { Team } from "@/types";
 import { type Reward } from "@/apis";
 import useRewards from "@/hooks/useRewards";
-import { getClaimedMerchButtonText, getIconSrc } from "../dialogs/reward/helper";
+import {
+  getClaimedMerchButtonText,
+  getIconSrc,
+} from "../dialogs/reward/helper";
 import BaseButton from "../BaseButton";
 import ClaimDialog from "../dialogs/reward/ClaimDialog";
 import { useState } from "react";
@@ -68,6 +71,14 @@ function RewardItem(props: { reward: Reward; balance: number }) {
       return (
         <span className="text-[0.71875em] md:text-[1.4375em] font-[700]">
           已兌換完畢
+        </span>
+      );
+    }
+
+    if (!reward.eligible) {
+      return (
+        <span className="text-[0.71875em] md:text-[1.4375em] font-[700]">
+          不符合資格
         </span>
       );
     }

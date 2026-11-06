@@ -457,4 +457,5 @@ export type PublicReward = {
   available: boolean; // 還有沒有存貨
   claimedAt: Date | null; // 兌換日期
   buttonText: string | null; // 自訂按鈕文字
+  eligible: boolean; // 是否符合資格
 };

@@ -270,6 +270,7 @@ export type Reward = {
   available: boolean; // 還有沒有存貨
   claimedAt: string | null; // 兌換日期
   buttonText: string | null; // 自訂按鈕文字
+  eligible: boolean; // 是否符合資格
 };
 
 type GetRewardsData = {

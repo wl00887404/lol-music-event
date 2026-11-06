@@ -50,8 +50,14 @@ const NoPrizeCode = {
   reachDailyLimit: "CLAIM_COUNT_REACH_DAILY_LIMIT",
   outOfStock: "REWARD_OUT_OF_STOCK",
   reachUserLimit: "CLAIM_COUNT_REACH_USER_LIMIT",
+  notEligible: "NOT_ELIGIBLE",
 } as const;
 const NO_PRIZE_CODES: string[] = Object.values(NoPrizeCode);
+
+// 臨時活動規則（寫死）：已兌換過 EXTRA_BLOCKED_BY 任一項，就不能兌換 EXTRA_KEY。
+// 刻意只擋單向：兌換 extra 之後才抽中 free-idol-card 的玩家不處理。活動結束後整段移除。
+const EXTRA_KEY = "paid-idol-card-extra";
+const EXTRA_BLOCKED_BY = ["paid-idol-card", "free-idol-card"];
 
 const TAIPEI = tz("Asia/Taipei");
 
@@ -185,6 +191,11 @@ const loadStock = async () => {
   }
 };
 
+const isEligible = (key: string, rewards: { key: string }[]) => {
+  if (key !== EXTRA_KEY) return true;
+  return !rewards.some((r) => EXTRA_BLOCKED_BY.includes(r.key));
+};
+
 export const claimRewardInTx = async (
   tx: Tx,
   userId: string,
@@ -233,7 +244,7 @@ export const claimRewardInTx = async (
     }
   }
 
-  // 3. 個人點數與兌換上限
+  // 3. 個人點數、兌換上限、兌換資格
   const myRewards = await tx
     .select({ key: rewardTable.key, price: rewardTable.price })
     .from(rewardTable)
@@ -257,6 +268,13 @@ export const claimRewardInTx = async (
     throw new ApiError(403, {
       code: NoPrizeCode.reachUserLimit,
       message: "兌換數量已達使用者上限",
+    });
+  }
+
+  if (!isEligible(targetReward.key, myRewards)) {
+    throw new ApiError(403, {
+      code: NoPrizeCode.notEligible,
+      message: "不符合兌換資格",
     });
   }
 
@@ -453,6 +471,13 @@ const validRewardSettings = () => {
       throw new Error(`${key} 總和超過 MAX_DICE`);
     }
   }
+
+  // 寫死的資格規則引用的 key 必須存在，避免打錯字時規則悄悄失效
+  for (const key of [EXTRA_KEY, ...EXTRA_BLOCKED_BY]) {
+    if (!rewardSettingMap.has(key)) {
+      throw new Error(`資格規則引用了不存在的獎勵：${key}`);
+    }
+  }
 };
 
 validRewardSettings();
@@ -497,15 +522,12 @@ export const rewardService = {
   claimPaidReward,
   claimFreeReward,
   resetFreeDrawChance: async (nextCount = 1) => {
+    if (process.env.NODE_ENV === "development") return;
     const userResult = await db
       .select({ count: count() })
       .from(userTable)
       .where(eq(userTable.freeDrawChances, 0))
       .then(head);
-
-    const prev = userResult?.count || 0;
-    const message = `昨日抽獎人數：${prev}`;
-    await logService.insert(message);
 
     try {
       const { start: yesterdayStart, end: yesterdayEnd } = getTodayRange(
@@ -541,4 +563,5 @@ export const rewardService = {
   getRewardSetting,
   paidRewardSettings,
   getMyRewards,
+  isEligible,
 };

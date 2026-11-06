@@ -85,6 +85,9 @@ function ClaimButton(props: {
     if (!reward.available) {
       return <OkButton onClick={closeDialog}>已兌換完畢</OkButton>;
     }
+    if (!reward.eligible) {
+      return <OkButton onClick={closeDialog}>不符合資格</OkButton>;
+    }
     if (balance < reward.price) {
       return (
         <OkButton
@@ -156,6 +159,7 @@ function ClaimDialog(props: Props) {
   // FIXME: 現在有 aspectRatio，應該不用手動儲存這些資料
   const isTallTile = [
     "paid-idol-card",
+    "paid-idol-card-extra",
     "paid-idol-box",
     "kda-cdc-blades",
     "free-idol-card",

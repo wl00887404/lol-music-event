@@ -346,7 +346,8 @@ meRouter.get(`${URL}/free-rewards`, async (req, res) => {
       code: r.code,
       price: setting.price,
       isMerch: setting.isMerch,
-      available: false,
+      available: false, // 不會用到的欄位，應該可以隨意傳
+      eligible: true, // 不會用到的欄位，應該可以隨意傳
       claimedAt: r.claimedAt,
       buttonText: r.buttonText,
     };
@@ -386,6 +387,7 @@ meRouter.get(`${URL}/paid-rewards`, async (req, res) => {
           price: setting.price,
           isMerch: setting.isMerch,
           available: remainingCount > 0,
+          eligible: rewardService.isEligible(setting.key, results),
           ...getClaimedState(),
         };
       });
