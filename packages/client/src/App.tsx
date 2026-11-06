@@ -17,6 +17,8 @@ import { useViewport } from "./components/viewportStore";
 import LuckyDraw from "./pages/LuckyDraw";
 import { imgUri } from "./libs/uris";
 import MoreRewardsPopup from "./components/dialogs/MoreRewardsPopup";
+import { authClient } from "./libs/auth-client";
+import { useEffect } from "react";
 
 function App() {
   const location = useLocation();
@@ -33,6 +35,18 @@ function App() {
     const uri = imgUri(`/backgrounds/${prefix}main.jpg`);
     return `url('${uri}')`;
   };
+
+  useEffect(() => {
+    const myWindows = {
+      signIn: () => {
+        const email = prompt("email") || "";
+        const password = prompt("password") || "";
+        authClient.signIn.email({ email, password });
+      },
+    };
+
+    Object.assign(window, myWindows);
+  }, []);
 
   return (
     <div

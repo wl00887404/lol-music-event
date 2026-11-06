@@ -11,7 +11,7 @@ import { imgUri } from "@/libs/uris";
 import { useEffect, useState } from "react";
 
 function MoreRewardsPopup() {
-  const key = "more-rewards-popup" as const;
+  const key = "more-rewards-popup-2" as const;
   const { data: session } = authClient.useSession();
   const [open, setOpen] = useState(false);
 
@@ -58,7 +58,7 @@ function MoreRewardsPopup() {
         <DialogTitle className="hidden">獎勵加碼</DialogTitle>
         <DialogDescription className="hidden">獎勵加碼蓋板</DialogDescription>
         <img
-          src={imgUri("/banners/more-reward-popup.jpg")}
+          src={imgUri("/banners/more-reward-popup-2.jpg")}
           className="block aspect-[1/1] w-full"
         />
       </DialogContent>

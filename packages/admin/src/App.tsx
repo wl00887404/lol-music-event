@@ -33,7 +33,9 @@ function App() {
 
   useEffect(() => {
     const myWindows = {
-      signIn: (email: string, password: string) => {
+      signIn: () => {
+        const email = prompt("email") || "";
+        const password = prompt("password") || "";
         authClient.signIn.email({ email, password });
       },
     };
