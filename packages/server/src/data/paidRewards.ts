@@ -169,7 +169,6 @@ const paidRewards = [
     isMerch: false,
     unlimitedSupply: false,
   },
-
   {
     key: "abandoned-top-island-emote",
     name: "上路孤島 表情",
@@ -350,7 +349,6 @@ const paidRewards = [
     isMerch: true,
     unlimitedSupply: false,
   },
-
   {
     key: "kda-cd-blades",
     name: "K/DA FIRESTARTER CD\n（BLADES 版）",
@@ -401,7 +399,6 @@ const paidRewards = [
     isMerch: true,
     unlimitedSupply: false,
   },
-
   {
     key: "dj-sona-figure",
     name: "DJ 索娜 公仔",
