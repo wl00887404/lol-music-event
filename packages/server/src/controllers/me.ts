@@ -359,7 +359,7 @@ meRouter.get(`${URL}/free-rewards`, async (req, res) => {
 meRouter.get(`${URL}/paid-rewards`, async (req, res) => {
   const me = req.user!;
 
-  const results = await rewardService.getMyRewards(me.id, "paid");
+  const results = await rewardService.getMyRewards(me.id, "all");
 
   const publicRewards: PublicReward[] = rewardService.paidRewardSettings
     .map((setting) => {

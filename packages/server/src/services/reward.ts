@@ -193,6 +193,7 @@ const loadStock = async () => {
 
 const isEligible = (key: string, rewards: { key: string }[]) => {
   if (key !== EXTRA_KEY) return true;
+
   return !rewards.some((r) => EXTRA_BLOCKED_BY.includes(r.key));
 };
 
@@ -503,8 +504,14 @@ const getRewardSetting = (key: string) => {
   return unknownSetting;
 };
 
-const getMyRewards = async (userId: string, type: "free" | "paid") => {
-  const settings = type === "free" ? freeRewardSettings : paidRewardSettings;
+const getMyRewards = async (userId: string, type: "free" | "paid" | "all") => {
+  const getSettings = () => {
+    if (type === "free") return freeRewardSettings;
+    if (type === "paid") return paidRewardSettings;
+
+    return [...freeRewardSettings, ...paidRewardSettings];
+  };
+  const settings = getSettings();
   const keys = settings.map((s) => s.key);
 
   const results = await db
