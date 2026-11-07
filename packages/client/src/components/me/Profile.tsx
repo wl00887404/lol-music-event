@@ -8,8 +8,7 @@ import useMyLeaderboard from "@/hooks/useMyLeaderboard";
 import { Team } from "@/types";
 import BaseButton from "../BaseButton";
 import RwdImg from "@/components/RwdImg";
-import getProfileUrl from "@/libs/getProfileUrl";
-import { imgUri } from "@/libs/uris";
+import { imgUri, profileUri } from "@/libs/uris";
 
 type TitleProps = {
   children: ReactNode;
@@ -138,7 +137,7 @@ function Profile() {
       >
         {image && (
           <img
-            src={getProfileUrl(image)}
+            src={profileUri(image)}
             className="rounded-[50%] w-[8.9375em] h-[8.9375em]"
           />
         )}

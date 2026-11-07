@@ -359,3 +359,14 @@ export const getMyLotteryTicketCount = async () => {
   const { data } = response;
   return data;
 };
+
+// export const getGameVersion = async () => {
+//   const response = await instance.get<string[]>(
+//     "https://ddragon.leagueoflegends.com/api/versions.json",
+//   );
+
+//   const { data } = response;
+//   return data[0];
+// };
+
+// getGameVersion();

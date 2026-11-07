@@ -3,7 +3,6 @@ import HeroCarousel from "@/components/home/HeroCarousel";
 import { SpacedText } from "@/components/SpacedText";
 import { authClient } from "@/libs/auth-client";
 import getPlaceholderString from "@/libs/getPlaceholderString";
-import getProfileUrl from "@/libs/getProfileUrl";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { SCROLL_TO_HERE_ID } from "@/components/ScrollToTop";
 import {
@@ -11,7 +10,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { imgUri } from "@/libs/uris";
+import { imgUri, profileUri } from "@/libs/uris";
 
 const WIDTH = 521;
 const HEIGHT = 389;
@@ -82,7 +81,7 @@ function LeaderboardItem(props: Props) {
       />
       {loading ? null : (
         <image
-          href={getProfileUrl(image)}
+          href={profileUri(image)}
           x="200"
           y="73"
           width="120"

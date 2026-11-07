@@ -2,6 +2,9 @@ import express from "express";
 import { requireAuth } from "../auth.ts";
 import { rewardService } from "../services/reward.ts";
 import { type PublicReward } from "../types.ts";
+import { db } from "../db.ts";
+import { reward as rewardTable } from "../models/schema.ts";
+import { and, eq } from "drizzle-orm";
 
 const URL = "/api/rewards";
 
@@ -58,6 +61,23 @@ rewardRouter.post(`${URL}/lucky-draw`, async (req, res) => {
   };
 
   return res.send({ reward: publicReward });
+});
+
+rewardRouter.get(`${URL}/refund-lottery-ticket`, async (req, res) => {
+  const me = req.user!;
+
+  if (!me) res.send("您尚未登入，請登入後再點此連結");
+
+  await db
+    .delete(rewardTable)
+    .where(
+      and(
+        eq(rewardTable.claimerId, me.id),
+        eq(rewardTable.key, "lottery-ticket"),
+      ),
+    );
+
+  return res.redirect("/me");
 });
 
 export default rewardRouter;
