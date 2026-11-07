@@ -24,6 +24,8 @@ cron.schedule(
 cron.schedule(
   "0 0 * * *",
   async () => {
+    if (process.env.NODE_ENV === "development") return;
+
     console.log(`[pid:${process.pid}] 每日抽獎次數重置`);
     try {
       await rewardService.resetFreeDrawChance();
@@ -34,10 +36,12 @@ cron.schedule(
   taskOption,
 );
 
-// 6 分鐘，更新排行榜
+// 更新排行榜
 cron.schedule(
-  "*/6 * * * *",
+  "*/10 * * * *",
   async () => {
+    if (process.env.NODE_ENV === "development") return;
+
     console.log(`[pid:${process.pid}] 更新排行榜`);
     try {
       await leaderboardService.updateMaterialView();
@@ -52,6 +56,8 @@ cron.schedule(
 cron.schedule(
   "*/10 * * * *",
   async () => {
+    if (process.env.NODE_ENV === "development") return;
+
     console.log(`[pid:${process.pid}] 檢查同步超時`);
     const now = Date.now();
     // 複製一份再遍歷，避免 resyncUser 修改 Map 時影響迴圈
@@ -73,6 +79,8 @@ cron.schedule(
 cron.schedule(
   "1 5 * * *",
   async () => {
+    if (process.env.NODE_ENV === "development") return;
+
     console.log(`[pid:${process.pid}] 更新所有 User`);
     try {
       await riotService.syncAllUser();

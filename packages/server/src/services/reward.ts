@@ -529,7 +529,6 @@ export const rewardService = {
   claimPaidReward,
   claimFreeReward,
   resetFreeDrawChance: async (nextCount = 1) => {
-    if (process.env.NODE_ENV === "development") return;
     const userResult = await db
       .select({ count: count() })
       .from(userTable)
