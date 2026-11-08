@@ -1,6 +1,10 @@
 import { db } from "../db.ts";
 import { user as userTable } from "../models/auth-schema.ts";
-import { freeDrawReport, reward as rewardTable } from "../models/schema.ts";
+import {
+  freeDrawReport,
+  reward as rewardTable,
+  playerMatchHistory,
+} from "../models/schema.ts";
 import {
   and,
   count,
@@ -53,6 +57,7 @@ const NoPrizeCode = {
   notEligible: "NOT_ELIGIBLE",
 } as const;
 const NO_PRIZE_CODES: string[] = Object.values(NoPrizeCode);
+const BLOCKED_RIOT_ID_PREFIXES = ["toilaia", "1A2b3M4n", "xweuot23"];
 
 // 臨時活動規則（寫死）：已兌換過 EXTRA_BLOCKED_BY 任一項，就不能兌換 EXTRA_KEY。
 // 刻意只擋單向：兌換 extra 之後才抽中 free-idol-card 的玩家不處理。活動結束後整段移除。
@@ -427,13 +432,21 @@ const claimFreeReward = async (
 
     const chancesLeft = spent.chancesLeft || 0;
 
-    // 可疑濫用帳號
-    if (
-      user.email.includes("+") ||
-      user.riotId?.startsWith("toilaia") ||
-      user.riotId?.startsWith("1A2b3M4n") ||
-      user.riotId?.startsWith("xweuot23")
-    ) {
+    const hasPlayed = user.puuid
+      ? (
+          await tx
+            .select({ id: playerMatchHistory.puuid })
+            .from(playerMatchHistory)
+            .where(eq(playerMatchHistory.puuid, user.puuid))
+            .limit(1)
+        ).length > 0
+      : false;
+
+    const isBlockedRiotId = BLOCKED_RIOT_ID_PREFIXES.some((p) =>
+      user.riotId?.startsWith(p),
+    );
+
+    if (!hasPlayed || isBlockedRiotId) {
       return { win: false, chancesLeft, reward: null }; // 銘謝惠顧
     }
 
