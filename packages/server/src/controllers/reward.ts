@@ -40,7 +40,7 @@ rewardRouter.post(`${URL}/claim`, async (req, res) => {
 
 rewardRouter.post(`${URL}/lucky-draw`, async (req, res) => {
   const me = req.user!;
-  const { reward } = await rewardService.claimFreeReward(me.id);
+  const { reward } = await rewardService.claimFreeReward(me);
 
   if (!reward) {
     return res.send({ reward: null });

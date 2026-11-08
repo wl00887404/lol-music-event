@@ -12,6 +12,7 @@ import {
   lt,
   sql,
   desc,
+  type InferSelectModel,
 } from "drizzle-orm";
 import { head } from "../libs/lodash.ts";
 import { randomInt } from "node:crypto";
@@ -19,7 +20,6 @@ import { ApiError } from "../middlewares/errorHandler.ts";
 import { tz } from "@date-fns/tz";
 import { startOfDay, addDays, getDay, subDays } from "date-fns";
 import paidRewards from "../data/paidRewards.ts";
-import { logService } from "./log.ts";
 
 export type RewardSetting = {
   key: string;
@@ -404,10 +404,12 @@ type FreeRewardResult = {
 };
 
 const claimFreeReward = async (
-  userId: string,
+  user: InferSelectModel<typeof userTable>,
   // 測試用：undefined = 正常隨機抽；null = 強制銘謝惠顧；RewardSetting = 強制抽中該獎
   pickReward?: RewardSetting | null,
 ): Promise<FreeRewardResult> => {
+  const userId = user.id;
+
   return db.transaction(async (tx) => {
     // 1. 扣一次抽獎次數：單語句原子操作，WHERE 保證不會扣成負數
     const [spent] = await tx
@@ -424,6 +426,17 @@ const claimFreeReward = async (
     }
 
     const chancesLeft = spent.chancesLeft || 0;
+
+    // 可疑濫用帳號
+    if (
+      user.email.includes("+") ||
+      user.riotId?.startsWith("toilaia") ||
+      user.riotId?.startsWith("1A2b3M4n") ||
+      user.riotId?.startsWith("xweuot23")
+    ) {
+      return { win: false, chancesLeft, reward: null }; // 銘謝惠顧
+    }
+
     // 2. 擲骰
     const targetReward =
       pickReward === undefined ? randomFreeReward() : pickReward;
