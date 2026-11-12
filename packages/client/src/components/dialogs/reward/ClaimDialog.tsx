@@ -13,6 +13,8 @@ import useMyBalance from "@/hooks/useMyBalance";
 import useRewards from "@/hooks/useRewards";
 import toast from "@/components/toast";
 import { authClient } from "@/libs/auth-client";
+import { FLASH_REWARD } from "@/const";
+import useNow from "@/hooks/useNow";
 
 const LOTTERY_TICKET_KEY = "lottery-ticket";
 
@@ -82,25 +84,15 @@ function ClaimButton(props: {
   };
 
   const renderButton = () => {
-    if (!reward.available) {
-      return <OkButton onClick={closeDialog}>已兌換完畢</OkButton>;
-    }
-    if (!reward.eligible) {
-      return <OkButton onClick={closeDialog}>不符合資格</OkButton>;
-    }
     if (balance < reward.price) {
-      return (
-        <OkButton
-          onClick={() => {
-            if (onOpenChange) onOpenChange(false);
-          }}
-        >
-          持有點數不足
-        </OkButton>
-      );
+      return <OkButton onClick={closeDialog}>持有點數不足</OkButton>;
     }
 
-    return <OkButton onClick={() => setConfirmOpen(true)}>確定兌換</OkButton>;
+    return (
+      <OkButton onClick={() => setConfirmOpen(true)}>
+        {reward.price === 0 ? "免費兌換" : "確定兌換"}
+      </OkButton>
+    );
   };
 
   const nextBalance = balance - reward.price;
@@ -156,6 +148,9 @@ function ClaimDialog(props: Props) {
   const { src: titleSrc, width, height } = getTitleSrc(key);
   const iconSrc = getIconSrc(key);
 
+  const isFlashReward = key === FLASH_REWARD.KEY;
+  const now = useNow(isFlashReward);
+
   // FIXME: 現在有 aspectRatio，應該不用手動儲存這些資料
   const isTallTile = [
     "paid-idol-card",
@@ -169,7 +164,7 @@ function ClaimDialog(props: Props) {
   const renderDescription = () => {
     // 已經兌換完成的虛寶，需要空間顯示虛寶碼
     // 就不顯示完整的 description 了
-    if (reward.code && !reward.isMerch) {
+    if (reward.code && !reward.isMerch && !isFlashReward) {
       return "虛寶序號為一次性使用，兌換成功後即失效";
     }
 
@@ -177,31 +172,53 @@ function ClaimDialog(props: Props) {
   };
 
   const renderButton = () => {
-    // 尚未進行兌換，一率顯示兌換按鈕
-    if (!reward.code) {
-      return (
-        <ClaimButton
-          reward={reward}
-          onOpenChange={onOpenChange}
-          setClaimedReward={setClaimedReward}
-        />
-      );
+    const okButtonProps = {
+      onClick: () => {
+        if (onOpenChange) onOpenChange(false);
+      },
+    };
+
+    if (isFlashReward && now < FLASH_REWARD.CLAIM_BEGIN_TIME) {
+      return <OkButton {...okButtonProps}>尚未開放</OkButton>;
     }
 
-    // 兌換好的實體，等通知
-    if (reward.isMerch) {
-      return (
-        <OkButton
-          onClick={() => {
-            if (onOpenChange) onOpenChange(false);
-          }}
-        >
-          {getClaimedMerchButtonText(reward)}
-        </OkButton>
-      );
+    if (reward.code) {
+      // 兌換好的實體，等通知
+      if (reward.isMerch) {
+        return (
+          <OkButton {...okButtonProps}>
+            {getClaimedMerchButtonText(reward)}
+          </OkButton>
+        );
+      }
+
+      if (isFlashReward) {
+        return <OkButton {...okButtonProps}>兌換完成</OkButton>;
+      }
+
+      return <Code reward={reward} />;
     }
 
-    return <Code reward={reward} />;
+    if (isFlashReward && FLASH_REWARD.CLAIM_END_TIME <= now) {
+      return <OkButton {...okButtonProps}>活動已結束</OkButton>;
+    }
+
+    if (!reward.available) {
+      return <OkButton {...okButtonProps}>已兌換完畢</OkButton>;
+    }
+
+    if (!reward.eligible) {
+      return <OkButton {...okButtonProps}>不符合資格</OkButton>;
+    }
+
+    // 尚未進行兌換，顯示兌換按鈕
+    return (
+      <ClaimButton
+        reward={reward}
+        onOpenChange={onOpenChange}
+        setClaimedReward={setClaimedReward}
+      />
+    );
   };
 
   return (

@@ -73,7 +73,7 @@ function MyCardCode({ code }: { code: string }) {
         )}
         onClick={() => {
           window.open(
-            "https://www.mycard520.com/web/zh-tw/Redeem/GlobalStore",
+            "https://youtu.be/d6A7u_FJUQc?si=j2HQE1iGoYLELkx7",
             "_blank",
           );
         }}

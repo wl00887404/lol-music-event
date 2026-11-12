@@ -17,6 +17,7 @@ const items = [
   { key: "merchRewards", label: "實體獎品" },
   { key: "codeRewards", label: "虛體寶物" },
   { key: "lotteryRewards", label: "抽獎卷" },
+  { key: "worldChampionshipLotteryRewards", label: "世界大賽抽獎卷" },
   { key: "stock", label: "庫存量" },
   { key: "users", label: "玩家" },
   { key: "freeDrawReport", label: "每日抽獎" },
@@ -74,7 +75,12 @@ function App() {
         {menuKey === "stock" && <StockTable />}
         {menuKey === "merchRewards" && <RewardTable type="merch" />}
         {menuKey === "codeRewards" && <RewardTable type="code" />}
-        {menuKey === "lotteryRewards" && <LotteryRewardTable />}
+        {menuKey === "lotteryRewards" && (
+          <LotteryRewardTable rewardKey="lottery-ticket" />
+        )}
+        {menuKey === "worldChampionshipLotteryRewards" && (
+          <LotteryRewardTable rewardKey="world-championship-lottery-ticket" />
+        )}
         {menuKey === "freeDrawReport" && <FreeDrawReportTable />}
         {menuKey === "richMen" && <RichManTable />}
         {/* {menuKey === "scoreCount" && <ScoreCountPage />} */}

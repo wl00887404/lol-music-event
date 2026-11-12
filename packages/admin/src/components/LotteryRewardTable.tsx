@@ -29,16 +29,17 @@ const exportedColumns: ExportedColumn[] = [
   { dataIndex: "count", title: "兌換數量" },
 ];
 
-function ExportButton() {
+function ExportButton(props: Props) {
   const [isExporting, setIsExporting] = useState(false);
 
-  const fileName = "抽獎卷" + format(new Date(), "yyyy/MM/dd HH:mm");
+  const fileName =
+    rewardMap[props.rewardKey].name + format(new Date(), "yyyy/MM/dd HH:mm");
 
   const onClick = async () => {
     setIsExporting(true);
 
     const users = await fetchAllData(({ limit, offset }) =>
-      getLotteryRewards({ limit, offset }),
+      getLotteryRewards({ limit, offset, rewardKey: props.rewardKey }),
     );
 
     const rows = users.map((user) => {
@@ -70,15 +71,21 @@ function ExportButton() {
   );
 }
 
-function LotteryRewardTable() {
+type Props = {
+  rewardKey: "lottery-ticket" | "world-championship-lottery-ticket";
+};
+
+function LotteryRewardTable(props: Props) {
   const [current, setCurrent] = useState(1);
   const [pageSize, setPageSize] = useState(20);
-  const { data, isPending, refetch } = useQuery({
-    queryKey: ["getLotteryRewards", current, pageSize],
+  const { rewardKey } = props;
+  const { data, isPending } = useQuery({
+    queryKey: ["getLotteryRewards", current, pageSize, rewardKey],
     queryFn: () => {
       return getLotteryRewards({
         offset: (current - 1) * pageSize,
         limit: pageSize,
+        rewardKey,
       });
     },
     placeholderData: keepPreviousData,
@@ -136,7 +143,7 @@ function LotteryRewardTable() {
       title={() => {
         return (
           <Flex justify="end" align="center" gap="medium">
-            <ExportButton />
+            <ExportButton rewardKey={rewardKey} />
           </Flex>
         );
       }}

@@ -160,14 +160,14 @@ async function insertRewards() {
 
   console.table(dd);
 
-  while (true) {
-    console.log("start:", start);
-    batch = values.slice(start, start + page);
-    if (batch.length === 0) break;
-    await db.insert(rewardTable).values(batch).onConflictDoNothing();
-    start += page;
-    await new Promise((res) => setTimeout(res, 200));
-  }
+  // while (true) {
+  //   console.log("start:", start);
+  //   batch = values.slice(start, start + page);
+  //   if (batch.length === 0) break;
+  //   await db.insert(rewardTable).values(batch).onConflictDoNothing();
+  //   start += page;
+  //   await new Promise((res) => setTimeout(res, 200));
+  // }
 }
 
 insertRewards();

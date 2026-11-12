@@ -2,6 +2,16 @@ import keyBy from "./libs/keyBy";
 
 const rewardSettings = [
   {
+    key: "world-championship-lottery-ticket",
+    name: "世界賽觀賽節目專屬抽獎券",
+    description:
+      "將於觀賽節目結束前抽出得獎者，詳情請見英雄聯盟社群專頁\n後續由工作人員寄送 Email 至網頁註冊信箱聯絡\n僅限寄送台澎金馬地區。實際寄送時間依贈品到貨及官方出貨安排為準",
+    price: 0,
+    limit: 1,
+    isMerch: false,
+    unlimitedSupply: true,
+  },
+  {
     key: "paid-box",
     name: "海克斯科技鑰匙 & 寶箱",
     description:
@@ -155,7 +165,7 @@ const rewardSettings = [
     key: "maybe-next-time-emote",
     name: "下次囉 表情",
     description:
-      "兌換後將獲得「下次囉」表情序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 100 組，兌完為止",
+      "兌換後將獲得「下次囉」表情序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n限量 100 組，兌完為止",
     price: 150,
     limit: 1,
     isMerch: false,
@@ -165,18 +175,17 @@ const rewardSettings = [
     key: "stone-faced-emote",
     name: "傻眼石像 表情",
     description:
-      "兌換後將獲得「傻眼石像」表情序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 100 組，兌完為止",
+      "兌換後將獲得「傻眼石像」表情序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n限量 100 組，兌完為止",
     price: 150,
     limit: 1,
     isMerch: false,
     unlimitedSupply: false,
   },
-
   {
     key: "abandoned-top-island-emote",
     name: "上路孤島 表情",
     description:
-      "兌換後將獲得「上路孤島」表情序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 100 組，兌完為止",
+      "兌換後將獲得「上路孤島」表情序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n限量 100 組，兌完為止",
     price: 150,
     limit: 1,
     isMerch: false,
@@ -186,7 +195,7 @@ const rewardSettings = [
     key: "okay-emote",
     name: "OK 表情",
     description:
-      "兌換後將獲得「OK」表情序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 100 組，兌完為止",
+      "兌換後將獲得「OK」表情序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n限量 100 組，兌完為止",
     price: 150,
     limit: 1,
     isMerch: false,
@@ -196,7 +205,7 @@ const rewardSettings = [
     key: "unworthy-emote",
     name: "不值得 表情",
     description:
-      "兌換後將獲得「不值得」表情序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 100 組，兌完為止",
+      "兌換後將獲得「不值得」表情序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n限量 100 組，兌完為止",
     price: 150,
     limit: 1,
     isMerch: false,
@@ -206,10 +215,30 @@ const rewardSettings = [
     key: "pcs-emotes-hps-arghhh",
     name: "PCS：HPS 表情",
     description:
-      "兌換後將獲得「PCS：HPS - 天啊，求求你不要！」表情序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n共限量 7 組，兌完為止",
+      "兌換後將獲得「PCS：HPS - 天啊，求求你不要！」表情序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n限量 7 組，兌完為止",
     price: 777,
     limit: 1,
     isMerch: false,
+    unlimitedSupply: false,
+  },
+  {
+    key: "hyperx-pulsefire-fuse",
+    name: "HyperX Pulsefire Fuse 無線電競滑鼠",
+    description:
+      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n限量 2 組，兌完為止",
+    price: 1200,
+    limit: 1,
+    isMerch: true,
+    unlimitedSupply: false,
+  },
+  {
+    key: "hyperx-cloud-flight-2-wireless",
+    name: "HyperX Cloud Flight 2 Wireless 無線電競耳機",
+    description:
+      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n限量 1 組，兌完為止",
+    price: 1800,
+    limit: 1,
+    isMerch: true,
     unlimitedSupply: false,
   },
   {
@@ -226,7 +255,7 @@ const rewardSettings = [
     key: "paid-idol-card-extra",
     name: "限量社群小卡盲盒包（加碼）",
     description:
-      "為了讓更多玩家都可以獲得限量社群小卡盲盒包，\n僅限未透過本網頁兌換或抽獎獲得過限量社群小卡盲盒包之玩家兌換。\n僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料\n實際寄送時間依贈品到貨及官方出貨安排為準。\n共限量 1,200 組，兌完為止",
+      "為了讓更多玩家都可以獲得限量社群小卡盲盒包，\n僅限未透過本網頁兌換或抽獎獲得過限量社群小卡盲盒包之玩家兌換。\n僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料\n實際寄送時間依贈品到貨及官方出貨安排為準。\n限量 1,200 組，兌完為止",
     price: 250,
     limit: 1,
     isMerch: true,
@@ -276,7 +305,7 @@ const rewardSettings = [
     key: "paid-my-card-150",
     name: "MyCard 150 點（英雄聯盟專用點數）",
     description:
-      "兌換後將獲得 MyCard 150 點（英雄聯盟專用點數）序號乙組\n序號為一次性使用，兌換成功即失效\n共限量 150 組，兌完為止",
+      "兌換後將獲得 MyCard 150 點（英雄聯盟專用點數）序號乙組\n序號為一次性使用，兌換成功即失效\n限量 150 組，活動再加碼 300 組，兌完為止",
     price: 150,
     limit: 1,
     isMerch: false,
@@ -286,7 +315,7 @@ const rewardSettings = [
     key: "paid-my-card-300",
     name: "MyCard 300 點（英雄聯盟專用點數）",
     description:
-      "兌換後將獲得 MyCard 300 點（英雄聯盟專用點數）序號乙組\n序號為一次性使用，兌換成功即失效\n共限量 20 組，兌完為止",
+      "兌換後將獲得 MyCard 300 點（英雄聯盟專用點數）序號乙組\n序號為一次性使用，兌換成功即失效\n限量 20 組，兌完為止",
     price: 300,
     limit: 1,
     isMerch: false,
@@ -296,7 +325,7 @@ const rewardSettings = [
     key: "paid-idol-card",
     name: "限量社群小卡盲盒包",
     description:
-      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n共限量 350 組，兌完為止",
+      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n限量 350 組，兌完為止",
     price: 250,
     limit: 2,
     isMerch: true,
@@ -306,7 +335,7 @@ const rewardSettings = [
     key: "heart-steel-poster",
     name: "心鋼之聲 海報掛軸",
     description:
-      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n共限量 5 組，兌完為止",
+      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n限量 5 組，兌完為止",
     price: 350,
     limit: 1,
     isMerch: true,
@@ -316,7 +345,7 @@ const rewardSettings = [
     key: "true-damage-poster",
     name: "True Damage 海報掛軸",
     description:
-      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n共限量 5 組，兌完為止",
+      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n限量 5 組，兌完為止",
     price: 350,
     limit: 1,
     isMerch: true,
@@ -406,7 +435,7 @@ const rewardSettings = [
     key: "dj-sona-figure",
     name: "DJ 索娜 公仔",
     description:
-      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n共限量 2 組，兌完為止",
+      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n限量 2 組，兌完為止",
     price: 1000,
     limit: 1,
     isMerch: true,
@@ -416,7 +445,7 @@ const rewardSettings = [
     key: "teemo-hat",
     name: "提摩帽",
     description:
-      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n共限量 5 組，兌完為止",
+      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n限量 5 組，兌完為止",
     price: 500,
     limit: 1,
     isMerch: true,
@@ -426,7 +455,7 @@ const rewardSettings = [
     key: "tibbers-plush",
     name: "泰貝爾 娃娃",
     description:
-      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n共限量 5 組，兌完為止",
+      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n限量 5 組，兌完為止",
     price: 800,
     limit: 1,
     isMerch: true,
@@ -436,7 +465,7 @@ const rewardSettings = [
     key: "tibbers-blind-box",
     name: "泰貝爾吊飾 盲盒",
     description:
-      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n共限量 20 組，兌完為止",
+      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n限量 20 組，兌完為止",
     price: 400,
     limit: 1,
     isMerch: true,
@@ -446,7 +475,7 @@ const rewardSettings = [
     key: "caps-hall-of-legends-bundle",
     name: "傳奇殿堂 Caps 帽子 + 滑鼠墊",
     description:
-      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n共限量 30 組，兌完為止",
+      "僅限寄送台澎金馬地區。\n兌換後 7 個工作天內將以 Email 聯繫確認收件資料；\n實際寄送時間依贈品到貨及官方出貨安排為準。\n限量 30 組，兌完為止",
     price: 450,
     limit: 1,
     isMerch: true,

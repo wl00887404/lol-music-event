@@ -14,6 +14,8 @@ import { useState } from "react";
 import useMyBalance from "@/hooks/useMyBalance";
 import { useViewport } from "../viewportStore";
 import { imgUri } from "@/libs/uris";
+import { FLASH_REWARD } from "@/const";
+import useNow from "@/hooks/useNow";
 
 function Header(props: { titleColor: string }) {
   const { titleColor } = props;
@@ -58,29 +60,46 @@ function RewardItem(props: { reward: Reward; balance: number }) {
   const iconSrc = getIconSrc(reward.key);
   const [open, setOpen] = useState(false);
 
+  const isFlashReward = reward.key === FLASH_REWARD.KEY;
+  const now = useNow(isFlashReward);
+
+  if (isFlashReward && now < FLASH_REWARD.DISPLAY_TIME) {
+    return null;
+  }
+
   const renderPrice = () => {
+    const textClassName = "text-[0.71875em] md:text-[1.4375em] font-[700]";
+
+    if (isFlashReward && now < FLASH_REWARD.CLAIM_BEGIN_TIME) {
+      return <span className={textClassName}>尚未開放</span>;
+    }
+
     if (reward.code) {
+      if (isFlashReward) {
+        return <span className={textClassName}>兌換完成</span>;
+      }
+
       return (
-        <span className="text-[0.71875em] md:text-[1.4375em] font-[500]">
+        <span className={textClassName}>
           {reward.isMerch ? getClaimedMerchButtonText(reward) : "前往兌換"}
         </span>
       );
     }
 
+    if (isFlashReward && FLASH_REWARD.CLAIM_END_TIME <= now) {
+      return <span className={textClassName}>活動已結束</span>;
+    }
+
     if (!reward.available) {
-      return (
-        <span className="text-[0.71875em] md:text-[1.4375em] font-[700]">
-          已兌換完畢
-        </span>
-      );
+      return <span className={textClassName}>已兌換完畢</span>;
     }
 
     if (!reward.eligible) {
-      return (
-        <span className="text-[0.71875em] md:text-[1.4375em] font-[700]">
-          不符合資格
-        </span>
-      );
+      return <span className={textClassName}>不符合資格</span>;
+    }
+
+    if (reward.price === 0) {
+      return <span className={textClassName}>免費兌換</span>;
     }
 
     return (

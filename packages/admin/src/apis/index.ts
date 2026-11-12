@@ -361,6 +361,7 @@ export type GetLotteryRewardsData = {
 export type GetLotteryRewardsPayload = {
   offset: number;
   limit?: number;
+  rewardKey?: "lottery-ticket" | "world-championship-lottery-ticket";
 };
 
 export const getLotteryRewards = async (payload: GetLotteryRewardsPayload) => {
@@ -369,6 +370,8 @@ export const getLotteryRewards = async (payload: GetLotteryRewardsPayload) => {
   if (payload.limit !== undefined) {
     qs.append("limit", payload.limit.toString());
   }
+  qs.append("key", payload.rewardKey || "lottery-ticket");
+
   const response = await instance.get<GetLotteryRewardsData>(
     `/api/admin/rewards/lottery?${qs}`,
   );

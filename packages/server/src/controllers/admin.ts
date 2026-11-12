@@ -376,7 +376,8 @@ adminRouter.get(`${URL}/rewards/stock`, async (_req, res) => {
 
 adminRouter.get(`${URL}/rewards/lottery`, async (req, res) => {
   const { offset, limit } = parsePagination(req.query);
-  const condition = eq(rewardTable.key, "lottery-ticket");
+  const key = String(req.query.key) || "lottery-ticket";
+  const condition = eq(rewardTable.key, key);
 
   const [results, total] = await Promise.all([
     db

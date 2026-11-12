@@ -64,6 +64,13 @@ const BLOCKED_RIOT_ID_PREFIXES = ["toilaia", "1A2b3M4n", "xweuot23"];
 const EXTRA_KEY = "paid-idol-card-extra";
 const EXTRA_BLOCKED_BY = ["paid-idol-card", "free-idol-card"];
 
+export const FLASH_REWARD = {
+  KEY: "world-championship-lottery-ticket",
+  DISPLAY_TIME: new Date("2026-11-14T18:00:00+08:00").getTime(),
+  CLAIM_BEGIN_TIME: new Date("2026-11-15T01:00:00+08:00").getTime(),
+  CLAIM_END_TIME: new Date("2026-11-15T06:00:00+08:00").getTime(),
+} as const;
+
 const TAIPEI = tz("Asia/Taipei");
 
 export function getTodayRange(now: Date = new Date()) {
@@ -94,10 +101,10 @@ export const paidRewardSettings: RewardSetting[] = paidRewards.map((pr) =>
     key: pr.key,
     name: pr.name,
     description: pr.description,
-    price: pr.price || 99999,
-    limit: pr.unlimitedSupply ? Infinity : pr.limit,
+    price: pr.price,
+    limit: pr.limit, // 個人購買上限
     isMerch: pr.isMerch,
-    unlimitedSupply: pr.unlimitedSupply,
+    unlimitedSupply: pr.unlimitedSupply, // 無庫存，每次購買新增一個庫存
   }),
 );
 
@@ -208,6 +215,21 @@ export const claimRewardInTx = async (
   targetReward: RewardSetting,
 ): Promise<ClaimedReward> => {
   const { start, end } = getTodayRange();
+  const now = Date.now();
+  if (targetReward.key === FLASH_REWARD.KEY) {
+    if (now < FLASH_REWARD.CLAIM_BEGIN_TIME) {
+      throw new ApiError(403, {
+        code: "FLASH_REWARD_NOT_BEGIN",
+        message: "尚未開放",
+      });
+    }
+    if (FLASH_REWARD.CLAIM_END_TIME <= now) {
+      throw new ApiError(403, {
+        code: "FLASH_REWARD_HAS_END",
+        message: "活動已結束",
+      });
+    }
+  }
 
   // 1. 鎖住該玩家：同一玩家的請求序列化（保護「點數」與「個人上限」）
   const me = await tx
@@ -505,6 +527,18 @@ const validRewardSettings = () => {
       throw new Error(`資格規則引用了不存在的獎勵：${key}`);
     }
   }
+
+  // 限時商品：key 必須存在、時間必須有效且順序正確，否則時間窗會悄悄失效
+  const { KEY, DISPLAY_TIME, CLAIM_BEGIN_TIME, CLAIM_END_TIME } = FLASH_REWARD;
+  if (!rewardSettingMap.has(KEY)) {
+    throw new Error(`限時商品引用了不存在的獎勵：${KEY}`);
+  }
+  if (
+    ![DISPLAY_TIME, CLAIM_BEGIN_TIME, CLAIM_END_TIME].every(Number.isFinite) ||
+    !(DISPLAY_TIME <= CLAIM_BEGIN_TIME && CLAIM_BEGIN_TIME < CLAIM_END_TIME)
+  ) {
+    throw new Error("FLASH_REWARD 的時間設定無效");
+  }
 };
 
 validRewardSettings();
@@ -555,13 +589,12 @@ export const rewardService = {
   claimPaidReward,
   claimFreeReward,
   resetFreeDrawChance: async (nextCount = 1) => {
-    const userResult = await db
-      .select({ count: count() })
-      .from(userTable)
-      .where(eq(userTable.freeDrawChances, 0))
-      .then(head);
-
     try {
+      const userResult = await db
+        .select({ count: count() })
+        .from(userTable)
+        .where(eq(userTable.freeDrawChances, 0))
+        .then(head);
       const { start: yesterdayStart, end: yesterdayEnd } = getTodayRange(
         subDays(new Date(), 1, { in: TAIPEI }),
       );

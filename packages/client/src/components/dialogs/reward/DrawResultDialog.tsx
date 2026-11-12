@@ -20,7 +20,7 @@ function DrawResultDialog(props: Props) {
 
   return (
     <Dialog {...otherProps} title="每日抽獎" description="每日抽獎結果彈窗">
-      <div className="flex flex-col items-center mt-[3.875em] md:mt-[3.125em] px-[1.125em]">
+      <div className="flex flex-col items-center mt-[2.175em] md:mt-[3.125em] px-[1.125em]">
         {win && (
           <img
             src={imgUri("/rewards/win-title.png")}
