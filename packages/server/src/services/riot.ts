@@ -382,7 +382,7 @@ export const lockTimestampMap = new Map<string, number>();
 
 async function syncUserData(user: InferSelectModel<typeof userTable>) {
   if (!user.puuid) return console.error("user 沒有 puuid", user.id);
-  return;
+
   // Atomically acquire per-user sync lock
   const lockResult = await db
     .update(userTable)
