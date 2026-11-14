@@ -173,7 +173,7 @@ async function getUserProfile(puuid: Puuid): Promise<string | null> {
   );
 
   if (!player) {
-    // 應該是不可能有這個錯誤ƒ
+    // 應該是不可能有這個錯誤
     console.error(
       "line 180: 找不到 player",
       matchDetail.metadata.matchId,
