@@ -1,5 +1,5 @@
 import BaseButton from "@/components/BaseButton";
-import { imgUri } from "@/libs/uris";
+import { bgImgUri } from "@/libs/uris";
 import { cn } from "@/libs/utils";
 import type { ReactNode } from "react";
 
@@ -9,8 +9,6 @@ type Props = React.ComponentProps<"button"> & {
 
 function OkButton(props: Props) {
   const { children, className, type = "button", onClick } = props;
-  const uri = imgUri("/icons/dialog-button.png");
-  const style = { backgroundImage: `url('${uri}')` };
 
   return (
     <BaseButton
@@ -19,7 +17,7 @@ function OkButton(props: Props) {
         "w-[7.5em] md:w-[15.0625em] aspect-[241/70] bg-cover",
         className,
       )}
-      style={style}
+      style={{ backgroundImage: bgImgUri("/icons/dialog-button.png") }}
       onClick={onClick}
     >
       <span className="text-[#0b1527] font-[700] text-[0.9375em] md:text-[1.875em] leading-[1]">

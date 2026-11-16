@@ -17,7 +17,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { imgUri } from "@/libs/uris";
+import { bgImgUri, imgUri } from "@/libs/uris";
 
 type GetTheme = () => {
   desktopMissionColor: string;
@@ -185,9 +185,9 @@ function Item(props: ItemProps) {
     );
   };
 
-  const leftLineUri = imgUri(`/icons/${team}/${leftLineFileName}`);
-  const rightLineUri = imgUri(`/icons/${team}/${rightLineFileName}`);
-  const labelUri = imgUri(`/icons/${team}/${labelFileName}`);
+  const leftLineUri = bgImgUri(`/icons/${team}/${leftLineFileName}`);
+  const rightLineUri = bgImgUri(`/icons/${team}/${rightLineFileName}`);
+  const labelUri = bgImgUri(`/icons/${team}/${labelFileName}`);
 
   const content = (
     <div>
@@ -216,14 +216,14 @@ function Item(props: ItemProps) {
           className={lineClassName}
           style={{
             left: 0,
-            backgroundImage: `url("${leftLineUri}")`,
+            backgroundImage: leftLineUri,
           }}
         />
         <div
           className={lineClassName}
           style={{
             right: 0,
-            backgroundImage: `url("${rightLineUri}")`,
+            backgroundImage: rightLineUri,
           }}
         />
         <div
@@ -232,7 +232,7 @@ function Item(props: ItemProps) {
             "flex justify-center items-center",
           )}
           style={{
-            backgroundImage: `url("${labelUri}")`,
+            backgroundImage: labelUri,
             color: labelColor,
           }}
         >
@@ -270,9 +270,6 @@ function SiblingButton(props: SiblingButtonProps) {
   if (viewport === "mobile") {
     const fileName = dir === "prev" ? "chevron-up.png" : "chevron-down.png";
 
-    const uri = imgUri(`/icons/${team}/${fileName}`);
-    const style = { backgroundImage: `url('${uri}')` };
-
     return (
       <div className="flex justify-center">
         <BaseButton
@@ -283,17 +280,14 @@ function SiblingButton(props: SiblingButtonProps) {
             "w-[4.5em] h-[2.875em] bg-cover",
             "disabled:opacity-0",
           )}
-          style={style}
+          style={{ backgroundImage: bgImgUri(`/icons/${team}/${fileName}`) }}
         />
       </div>
     );
   } else {
-    const fileName =
-      dir === "prev" ? imgUri("chevron-left.png") : imgUri("chevron-right.png");
+    const fileName = dir === "prev" ? "chevron-left.png" : "chevron-right.png";
     const px = "1.75em";
     const leftOrRight = dir === "prev" ? { left: px } : { right: px };
-    const uri = imgUri(`/icons/${team}/${fileName}`);
-    const style = { backgroundImage: `url('${uri}')` };
 
     return (
       <BaseButton
@@ -303,7 +297,10 @@ function SiblingButton(props: SiblingButtonProps) {
           "w-[4.25em] h-[5.875em] absolute top-[4.75em] bg-cover z-1",
           "disabled:hidden",
         )}
-        style={{ ...style, ...leftOrRight }}
+        style={{
+          backgroundImage: bgImgUri(`/icons/${team}/${fileName}`),
+          ...leftOrRight,
+        }}
       />
     );
   }

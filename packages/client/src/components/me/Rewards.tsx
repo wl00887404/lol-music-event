@@ -13,7 +13,7 @@ import ClaimDialog from "../dialogs/reward/ClaimDialog";
 import { useState } from "react";
 import useMyBalance from "@/hooks/useMyBalance";
 import { useViewport } from "../viewportStore";
-import { imgUri } from "@/libs/uris";
+import { bgImgUri, imgUri } from "@/libs/uris";
 import { FLASH_REWARD } from "@/const";
 import useNow from "@/hooks/useNow";
 
@@ -29,13 +29,12 @@ function Header(props: { titleColor: string }) {
   const viewport = useViewport();
   const prefix = viewport === "mobile" ? "m-" : "";
 
-  const uri = imgUri(`/icons/${team}/${prefix}reward-bg-top.png`);
-  const style = { backgroundImage: `url('${uri}')` };
-
   return (
     <div
       className="bg-repeat-y bg-top bg-[size:auto_100%] h-[4.8125em] md:h-[12.1875em]"
-      style={style}
+      style={{
+        backgroundImage: bgImgUri(`/icons/${team}/${prefix}reward-bg-top.png`),
+      }}
     >
       <div
         className="pl-[1.5em] md:pl-[3.5em] pt-[1.15625em] md:pt-[3.3125em]"

@@ -8,7 +8,7 @@ import useMyLeaderboard from "@/hooks/useMyLeaderboard";
 import { Team } from "@/types";
 import BaseButton from "../BaseButton";
 import RwdImg from "@/components/RwdImg";
-import { imgUri, profileUri } from "@/libs/uris";
+import { bgImgUri, profileUri } from "@/libs/uris";
 
 type TitleProps = {
   children: ReactNode;
@@ -41,7 +41,6 @@ function Title(props: TitleProps) {
 function Background() {
   // 455
   const backgroundClassName = "block w-full h-[27.8125em] object-cover";
-
   const team = useTeam();
 
   if (team === Team.heartSteel) {
@@ -116,8 +115,6 @@ function Profile() {
   };
 
   const { riotIdColor, titleColor, buttonColor } = getTheme();
-  const uri = imgUri(`/icons/${team}/share-button.png`);
-  const style = { backgroundImage: `url('${uri}')` };
 
   return (
     <div
@@ -160,7 +157,7 @@ function Profile() {
           <BaseButton
             className="w-[15.3125em] h-[4.1875em] bg-cover"
             style={{
-              ...style,
+              backgroundImage: bgImgUri(`/icons/${team}/share-button.png`),
               color: buttonColor,
             }}
             onClick={() => setOpen(true)}

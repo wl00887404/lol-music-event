@@ -15,7 +15,7 @@ import SnsPosterTest from "./pages/SnsPosterTest";
 import { cn } from "./libs/utils";
 import { useViewport } from "./components/viewportStore";
 import LuckyDraw from "./pages/LuckyDraw";
-import { imgUri } from "./libs/uris";
+import { bgImgUri } from "./libs/uris";
 import MoreRewardsPopup from "./components/dialogs/MoreRewardsPopup";
 import { authClient } from "./libs/auth-client";
 import { useEffect } from "react";
@@ -28,12 +28,10 @@ function App() {
 
   const getBackgroundImage = () => {
     if (location.pathname === "/me" && team) {
-      const uri = imgUri(`/backgrounds/${prefix}${team}.jpg`);
-      return `url('${uri}')`;
+      return bgImgUri(`/backgrounds/${prefix}${team}.jpg`);
     }
 
-    const uri = imgUri(`/backgrounds/${prefix}main.jpg`);
-    return `url('${uri}')`;
+    return bgImgUri(`/backgrounds/${prefix}main.jpg`);
   };
 
   useEffect(() => {

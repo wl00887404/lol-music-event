@@ -8,7 +8,7 @@ import {
 import { cn } from "@/libs/utils";
 import BaseButton from "@/components/BaseButton";
 import { useViewport } from "@/components/viewportStore";
-import { imgUri } from "@/libs/uris";
+import { bgImgUri, imgUri } from "@/libs/uris";
 
 export type BaseDialogProps = ComponentPropsWithoutRef<typeof BaseDialog>;
 export type DialogProps = BaseDialogProps & {
@@ -39,9 +39,6 @@ function Dialog(props: DialogProps) {
   const bg =
     viewport === "mobile" ? "/icons/m-dialog-bg.png" : "/icons/dialog-bg.png";
 
-  const uri = imgUri(bg);
-  const style = { backgroundImage: `url('${uri}')` };
-
   return (
     <BaseDialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -57,7 +54,7 @@ function Dialog(props: DialogProps) {
             "aspect-[595/974] md:aspect-[1280/779] bg-cover bg-center",
             "max-w-[100vw] h-[30.4375em] md:h-[48.6875em]",
           )}
-          style={style}
+          style={{ backgroundImage: bgImgUri(bg) }}
         >
           {hiddenNode}
           <div className="absolute top-0 left-0 w-full h-full">{children}</div>

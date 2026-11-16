@@ -7,7 +7,7 @@ import HeroCarousel from "@/components/home/HeroCarousel";
 import { SCROLL_TO_HERE_ID } from "@/components/ScrollToTop";
 import toast from "@/components/toast";
 import { authClient } from "@/libs/auth-client";
-import { imgUri } from "@/libs/uris";
+import { bgImgUri, imgUri } from "@/libs/uris";
 import { cn } from "@/libs/utils";
 import { useEffect, useRef, useState } from "react";
 
@@ -32,8 +32,6 @@ function Wheel({
   disabled: boolean;
 }) {
   const imgClass = "block aspect-[1/1] w-[45.625em] max-w-[88vw]";
-  const uri = imgUri(`/rewards/pointer.png`);
-  const style = { backgroundImage: `url('${uri}')` };
 
   return (
     <div className="relative overflow-hidden">
@@ -47,7 +45,9 @@ function Wheel({
       />
       <BaseButton
         className={cn(imgClass, "absolute top-[0] left-[0] bg-cover")}
-        style={style}
+        style={{
+          backgroundImage: bgImgUri(`/rewards/pointer.png`),
+        }}
         onClick={draw}
         disabled={disabled}
       />
@@ -110,9 +110,6 @@ function LuckyDraw() {
     drawChances.current = session?.user.freeDrawChances || 0;
   }, [session?.user]);
 
-  const uri = imgUri(`/rewards/record-button.png`);
-  const style = { backgroundImage: `url('${uri}')` };
-
   return (
     <div className="relative">
       <HeroCarousel />
@@ -136,7 +133,9 @@ function LuckyDraw() {
             className={cn(
               "aspect-[459/83] h-[2.1875em] md:h-[5.1875em]  bg-cover",
             )}
-            style={style}
+            style={{
+              backgroundImage: bgImgUri(`/rewards/record-button.png`),
+            }}
             onClick={() => setRecordDialogOpen(true)}
           >
             <div className="font-[700] text-[1.09375em] md:text-[2.625em] text-[#0b1527]">

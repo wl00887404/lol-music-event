@@ -8,6 +8,10 @@ export const imgUri = (path: string) => {
   return path;
 };
 
+export const bgImgUri = (path: string) => {
+  return `url(${imgUri(path)})`;
+};
+
 export function profileUri(image: number | string) {
   const version = (window as any).gameVersion || "16.22.1";
   return `https://ddragon.leagueoflegends.com/cdn/${version}/img/profileicon/${image}.png`;

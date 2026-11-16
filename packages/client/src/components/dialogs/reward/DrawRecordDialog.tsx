@@ -6,7 +6,7 @@ import formatDate from "@/libs/formatDate";
 import { Fragment } from "react/jsx-runtime";
 import BaseButton from "@/components/BaseButton";
 import { useEffect } from "react";
-import { imgUri } from "@/libs/uris";
+import { bgImgUri, imgUri } from "@/libs/uris";
 import { getClaimedMerchButtonText } from "./helper";
 
 type Props = BaseDialogProps & {
@@ -21,9 +21,6 @@ function Item(props: {
   const { name, claimedAt } = reward;
   const buttonClassName = cn("aspect-[161/52] h-[1.25em] bg-cover");
 
-  const uri = imgUri("/rewards/claim-button.png");
-  const style = { backgroundImage: `url('${uri}')` };
-
   return (
     <div className={cn("text-[#fff9e5] px-[0.5625em]", "text-[28px]")}>
       <div className="pt-[0.2em]">
@@ -35,7 +32,7 @@ function Item(props: {
         <div className="text-[0.5625em]">{name}</div>
         <BaseButton
           className={buttonClassName}
-          style={style}
+          style={{ backgroundImage: bgImgUri("/rewards/claim-button.png") }}
           onClick={() => openClaimDialog(reward)}
         >
           <div className="text-[#030718] font-[500] text-[0.5625em]">

@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import copy from "copy-to-clipboard";
 import toast from "@/components/toast";
 import RwdImg from "@/components/RwdImg";
-import { imgUri } from "@/libs/uris";
+import { bgImgUri, imgUri } from "@/libs/uris";
 
 function Background() {
   // 373
@@ -98,9 +98,6 @@ function InviteCode() {
     toast.success("複製成功");
   };
 
-  const uri = imgUri(`/icons/${team}/copy.png`);
-  const style = { backgroundImage: `url('${uri}')` };
-
   return (
     <div
       className={cn(
@@ -122,7 +119,7 @@ function InviteCode() {
           </div>
           <BaseButton
             className="w-[3.25em] h-[3.25em] bg-[cover]"
-            style={style}
+            style={{ backgroundImage: bgImgUri(`/icons/${team}/copy.png`) }}
             onClick={onCopy}
           />
         </div>

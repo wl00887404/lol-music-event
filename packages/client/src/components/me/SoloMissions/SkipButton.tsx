@@ -7,7 +7,7 @@ import ConfirmDialog from "../../dialogs/shared/ConfirmDialog";
 import { useState } from "react";
 import BaseButton from "../../BaseButton";
 import { useViewport } from "@/components/viewportStore";
-import { imgUri } from "@/libs/uris";
+import { bgImgUri } from "@/libs/uris";
 
 type SkipButtonProps = {
   skipChange: number;
@@ -37,9 +37,6 @@ function SkipButton(props: SkipButtonProps) {
   const viewport = useViewport();
   const prefix = viewport === "mobile" ? "m-" : "";
 
-  const uri = imgUri(`/icons/${team}/${prefix}skip-button.png`);
-  const style = { backgroundImage: `url('${uri}')` };
-
   return (
     <>
       {/* 195 55 */}
@@ -51,7 +48,7 @@ function SkipButton(props: SkipButtonProps) {
           "disabled:opacity-45 bg-cover",
         )}
         style={{
-          ...style,
+          backgroundImage: bgImgUri(`/icons/${team}/${prefix}skip-button.png`),
           color: buttonColor,
         }}
         loadingColor={buttonColor}
