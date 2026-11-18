@@ -1,4 +1,4 @@
-import InviteCode from "@/components/InviteCode";
+import InviteCode from "./InviteCode";
 import { authClient } from "@/libs/auth-client";
 import Card from "./Card";
 import { useQuery } from "@tanstack/react-query";
