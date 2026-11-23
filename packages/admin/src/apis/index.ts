@@ -398,3 +398,20 @@ export const getFreeDrawReport = async (now?: boolean) => {
 
   return data;
 };
+
+export type Title = {
+  id: string;
+  name: string;
+  riotId: string;
+  description: string;
+  value: number;
+};
+
+export type GetTitlesData = Title[];
+
+export const getTitles = async () => {
+  const response = await instance.get<GetTitlesData>(`/api/admin/titles`);
+  const { data } = response;
+
+  return data;
+};

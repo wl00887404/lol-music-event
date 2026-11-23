@@ -112,17 +112,17 @@ export const freeRewardSettings = [
   {
     from: "paid-box",
     to: "free-box",
-    dailyLimit: 500,
-    weekdayChance: 5_000_000,
-    weekendChance: 5_000_000,
+    dailyLimit: 1000,
+    weekdayChance: 15_000_000,
+    weekendChance: 15_000_000,
     limit: Infinity,
   },
   {
     from: "paid-ball",
     to: "free-ball",
-    dailyLimit: 500,
-    weekdayChance: 5_000_000,
-    weekendChance: 5_000_000,
+    dailyLimit: 1000,
+    weekdayChance: 15_000_000,
+    weekendChance: 15_000_000,
     limit: Infinity,
   },
   {

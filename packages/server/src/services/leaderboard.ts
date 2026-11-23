@@ -51,7 +51,12 @@ const singleGameQuery = (
       );
 
     const results = await db
-      .selectDistinct({ id: user.id, riotId: user.riotId, image: user.image })
+      .selectDistinct({
+        id: user.id,
+        riotId: user.riotId,
+        image: user.image,
+        value: column,
+      })
       .from(playerMatchHistory)
       .innerJoin(user, eq(playerMatchHistory.puuid, user.puuid))
       .where(
@@ -88,9 +93,14 @@ const countGamesQuery = (condition: SQL) => {
         .groupBy(user.id),
     );
 
-    return db
+    const results = await db
       .with(counts)
-      .select({ id: counts.id, riotId: counts.riotId, image: counts.image })
+      .select({
+        id: counts.id,
+        riotId: counts.riotId,
+        image: counts.image,
+        value: counts.gameCount,
+      })
       .from(counts)
       .where(
         eq(
@@ -98,6 +108,8 @@ const countGamesQuery = (condition: SQL) => {
           db.select({ value: max(counts.gameCount) }).from(counts),
         ),
       );
+
+    return results;
   };
 };
 
@@ -111,7 +123,12 @@ const topUserQuery = (team: Team) => {
       .where(and(...conditions));
 
     return db
-      .select({ id: user.id, riotId: user.riotId, image: user.image })
+      .select({
+        id: user.id,
+        riotId: user.riotId,
+        image: user.image,
+        value: user.score,
+      })
       .from(user)
       .where(and(...conditions, eq(user.score, maximum)));
   };
@@ -121,6 +138,7 @@ type LeaderboardUser = {
   id: string;
   riotId: string | null;
   image: string | null;
+  value: number | null;
 };
 
 const titleFactory = (
@@ -156,7 +174,12 @@ const titles = [
 
     const results = await db
       .with(counts)
-      .select({ id: user.id, riotId: user.riotId, image: user.image })
+      .select({
+        id: user.id,
+        riotId: user.riotId,
+        image: user.image,
+        value: counts.inviteCount,
+      })
       .from(counts)
       .innerJoin(user, eq(counts.inviterId, user.id))
       .where(
@@ -280,6 +303,7 @@ const titles = [
           id: counts.id,
           riotId: counts.riotId,
           image: counts.image,
+          value: counts.totalCasts,
         })
         .from(counts)
         .where(
@@ -293,7 +317,6 @@ const titles = [
   titleFactory(
     "我就是 心鋼之聲",
     "使用心鋼之聲的成員完成大混戰遊戲次數最多的玩家",
-    //
     countGamesQuery(
       inArray(playerMatchHistory.championId, [
         81, // 伊澤瑞爾
@@ -308,7 +331,6 @@ const titles = [
   titleFactory(
     "我就是 True Damage",
     "使用 True Damage 的成員完成大混戰遊戲次數最多的玩家",
-    //
     countGamesQuery(
       inArray(playerMatchHistory.championId, [
         246, // 姬亞娜
@@ -322,7 +344,6 @@ const titles = [
   titleFactory(
     "我就是 K/DA",
     "使用 K/DA 的成員完成大混戰遊戲次數最多的玩家",
-    //
     countGamesQuery(
       inArray(playerMatchHistory.championId, [
         103, // 阿璃

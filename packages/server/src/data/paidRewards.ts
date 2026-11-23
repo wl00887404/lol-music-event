@@ -25,7 +25,7 @@ const paidRewards: RewardSource[] = [
     description:
       "兌換後將獲得 海克斯科技鑰匙 & 寶箱 序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n限量 20,000 組，活動再加碼 36,000 組，兌完為止",
     price: 30,
-    limit: 2,
+    limit: 4,
     isMerch: false,
     unlimitedSupply: false,
   },
@@ -35,7 +35,7 @@ const paidRewards: RewardSource[] = [
     description:
       "兌換後將獲得 2026 世界大賽晶球 序號乙組\n虛寶序號為一次性使用，兌換成功即失效\n限量 13,000 組，活動再加碼 22,000 組，兌完為止",
     price: 125,
-    limit: 1,
+    limit: 3,
     isMerch: false,
     unlimitedSupply: false,
   },

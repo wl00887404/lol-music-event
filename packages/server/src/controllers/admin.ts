@@ -544,6 +544,22 @@ adminRouter.get(`${URL}/rich-men`, async (req, res) => {
   });
 });
 
+adminRouter.get(`${URL}/titles`, async (req, res) => {
+  const results = leaderboardService.titles.flatMap((title) => {
+    return title.users.map((user) => {
+      return {
+        id: `${title.name}-${user.id}`,
+        name: title.name,
+        riotId: user.riotId,
+        description: title.description,
+        value: user.value,
+      };
+    });
+  });
+
+  return res.send(results);
+});
+
 adminRouter.use(
   "/admin",
   (req, res, next) => {

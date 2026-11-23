@@ -10,6 +10,7 @@ import StockTable from "./components/StockTable";
 import LotteryRewardTable from "./components/LotteryRewardTable";
 import FreeDrawReportTable from "./components/FreeDrawReportTable";
 import RichManTable from "./components/RichManTable";
+import TitleTable from "./components/TitleTable";
 
 const { Header, Content } = Layout;
 
@@ -22,6 +23,7 @@ const items = [
   { key: "users", label: "玩家" },
   { key: "freeDrawReport", label: "每日抽獎" },
   { key: "richMen", label: "富豪榜" },
+  { key: "titles", label: "榮譽榜" },
   // { key: "scoreCount", label: "積分概況" },
   { key: "database", label: "資料庫相關" },
 ];
@@ -85,6 +87,7 @@ function App() {
         {menuKey === "richMen" && <RichManTable />}
         {/* {menuKey === "scoreCount" && <ScoreCountPage />} */}
         {menuKey === "database" && <DatabaseTable />}
+        {menuKey === "titles" && <TitleTable />}
       </Content>
     </Layout>
   );
